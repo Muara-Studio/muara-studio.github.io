@@ -1,0 +1,877 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Jalana by Muara</title>
+<meta name="description" content="Jalana menemani kunjungan ke 16 museum IHA. Setiap kunjungan menjadi cap, kartu, dan lencana. Unduh Jalana untuk Android.">
+<meta name="theme-color" content="#110F0D">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="id_ID">
+<meta property="og:title" content="Jalana by Muara">
+<meta property="og:description" content="Paspor museum, kini hidup di ponsel. Cap, kartu, dan lencana dari kunjungan ke 16 museum IHA.">
+<meta property="og:url" content="https://muara-studio.github.io/jalana/">
+<meta property="og:image" content="https://muara-studio.github.io/jalana/assets/img/og-1200x630.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preload" href="assets/fonts/proza-libre-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/proza-libre-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" as="image" href="assets/img/layar3/beranda-480.webp" imagesrcset="assets/img/layar3/beranda-480.webp 480w, assets/img/layar3/beranda-800.webp 800w" imagesizes="(min-width: 64rem) 21rem, 42vw" fetchpriority="high">
+<link rel="stylesheet" href="assets/css/site.css?v=202610270800">
+<script>document.documentElement.classList.add("js");if(/[?&]static=1/.test(location.search))document.documentElement.classList.add("static");</script>
+<script src="assets/js/site.js?v=202610270800" defer></script>
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+<symbol id="i-player-play" viewBox="0 0 24 24"><path d="M7 4v16l13 -8l-13 -8" /></symbol>
+<symbol id="i-download" viewBox="0 0 24 24"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" /> <path d="M7 11l5 5l5 -5" /> <path d="M12 4l0 12" /></symbol>
+<symbol id="i-brand-android" viewBox="0 0 24 24"><path d="M4 10l0 6" /> <path d="M20 10l0 6" /> <path d="M7 9h10v8a1 1 0 0 1 -1 1h-8a1 1 0 0 1 -1 -1v-8a5 5 0 0 1 10 0" /> <path d="M8 3l1 2" /> <path d="M16 3l-1 2" /> <path d="M9 18l0 3" /> <path d="M15 18l0 3" /></symbol>
+<symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M5 12l14 0" /> <path d="M5 12l6 6" /> <path d="M5 12l6 -6" /></symbol>
+<symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12l14 0" /> <path d="M13 18l6 -6" /> <path d="M13 6l6 6" /></symbol>
+<symbol id="i-arrow-up-right" viewBox="0 0 24 24"><path d="M17 7l-10 10" /> <path d="M8 7l9 0l0 9" /></symbol>
+<symbol id="i-arrow-down" viewBox="0 0 24 24"><path d="M12 5l0 14" /> <path d="M18 13l-6 6" /> <path d="M6 13l6 6" /></symbol>
+<symbol id="i-list-numbers" viewBox="0 0 24 24"><path d="M11 6h9" /> <path d="M11 12h9" /> <path d="M12 18h8" /> <path d="M4 16a2 2 0 1 1 4 0c0 .591 -.5 1 -1 1.5l-3 2.5h4" /> <path d="M6 10v-6l-2 2" /></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6l-12 12" /> <path d="M6 6l12 12" /></symbol>
+<symbol id="i-qrcode" viewBox="0 0 24 24"><path d="M4 5a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1l0 -4" /> <path d="M7 17l0 .01" /> <path d="M14 5a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1l0 -4" /> <path d="M7 7l0 .01" /> <path d="M4 15a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1l0 -4" /> <path d="M17 7l0 .01" /> <path d="M14 14l3 0" /> <path d="M20 14l0 .01" /> <path d="M14 14l0 3" /> <path d="M14 20l3 0" /> <path d="M17 17l3 0" /> <path d="M20 17l0 3" /></symbol>
+<symbol id="i-map-pin" viewBox="0 0 24 24"><path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" /> <path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0" /></symbol>
+<symbol id="i-route" viewBox="0 0 24 24"><path d="M3 19a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /> <path d="M19 7a2 2 0 1 0 0 -4a2 2 0 0 0 0 4" /> <path d="M11 19h5.5a3.5 3.5 0 0 0 0 -7h-8a3.5 3.5 0 0 1 0 -7h4.5" /></symbol>
+<symbol id="i-rubber-stamp" viewBox="0 0 24 24"><path d="M21 17.85h-18c0 -4.05 1.421 -4.05 3.79 -4.05c5.21 0 1.21 -4.59 1.21 -6.8a4 4 0 1 1 8 0c0 2.21 -4 6.8 1.21 6.8c2.369 0 3.79 0 3.79 4.05" /> <path d="M5 21h14" /></symbol>
+<symbol id="i-cards" viewBox="0 0 24 24"><path d="M3.604 7.197l7.138 -3.109a.96 .96 0 0 1 1.27 .527l4.924 11.902a1 1 0 0 1 -.514 1.304l-7.137 3.109a.96 .96 0 0 1 -1.271 -.527l-4.924 -11.903a1 1 0 0 1 .514 -1.304l0 .001" /> <path d="M15 4h1a1 1 0 0 1 1 1v3.5" /> <path d="M20 6c.264 .112 .52 .217 .768 .315a1 1 0 0 1 .53 1.311l-2.298 5.374" /></symbol>
+<symbol id="i-award" viewBox="0 0 24 24"><path d="M6 9a6 6 0 1 0 12 0a6 6 0 1 0 -12 0" /> <path d="M12 15l3.4 5.89l1.598 -3.233l3.598 .232l-3.4 -5.889" /> <path d="M6.802 12l-3.4 5.89l3.598 -.233l1.598 3.232l3.4 -5.889" /></symbol>
+<symbol id="i-share" viewBox="0 0 24 24"><path d="M3 12a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /> <path d="M15 6a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /> <path d="M15 18a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /> <path d="M8.7 10.7l6.6 -3.4" /> <path d="M8.7 13.3l6.6 3.4" /></symbol>
+<symbol id="i-view-360" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /> <path d="M8 12a4 9 0 1 0 8 0a4 9 0 1 0 -8 0" /> <path d="M3 12c0 2.21 4.03 4 9 4s9 -1.79 9 -4s-4.03 -4 -9 -4s-9 1.79 -9 4" /></symbol>
+<symbol id="i-augmented-reality" viewBox="0 0 24 24"><path d="M4 8v-2a2 2 0 0 1 2 -2h2" /> <path d="M4 16v2a2 2 0 0 0 2 2h2" /> <path d="M16 4h2a2 2 0 0 1 2 2v2" /> <path d="M16 20h2a2 2 0 0 0 2 -2v-2" /> <path d="M12 12.5l4 -2.5" /> <path d="M8 10l4 2.5v4.5l4 -2.5v-4.5l-4 -2.5l-4 2.5" /> <path d="M8 10v4.5l4 2.5" /></symbol>
+<symbol id="i-chart-bar" viewBox="0 0 24 24"><path d="M3 13a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1l0 -6" /> <path d="M15 9a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1l0 -10" /> <path d="M9 5a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1l0 -14" /> <path d="M4 20h14" /></symbol>
+<symbol id="i-shield-lock" viewBox="0 0 24 24"><path d="M12 3a12 12 0 0 0 8.5 3a12 12 0 0 1 -8.5 15a12 12 0 0 1 -8.5 -15a12 12 0 0 0 8.5 -3" /> <path d="M11 11a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /> <path d="M12 12l0 2.5" /></symbol>
+<symbol id="i-users" viewBox="0 0 24 24"><path d="M5 7a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" /> <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" /> <path d="M16 3.13a4 4 0 0 1 0 7.75" /> <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" /></symbol>
+<symbol id="i-school" viewBox="0 0 24 24"><path d="M22 9l-10 -4l-10 4l10 4l10 -4v6" /> <path d="M6 10.6v5.4a6 3 0 0 0 12 0v-5.4" /></symbol>
+<symbol id="i-device-mobile" viewBox="0 0 24 24"><path d="M6 5a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2v-14" /> <path d="M11 4h2" /> <path d="M12 17v.01" /></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l5 5l10 -10" /></symbol>
+<symbol id="i-mail" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10" /> <path d="M3 7l9 6l9 -6" /></symbol>
+<symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2" /></symbol>
+<symbol id="i-world" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" /> <path d="M3.6 9h16.8" /> <path d="M3.6 15h16.8" /> <path d="M11.5 3a17 17 0 0 0 0 18" /> <path d="M12.5 3a17 17 0 0 1 0 18" /></symbol>
+<symbol id="i-book-2" viewBox="0 0 24 24"><path d="M19 4v16h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12" /> <path d="M19 16h-12a2 2 0 0 0 -2 2" /> <path d="M9 8h6" /></symbol>
+<symbol id="i-brush" viewBox="0 0 24 24"><path d="M3 21v-4a4 4 0 1 1 4 4h-4" /> <path d="M21 3a16 16 0 0 0 -12.8 10.2" /> <path d="M21 3a16 16 0 0 1 -10.2 12.8" /> <path d="M10.6 9a9 9 0 0 1 4.4 4.4" /></symbol>
+<symbol id="i-scan" viewBox="0 0 24 24"><path d="M5 12h14" /> <path d="M3 7v-2a2 2 0 0 1 2 -2h2" /> <path d="M3 17v2a2 2 0 0 0 2 2h2" /> <path d="M17 3h2a2 2 0 0 1 2 2v2" /> <path d="M17 21h2a2 2 0 0 0 2 -2v-2" /></symbol>
+<symbol id="i-arrows-exchange" viewBox="0 0 24 24"><path d="M7 10h14l-4 -4" /> <path d="M17 14h-14l4 4" /></symbol>
+<symbol id="i-notebook" viewBox="0 0 24 24"><path d="M6 4h11a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-11a1 1 0 0 1 -1 -1v-14a1 1 0 0 1 1 -1m3 0v18" /> <path d="M13 8l2 0" /> <path d="M13 12l2 0" /></symbol>
+<symbol id="i-building-arch" viewBox="0 0 24 24"><path d="M3 21l18 0" /> <path d="M4 21v-15a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v15" /> <path d="M9 21v-8a3 3 0 0 1 6 0v8" /></symbol>
+<symbol id="i-clock-hour-4" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /> <path d="M12 12l3 2" /> <path d="M12 7v5" /></symbol>
+<symbol id="i-puzzle" viewBox="0 0 24 24"><path d="M4 7h3a1 1 0 0 0 1 -1v-1a2 2 0 0 1 4 0v1a1 1 0 0 0 1 1h3a1 1 0 0 1 1 1v3a1 1 0 0 0 1 1h1a2 2 0 0 1 0 4h-1a1 1 0 0 0 -1 1v3a1 1 0 0 1 -1 1h-3a1 1 0 0 1 -1 -1v-1a2 2 0 0 0 -4 0v1a1 1 0 0 1 -1 1h-3a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1h1a2 2 0 0 0 0 -4h-1a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1" /></symbol>
+<symbol id="i-eye" viewBox="0 0 24 24"><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /> <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></symbol>
+<symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="M6 9l6 6l6 -6" /></symbol>
+<symbol id="i-player-pause" viewBox="0 0 24 24"><path d="M6 6a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v12a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -12" /> <path d="M14 6a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v12a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -12" /></symbol>
+<symbol id="i-nfc" viewBox="0 0 24 24"><path d="M11 20a3 3 0 0 1 -3 -3v-11l5 5" /> <path d="M13 4a3 3 0 0 1 3 3v11l-5 -5" /> <path d="M4 7a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v10a3 3 0 0 1 -3 3h-10a3 3 0 0 1 -3 -3l0 -10" /></symbol>
+<symbol id="i-weight" viewBox="0 0 24 24"><path d="M9 6a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /> <path d="M6.835 9h10.33a1 1 0 0 1 .984 .821l1.637 9a1 1 0 0 1 -.984 1.179h-13.604a1 1 0 0 1 -.984 -1.179l1.637 -9a1 1 0 0 1 .984 -.821" /></symbol>
+<symbol id="i-photo" viewBox="0 0 24 24"><path d="M15 8h.01" /> <path d="M3 6a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v12a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3v-12" /> <path d="M3 16l5 -5c.928 -.893 2.072 -.893 3 0l5 5" /> <path d="M14 14l1 -1c.928 -.893 2.072 -.893 3 0l3 3" /></symbol>
+<symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="M15 6l-6 6l6 6" /></symbol>
+<symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="M9 6l6 6l-6 6" /></symbol>
+<symbol id="i-lock" viewBox="0 0 24 24"><path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6" /> <path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0" /> <path d="M8 11v-4a4 4 0 1 1 8 0v4" /></symbol>
+<symbol id="i-mood-kid" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /> <path d="M9 10l.01 0" /> <path d="M15 10l.01 0" /> <path d="M9.5 15a3.5 3.5 0 0 0 5 0" /> <path d="M12 3a2 2 0 0 0 0 4" /></symbol>
+<symbol id="i-coin-off" viewBox="0 0 24 24"><path d="M14.8 9a2 2 0 0 0 -1.8 -1h-1m-2.82 1.171a2 2 0 0 0 1.82 2.829h1m2.824 2.822a2 2 0 0 1 -1.824 1.178h-2a2 2 0 0 1 -1.8 -1" /> <path d="M20.042 16.045a9 9 0 0 0 -12.087 -12.087m-2.318 1.677a9 9 0 1 0 12.725 12.73" /> <path d="M12 6v2m0 8v2" /> <path d="M3 3l18 18" /></symbol>
+<symbol id="i-map-2" viewBox="0 0 24 24"><path d="M12 18.5l-3 -1.5l-6 3v-13l6 -3l6 3l6 -3v7.5" /> <path d="M9 4v13" /> <path d="M15 7v5.5" /> <path d="M21.121 20.121a3 3 0 1 0 -4.242 0c.418 .419 1.125 1.045 2.121 1.879c1.051 -.89 1.759 -1.516 2.121 -1.879" /> <path d="M19 18v.01" /></symbol>
+<symbol id="i-file-text" viewBox="0 0 24 24"><path d="M14 3v4a1 1 0 0 0 1 1h4" /> <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2" /> <path d="M9 9l1 0" /> <path d="M9 13l6 0" /> <path d="M9 17l6 0" /></symbol>
+<symbol id="i-hand-move" viewBox="0 0 24 24"><path d="M8 13v-8.5a1.5 1.5 0 0 1 3 0v7.5" /> <path d="M11 11.5v-2a1.5 1.5 0 0 1 3 0v2.5" /> <path d="M14 10.5a1.5 1.5 0 0 1 3 0v1.5" /> <path d="M17 11.5a1.5 1.5 0 0 1 3 0v4.5a6 6 0 0 1 -6 6h-2h.208a6 6 0 0 1 -5.012 -2.7l-.196 -.3c-.312 -.479 -1.407 -2.388 -3.286 -5.728a1.5 1.5 0 0 1 .536 -2.022a1.867 1.867 0 0 1 2.28 .28l1.47 1.47" /> <path d="M2.541 5.594a13.487 13.487 0 0 1 2.46 -1.427" /> <path d="M14 3.458c1.32 .354 2.558 .902 3.685 1.612" /></symbol>
+<symbol id="i-rotate-360" viewBox="0 0 24 24"><path d="M12 16h4v4" /> <path d="M19.458 11.042c.86 -2.366 .722 -4.58 -.6 -5.9c-2.272 -2.274 -7.185 -1.045 -10.973 2.743c-3.788 3.788 -5.017 8.701 -2.744 10.974c2.227 2.226 6.987 1.093 10.74 -2.515" /></symbol>
+<symbol id="i-books" viewBox="0 0 24 24"><path d="M5 5a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -14" /> <path d="M9 5a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -14" /> <path d="M5 8h4" /> <path d="M9 16h4" /> <path d="M13.803 4.56l2.184 -.53c.562 -.135 1.133 .19 1.282 .732l3.695 13.418a1.02 1.02 0 0 1 -.634 1.219l-.133 .041l-2.184 .53c-.562 .135 -1.133 -.19 -1.282 -.732l-3.695 -13.418a1.02 1.02 0 0 1 .634 -1.219l.133 -.041" /> <path d="M14 9l4 -1" /> <path d="M16 16l3.923 -.98" /></symbol>
+<symbol id="i-device-gamepad-2" viewBox="0 0 24 24"><path d="M12 5h3.5a5 5 0 0 1 0 10h-5.5l-4.015 4.227a2.3 2.3 0 0 1 -3.923 -2.035l1.634 -8.173a5 5 0 0 1 4.904 -4.019h3.4" /> <path d="M14 15l4.07 4.284a2.3 2.3 0 0 0 3.925 -2.023l-1.6 -8.232" /> <path d="M8 9v2" /> <path d="M7 10h2" /> <path d="M14 10h2" /></symbol>
+<symbol id="i-key" viewBox="0 0 24 24"><path d="M16.555 3.843l3.602 3.602a2.877 2.877 0 0 1 0 4.069l-2.643 2.643a2.877 2.877 0 0 1 -4.069 0l-.301 -.301l-6.558 6.558a2 2 0 0 1 -1.239 .578l-.175 .008h-1.172a1 1 0 0 1 -.993 -.883l-.007 -.117v-1.172a2 2 0 0 1 .467 -1.284l.119 -.13l.414 -.414h2v-2h2v-2l2.144 -2.144l-.301 -.301a2.877 2.877 0 0 1 0 -4.069l2.643 -2.643a2.877 2.877 0 0 1 4.069 0" /> <path d="M15 9h.01" /></symbol>
+<symbol id="i-certificate" viewBox="0 0 24 24"><path d="M12 15a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /> <path d="M13 17.5v4.5l2 -1.5l2 1.5v-4.5" /> <path d="M10 19h-5a2 2 0 0 1 -2 -2v-10c0 -1.1 .9 -2 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -1 1.73" /> <path d="M6 9l12 0" /> <path d="M6 12l3 0" /> <path d="M6 15l2 0" /></symbol>
+<symbol id="i-door" viewBox="0 0 24 24"><path d="M14 12v.01" /> <path d="M3 21h18" /> <path d="M6 21v-16a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v16" /></symbol>
+<symbol id="i-ruler-measure" viewBox="0 0 24 24"><path d="M19.875 12c.621 0 1.125 .512 1.125 1.143v5.714c0 .631 -.504 1.143 -1.125 1.143h-15.875a1 1 0 0 1 -1 -1v-5.857c0 -.631 .504 -1.143 1.125 -1.143h15.75" /> <path d="M9 12v2" /> <path d="M6 12v3" /> <path d="M12 12v3" /> <path d="M18 12v3" /> <path d="M15 12v2" /> <path d="M3 3v4" /> <path d="M3 5h18" /> <path d="M21 3v4" /></symbol>
+<symbol id="i-user-check" viewBox="0 0 24 24"><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" /> <path d="M6 21v-2a4 4 0 0 1 4 -4h4" /> <path d="M15 19l2 2l4 -4" /></symbol>
+<symbol id="i-arrows-maximize" viewBox="0 0 24 24"><path d="M16 4l4 0l0 4" /> <path d="M14 10l6 -6" /> <path d="M8 20l-4 0l0 -4" /> <path d="M4 20l6 -6" /> <path d="M16 20l4 0l0 -4" /> <path d="M14 14l6 6" /> <path d="M8 4l-4 0l0 4" /> <path d="M4 4l6 6" /></symbol>
+<symbol id="i-rotate" viewBox="0 0 24 24"><path d="M19.95 11a8 8 0 1 0 -.5 4m.5 5v-5h-5" /></symbol>
+<symbol id="i-database" viewBox="0 0 24 24"><path d="M4 6a8 3 0 1 0 16 0a8 3 0 1 0 -16 0" /> <path d="M4 6v6a8 3 0 0 0 16 0v-6" /> <path d="M4 12v6a8 3 0 0 0 16 0v-6" /></symbol>
+<symbol id="muara-mark" viewBox="0 0 84 84"><path fill="currentColor" fill-rule="evenodd" d="M 14.42 12.00 L 11.92 14.75 L 11.92 35.17 L 13.00 36.42 L 13.00 39.50 L 14.00 40.42 L 14.00 41.50 L 15.00 42.42 L 15.00 43.50 L 16.00 44.42 L 16.00 45.50 L 17.00 46.42 L 17.00 47.50 L 23.42 53.92 L 24.50 53.92 L 25.42 54.92 L 26.50 54.92 L 28.42 56.92 L 30.50 56.92 L 31.75 58.00 L 36.17 57.83 L 37.42 58.92 L 38.25 59.00 L 39.42 57.92 L 40.50 57.92 L 41.92 56.50 L 41.83 44.75 L 43.42 42.92 L 44.50 42.92 L 45.42 43.92 L 46.50 43.92 L 47.42 44.92 L 48.50 44.92 L 49.42 45.92 L 50.50 45.92 L 51.42 46.92 L 52.50 46.92 L 53.42 47.92 L 54.50 47.92 L 56.42 49.92 L 57.50 49.92 L 58.42 50.92 L 59.50 50.92 L 60.42 51.92 L 61.50 51.92 L 63.08 53.67 L 63.00 54.50 L 62.50 55.00 L 48.42 55.00 L 48.00 55.42 L 47.92 58.17 L 49.00 59.42 L 49.00 60.50 L 55.42 66.92 L 56.50 66.92 L 58.42 68.92 L 59.50 68.92 L 60.42 69.92 L 61.50 69.92 L 62.42 70.92 L 65.50 70.92 L 66.75 72.00 L 70.50 71.92 L 72.00 70.17 L 72.00 23.75 L 70.92 22.50 L 70.92 21.42 L 69.92 20.50 L 69.92 19.42 L 68.92 18.50 L 68.92 17.42 L 66.50 15.00 L 65.42 15.00 L 64.50 14.00 L 63.42 14.00 L 62.50 13.00 L 61.42 13.00 L 60.17 11.92 Z M 53.50 30.92 L 55.00 32.42 L 55.00 34.50 L 53.50 36.00 L 50.25 35.92 L 49.92 35.50 L 49.92 34.42 L 48.92 33.58 L 49.00 33.17 L 49.92 32.50 L 50.00 31.25 L 50.42 30.92 Z"/></symbol></svg>
+<a class="skip" href="#isi">Langsung ke isi</a>
+
+<header class="bar" data-bar>
+  <a class="bar__mark" href="#mulai" aria-label="Jalana by Muara, ke awal halaman"><span class="bar__name">Jalana</span> <span class="bar__by">by Muara</span></a>
+  <nav class="bar__nav" aria-label="Bagian halaman">
+    <a href="#cara-kerja">Cara kerja</a>
+    <a href="#museum">Untuk museum</a>
+    <a href="#langkah">Kemitraan</a>
+  </nav>
+  <a class="btn btn--accent bar__cta" href="#unduh"><img class="btn__app" src="assets/img/v4/hero/android-48.webp" srcset="assets/img/v4/hero/android-48.webp 1x, assets/img/v4/hero/android-96.webp 2x" width="48" height="48" alt=""><span>Unduh APK</span></a>
+</header>
+
+<main id="isi">
+
+<!-- Pembuka: nama besar dan ponsel 3D ----------------------------------- -->
+<section class="hero" id="mulai" aria-labelledby="h-mulai">
+  <div class="hero__copy">
+    <p class="hero__lede lines" data-hero-lede><span class="line"><span data-line style="--i:0">Museum Passport,</span></span> <span class="line"><span data-line style="--i:1">kini hadir di ponsel.</span></span></p>
+    <p class="hero__sub" data-hero-after>Nikmati perjalanan ke museum dengan pencatatan digital. Dapatkan cap, lencana, dan kartu koleksi.</p>
+    <div class="hero__actions" data-hero-after>
+      <a class="btn btn--accent btn--lg" href="#unduh"><img class="btn__app" src="assets/img/v4/hero/android-48.webp" srcset="assets/img/v4/hero/android-48.webp 1x, assets/img/v4/hero/android-96.webp 2x" width="48" height="48" alt=""><span>Unduh APK untuk Android</span></a>
+      <button class="btn btn--ghost btn--lg btn--soon" type="button" aria-disabled="true"><img class="btn__app" src="assets/img/v4/hero/testflight-48.webp" srcset="assets/img/v4/hero/testflight-48.webp 1x, assets/img/v4/hero/testflight-96.webp 2x" width="48" height="48" alt=""><span>Hadir segera di iOS</span></button>
+      <button class="btn btn--line btn--lg" type="button" data-video-open aria-haspopup="dialog"><svg class="i" aria-hidden="true"><use href="#i-player-play"/></svg><span>Lihat video demo</span></button>
+    </div>
+  </div>
+  <div class="mock" data-tilt>
+    <figure class="mock__phone mock__phone--back" aria-hidden="true"><img src="assets/img/layar3/paspor-sampul-400.webp" srcset="assets/img/layar3/paspor-sampul-400.webp 400w, assets/img/layar3/paspor-sampul-800.webp 800w" sizes="(min-width: 64rem) 17rem, 34vw" width="800" height="1734" alt="" fetchpriority="low" decoding="async"></figure>
+    <figure class="mock__phone mock__phone--front"><img src="assets/img/layar3/beranda-480.webp" srcset="assets/img/layar3/beranda-480.webp 480w, assets/img/layar3/beranda-800.webp 800w" sizes="(min-width: 64rem) 21rem, 42vw" width="800" height="1734" alt="Jalana di ponsel: Beranda dengan Paspor museum 16 dari 16 museum IHA, cap terakhir, dan museum terdekat." fetchpriority="high" decoding="async"></figure>
+  </div>
+  <h1 class="hero__name" id="h-mulai"><span class="hero__name-mask"><span data-hero-name>Jalana</span></span></h1>
+</section>
+
+<!-- Bukti --------------------------------------------------------------- -->
+<section class="sec proof" id="bukti" aria-labelledby="h-bukti">
+  <div class="wrap grid proof__grid">
+    <p class="eyebrow proof__eyebrow">Masalah</p>
+    <h2 class="proof__title" id="h-bukti"><span class="proof__known">Museum Passport sudah berjalan.</span> Tapi museum hanya menjual buku fisik. Kunjungan ke museum tidak tercatat.</h2>
+    <p class="lead proof__lead">Jalana juga membuka jalan ke museum yang belum direvitalisasi.</p>
+    <figure class="proof__photo" data-reveal>
+      <div class="proof__crop"><img src="assets/img/v2/vredeburg-900.webp" srcset="assets/img/v2/vredeburg-900.webp 900w, assets/img/v2/vredeburg-1600.webp 1600w" sizes="(min-width: 64rem) 38vw, calc(100vw - 2.5rem)" width="1600" height="900" alt="Pengunjung berjalan menuju gerbang Museum Benteng Vredeburg Yogyakarta." loading="lazy" decoding="async"></div>
+      <figcaption class="caption">Museum Benteng Vredeburg, Yogyakarta.</figcaption>
+    </figure>
+    <dl class="proof__figures">
+      <div data-reveal><dt class="tnum">5.000</dt><dd>eksemplar cetakan pertama habis</dd></div>
+      <div data-reveal style="--d:80ms"><dt class="tnum">8.000</dt><dd>eksemplar dicetak ulang</dd></div>
+      <div data-reveal style="--d:160ms"><dt class="tnum">4,3 juta</dt><dd>kunjungan ke museum dan cagar budaya MCB pada 2025</dd></div>
+      <div data-reveal style="--d:240ms"><dt class="tnum">16</dt><dd>museum IHA terdaftar di Jalana</dd></div>
+    </dl>
+    <div class="proof__note">
+      <p class="proof__simako"><svg class="i" aria-hidden="true"><use href="#i-database"/></svg><span>Data koleksi tersambung dengan SIMAKO, hanya untuk koleksi yang dipakai Jalana.</span></p>
+      <p class="caption">Sumber: Kompas, 17 Juni 2026. Antara, 7 Juli 2026. Liputan6, 8 Januari 2026.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Kenapa Jalana ------------------------------------------------------- -->
+<section class="sec why" id="kenapa" aria-labelledby="h-kenapa">
+  <div class="wrap grid">
+    <header class="head">
+      <p class="eyebrow">Kenapa Jalana</p>
+      <h2 class="h2" id="h-kenapa">Alasan untuk datang ke museum berikutnya.</h2>
+      <p class="lead">Jalana menambah Museum Passport dan tidak menggantikannya. Setiap kunjungan memberi cap, lencana, dan kartu.</p>
+    </header>
+    <ol class="why__reasons" role="list">
+      <li data-reveal><h3 class="why__reason">Ke museum lain</h3><p>Setiap museum IHA punya cap, lencana, dan kartu koleksinya sendiri. Paspor baru lengkap setelah pengunjung datang ke museum lain.</p></li>
+      <li data-reveal><h3 class="why__reason">Beberapa museum dalam sehari</h3><p>Tur museum menyusun rute dengan perkiraan jam tiba. Di setiap museum di rute, pengunjung mengumpulkan kartu dan lencana.</p></li>
+      <li data-reveal><h3 class="why__reason">Acara di area museum</h3><p>Beranda menampilkan acara terdekat. Contohnya Hari Sumpah Pemuda di Museum Sumpah Pemuda.</p></li>
+    </ol>
+    <figure class="why__phone" data-reveal>
+      <div class="ip15"><div class="ip15__body"><img class="ip15__screen" src="assets/img/v4/why/beranda-bawah-480.webp" srcset="assets/img/v4/why/beranda-bawah-480.webp 480w, assets/img/v4/why/beranda-bawah-800.webp 800w" sizes="(min-width: 64rem) 17rem, 64vw" width="923" height="2000" alt="Beranda Jalana, bagian bawah. Ada paket gratis harian, Main Harian, dan Acara terdekat: Hari Sumpah Pemuda di Museum Sumpah Pemuda, 28 Oktober." loading="lazy" decoding="async"><span class="ip15__island" aria-hidden="true"></span></div></div>
+      <figcaption class="caption">Acara terdekat tampil di Beranda.</figcaption>
+    </figure>
+    <ul class="points points--3 why__points" role="list">
+      <li data-reveal><span class="points__icon"><svg class="i" aria-hidden="true"><use href="#i-notebook"/></svg></span><h3>Paspor kertas tetap</h3><p>IHA tetap menjual buku. Pemilik buku mengecap bukunya di booth Jalana.</p></li>
+      <li data-reveal><span class="points__icon"><svg class="i" aria-hidden="true"><use href="#i-building-arch"/></svg></span><h3>16 museum IHA</h3><p>Satu katalog, dengan satu panel untuk museum.</p></li>
+      <li data-reveal><span class="points__icon"><svg class="i" aria-hidden="true"><use href="#i-certificate"/></svg></span><h3>Aset tetap milik IHA</h3><p>Kurator IHA meninjau isi sebelum terbit.</p></li>
+    </ul>
+    <div class="voices" data-voices>
+      <div class="voices__head">
+        <h3 class="h3" id="h-suara">Reaksi dari uji konsep</h3>
+        <p class="caption">Dari uji konsep: panel simulasi 26 persona dan 10 investor, Oktober 2026. Ini reaksi simulasi, bukan ulasan pengguna.</p>
+        <p class="caption">Bukti permintaan yang nyata ada di atas: <a href="#bukti">5.000 eksemplar cetakan pertama habis</a>.</p>
+      </div>
+      <div class="voices__nav">
+        <button class="pill pill--icon" type="button" data-voices-prev aria-controls="voices-track" aria-label="Kutipan sebelumnya"><svg class="i" aria-hidden="true"><use href="#i-chevron-left"/></svg></button>
+        <button class="pill pill--icon" type="button" data-voices-next aria-controls="voices-track" aria-label="Kutipan berikutnya"><svg class="i" aria-hidden="true"><use href="#i-chevron-right"/></svg></button>
+      </div>
+      <div class="voices__clip"><div class="voices__track" id="voices-track" data-voices-track role="region" aria-roledescription="carousel" aria-labelledby="h-suara" tabindex="0">
+        <figure class="voice" role="group" aria-roledescription="slide" aria-label="1 dari 9"><blockquote class="voice__quote"><p>Kartu Super Langka berkilau saat ponsel miring. Itu cukup membuat saya mau mampir ke Museum Nasional bila ke Jakarta.</p></blockquote><figcaption class="voice__by"><span class="voice__name">Bima</span><span class="voice__seg">Pengunjung</span></figcaption></figure>
+        <figure class="voice" role="group" aria-roledescription="slide" aria-label="2 dari 9"><blockquote class="voice__quote"><p>Tur museum menyusun rute beberapa museum dan memberi tahu museum yang tutup. Cocok untuk liburan sekolah ke Jakarta.</p></blockquote><figcaption class="voice__by"><span class="voice__name">Dewi</span><span class="voice__seg">Keluarga</span></figcaption></figure>
+        <figure class="voice" role="group" aria-roledescription="slide" aria-label="3 dari 9"><blockquote class="voice__quote"><p>Saya mendukung usulan ini, terutama janji pemerataannya. Museum kami ingin ikut uji coba.</p></blockquote><figcaption class="voice__by"><span class="voice__name">Agus</span><span class="voice__seg">Museum</span></figcaption></figure>
+        <figure class="voice" role="group" aria-roledescription="slide" aria-label="4 dari 9"><blockquote class="voice__quote"><p>Kartu langka adalah hal yang membuat keluarga rela antre.</p></blockquote><figcaption class="voice__by"><span class="voice__name">Rudi</span><span class="voice__seg">Investor</span></figcaption></figure>
+        <figure class="voice" role="group" aria-roledescription="slide" aria-label="5 dari 9"><blockquote class="voice__quote"><p>Saat rilis, saya akan memakainya untuk menyiapkan kunjungan rombongan. Letak koleksi per lantai sangat membantu menyusun rute.</p></blockquote><figcaption class="voice__by"><span class="voice__name">Yuni</span><span class="voice__seg">Sekolah</span></figcaption></figure>
+        <figure class="voice" role="group" aria-roledescription="slide" aria-label="6 dari 9"><blockquote class="voice__quote"><p>Cap tinta di buku dan cap digital di ponsel, di booth yang sama. Itu video yang paling menarik untuk penonton saya.</p></blockquote><figcaption class="voice__by"><span class="voice__name">Putri</span><span class="voice__seg">Pengunjung</span></figcaption></figure>
+        <figure class="voice" role="group" aria-roledescription="slide" aria-label="7 dari 9"><blockquote class="voice__quote"><p>Main Harian bisa saya pakai sebagai pembuka sebelum rombongan masuk ruang pamer. Lembar pengetahuannya mencantumkan sumber.</p></blockquote><figcaption class="voice__by"><span class="voice__name">Lina</span><span class="voice__seg">Museum</span></figcaption></figure>
+        <figure class="voice" role="group" aria-roledescription="slide" aria-label="8 dari 9"><blockquote class="voice__quote"><p>Mematikan fitur berbayar adalah langkah cerdas.</p></blockquote><figcaption class="voice__by"><span class="voice__name">Hadi</span><span class="voice__seg">Investor</span></figcaption></figure>
+        <figure class="voice" role="group" aria-roledescription="slide" aria-label="9 dari 9"><blockquote class="voice__quote"><p>Saya akan memakai Jalana saat rilis. Halaman koleksi menulis lantai dan gedung tempat koleksi itu berada.</p></blockquote><figcaption class="voice__by"><span class="voice__name">Fajar</span><span class="voice__seg">Pengunjung</span></figcaption></figure>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Cara kerja ---------------------------------------------------------- -->
+<section class="sec how" id="cara-kerja" aria-labelledby="h-cara">
+  <div class="wrap grid">
+    <header class="head">
+      <p class="eyebrow">Cara kerja</p>
+      <h2 class="h2" id="h-cara">Dari peta sampai paspor.</h2>
+      <p class="lead">Jalana menemani pengunjung dari rumah sampai kunjungan berikutnya.</p>
+    </header>
+    <ol class="how__steps" role="list">
+      <li class="how__step" data-reveal>
+        <div class="how__text"><h3 class="how__title">Jelajah</h3><p>Peta interaktif menunjukkan museum terdekatmu dan jam bukanya.</p></div>
+        <figure class="ip15 how__phone"><div class="ip15__body"><img class="ip15__screen" src="assets/img/v4/layar/beranda-480.webp" srcset="assets/img/v4/layar/beranda-480.webp 480w, assets/img/v4/layar/beranda-800.webp 800w" sizes="(min-width: 64rem) 17.3rem, (min-width: 48rem) 15.5rem, 58vw" width="480" height="1041" alt="Beranda Jalana. Kartu Paspor Museum menunjukkan 0 dari 16 museum IHA. Di bawahnya, bagian Museum terdekat menampilkan foto Museum Nasional di Jakarta Pusat, buka sampai 18.00, dan tautan Lihat peta." loading="lazy" decoding="async"><span class="ip15__island" aria-hidden="true"></span></div></figure>
+      </li>
+      <li class="how__step" data-reveal>
+        <div class="how__text"><h3 class="how__title">Rencanakan</h3><p>Sedang liburan? Pakai fitur tur museum untuk menyusun rute ke beberapa museum dalam sehari, lengkap dengan perkiraan jam tiba.</p></div>
+        <figure class="ip15 how__phone"><div class="ip15__body"><img class="ip15__screen" src="assets/img/v4/layar/tur-480.webp" srcset="assets/img/v4/layar/tur-480.webp 480w, assets/img/v4/layar/tur-800.webp 800w" sizes="(min-width: 64rem) 17.3rem, (min-width: 48rem) 15.5rem, 58vw" width="480" height="1041" alt="Tur museum hari ini, mulai 14.04 dan selesai 18.00. Jalana menyusun rute dua museum: Museum Kebangkitan Nasional, tiba sekitar 14.44, lalu Museum Nasional Indonesia, tiba sekitar 16.04. Di bawahnya ada tombol Masukkan ke Kalender." loading="lazy" decoding="async"><span class="ip15__island" aria-hidden="true"></span></div></figure>
+      </li>
+      <li class="how__step" data-reveal>
+        <div class="how__text"><h3 class="how__title">Cap dan lencana digital</h3><p>Saat berkunjung ke museum, Jalana memberimu cap dan lencana untuk ditempel di paspor digitalmu.</p></div>
+        <figure class="ip15 how__phone"><div class="ip15__body"><img class="ip15__screen" src="assets/img/v4/layar/lencana-480.webp" srcset="assets/img/v4/layar/lencana-480.webp 480w, assets/img/v4/layar/lencana-800.webp 800w" sizes="(min-width: 64rem) 17.3rem, (min-width: 48rem) 15.5rem, 58vw" width="480" height="1041" alt="Lencana kunjungan tingkat emas dari Galeri Nasional Indonesia. Pengguna mendapatkannya pada Senin, 12 Oktober 2026. Lencana bisa diputar. Tingkat logam: perunggu di kunjungan ke-1, perak di kunjungan ke-5, emas di kunjungan ke-10." loading="lazy" decoding="async"><span class="ip15__island" aria-hidden="true"></span></div></figure>
+      </li>
+      <li class="how__step" data-reveal>
+        <div class="how__text"><h3 class="how__title">Koleksi semuanya</h3><p>Kumpulkan semua cap, lencana, dan kartu dari kunjungan dan acara di berbagai museum.</p></div>
+        <figure class="ip15 how__phone"><div class="ip15__body"><img class="ip15__screen" src="assets/img/v4/layar/koleksi-paspor-480.webp" srcset="assets/img/v4/layar/koleksi-paspor-480.webp 480w, assets/img/v4/layar/koleksi-paspor-800.webp 800w" sizes="(min-width: 64rem) 17.3rem, (min-width: 48rem) 15.5rem, 58vw" width="480" height="1041" alt="Koleksi paspor, tab Lencana: 52 dari 52 lencana terkumpul. Bagian Kunjungan Museum menampilkan lencana emas Museum Nasional, Galeri Nasional, Basoeki Abdullah, Sumpah Pemuda, Kebangkitan Nasional, dan Naskah Proklamasi." loading="lazy" decoding="async"><span class="ip15__island" aria-hidden="true"></span></div></figure>
+      </li>
+      <li class="how__step" data-reveal>
+        <div class="how__text"><h3 class="how__title">Koleksi kartunya</h3><p>Bawa pulang koleksi dalam bentuk kartu. Tukar dengan sesama pemain.</p></div>
+        <figure class="ip15 how__phone"><div class="ip15__body"><img class="ip15__screen" src="assets/img/v4/layar/kartu-prajnaparamita-480.webp" srcset="assets/img/v4/layar/kartu-prajnaparamita-480.webp 480w, assets/img/v4/layar/kartu-prajnaparamita-800.webp 800w" sizes="(min-width: 64rem) 17.3rem, (min-width: 48rem) 15.5rem, 58vw" width="480" height="1041" alt="Kartu Prajnaparamita dengan kilau holo. Kartu ini tingkat Langka, dari Edisi Koleksi Museum Nasional. Nomor seri EK No. 118.615. Pengguna mendapatkannya dari Paket Booster pada 22 Oktober 2026. Kartu bisa ditukar 1:1 dengan pengguna lain, tanpa uang." loading="lazy" decoding="async"><span class="ip15__island" aria-hidden="true"></span></div></figure>
+      </li>
+      <li class="how__step" data-reveal>
+        <div class="how__text"><h3 class="how__title">Journaling</h3><p>Tulis dan hias paspormu dari setiap kunjungan ke museum.</p></div>
+        <figure class="ip15 how__phone"><div class="ip15__body"><img class="ip15__screen" src="assets/img/v4/layar/jurnal-480.webp" srcset="assets/img/v4/layar/jurnal-480.webp 480w, assets/img/v4/layar/jurnal-800.webp 800w" sizes="(min-width: 64rem) 17.3rem, (min-width: 48rem) 15.5rem, 58vw" width="480" height="1041" alt="Paspor digital terbuka di halaman 1 dari 100. Halaman ini berisi foto kunjungan, stiker lencana, dan memo tulisan tangan tentang pembukaan pameran baru di Museum Nasional." loading="lazy" decoding="async"><span class="ip15__island" aria-hidden="true"></span></div></figure>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- Di dalam museum ----------------------------------------------------- -->
+<section class="sec booth" id="booth" aria-labelledby="h-booth">
+  <div class="wrap grid">
+    <header class="head">
+      <p class="eyebrow">Di museum</p>
+      <h2 class="h2" id="h-booth">Satu booth di pintu masuk.</h2>
+      <p class="lead">Booth check-in berdiri tanpa staf, layar, atau listrik. Pemilik Museum Passport juga mengecap bukunya di sini.</p>
+    </header>
+    <figure class="booth__render" data-reveal>
+      <img src="assets/img/v2/booth-480.webp" srcset="assets/img/v2/booth-480.webp 480w, assets/img/v2/booth-944.webp 944w" sizes="(min-width: 64rem) 30vw, 70vw" width="944" height="1701" alt="Render booth check-in Jalana: panel cetak melengkung, meja dengan cap, dan pelat check-in di atas tiang dan alas baja." loading="lazy" decoding="async">
+      <figcaption class="caption">Render booth. Tapak 120 × 83 cm, tinggi 210 cm.</figcaption>
+    </figure>
+    <ul class="points points--2 booth__points" role="list">
+      <li data-reveal><span class="points__icon"><svg class="i" aria-hidden="true"><use href="#i-nfc"/></svg></span><h3>Satu pelat check-in</h3><p>NFC NTAG 424 DNA dan QR di satu pelat.</p></li>
+      <li data-reveal><span class="points__icon"><svg class="i" aria-hidden="true"><use href="#i-weight"/></svg></span><h3>Alas baja 20 kg</h3><p>Anti-terguling dan ramah kursi roda.</p></li>
+      <li data-reveal><span class="points__icon"><svg class="i" aria-hidden="true"><use href="#i-photo"/></svg></span><h3>Cetakan SEG dua sisi</h3><p>Diganti tiap musim di rangka yang sama.</p></li>
+      <li data-reveal><span class="points__icon"><svg class="i" aria-hidden="true"><use href="#i-rubber-stamp"/></svg></span><h3>Cap fisik</h3><p>Cap swa-tinta dan pena bertali baja untuk buku paspor.</p></li>
+    </ul>
+  </div>
+</section>
+
+<!-- Kartu, lencana, berbagi --------------------------------------------- -->
+<section class="sec collect" id="koleksi" aria-labelledby="h-koleksi">
+  <div class="wrap grid">
+    <header class="head">
+      <p class="eyebrow">Di paspor</p>
+      <h2 class="h2" id="h-koleksi">Kartu, lencana, dan berbagi</h2>
+      <p class="lead">Semua yang didapat pengunjung tersimpan di paspor Jalana.</p>
+    </header>
+
+    <div class="viewer" data-viewer>
+      <figure class="device viewer__device" aria-live="polite">
+        <img class="is-on" data-view="0" src="assets/img/layar3/paspor-sampul-400.webp" srcset="assets/img/layar3/paspor-sampul-400.webp 400w, assets/img/layar3/paspor-sampul-800.webp 800w" sizes="(min-width: 64rem) 19rem, 78vw" width="800" height="1734" alt="Tab Paspor: sampul Museum Passport tampil utuh. Paspor Nadia Pramesti." loading="lazy" decoding="async">
+        <img data-view="1" src="assets/img/layar3/rak-paspor-400.webp" srcset="assets/img/layar3/rak-paspor-400.webp 400w, assets/img/layar3/rak-paspor-800.webp 800w" sizes="(min-width: 64rem) 19rem, 78vw" width="800" height="1734" alt="Rak Paspor: Paspor Orisinal Muara, tombol Buka buku dan Ganti sampul, dan empat sampul." loading="lazy" decoding="async">
+        <img data-view="2" src="assets/img/layar3/binder-cap-400.webp" srcset="assets/img/layar3/binder-cap-400.webp 400w, assets/img/layar3/binder-cap-800.webp 800w" sizes="(min-width: 64rem) 19rem, 78vw" width="800" height="1734" alt="Koleksi paspor, tab Cap: 16 cap dari 16 museum." loading="lazy" decoding="async">
+        <img data-view="3" src="assets/img/layar3/binder-kartu-400.webp" srcset="assets/img/layar3/binder-kartu-400.webp 400w, assets/img/layar3/binder-kartu-800.webp 800w" sizes="(min-width: 64rem) 19rem, 78vw" width="800" height="1734" alt="Koleksi paspor, tab Kartu: 11 dari 11 kartu koleksi, per museum." loading="lazy" decoding="async">
+        <img data-view="4" src="assets/img/layar3/binder-lencana-400.webp" srcset="assets/img/layar3/binder-lencana-400.webp 400w, assets/img/layar3/binder-lencana-800.webp 800w" sizes="(min-width: 64rem) 19rem, 78vw" width="800" height="1734" alt="Koleksi paspor, tab Lencana: 52 dari 52 lencana, dengan lencana kunjungan museum." loading="lazy" decoding="async">
+      </figure>
+      <div class="viewer__text">
+        <h3 class="h3">Paspor di ponsel</h3>
+        <fieldset class="tabs" data-viewer-tabs>
+          <legend class="sr-only">Pilih layar paspor</legend>
+          <label><input type="radio" name="view" value="0" checked><span>Sampul</span></label>
+          <label><input type="radio" name="view" value="1"><span>Rak</span></label>
+          <label><input type="radio" name="view" value="2"><span>Cap</span></label>
+          <label><input type="radio" name="view" value="3"><span>Kartu</span></label>
+          <label><input type="radio" name="view" value="4"><span>Lencana</span></label>
+        </fieldset>
+        <p class="viewer__line" data-viewer-line aria-live="polite">Sampul paspor tampil utuh. Ketuk atau geser untuk membuka buku.</p>
+        <template data-viewer-lines>
+          <p>Sampul paspor tampil utuh. Ketuk atau geser untuk membuka buku.</p>
+          <p>Rak Paspor menyimpan semua buku dan sampul milik pengguna.</p>
+          <p>Koleksi paspor menyimpan cap dari setiap museum, dikelompokkan per kota.</p>
+          <p>Kartu koleksi yang sudah didapat, dikelompokkan per museum.</p>
+          <p>Lencana kunjungan museum, lencana acara, dan lencana musim.</p>
+        </template>
+      </div>
+    </div>
+
+    <div class="pair pair--card">
+      <figure class="pair__media kartu" data-kartu>
+        <div class="kartu__stage">
+          <span class="kartu__tilt" aria-hidden="true">
+            <span class="kartu__rotor">
+              <span class="kartu__face kartu__face--front">
+                <img class="kartu__fill" src="assets/img/v4/kartu/tekstur-holo-koleksi-560.webp" width="560" height="784" alt="" loading="lazy" decoding="async">
+                <span class="kartu__glow"></span>
+                <span class="kartu__holo"></span>
+                <img class="kartu__arca" src="assets/img/v4/kartu/prajnaparamita-potongan-415.webp" width="415" height="739" alt="" loading="lazy">
+                <img class="kartu__kilau" src="assets/img/v4/kartu/kilau.svg" width="280" height="392" alt="" loading="lazy" decoding="async">
+                <span class="kartu__sheen"></span>
+                <span class="kartu__head">
+                  <span class="kartu__title">Prajnaparamita</span>
+                  <span class="kartu__stars"><svg viewBox="0 0 24 10.667" aria-hidden="true"><defs><linearGradient id="kartu-bintang" gradientUnits="userSpaceOnUse" x1="0.742" y1="3.515" x2="9.817" y2="6.972"><stop offset="0" stop-color="#A1E3D4"/><stop offset="0.35" stop-color="#C9B8F2"/><stop offset="0.7" stop-color="#F2C6A6"/><stop offset="1" stop-color="#A1E3D4"/></linearGradient><path id="kartu-bintang-p" d="M3.66356 3.26222L0.828 3.67333L0.777778 3.68356C0.701751 3.70374 0.632442 3.74374 0.57693 3.79947C0.521418 3.8552 0.48169 3.92466 0.461805 4.00077C0.44192 4.07687 0.44259 4.15689 0.463746 4.23265C0.484901 4.30842 0.525785 4.37721 0.582222 4.432L2.63644 6.43156L2.152 9.256L2.14622 9.30489C2.14157 9.38352 2.1579 9.46198 2.19353 9.53223C2.22917 9.60247 2.28284 9.66199 2.34904 9.70467C2.41524 9.74736 2.4916 9.77169 2.57029 9.77516C2.64898 9.77863 2.72718 9.76113 2.79689 9.72444L5.33289 8.39111L7.86311 9.72444L7.90756 9.74489C7.98092 9.77379 8.06064 9.78264 8.13856 9.77056C8.21647 9.75847 8.28977 9.72588 8.35093 9.67612C8.41209 9.62636 8.45891 9.56122 8.48659 9.48739C8.51427 9.41357 8.52181 9.3337 8.50844 9.256L8.02356 6.43156L10.0787 4.43156L10.1133 4.39378C10.1629 4.33279 10.1953 4.25976 10.2074 4.18213C10.2195 4.10451 10.2109 4.02506 10.1823 3.95188C10.1537 3.8787 10.1062 3.81441 10.0447 3.76556C9.98313 3.71671 9.90975 3.68504 9.832 3.67378L6.99645 3.26222L5.72889 0.693333C5.69221 0.618904 5.63543 0.556229 5.56497 0.512402C5.49452 0.468575 5.4132 0.445347 5.33022 0.445347C5.24725 0.445347 5.16593 0.468575 5.09547 0.512402C5.02502 0.556229 4.96823 0.618904 4.93156 0.693333L3.66356 3.26222Z"/></defs><use href="#kartu-bintang-p" fill="url(#kartu-bintang)"/><use href="#kartu-bintang-p" x="13.333" fill="url(#kartu-bintang)"/></svg></span>
+                  <span class="kartu__museum"><span class="kartu__disc"><img src="assets/img/v4/kartu/logo-mni-simbol-66.webp" width="66" height="66" alt="" loading="lazy" decoding="async"></span><span class="kartu__mname">Museum Nasional</span></span>
+                </span>
+                <span class="kartu__info">
+                  <span class="kartu__row"><span class="kartu__pill">Asal</span><span class="kartu__val">Singasari, Jawa Timur</span></span>
+                  <span class="kartu__row"><span class="kartu__pill">Bahan</span><span class="kartu__val">Batu andesit</span></span>
+                  <span class="kartu__row"><span class="kartu__pill">Ukuran</span><span class="kartu__val">T 126 · L 55 · Tb 55 cm</span></span>
+                </span>
+                <span class="kartu__glare"></span>
+              </span>
+              <span class="kartu__face kartu__face--back">
+                <img class="kartu__fill" src="assets/img/v4/kartu/tekstur-holo-koleksi-560.webp" width="560" height="784" alt="" loading="lazy" decoding="async">
+                <span class="kartu__panel">
+                  <!-- IHA logomark and garuda left out on the site until IHA support is agreed (docs/keputusan.md). -->
+                  <img class="kartu__pola" src="assets/img/v4/kartu/iha-pola.svg" width="689" height="709" alt="" loading="lazy" decoding="async">
+                  <span class="kartu__mid">
+                    <span class="kartu__col">
+                      <span class="kartu__brand">Museum Passport Indonesia</span>
+                      <span class="kartu__rule"></span>
+                      <span class="kartu__plate"><span class="kartu__plabel">Nomor seri</span><span class="kartu__no">118.615</span><span class="kartu__psub">nomor acak · Langka</span></span>
+                      <span class="kartu__edition">Edisi Koleksi</span>
+                    </span>
+                  </span>
+                </span>
+                <span class="kartu__glare"></span>
+              </span>
+            </span>
+          </span>
+          <button class="kartu__btn" type="button" aria-pressed="false" aria-label="Lihat sisi belakang kartu" aria-describedby="kartu-isi" data-kartu-btn></button>
+        </div>
+        <p class="sr-only" id="kartu-isi">Kartu koleksi Prajnaparamita dari Museum Nasional, tingkat Langka, dua bintang, Edisi Koleksi. Asal: Singasari, Jawa Timur. Bahan: batu andesit. Ukuran: tinggi 126, lebar 55, tebal 55 cm. Sisi belakang: Museum Passport Indonesia, nomor seri 118.615.</p>
+        <figcaption class="kartu__hint caption"><svg class="i" aria-hidden="true"><use href="#i-rotate"/></svg><span data-kartu-hint>Ketuk kartu untuk melihat sisi belakang.</span></figcaption>
+      </figure>
+      <div class="pair__text prose">
+        <h3 class="h3">Kartu koleksi</h3>
+        <p>Ini kartu Prajnaparamita dari aplikasi. Muka kartu memuat asal, bahan, dan ukuran koleksi. Sisi belakang memuat nomor seri.</p>
+        <p>Ada tiga tingkat: Super Langka, Langka, dan Biasa. Super Langka hanya 100 per koleksi per musim.</p>
+        <p>Pengunjung hanya mendapat kartu Edisi Spesial Kolektor di museum. Tantangan Arca Repatriasi mengajak pengunjung memindai lima koleksi utama di Museum Nasional.</p>
+        <p>Kartu ini Edisi Koleksi. Nomor serinya acak dan unik untuk setiap salinan.</p>
+      </div>
+    </div>
+
+    <form class="pair pair--badge pair--flip picker" data-badges data-badge-form aria-label="Pilih lencana museum">
+      <div class="pair__text prose">
+        <h3 class="h3">Lencana museum</h3>
+        <p>Setiap museum punya lencana enamel sendiri. Lencana naik tingkat pada kunjungan ke-1, ke-5, dan ke-10.</p>
+        <div class="lencana__field">
+          <label class="lencana__label" for="badge-museum">Pilih museum</label>
+          <div class="lencana__select">
+            <svg class="i lencana__lead" aria-hidden="true"><use href="#i-building-arch"/></svg>
+            <select id="badge-museum" name="museum" data-badge-museum>
+              <option value="museum-mni" selected>Museum Nasional Indonesia</option>
+              <option value="museum-gni">Galeri Nasional Indonesia</option>
+              <option value="museum-musbadul">Museum Basoeki Abdullah</option>
+              <option value="museum-msp">Museum Sumpah Pemuda</option>
+              <option value="museum-mkn">Museum Kebangkitan Nasional</option>
+              <option value="museum-mpnp">Museum Perumusan Naskah Proklamasi</option>
+              <option value="museum-mbvmpy">Museum Benteng Vredeburg Yogyakarta</option>
+              <option value="museum-mpy">Museum Perjuangan Yogyakarta</option>
+              <option value="museum-mmps">Museum Manusia Purba Sangiran</option>
+              <option value="museum-mmp">Museum Majapahit</option>
+              <option value="museum-mbi">Museum Batik Indonesia</option>
+              <option value="museum-mkr-bk">Museum Kepresidenan RI Balai Kirti</option>
+              <option value="museum-mse">Museum Prasejarah Semedo</option>
+              <option value="museum-mst">Museum Song Terus</option>
+              <option value="museum-msd">Museum Sriwijaya Dharmakirti</option>
+              <option value="museum-minha">Museum Islam Indonesia KH Hasyim Asy'ari</option>
+            </select>
+            <svg class="i lencana__chev" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="pair__media lencana__stage">
+        <figure class="badge" aria-live="polite">
+          <img data-badge-img src="assets/img/v2/lencana/museum-mni-emas-384.webp" width="384" height="384" alt="Lencana Museum Nasional Indonesia, tingkat emas" loading="lazy" decoding="async">
+          <figcaption class="caption" data-badge-cap>Museum Nasional Indonesia. Emas, kunjungan ke-10.</figcaption>
+        </figure>
+        <fieldset class="tiers" data-tiers data-tier="emas">
+          <legend class="lencana__label">Tingkat lencana</legend>
+          <span class="tiers__track" aria-hidden="true"><span></span></span>
+          <label class="tiers__step tiers__step--perunggu is-reached"><input type="radio" name="tier" value="perunggu"><span class="tiers__dot" aria-hidden="true"></span><span class="tiers__name">Perunggu</span><span class="tiers__n">Kunjungan <span>ke-1</span></span></label>
+          <label class="tiers__step tiers__step--perak is-reached"><input type="radio" name="tier" value="perak"><span class="tiers__dot" aria-hidden="true"></span><span class="tiers__name">Perak</span><span class="tiers__n">Kunjungan <span>ke-5</span></span></label>
+          <label class="tiers__step tiers__step--emas is-reached"><input type="radio" name="tier" value="emas" checked><span class="tiers__dot" aria-hidden="true"></span><span class="tiers__name">Emas</span><span class="tiers__n">Kunjungan <span>ke-10</span></span></label>
+        </fieldset>
+      </div>
+    </form>
+
+    <div class="pair pair--share">
+      <figure class="pair__media device" data-reveal><img src="assets/img/layar3/bagikan-400.webp" srcset="assets/img/layar3/bagikan-400.webp 400w, assets/img/layar3/bagikan-800.webp 800w" sizes="(min-width: 64rem) 19rem, 78vw" width="800" height="1734" alt="Lembar Bagikan lencanamu: gambar Instagram Story lencana Museum Nasional Indonesia, dengan pilihan Instagram Story, X, simpan gambar, salin tautan, dan aplikasi lain." loading="lazy" decoding="async"></figure>
+      <div class="pair__text prose">
+        <h3 class="h3">Bagikan</h3>
+        <p>Pengunjung membagikan kartu, lencana, atau cap ke Instagram Story, WhatsApp, dan aplikasi lain.</p>
+        <p>Gambar yang dibagikan tidak memuat data pribadi atau lokasi.</p>
+        <h3 class="h3">Tukar kartu ganda</h3>
+        <p>Pengguna 16 tahun ke atas menukar kartu ganda dengan kode 4 digit. Pertukaran ini tidak memakai uang.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Aman untuk anak ----------------------------------------------------- -->
+<section class="band safe" id="aman" aria-labelledby="h-aman">
+  <div class="wrap grid">
+    <header class="head">
+      <p class="eyebrow">Keamanan</p>
+      <h2 class="h2" id="h-aman">Aman untuk anak</h2>
+    </header>
+    <ul class="points points--2 safe__points" role="list">
+      <li data-reveal><span class="points__icon"><svg class="i" aria-hidden="true"><use href="#i-shield-lock"/></svg></span><h3>Tanpa iklan dan chat</h3><p>Jalana tidak memuat iklan, chat, atau profil publik.</p></li>
+      <li data-reveal><span class="points__icon"><svg class="i" aria-hidden="true"><use href="#i-mood-kid"/></svg></span><h3>Profil anak</h3><p>Anak di bawah 13 tahun bergabung lewat profil yang dikelola orang tua. Tukar kartu hanya untuk 16 tahun ke atas.</p></li>
+      <li data-reveal><span class="points__icon"><svg class="i" aria-hidden="true"><use href="#i-device-mobile"/></svg></span><h3>Data di ponsel</h3><p>Halaman paspor, foto, dan memo tetap di ponsel pengguna.</p></li>
+      <li data-reveal><span class="points__icon"><svg class="i" aria-hidden="true"><use href="#i-coin-off"/></svg></span><h3>Tanpa pembayaran</h3><p>Fitur berbayar mati selama uji coba.</p></li>
+    </ul>
+  </div>
+</section>
+
+<!-- Pemerataan ---------------------------------------------------------- -->
+<section class="sec even" id="pemerataan" aria-labelledby="h-rata">
+  <div class="wrap grid even__body">
+    <header class="head even__head">
+      <p class="eyebrow">Pemerataan</p>
+      <h2 class="h2" id="h-rata">Setiap museum punya lencananya</h2>
+      <p class="lead">Foto menarik dan liputan luas baru dimiliki museum yang sudah direvitalisasi. Kartu dan lencana memberi setiap museum IHA alasan untuk didatangi.</p>
+    </header>
+    <div class="even__rise" role="group" aria-label="Foto tiga museum IHA">
+      <img class="even__side even__side--l" src="assets/img/v2/batik-400.webp" srcset="assets/img/v2/batik-400.webp 400w, assets/img/v2/batik-613.webp 613w" sizes="(min-width: 40rem) 30vw, 46vw" width="613" height="920" alt="Gedung Museum Batik Indonesia di Jakarta." loading="lazy" decoding="async">
+      <img class="even__mid" src="assets/img/v2/perjuangan-480.webp" srcset="assets/img/v2/perjuangan-480.webp 480w, assets/img/v2/perjuangan-960.webp 960w" sizes="(min-width: 40rem) 30vw, 92vw" width="960" height="1200" alt="Gedung bundar Museum Perjuangan Yogyakarta." loading="lazy" decoding="async">
+      <img class="even__side even__side--r" src="assets/img/v2/song-terus-400.webp" srcset="assets/img/v2/song-terus-400.webp 400w, assets/img/v2/song-terus-608.webp 608w" sizes="(min-width: 40rem) 30vw, 46vw" width="608" height="912" alt="Gedung Museum Song Terus di Pacitan." loading="lazy" decoding="async">
+    </div>
+    <div class="even__wall">
+      <ul role="list" class="wall" aria-label="Lencana emas 16 museum IHA">
+      <li><img src="assets/img/v2/lencana/museum-mni-emas-384.webp" width="384" height="384" alt="Lencana emas Museum Nasional Indonesia" loading="lazy" decoding="async"></li>
+      <li><img src="assets/img/v2/lencana/museum-gni-emas-384.webp" width="384" height="384" alt="Lencana emas Galeri Nasional Indonesia" loading="lazy" decoding="async"></li>
+      <li><img src="assets/img/v2/lencana/museum-musbadul-emas-384.webp" width="384" height="384" alt="Lencana emas Museum Basoeki Abdullah" loading="lazy" decoding="async"></li>
+      <li><img src="assets/img/v2/lencana/museum-msp-emas-384.webp" width="384" height="384" alt="Lencana emas Museum Sumpah Pemuda" loading="lazy" decoding="async"></li>
+      <li><img src="assets/img/v2/lencana/museum-mkn-emas-384.webp" width="384" height="384" alt="Lencana emas Museum Kebangkitan Nasional" loading="lazy" decoding="async"></li>
+      <li><img src="assets/img/v2/lencana/museum-mpnp-emas-384.webp" width="384" height="384" alt="Lencana emas Museum Perumusan Naskah Proklamasi" loading="lazy" decoding="async"></li>
+      <li><img src="assets/img/v2/lencana/museum-mbvmpy-emas-384.webp" width="384" height="384" alt="Lencana emas Museum Benteng Vredeburg Yogyakarta" loading="lazy" decoding="async"></li>
+      <li><img src="assets/img/v2/lencana/museum-mpy-emas-384.webp" width="384" height="384" alt="Lencana emas Museum Perjuangan Yogyakarta" loading="lazy" decoding="async"></li>
+      <li><img src="assets/img/v2/lencana/museum-mmps-emas-384.webp" width="384" height="384" alt="Lencana emas Museum Manusia Purba Sangiran" loading="lazy" decoding="async"></li>
+      <li><img src="assets/img/v2/lencana/museum-mmp-emas-384.webp" width="384" height="384" alt="Lencana emas Museum Majapahit" loading="lazy" decoding="async"></li>
+      <li><img src="assets/img/v2/lencana/museum-mbi-emas-384.webp" width="384" height="384" alt="Lencana emas Museum Batik Indonesia" loading="lazy" decoding="async"></li>
+      <li><img src="assets/img/v2/lencana/museum-mkr-bk-emas-384.webp" width="384" height="384" alt="Lencana emas Museum Kepresidenan RI Balai Kirti" loading="lazy" decoding="async"></li>
+      <li><img src="assets/img/v2/lencana/museum-mse-emas-384.webp" width="384" height="384" alt="Lencana emas Museum Prasejarah Semedo" loading="lazy" decoding="async"></li>
+      <li><img src="assets/img/v2/lencana/museum-mst-emas-384.webp" width="384" height="384" alt="Lencana emas Museum Song Terus" loading="lazy" decoding="async"></li>
+      <li><img src="assets/img/v2/lencana/museum-msd-emas-384.webp" width="384" height="384" alt="Lencana emas Museum Sriwijaya Dharmakirti" loading="lazy" decoding="async"></li>
+      <li><img src="assets/img/v2/lencana/museum-minha-emas-384.webp" width="384" height="384" alt="Lencana emas Museum Islam Indonesia KH Hasyim Asy'ari" loading="lazy" decoding="async"></li>
+    </ul>
+      <p class="lead even__note" data-reveal>Data kunjungan dari Jalana bisa menjadi dasar ketika museum mengajukan perbaikan fasilitas.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Belajar dari mana saja: model 3D ------------------------------------ -->
+<section class="sec learn" id="belajar" aria-labelledby="h-belajar">
+  <div class="wrap grid">
+    <header class="head">
+      <p class="eyebrow">Belajar</p>
+      <h2 class="h2" id="h-belajar">Belajar dari mana saja</h2>
+      <p class="lead">Untuk siswa dan warga di pulau lain.</p>
+    </header>
+    <figure class="model learn__statue" data-model data-src="assets/3d/prajnaparamita.glb" data-src-small="assets/3d/prajnaparamita-ringan.glb">
+      <div class="model__stage" data-model-stage>
+        <img class="model__poster" data-model-poster src="assets/img/v3/prajnaparamita-poster-480.webp" srcset="assets/img/v3/prajnaparamita-poster-480.webp 480w, assets/img/v3/prajnaparamita-poster-900.webp 900w" sizes="(min-width: 64rem) 34vw, 86vw" width="900" height="1200" alt="Model 3D Arca Prajnaparamita dari Museum Nasional Indonesia." loading="lazy" decoding="async">
+        <p class="model__hint" data-model-hint><svg class="i" aria-hidden="true"><use href="#i-hand-move"/></svg><span>Seret untuk memutar</span></p>
+      </div>
+    </figure>
+    <ul class="points points--1 learn__points" role="list">
+      <li data-reveal><span class="points__icon"><svg class="i" aria-hidden="true"><use href="#i-rotate-360"/></svg></span><p>Putar arca 360° dan perbesar pahatannya, seperti model di samping.</p></li>
+      <li data-reveal><span class="points__icon"><svg class="i" aria-hidden="true"><use href="#i-augmented-reality"/></svg></span><p>Lihat Prajnaparamita setinggi aslinya, 126 cm, lewat AR di iPhone dan iPad.</p></li>
+      <li data-reveal><span class="points__icon"><svg class="i" aria-hidden="true"><use href="#i-books"/></svg></span><p>Ikuti cerita koleksi, seperti di repatriasi2024.historia.id buatan Muara Studio.</p></li>
+      <li data-reveal><span class="points__icon"><svg class="i" aria-hidden="true"><use href="#i-device-gamepad-2"/></svg></span><p>Main Harian: tiga permainan singkat dengan arca yang berbeda setiap hari.</p></li>
+    </ul>
+    <div class="learn__devices">
+      <figure data-reveal><div class="device"><img src="assets/img/layar3/koleksi-detail-400.webp" srcset="assets/img/layar3/koleksi-detail-400.webp 400w, assets/img/layar3/koleksi-detail-800.webp 800w" sizes="(min-width: 64rem) 19rem, 78vw" width="800" height="1734" alt="Halaman koleksi Arca Prajnaparamita: tombol AR, 360°, dan Zoom, dengan periode, bahan, dan tinggi." loading="lazy" decoding="async"></div><figcaption class="caption">Halaman koleksi: AR, 360°, dan Zoom.</figcaption></figure>
+      <figure data-reveal><div class="device"><img src="assets/img/layar3/main-harian-400.webp" srcset="assets/img/layar3/main-harian-400.webp 400w, assets/img/layar3/main-harian-800.webp 800w" sizes="(min-width: 64rem) 19rem, 78vw" width="800" height="1734" alt="Main Harian, permainan Arca Berdebu: arca Ganesa 3D yang berdebu, dengan alat kuas, air suling, dan spons." loading="lazy" decoding="async"></div><figcaption class="caption">Main Harian: bersihkan debu dari arca hari ini.</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- Untuk museum: panel ------------------------------------------------- -->
+<section class="sec data" id="museum" aria-labelledby="h-museum">
+  <div class="wrap grid">
+    <header class="head">
+      <p class="eyebrow">Untuk museum</p>
+      <h2 class="h2" id="h-museum">Museum melihat kunjungannya</h2>
+      <p class="lead">Setiap check-in dan setiap pindai label tercatat di panel museum.</p>
+    </header>
+    <div class="rows">
+      <div class="row">
+        <figure class="shot row__media" data-reveal><button class="shot__open" type="button" data-lightbox-src="assets/img/cms3/full-ringkasan-2880.webp" data-lightbox-w="2880" data-lightbox-h="1800" data-lightbox-alt="Beranda panel museum Jalana, 6 sampai 27 Oktober 2026: 72 check-in, 72 cap, 13 pengunjung unik, 4 label dipindai, dan grafik check-in terverifikasi per hari." data-lightbox-cap="Beranda panel museum." aria-label="Perbesar: Beranda panel museum."><span class="shot__window"><picture><source media="(max-width: 47.99rem)" srcset="assets/img/cms3/detail-grafik-720.webp 720w, assets/img/cms3/detail-grafik-1440.webp 1440w" sizes="calc(100vw - 2.5rem)" width="1440" height="816"><img src="assets/img/cms3/full-ringkasan-800.webp" srcset="assets/img/cms3/full-ringkasan-800.webp 800w, assets/img/cms3/full-ringkasan-1440.webp 1440w, assets/img/cms3/full-ringkasan-2880.webp 2880w" sizes="(min-width: 64rem) 52vw, 100vw" width="2880" height="1800" alt="Beranda panel museum Jalana, 6 sampai 27 Oktober 2026: 72 check-in, 72 cap, 13 pengunjung unik, 4 label dipindai, dan grafik check-in terverifikasi per hari." loading="lazy" decoding="async"></picture></span><span class="shot__zoom"><svg class="i" aria-hidden="true"><use href="#i-arrows-maximize"/></svg><span>Perbesar</span></span></button><figcaption class="caption">Beranda panel museum.</figcaption></figure>
+        <div class="row__text prose">
+          <h3 class="h3">Kunjungan dan jangkauan koleksi</h3>
+          <p>Check-in terverifikasi per hari, pengunjung unik, dan kunjungan ulang.</p>
+          <p>Label dipindai di tempat. Museum melihat koleksi, lantai, dan ruang yang benar-benar didatangi.</p>
+        </div>
+      </div>
+      <div class="row row--flip">
+        <figure class="shot row__media" data-reveal><button class="shot__open" type="button" data-lightbox-src="assets/img/cms3/full-pengguna-2880.webp" data-lightbox-w="2880" data-lightbox-h="1800" data-lightbox-alt="Ringkasan pengguna di panel museum: akun aktif, akun baru, profil anak di bawah 10, dan check-in per museum. Angka di bawah 10 tampil sebagai kurang dari 10." data-lightbox-cap="Ringkasan pengguna. Angka kecil tampil sebagai &amp;lt;10." aria-label="Perbesar: Ringkasan pengguna. Angka kecil tampil sebagai &amp;lt;10."><span class="shot__window"><picture><source media="(max-width: 47.99rem)" srcset="assets/img/cms3/detail-privasi-720.webp 720w, assets/img/cms3/detail-privasi-1440.webp 1440w" sizes="calc(100vw - 2.5rem)" width="1440" height="1713"><img src="assets/img/cms3/full-pengguna-800.webp" srcset="assets/img/cms3/full-pengguna-800.webp 800w, assets/img/cms3/full-pengguna-1440.webp 1440w, assets/img/cms3/full-pengguna-2880.webp 2880w" sizes="(min-width: 64rem) 52vw, 100vw" width="2880" height="1800" alt="Ringkasan pengguna di panel museum: akun aktif, akun baru, profil anak di bawah 10, dan check-in per museum. Angka di bawah 10 tampil sebagai kurang dari 10." loading="lazy" decoding="async"></picture></span><span class="shot__zoom"><svg class="i" aria-hidden="true"><use href="#i-arrows-maximize"/></svg><span>Perbesar</span></span></button><figcaption class="caption">Ringkasan pengguna. Angka kecil tampil sebagai &lt;10.</figcaption></figure>
+        <div class="row__text prose">
+          <h3 class="h3">Asal pengunjung dan privasi</h3>
+          <p>Museum asal pengunjung, cap yang diberikan, dan label yang dipindai. Ekspor CSV untuk laporan.</p>
+          <p>Angka kecil tampil sebagai "&lt;10", jadi tidak ada pengunjung yang bisa dikenali. Panel memakai masuk dua faktor dan akses per peran.</p>
+        </div>
+      </div>
+      <div class="row">
+        <figure class="shot row__media" data-reveal><button class="shot__open" type="button" data-lightbox-src="assets/img/cms3/full-editor-2880.webp" data-lightbox-w="2880" data-lightbox-h="1800" data-lightbox-alt="Editor koleksi Arca Prajnaparamita di panel museum: nama, nama di kartu, baris bawah nama, kategori, deskripsi, dan pengaturan Tampil di aplikasi." data-lightbox-cap="Editor koleksi." aria-label="Perbesar: Editor koleksi."><span class="shot__window"><picture><source media="(max-width: 47.99rem)" srcset="assets/img/cms3/detail-editor-720.webp 720w, assets/img/cms3/detail-editor-1440.webp 1440w" sizes="calc(100vw - 2.5rem)" width="1440" height="2016"><img src="assets/img/cms3/full-editor-800.webp" srcset="assets/img/cms3/full-editor-800.webp 800w, assets/img/cms3/full-editor-1440.webp 1440w, assets/img/cms3/full-editor-2880.webp 2880w" sizes="(min-width: 64rem) 52vw, 100vw" width="2880" height="1800" alt="Editor koleksi Arca Prajnaparamita di panel museum: nama, nama di kartu, baris bawah nama, kategori, deskripsi, dan pengaturan Tampil di aplikasi." loading="lazy" decoding="async"></picture></span><span class="shot__zoom"><svg class="i" aria-hidden="true"><use href="#i-arrows-maximize"/></svg><span>Perbesar</span></span></button><figcaption class="caption">Editor koleksi.</figcaption></figure>
+        <div class="row__text prose">
+          <h3 class="h3">Kurator mengubah isi</h3>
+          <p>Kurator mengubah teks koleksi. Perubahan masuk ke draf dulu, lalu diterbitkan.</p>
+          <p>Museum juga memilih koleksi yang tampil di aplikasi, dan urutannya.</p>
+        </div>
+      </div>
+    </div>
+    <div class="flow" data-flow aria-roledescription="carousel" aria-label="Halaman lain di panel museum">
+      <h3 class="h3 flow__title">Halaman lain di panel museum</h3>
+      <div class="flow__stage" data-flow-stage>
+        <figure class="flow__slide" role="group" aria-roledescription="slide" aria-label="1 dari 6" data-caption="Daftar koleksi: setiap objek dengan status terbit."><button class="flow__open" type="button" data-lightbox-src="assets/img/cms3/full-koleksi-2880.webp" data-lightbox-w="2880" data-lightbox-h="1800" data-lightbox-alt="Daftar koleksi di panel museum: 57 objek, dengan museum, kategori, kartu, model 3D, jumlah pindai, dan status terbit." data-lightbox-cap="Daftar koleksi: setiap objek dengan status terbit." aria-label="Perbesar: Daftar koleksi: setiap objek dengan status terbit."><img src="assets/img/cms3/full-koleksi-800.webp" srcset="assets/img/cms3/full-koleksi-800.webp 800w, assets/img/cms3/full-koleksi-1440.webp 1440w" sizes="(min-width: 64rem) 46rem, 82vw" width="2880" height="1800" alt="Daftar koleksi di panel museum: 57 objek, dengan museum, kategori, kartu, model 3D, jumlah pindai, dan status terbit." loading="lazy" decoding="async"></button></figure>
+        <figure class="flow__slide" role="group" aria-roledescription="slide" aria-label="2 dari 6" data-caption="Booth check-in: status booth di setiap museum."><button class="flow__open" type="button" data-lightbox-src="assets/img/cms3/full-booth-2880.webp" data-lightbox-w="2880" data-lightbox-h="1800" data-lightbox-alt="Daftar booth check-in di panel museum: booth setiap museum IHA dengan status Aktif atau Perawatan, versi QR, dan versi kunci NFC." data-lightbox-cap="Booth check-in: status booth di setiap museum." aria-label="Perbesar: Booth check-in: status booth di setiap museum."><img src="assets/img/cms3/full-booth-800.webp" srcset="assets/img/cms3/full-booth-800.webp 800w, assets/img/cms3/full-booth-1440.webp 1440w" sizes="(min-width: 64rem) 46rem, 82vw" width="2880" height="1800" alt="Daftar booth check-in di panel museum: booth setiap museum IHA dengan status Aktif atau Perawatan, versi QR, dan versi kunci NFC." loading="lazy" decoding="async"></button></figure>
+        <figure class="flow__slide" role="group" aria-roledescription="slide" aria-label="3 dari 6" data-caption="Museum dan jam buka, dengan status hari ini."><button class="flow__open" type="button" data-lightbox-src="assets/img/cms3/full-museum-2880.webp" data-lightbox-w="2880" data-lightbox-h="1800" data-lightbox-alt="Daftar museum dan jam buka di panel museum: kota, status hari ini, jam buka, booth aktif, dan label aktif." data-lightbox-cap="Museum dan jam buka, dengan status hari ini." aria-label="Perbesar: Museum dan jam buka, dengan status hari ini."><img src="assets/img/cms3/full-museum-800.webp" srcset="assets/img/cms3/full-museum-800.webp 800w, assets/img/cms3/full-museum-1440.webp 1440w" sizes="(min-width: 64rem) 46rem, 82vw" width="2880" height="1800" alt="Daftar museum dan jam buka di panel museum: kota, status hari ini, jam buka, booth aktif, dan label aktif." loading="lazy" decoding="async"></button></figure>
+        <figure class="flow__slide" role="group" aria-roledescription="slide" aria-label="4 dari 6" data-caption="Pustaka aset, lengkap dengan lisensi setiap berkas."><button class="flow__open" type="button" data-lightbox-src="assets/img/cms3/full-aset-2880.webp" data-lightbox-w="2880" data-lightbox-h="1800" data-lightbox-alt="Pustaka aset di panel museum: jumlah gambar, potongan, seni kartu, sampul, logo dan cap, model 3D, suara, dan video, dengan lisensi setiap berkas." data-lightbox-cap="Pustaka aset, lengkap dengan lisensi setiap berkas." aria-label="Perbesar: Pustaka aset, lengkap dengan lisensi setiap berkas."><img src="assets/img/cms3/full-aset-800.webp" srcset="assets/img/cms3/full-aset-800.webp 800w, assets/img/cms3/full-aset-1440.webp 1440w" sizes="(min-width: 64rem) 46rem, 82vw" width="2880" height="1800" alt="Pustaka aset di panel museum: jumlah gambar, potongan, seni kartu, sampul, logo dan cap, model 3D, suara, dan video, dengan lisensi setiap berkas." loading="lazy" decoding="async"></button></figure>
+        <figure class="flow__slide" role="group" aria-roledescription="slide" aria-label="5 dari 6" data-caption="Katalog lencana dan aturannya."><button class="flow__open" type="button" data-lightbox-src="assets/img/cms3/full-lencana-2880.webp" data-lightbox-w="2880" data-lightbox-h="1800" data-lightbox-alt="Katalog lencana di panel museum: 52 lencana, jenis, aturan, dan berapa profil yang sudah mendapatkannya." data-lightbox-cap="Katalog lencana dan aturannya." aria-label="Perbesar: Katalog lencana dan aturannya."><img src="assets/img/cms3/full-lencana-800.webp" srcset="assets/img/cms3/full-lencana-800.webp 800w, assets/img/cms3/full-lencana-1440.webp 1440w" sizes="(min-width: 64rem) 46rem, 82vw" width="2880" height="1800" alt="Katalog lencana di panel museum: 52 lencana, jenis, aturan, dan berapa profil yang sudah mendapatkannya." loading="lazy" decoding="async"></button></figure>
+        <figure class="flow__slide" role="group" aria-roledescription="slide" aria-label="6 dari 6" data-caption="Acara dan pameran di kartu Beranda."><button class="flow__open" type="button" data-lightbox-src="assets/img/cms3/full-acara-2880.webp" data-lightbox-w="2880" data-lightbox-h="1800" data-lightbox-alt="Acara dan pameran di panel museum: tantangan pameran dan daftar acara di kartu Beranda." data-lightbox-cap="Acara dan pameran di kartu Beranda." aria-label="Perbesar: Acara dan pameran di kartu Beranda."><img src="assets/img/cms3/full-acara-800.webp" srcset="assets/img/cms3/full-acara-800.webp 800w, assets/img/cms3/full-acara-1440.webp 1440w" sizes="(min-width: 64rem) 46rem, 82vw" width="2880" height="1800" alt="Acara dan pameran di panel museum: tantangan pameran dan daftar acara di kartu Beranda." loading="lazy" decoding="async"></button></figure>
+      </div>
+      <div class="flow__bar">
+        <button class="pill" type="button" data-flow-prev><svg class="i" aria-hidden="true"><use href="#i-chevron-left"/></svg><span>Sebelumnya</span></button>
+        <p class="flow__caption" data-flow-caption></p>
+        <button class="pill" type="button" data-flow-next><span>Berikutnya</span><svg class="i" aria-hidden="true"><use href="#i-chevron-right"/></svg></button>
+      </div>
+      <div class="flow__foot">
+        <p class="sr-only" aria-live="polite" data-flow-status></p>
+        <button class="pill pill--quiet" type="button" data-flow-play aria-pressed="true"><svg class="i" aria-hidden="true"><use href="#i-player-pause"/></svg><span>Jeda putar otomatis</span></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Arcantara: tertutup sampai dibuka ----------------------------------- -->
+<section class="sec arc" id="arcantara" aria-labelledby="h-arc">
+  <div class="arc__gate">
+    <img class="arc__bg" src="assets/img/v2/arcantara-900.webp" srcset="assets/img/v2/arcantara-900.webp 900w, assets/img/v2/arcantara-1400.webp 1400w" sizes="100vw" width="1400" height="1081" alt="" loading="lazy" decoding="async">
+    <div class="arc__gate-inner">
+      <h2 class="sr-only" id="h-arc">Arcantara</h2>
+      <button class="glass" type="button" aria-expanded="false" aria-controls="arc-isi" data-disclose>
+        <span class="glass__text"><span class="glass__title">Kami juga membuat gim bertema restorasi</span><span class="glass__sub">Arcantara, bersama EntPoint Studio</span></span>
+        <svg class="i glass__icon" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="disclose" id="arc-isi" data-disclose-panel inert>
+    <div class="disclose__inner">
+      <div class="wrap grid arc__body">
+        <div class="arc__panel">
+          <img class="arc__photo" src="assets/img/v2/arcantara-900.webp" srcset="assets/img/v2/arcantara-900.webp 900w, assets/img/v2/arcantara-1400.webp 1400w" sizes="(min-width: 64rem) 90rem, 100vw" width="1400" height="1081" alt="Tiga layar gim restorasi EntPoint: memilih karya, memulai restorasi, dan kartu kisah objek." loading="lazy" decoding="async">
+          <div class="arc__row">
+            <p class="arc__when">Target rilis awal 2027</p>
+            <p class="arc__title">Arcantara</p>
+            <p class="arc__who">EntPoint Studio bersama Muara Studio</p>
+          </div>
+        </div>
+        <div class="arc__text prose">
+          <p class="lead">Gim restorasi artefak Nusantara untuk ponsel.</p>
+          <p>Pemain membersihkan dan memulihkan artefak, lalu membuka kisah di baliknya: pilih, pulihkan, temukan, koleksikan, jelajahi.</p>
+          <dl class="facts">
+            <div><dt>Bentuk</dt><dd>Gim 3D, santai dan edukatif.</dd></div>
+            <div><dt>Untuk</dt><dd>Remaja, SMP dan SMA, semua umur.</dd></div>
+            <div><dt>Di luar museum</dt><dd>Main di rumah, di kelas, atau di pulau lain. Cocok untuk pelajaran Sejarah dan Seni Budaya.</dd></div>
+            <div><dt>Di dalam museum</dt><dd>Usulan Muara: kunjungan yang tercatat di Jalana membuka artefak tertentu di gim.</dd></div>
+          </dl>
+          <p class="caption">Visual: EntPoint Studio</p>
+        </div>
+        <div class="arc__objects">
+          <h3 class="h3">Arca repatriasi, 8 objek</h3>
+          <ul class="statues" role="list">
+            <li><img src="assets/img/v2/arca/arca-ganesa-candi-singasari-400.webp" width="400" height="563" alt="" loading="lazy" decoding="async"><span>Ganesa</span></li>
+          <li><img src="assets/img/v2/arca/arca-nandiswara-candi-singasari-400.webp" width="400" height="563" alt="" loading="lazy" decoding="async"><span>Nandhiswara</span></li>
+          <li><img src="assets/img/v2/arca/arca-prajnaparamita-historia-400.webp" width="400" height="569" alt="" loading="lazy" decoding="async"><span>Prajnaparamita</span></li>
+          <li><img src="assets/img/v2/arca/arca-durga-mahisasuramardini-400.webp" width="400" height="563" alt="" loading="lazy" decoding="async"><span>Durga</span></li>
+          <li><img src="assets/img/v2/arca/arca-mahakala-candi-singasari-400.webp" width="400" height="812" alt="" loading="lazy" decoding="async"><span>Mahakala</span></li>
+          <li><img src="assets/img/v2/arca/arca-bhairawa-candi-singasari-400.webp" width="400" height="639" alt="" loading="lazy" decoding="async"><span>Bhairawa</span></li>
+          <li><img src="assets/img/v2/arca/arca-nandi-tersenyum-400.webp" width="400" height="330" alt="" loading="lazy" decoding="async"><span>Nandi</span></li>
+          <li><img src="assets/img/v2/arca/arca-brahma-400.webp" width="400" height="677" alt="" loading="lazy" decoding="async"><span>Brahma</span></li>
+          </ul>
+          <h3 class="h3">Koleksi Mahakarya MCB, 11 objek</h3>
+          <ul class="names" role="list">
+            <li>Arca Wisnu Naik Garuda</li>
+            <li>Batik Sogan Parang Ukel Seling</li>
+            <li>Pelana Kuda dan Tombak Pangeran Diponegoro</li>
+            <li>Fragmen Tempurung Kura-kura</li>
+            <li>Kendil Dalung dan Nekara Donker</li>
+            <li>Jubah KH Hasyim Asy'ari</li>
+            <li>Mahkota Sultan Siak Sri Indrapura</li>
+            <li>Mata Panah</li>
+            <li>Tengkorak Kerbau</li>
+            <li>Replika Rangka ST-1 "Mbah Sayem"</li>
+            <li>Master Poster Soekarno</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Kemitraan ----------------------------------------------------------- -->
+<section class="band ask" id="kemitraan" aria-labelledby="h-ask">
+  <div class="wrap grid">
+  <div class="sheet" data-reveal>
+    <p class="eyebrow eyebrow--paper">Kemitraan</p>
+    <h2 class="sheet__title" id="h-ask">Kemitraan nirlaba</h2>
+    <p class="sheet__note">Yang kami mohon dari IHA, dan yang IHA terima.</p>
+    <div class="sheet__group">
+      <h3>Yang kami mohon</h3>
+      <ol role="list">
+        <li>Izin memakai aset koleksi di Jalana: foto, data koleksi, model 3D, dan cerita. Untuk mulai, 10 koleksi per museum.</li>
+        <li class="ask__key">
+          <p class="ask__key-text">Akses ke dokumentasi 19 artefak untuk Arcantara: 8 arca repatriasi dan 11 Koleksi Mahakarya MCB.</p>
+          <!-- Same names as #arcantara: STATUES in tools/build.mjs and the .names list. Keep both in step. -->
+          <div class="ask__sets">
+            <div class="ask__set">
+              <h4 class="ask__label" id="ask-arca">Arca repatriasi, 8 objek</h4>
+              <ul class="ask__names ask__names--short" role="list" aria-labelledby="ask-arca">
+                <li>Ganesa</li>
+                <li>Nandhiswara</li>
+                <li>Prajnaparamita</li>
+                <li>Durga</li>
+                <li>Mahakala</li>
+                <li>Bhairawa</li>
+                <li>Nandi</li>
+                <li>Brahma</li>
+              </ul>
+            </div>
+            <div class="ask__set">
+              <h4 class="ask__label" id="ask-mcb">Koleksi Mahakarya MCB, 11 objek</h4>
+              <ul class="ask__names" role="list" aria-labelledby="ask-mcb">
+                <li>Arca Wisnu Naik Garuda</li>
+                <li>Batik Sogan Parang Ukel Seling</li>
+                <li>Pelana Kuda dan Tombak Pangeran Diponegoro</li>
+                <li>Fragmen Tempurung Kura-kura</li>
+                <li>Kendil Dalung dan Nekara Donker</li>
+                <li>Jubah KH Hasyim Asy'ari</li>
+                <li>Mahkota Sultan Siak Sri Indrapura</li>
+                <li>Mata Panah</li>
+                <li>Tengkorak Kerbau</li>
+                <li>Replika Rangka ST-1 "Mbah Sayem"</li>
+                <li>Master Poster Soekarno</li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li>Uji coba di museum IHA terpilih, dengan booth check-in dan label QR. Hasilnya kami laporkan kepada IHA.</li>
+      </ol>
+    </div>
+    <div class="sheet__group">
+      <h3>Yang IHA terima</h3>
+      <ul role="list">
+        <li>Data kunjungan per museum dan per periode, termasuk jangkauan ruang.</li>
+        <li>Cap digital untuk Museum Passport, dan booth tempat pemilik buku mengecap paspornya.</li>
+        <li>Kanal belajar untuk SMP dan SMA: cerita, 360°, AR, dan gim restorasi.</li>
+        <li>Koleksi yang dikenal lebih luas lewat kartu, lencana, dan artefak yang dibagikan.</li>
+      </ul>
+    </div>
+    <p class="sheet__foot">Aset tetap milik IHA. Isi ditinjau kurator IHA. IHA dapat meminta aset diganti atau diturunkan kapan saja.</p>
+  </div>
+  </div>
+</section>
+
+<!-- Langkah berikutnya: hak akses aset ---------------------------------- -->
+<section class="sec next" id="langkah" aria-labelledby="h-langkah">
+  <div class="wrap grid">
+    <header class="head">
+      <p class="eyebrow">Langkah berikutnya</p>
+      <h2 class="h2" id="h-langkah">Dari pertemuan ke uji coba</h2>
+      <p class="lead">Jalana perlu izin memakai aset koleksi. Kami mulai kecil: 10 koleksi per museum.</p>
+    </header>
+    <ul class="points points--3 rights" role="list">
+      <li data-reveal><span class="points__icon"><svg class="i" aria-hidden="true"><use href="#i-books"/></svg></span><h3>10 koleksi per museum</h3><p>Foto, data koleksi, model 3D, dan cerita dari 10 koleksi di setiap museum IHA.</p></li>
+      <li data-reveal><span class="points__icon"><svg class="i" aria-hidden="true"><use href="#i-building-arch"/></svg></span><h3>Museum Nasional Indonesia</h3><p>Untuk saat ini, 10 koleksinya berasal dari Ruang Prajnaparamita dan koleksi Repatriasi.</p></li>
+      <li data-reveal><span class="points__icon"><svg class="i" aria-hidden="true"><use href="#i-door"/></svg></span><h3>Museum lain</h3><p>Koleksinya mengikuti ruang pamer yang sudah ada di setiap museum.</p></li>
+    </ul>
+    <ol class="plan" role="list">
+      <li data-reveal><p class="plan__when">Minggu ke-1</p><div><h3>Pertemuan dan demo</h3><p>Demo Jalana di ponsel dan tablet. EntPoint memaparkan konsep Arcantara. IHA menunjuk narahubung.</p></div></li>
+      <li data-reveal><p class="plan__when">Minggu ke-2 sampai ke-4</p><div><h3>Surat kesepakatan</h3><p>Izin uji coba, izin aset, dan narahubung disepakati dalam satu surat. Daftar 10 koleksi per museum ikut disepakati.</p></div></li>
+      <li data-reveal><p class="plan__when">Minggu ke-5 sampai ke-8</p><div><h3>Aset dan kurasi</h3><p>Aset tahap pertama diserahkan, mulai dari Museum Nasional Indonesia. Kurator IHA meninjau kartu dan cerita. Booth dan label koleksi disiapkan.</p></div></li>
+      <li data-reveal><p class="plan__when">Setelah persiapan</p><div><h3>Uji coba 2 bulan</h3><p>Jalana berjalan di museum IHA terpilih. Data kunjungannya dilaporkan kepada IHA.</p></div></li>
+      <li data-reveal><p class="plan__when">Setelah uji coba</p><div><h3>Evaluasi bersama</h3><p>Hasil uji coba menentukan langkah rilis publik Jalana dan pengembangan Arcantara.</p></div></li>
+    </ol>
+    <div class="letter" data-reveal>
+      <h3 class="h3">Satu surat tertulis dengan IHA</h3>
+      <ul role="list">
+        <li>Izin uji coba Jalana di museum IHA terpilih.</li>
+        <li>Izin memakai aset 10 koleksi per museum di Jalana, dan 19 artefak di Arcantara.</li>
+        <li>Satu narahubung yang ditunjuk IHA.</li>
+        <li>Urutan waktu dalam minggu, dihitung sejak surat disepakati.</li>
+      </ul>
+      <p class="letter__open">Kami juga ingin menyepakati siapa yang memegang booth setelah pilot.</p>
+    </div>
+    <div class="kpi" data-reveal>
+      <h3 class="h3">Yang diukur saat pilot</h3>
+      <p>Target yang kami ukur bersama museum:</p>
+      <dl>
+        <div><dt class="tnum">12+</dt><dd>museum aktif di akhir pilot</dd></div>
+        <div><dt class="tnum">95%</dt><dd>check-in di booth berhasil</dd></div>
+        <div><dt class="tnum">20%+</dt><dd>pengguna check-in lagi dalam 90 hari</dd></div>
+        <div><dt class="tnum">0</dt><dd>insiden keamanan anak</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- Kontak: kartu nama yang bisa diputar -------------------------------- -->
+<section class="visit" id="kontak" aria-labelledby="h-kontak">
+  <img class="visit__photo" src="assets/img/v3/sangiran-900.webp" srcset="assets/img/v3/sangiran-900.webp 900w, assets/img/v3/sangiran-1600.webp 1600w" sizes="100vw" width="1600" height="1200" alt="" loading="lazy" decoding="async">
+  <div class="wrap grid visit__grid">
+    <header class="head visit__head">
+      <p class="eyebrow eyebrow--light">Kontak</p>
+      <h2 class="h2" id="h-kontak">Bicara dengan kami</h2>
+      <p class="lead">Untuk demo, pertanyaan, atau surat kesepakatan.</p>
+    </header>
+    <div class="bcard" data-bcard>
+      <div class="bcard__tilt" data-bcard-tilt tabindex="0" role="group" aria-roledescription="kartu nama" aria-label="Kartu nama Muara Studio. Tekan Enter atau Spasi untuk membalik.">
+        <div class="bcard__inner">
+          <div class="bcard__face bcard__face--front" data-bcard-front>
+            <div class="bcard__logo"><svg class="bcard__mark" viewBox="0 0 84 84" aria-hidden="true"><use href="#muara-mark"/></svg><p class="bcard__wordmark"><span>Muara</span><span>Studio</span></p></div>
+            <div class="bcard__foot">
+              <p class="bcard__tag">Software house © 2020</p>
+              <a class="bcard__web" href="https://muarastudio.com" rel="noopener"><svg class="i" aria-hidden="true"><use href="#i-world"/></svg><span>muarastudio.com</span></a>
+            </div>
+          </div>
+          <div class="bcard__face bcard__face--back" data-bcard-back inert>
+            <div><p class="bcard__name"><span>Thomas</span> <b>Arya</b></p><p class="bcard__role">Product Engineer</p></div>
+            <ul role="list" class="bcard__links">
+              <li><a href="tel:+628999878682"><svg class="i" aria-hidden="true"><use href="#i-phone"/></svg><span class="tnum">+62 899 9878 682</span></a></li>
+              <li><a href="mailto:arya@muarastudio.com?subject=Jalana%20dan%20IHA"><svg class="i" aria-hidden="true"><use href="#i-mail"/></svg><span>arya@muarastudio.com</span></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <button class="pill bcard__flip" type="button" data-bcard-flip aria-pressed="false"><svg class="i" aria-hidden="true"><use href="#i-rotate"/></svg><span data-bcard-flip-label>Balik kartu: lihat kontak</span></button>
+    </div>
+  </div>
+</section>
+
+<!-- Unduh untuk Android ------------------------------------------------- -->
+<section class="get" id="unduh" aria-labelledby="h-unduh">
+  <div class="get__strip" aria-hidden="true">
+    <img src="assets/img/v2/minha-600.webp" srcset="assets/img/v2/minha-600.webp 600w, assets/img/v2/minha-1200.webp 1200w" sizes="(min-width: 48rem) 34vw, 100vw" width="1200" height="900" alt="" loading="lazy" decoding="async">
+    <img src="assets/img/v2/sumpah-pemuda-600.webp" srcset="assets/img/v2/sumpah-pemuda-600.webp 600w, assets/img/v2/sumpah-pemuda-1200.webp 1200w" sizes="(min-width: 48rem) 34vw, 50vw" width="1200" height="900" alt="" loading="lazy" decoding="async">
+    <img src="assets/img/v2/kebangkitan-600.webp" srcset="assets/img/v2/kebangkitan-600.webp 600w, assets/img/v2/kebangkitan-1200.webp 1200w" sizes="(min-width: 48rem) 34vw, 50vw" width="1200" height="900" alt="" loading="lazy" decoding="async">
+  </div>
+  <div class="get__field">
+    <div class="wrap grid">
+      <div class="get__main">
+        <p class="eyebrow eyebrow--light">Unduh</p>
+        <h2 class="h2" id="h-unduh">Unduh Jalana untuk Android</h2>
+        <p class="lead">Pasang Jalana untuk mencoba semua tab. Aplikasi langsung terbuka tanpa membuat akun.</p>
+        <div class="get__cta">
+          <a class="btn btn--accent btn--xl" href="download/Jalana-0.1.0-demo.apk" download data-apk><svg class="i" aria-hidden="true"><use href="#i-download"/></svg><span>Unduh APK</span></a>
+          
+        </div>
+        <div class="get__qr">
+          <div class="qr" role="img" aria-label="Kode QR menuju halaman unduh Jalana"><svg viewBox="0 0 33 33" class="segno"><path class="qrline" stroke="#110f0d" d="M0 0.5h7m1 0h8m2 0h4m1 0h2m1 0h7m-33 1h1m5 0h1m2 0h1m1 0h2m1 0h1m3 0h1m2 0h1m4 0h1m5 0h1m-33 1h1m1 0h3m1 0h1m2 0h3m2 0h3m1 0h5m1 0h1m1 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m4 0h2m5 0h2m4 0h1m1 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m1 0h2m2 0h1m3 0h1m1 0h1m4 0h1m2 0h1m1 0h3m1 0h1m-33 1h1m5 0h1m1 0h1m4 0h1m2 0h2m3 0h2m1 0h1m1 0h1m5 0h1m-33 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-24 1h1m3 0h2m6 0h3m-23 1h7m7 0h1m1 0h1m1 0h1m2 0h3m2 0h2m3 0h1m-33 1h1m1 0h1m2 0h1m1 0h1m2 0h2m4 0h4m2 0h2m2 0h2m1 0h4m-33 1h1m1 0h1m1 0h3m1 0h1m1 0h1m1 0h2m3 0h1m2 0h1m1 0h1m1 0h3m1 0h1m1 0h2m-31 1h1m6 0h1m1 0h2m4 0h11m1 0h3m-27 1h1m1 0h4m2 0h2m5 0h1m4 0h2m1 0h3m2 0h1m-32 1h1m1 0h2m2 0h3m3 0h1m1 0h1m1 0h5m1 0h1m2 0h2m1 0h4m-32 1h4m1 0h1m1 0h1m1 0h1m1 0h1m3 0h2m2 0h1m4 0h2m1 0h4m-29 1h2m2 0h1m1 0h2m1 0h5m3 0h3m1 0h3m1 0h3m-28 1h1m2 0h2m1 0h3m1 0h1m2 0h1m1 0h1m3 0h1m2 0h1m1 0h2m3 0h1m-33 1h1m4 0h1m1 0h2m1 0h1m3 0h1m1 0h1m1 0h6m2 0h2m1 0h2m1 0h1m-32 1h2m1 0h8m1 0h6m1 0h1m5 0h3m1 0h2m-31 1h1m1 0h2m7 0h1m4 0h1m3 0h2m1 0h1m1 0h5m-31 1h4m2 0h1m1 0h2m2 0h1m1 0h1m2 0h4m1 0h1m1 0h2m1 0h3m1 0h1m-32 1h1m2 0h1m4 0h1m1 0h2m1 0h2m1 0h1m2 0h5m2 0h1m3 0h1m1 0h1m-33 1h1m3 0h3m2 0h3m1 0h1m2 0h3m2 0h2m1 0h3m4 0h1m-32 1h1m1 0h2m1 0h1m4 0h2m1 0h1m4 0h1m1 0h2m3 0h1m1 0h2m1 0h1m-31 1h1m1 0h2m2 0h3m1 0h2m2 0h1m1 0h1m5 0h7m2 0h2m-25 1h2m1 0h2m3 0h1m2 0h4m1 0h1m3 0h1m1 0h3m-33 1h7m1 0h1m1 0h1m3 0h3m4 0h4m1 0h1m1 0h1m1 0h2m-32 1h1m5 0h1m1 0h2m1 0h2m5 0h1m1 0h5m3 0h4m-32 1h1m1 0h3m1 0h1m1 0h3m2 0h1m1 0h1m6 0h1m1 0h6m2 0h1m-33 1h1m1 0h3m1 0h1m1 0h1m4 0h1m2 0h1m1 0h4m1 0h3m2 0h2m2 0h1m-33 1h1m1 0h3m1 0h1m1 0h2m1 0h1m2 0h1m6 0h7m-28 1h1m5 0h1m1 0h1m1 0h2m3 0h2m1 0h5m5 0h3m-31 1h7m4 0h1m1 0h5m1 0h1m2 0h4m1 0h1m3 0h1"/></svg></div>
+          <p>Buka halaman ini di ponsel Android: pindai kode ini dengan kamera.</p>
+        </div>
+      </div>
+      <div class="get__steps">
+        <h3 class="h3">Cara memasang</h3>
+        <ol class="install" role="list">
+          <li>Buka halaman ini di ponsel Android. Ketuk <strong>Unduh APK</strong>. Bila Chrome menampilkan peringatan, pilih tetap unduh.</li>
+          <li>Bila unduhan selesai, ketuk notifikasinya untuk membuka berkas Jalana.</li>
+          <li>Bila Android meminta izin, ketuk tombol pengaturan di pesan itu. Lalu nyalakan <strong>Izinkan dari sumber ini</strong>.</li>
+          <li>Kembali ke layar sebelumnya. Ketuk <strong>Instal</strong>. Bila pemasangan selesai, ketuk <strong>Buka</strong>.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot__grid">
+    <div class="foot__brand">
+      <a class="foot__logo" href="#mulai" aria-label="Jalana by Muara, ke awal halaman"><svg class="foot__mark" viewBox="0 0 84 84" aria-hidden="true"><use href="#muara-mark"/></svg><span>Jalana <span class="foot__by">by Muara</span></span></a>
+      <p>Paspor museum di ponsel untuk 16 museum IHA. Dibuat oleh Muara Studio, studio cerita interaktif untuk museum.</p>
+      <ul class="foot__pills" role="list">
+        <li><a class="pill pill--quiet" href="https://muarastudio.com" rel="noopener">muarastudio.com</a></li>
+        <li><a class="pill pill--quiet" href="mailto:arya@muarastudio.com?subject=Jalana%20dan%20IHA">Email</a></li>
+        <li><a class="pill pill--quiet" href="#unduh">Unduh APK</a></li>
+      </ul>
+    </div>
+    <nav class="foot__col" aria-labelledby="f-jalana">
+      <h2 id="f-jalana">Jalana</h2>
+      <ul role="list">
+        <li><a href="#cara-kerja">Cara kerja</a></li>
+        <li><a href="#booth">Booth di museum</a></li>
+        <li><a href="#museum">Untuk museum</a></li>
+        <li><a href="#belajar">Belajar</a></li>
+      </ul>
+    </nav>
+    <nav class="foot__col" aria-labelledby="f-kemitraan">
+      <h2 id="f-kemitraan">Kemitraan</h2>
+      <ul role="list">
+        <li><a href="#kemitraan">Kemitraan nirlaba</a></li>
+        <li><a href="#langkah">Langkah berikutnya</a></li>
+        <li><a href="#kontak">Kontak</a></li>
+      </ul>
+    </nav>
+    <div class="foot__col">
+      <h2>Sumber</h2>
+      <ul role="list">
+        <li><button class="foot__link" type="button" data-credits-open aria-haspopup="dialog">Sumber dan kredit</button></li>
+        <li><button class="foot__link" type="button" data-video-open aria-haspopup="dialog">Video tutorial</button></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap foot__bottom">
+    <p>© 2026 Muara Studio. Jalana by Muara.</p>
+    <p>Visual Arcantara: EntPoint Studio.</p>
+  </div>
+</footer>
+
+<dialog class="modal" data-credits aria-labelledby="h-kredit">
+  <div class="modal__head">
+    <h2 id="h-kredit">Sumber dan kredit</h2>
+    <button class="pill pill--icon" type="button" data-credits-close aria-label="Tutup sumber dan kredit"><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></button>
+  </div>
+  <div class="modal__body credits">
+    <div>
+      <h3>Sumber angka</h3>
+      <ul role="list">
+        <li>Kompas, 17 Juni 2026. Peluncuran Museum Passport.</li>
+        <li>Antara, 7 Juli 2026. Museum Passport habis dan dicetak ulang.</li>
+        <li>Liputan6, 8 Januari 2026. Kunjungan museum dan cagar budaya MCB 2025.</li>
+      </ul>
+      <h3>Visual</h3>
+      <ul role="list">
+        <li>Layar aplikasi, panel museum, booth, lencana, dan kartu: Muara Studio.</li>
+        <li>Visual Arcantara: EntPoint Studio. Contoh antarmuka gim memakai objek koleksi The Met, New York.</li>
+        <li>Arca repatriasi: repatriasi2024.historia.id, buatan Muara Studio.</li>
+        <li>Video tutorial: Muara Studio.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Foto dan model 3D</h3>
+      <ul role="list">
+        <li>Gedung Museum Benteng Vredeburg Yogyakarta: <a href="https://commons.wikimedia.org/wiki/File:Museum_Benteng_Vredeburg.jpg" rel="noopener">PenaTulip</a>, CC0, Wikimedia Commons.</li>
+        <li>Gedung Museum Perjuangan Yogyakarta: <a href="https://commons.wikimedia.org/wiki/File:Museum_Perjuangan_Yogyakarta.jpg" rel="noopener">Sabjan Badio</a>, CC BY-SA 4.0, Wikimedia Commons.</li>
+        <li>Gedung Museum Batik Indonesia: <a href="https://commons.wikimedia.org/wiki/File:Museum_batik_indonesia.png" rel="noopener">Fahmiafrizal1998</a>, CC0, Wikimedia Commons.</li>
+        <li>Gedung Museum Song Terus: <a href="https://commons.wikimedia.org/wiki/File:Museum_song_terus.png" rel="noopener">Fahmiafrizal1998</a>, CC0, Wikimedia Commons.</li>
+        <li>Gedung Museum Islam Indonesia KH Hasyim Asy'ari: <a href="https://commons.wikimedia.org/wiki/File:Museum_Islam_Indonesia1.jpg" rel="noopener">Government of Jombang, Indonesia</a>, Domain publik (PD-IDGov), Wikimedia Commons.</li>
+        <li>Gedung Museum Sumpah Pemuda: <a href="https://commons.wikimedia.org/wiki/File:MuseumSumpahPemuda.jpg" rel="noopener">NaidNdeso</a>, CC BY-SA 3.0, Wikimedia Commons.</li>
+        <li>Gedung Museum Kebangkitan Nasional: <a href="https://commons.wikimedia.org/wiki/File:Tampak_Depan_Museum_Kebangkitan_Nasional_(Juni_2025)_01.jpg" rel="noopener">Medelam</a>, CC BY-SA 4.0, Wikimedia Commons.</li>
+        <li>Gedung Museum Nasional Indonesia: <a href="https://commons.wikimedia.org/wiki/File:Front_facade_-_National_Museum_Indonesia,_Jakarta_(2025)_-_img_01.jpg" rel="noopener">Chainwit.</a>, CC BY 4.0, Wikimedia Commons.</li>
+        <li>Diorama Evolusi Manusia di Museum Manusia Purba Sangiran: <a href="https://commons.wikimedia.org/wiki/File:Museum_Sangiran_Man_Evolution.JPG" rel="noopener">Midori</a>, CC BY 3.0, Wikimedia Commons.</li>
+        <li>Model 3D Arca Prajnaparamita, Museum Nasional Indonesia (diubah ukuran dan disederhanakan oleh Muara Studio): <a href="https://sketchfab.com/3d-models/arca-prajnaparamita-cc097a4eff5f414ca52fd12fec9107b2" rel="noopener">PATUNG</a>, CC BY 4.0, Sketchfab.</li>
+      </ul>
+    </div>
+  </div>
+</dialog>
+
+<dialog class="lightbox" data-lightbox aria-label="Tangkapan layar panel museum">
+  <button class="pill pill--icon lightbox__close" type="button" data-lightbox-close aria-label="Tutup gambar"><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></button>
+  <figure class="lightbox__fig"><img data-lightbox-img alt="" decoding="async"><figcaption class="caption" data-lightbox-cap></figcaption></figure>
+</dialog>
+
+<dialog class="film" data-video aria-label="Video tutorial Jalana, 2 menit 44 detik">
+  <button class="film__close btn btn--ghost" type="button" data-video-close aria-label="Tutup video"><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></button>
+  <video controls playsinline preload="none" data-poster="assets/img/poster-1920.webp" width="1920" height="1080" data-video-el>
+    <source src="assets/video/jalana-tutorial.mp4" type="video/mp4">
+  </video>
+</dialog>
+</body>
+</html>
