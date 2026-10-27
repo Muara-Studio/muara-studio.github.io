@@ -405,3 +405,30 @@ tiers.addEventListener('change', sync);
 sync();
 }
 })();
+(() => {
+const show = document.querySelector('[data-arc-show]');
+if (!show) return;
+const slides = [...show.querySelectorAll('.arc__slide')];
+const dots = [...show.querySelectorAll('.arc__dot')];
+const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+const still = document.documentElement.classList.contains('static');
+let at = 0, timer = 0, visible = false, hold = false;
+const go = (n) => {
+at = (n + slides.length) % slides.length;
+slides.forEach((s, k) => { s.classList.toggle('is-on', k === at); s.setAttribute('aria-hidden', String(k !== at)); });
+dots.forEach((d, k) => d.setAttribute('aria-current', String(k === at)));
+};
+const stop = () => { clearInterval(timer); timer = 0; };
+const start = () => {
+stop();
+if (visible && !hold && !still && !reduce.matches && !document.hidden) timer = setInterval(() => go(at + 1), 4500);
+};
+dots.forEach((d, k) => d.addEventListener('click', () => { go(k); start(); }));
+show.addEventListener('pointerenter', () => { hold = true; stop(); });
+show.addEventListener('pointerleave', () => { hold = false; start(); });
+show.addEventListener('focusin', () => { hold = true; stop(); });
+show.addEventListener('focusout', () => { hold = false; start(); });
+document.addEventListener('visibilitychange', start);
+reduce.addEventListener?.('change', start);
+new IntersectionObserver(([e]) => { visible = e.isIntersecting; start(); }, { threshold: 0.4 }).observe(show);
+})();
