@@ -23,9 +23,9 @@
 <link rel="preload" href="assets/fonts/proza-libre-700.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" as="image" href="assets/img/layar3/beranda-480.webp" imagesrcset="assets/img/layar3/beranda-480.webp 480w, assets/img/layar3/beranda-800.webp 800w" imagesizes="(min-width: 64rem) 21rem, 42vw" fetchpriority="high">
-<link rel="stylesheet" href="assets/css/site.css?v=202610311523">
+<link rel="stylesheet" href="assets/css/site.css?v=202610312125">
 <script>document.documentElement.classList.add("js");if(/[?&]static=1/.test(location.search))document.documentElement.classList.add("static");</script>
-<script src="assets/js/site.js?v=202610311523" defer></script>
+<script src="assets/js/site.js?v=202610312125" defer></script>
 </head>
 <body>
 <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -234,19 +234,21 @@
   <div class="wrap grid">
     <header class="head">
       <p class="eyebrow">Di museum</p>
-      <h2 class="h2" id="h-booth">Satu booth di pintu masuk.</h2>
-      <p class="lead">Booth check-in berdiri tanpa staf, layar, atau listrik. Pemilik Museum Passport juga mengecap bukunya di sini.</p>
+      <h2 class="h2" id="h-booth">Ambil capmu di booth pintu masuk.</h2>
+      <p class="lead">Sebelum berkeliling, mampir dulu ke booth Jalana. Di sini kamu check-in dengan ponsel dan mengecap buku Museum Passport-mu.</p>
     </header>
     <figure class="booth__render" data-reveal>
-      <img src="assets/img/v2/booth-480.webp" srcset="assets/img/v2/booth-480.webp 480w, assets/img/v2/booth-944.webp 944w" sizes="(min-width: 64rem) 30vw, 70vw" width="944" height="1701" alt="Render booth check-in Jalana: panel cetak melengkung, meja dengan cap, dan pelat check-in di atas tiang dan alas baja." loading="lazy" decoding="async">
-      <figcaption class="caption">Render booth. Tapak 120 × 83 cm, tinggi 210 cm.</figcaption>
+      <img src="assets/img/v2/booth-480.webp" srcset="assets/img/v2/booth-480.webp 480w, assets/img/v2/booth-944.webp 944w" sizes="(min-width: 64rem) 30vw, 70vw" width="944" height="1701" alt="Render desain booth Jalana: panel cetak melengkung dengan petunjuk check-in, dan meja bertiang dengan pelat check-in dan wadah cap di atas alas bundar." loading="lazy" decoding="async">
+      <figcaption class="caption">Rancangan booth Jalana dalam render desain.</figcaption>
     </figure>
-    <ul class="points points--2 booth__points" role="list">
-      <li data-reveal><span class="points__icon"><svg class="i" aria-hidden="true"><use href="#i-nfc"/></svg></span><h3>Satu pelat check-in</h3><p>NFC NTAG 424 DNA dan QR di satu pelat.</p></li>
-      <li data-reveal><span class="points__icon"><svg class="i" aria-hidden="true"><use href="#i-weight"/></svg></span><h3>Alas baja 20 kg</h3><p>Anti-terguling dan ramah kursi roda.</p></li>
-      <li data-reveal><span class="points__icon"><svg class="i" aria-hidden="true"><use href="#i-photo"/></svg></span><h3>Cetakan SEG dua sisi</h3><p>Diganti tiap musim di rangka yang sama.</p></li>
-      <li data-reveal><span class="points__icon"><svg class="i" aria-hidden="true"><use href="#i-rubber-stamp"/></svg></span><h3>Cap fisik</h3><p>Cap swa-tinta dan pena bertali baja untuk buku paspor.</p></li>
-    </ul>
+    <div class="booth__how">
+      <ol class="points booth__steps" role="list">
+        <li data-reveal><span class="points__icon"><svg class="i" aria-hidden="true"><use href="#i-qrcode"/></svg></span><h3>Check-in dengan ponsel</h3><p>Pindai kode QR di meja, atau tempelkan ponselmu ke pelat NFC.</p></li>
+        <li data-reveal><span class="points__icon"><svg class="i" aria-hidden="true"><use href="#i-award"/></svg></span><h3>Cap masuk ke Jalana</h3><p>Cap digital langsung tersimpan di paspor Jalana. Kunjungan ini juga dihitung untuk lencana museumnya.</p></li>
+        <li data-reveal><span class="points__icon"><svg class="i" aria-hidden="true"><use href="#i-rubber-stamp"/></svg></span><h3>Cap buku paspormu</h3><p>Punya buku Museum Passport? Cap halamannya dengan cap tinta di meja.</p></li>
+      </ol>
+      <p class="caption booth__note">Bagi museum, booth ini tidak butuh staf jaga atau listrik.</p>
+    </div>
   </div>
 </section>
 
