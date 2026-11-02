@@ -13,6 +13,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/css/style.css">
+<link rel="stylesheet" href="../assets/css/shell.css">
+<link rel="stylesheet" href="../assets/css/cta.css">
 <link rel="preload" as="image" href="../assets/img/motoijo.webp">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"CreativeWork","name":"Moto Ijo","creator":{"@type":"Organization","name":"Providea"},"about":"Website dealer motor listrik GODA","locationCreated":"Palmerah, Jakarta","dateCreated":"2026"}</script>
 </head>
@@ -30,19 +32,51 @@
 </svg>
 
 <header class="hdr">
+  <svg class="sprite" width="0" height="0" aria-hidden="true" focusable="false"><defs>
+    <symbol id="s-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></symbol>
+    <symbol id="s-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M3 12h1m8-9v1m8 8h1m-9 8v1M5.6 5.6l.7.7m12.1-.7l-.7.7m0 11.4l.7.7m-12.1-.7l-.7.7"/></symbol>
+    <symbol id="s-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3h.39a7.5 7.5 0 0 0 7.92 12.45A9 9 0 1 1 12 3z"/></symbol>
+    <symbol id="s-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6l6-6"/></symbol>
+    <symbol id="s-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></symbol>
+  </defs></svg>
   <a class="brand" href="../index.html" aria-label="Providea, beranda">Providea</a>
   <div class="navpill">
-    <button data-menu aria-label="Buka menu"><svg class="ico"><use href="#i-menu"/></svg><span class="lbl">Menu</span></button>
-    <span class="sep hide-m"></span>
-    <button data-theme-toggle aria-label="Mode gelap"><svg class="ico"><use href="#i-contrast"/></svg></button>
-    <span class="sep hide-m"></span>
-    <button class="lang hide-m" aria-label="Bahasa"><span class="on">ID</span><span>EN</span></button>
+    <button class="menu-btn" type="button" data-menu aria-label="Buka menu" aria-expanded="false" aria-controls="menu"><span class="swap"><svg class="ico sw-a"><use href="#i-menu"/></svg><svg class="ico sw-b"><use href="#s-x"/></svg></span><span class="lbl"><span class="sw-a">Menu</span><span class="sw-b">Tutup</span></span></button>
+    <span class="sep"></span>
+    <button class="theme-btn" type="button" data-theme-toggle aria-label="Mode gelap" aria-pressed="false"><span class="swap"><svg class="ico t-sun"><use href="#s-sun"/></svg><svg class="ico t-moon"><use href="#s-moon"/></svg></span></button>
+    <span class="sep"></span>
+    <div class="lang-dd">
+      <button class="lang-btn" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="lang-h" aria-label="Bahasa: ID"><span class="lang-cur">ID</span><svg class="chev"><use href="#s-chev"/></svg></button>
+      <ul class="lang-list" id="lang-h" role="listbox" aria-label="Bahasa"><li role="option" data-lang-opt="id" aria-selected="true" tabindex="-1">Indonesia (ID)<svg class="chk"><use href="#s-check"/></svg></li><li role="option" data-lang-opt="en" aria-selected="false" tabindex="-1">English (EN)<svg class="chk"><use href="#s-check"/></svg></li></ul>
+    </div>
   </div>
-  <a class="btn btn-dark" data-book><svg class="ico"><use href="#i-cal"/></svg><span>Jadwalkan meeting</span></a>
+  <a class="btn hdr-cta" data-book aria-label="Jadwalkan meeting"><svg class="ico"><use href="#i-cal"/></svg><span>Jadwalkan meeting</span></a>
 </header>
 
-<div class="menu" id="menu" role="dialog" aria-label="Menu">
-  <nav><a href="../index.html#solusi">Solusi</a><a href="../index.html#karya">Karya</a><a href="../index.html#proses">Cara kerja</a><a href="../index.html#faq">FAQ</a><a href="#jadwal">Jadwalkan meeting</a></nav>
+<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menu" inert>
+  <div class="menu-clouds" aria-hidden="true"><i class="cloud c3"></i><i class="cloud c2 c-cyan"></i><i class="cloud c1"></i></div>
+  <div class="menu-shade" aria-hidden="true"></div>
+  <div class="menu-in">
+    <div class="menu-top">
+      <a class="brand" href="../index.html" aria-label="Providea, beranda">Providea</a>
+      <div class="navpill">
+        <button class="menu-btn" type="button" data-menu-close aria-label="Tutup menu"><span class="swap"><svg class="ico sw-a"><use href="#i-menu"/></svg><svg class="ico sw-b"><use href="#s-x"/></svg></span><span class="lbl"><span class="sw-a">Menu</span><span class="sw-b">Tutup</span></span></button>
+        <span class="sep"></span>
+        <button class="theme-btn" type="button" data-theme-toggle aria-label="Mode gelap" aria-pressed="false"><span class="swap"><svg class="ico t-sun"><use href="#s-sun"/></svg><svg class="ico t-moon"><use href="#s-moon"/></svg></span></button>
+        <span class="sep"></span>
+        <div class="lang-dd">
+          <button class="lang-btn" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="lang-m" aria-label="Bahasa: ID"><span class="lang-cur">ID</span><svg class="chev"><use href="#s-chev"/></svg></button>
+          <ul class="lang-list" id="lang-m" role="listbox" aria-label="Bahasa"><li role="option" data-lang-opt="id" aria-selected="true" tabindex="-1">Indonesia (ID)<svg class="chk"><use href="#s-check"/></svg></li><li role="option" data-lang-opt="en" aria-selected="false" tabindex="-1">English (EN)<svg class="chk"><use href="#s-check"/></svg></li></ul>
+        </div>
+      </div>
+      <a class="btn hdr-cta" data-book aria-label="Jadwalkan meeting"><svg class="ico"><use href="#i-cal"/></svg><span>Jadwalkan meeting</span></a>
+    </div>
+    <nav class="menu-nav" aria-label="Menu utama"><a href="../index.html" style="--i:0"><span>Beranda</span></a><a href="../index.html#solusi" style="--i:1"><span>Solusi</span></a><a href="../index.html#karya" style="--i:2"><span>Karya</span></a><a href="../index.html#proses" style="--i:3"><span>Cara kerja</span></a><a href="../index.html#faq" style="--i:4"><span>FAQ</span></a></nav>
+    <div class="menu-foot">
+      <div class="menu-contact"><small>Hubungi kami</small><a href="mailto:hello@providea.com">hello@providea.com</a></div>
+      <a class="menu-msg" data-wa="Halo Providea, saya ingin konsultasi untuk bisnis saya.">Message us <span class="dot"><svg class="ico"><use href="#i-wa"/></svg></span></a>
+    </div>
+  </div>
 </div>
 
 <main>
@@ -71,43 +105,54 @@
   <section class="wrap more-work">
     <div class="head"><p>Proyek terbaru lainnya</p><h2>Lihat <span class="muted">proyek lain.</span></h2></div>
     <div class="mw">
+      <a href="agung-alpra.html"><img src="../assets/img/agungalpra-hero.webp" alt="" loading="lazy"><div class="cap"><b>Agung Alpra</b><small>Kontraktor interior · Company profile</small></div></a>
       <a href="../index.html#karya"><img src="../assets/img/arum.webp" alt="" loading="lazy"><div class="cap"><b>ARUM</b><small>E-commerce parfum · Website</small></div></a>
-      <a href="../index.html#karya"><img src="../assets/img/agungalpra.webp" alt="" loading="lazy"><div class="cap"><b>Agung Alpra</b><small>Kontraktor arsitektur · Company profile</small></div></a>
+      <a href="../index.html#karya"><img src="../assets/img/talia.webp" alt="" loading="lazy"><div class="cap"><b>Talia</b><small>Cerita interaktif · Website</small></div></a>
     </div>
   </section>
 
   <section class="dark cta" id="jadwal">
-    <div class="fan" aria-hidden="true">
-      <img src="../assets/img/talia.webp" alt="" loading="lazy" style="transform:rotate(-26deg)">
-      <img src="../assets/img/agungalpra.webp" alt="" loading="lazy" style="transform:rotate(-14deg)">
-      <img src="../assets/img/arum.webp" alt="" loading="lazy" style="transform:rotate(-2deg)">
-      <img src="../assets/img/pegasus.webp" alt="" loading="lazy" style="transform:rotate(10deg)">
-      <img src="../assets/img/motoijo-2.webp" alt="" loading="lazy" style="transform:rotate(22deg)">
-    </div>
+    <div class="tgrid" data-base="../assets/img/" aria-hidden="true"></div>
+    <div class="ascii top" aria-hidden="true"></div>
     <h2>Gratis: mockup halaman utama dan audit digital.</h2>
     <p class="sub">Siap dalam 5 hari kerja setelah meeting pertama.</p>
     <div class="split">
-      <form class="l" data-wa-form><small>Chat langsung</small><div class="row"><input aria-label="Pesan WhatsApp" value="Halo Providea, saya lihat studi kasus Moto Ijo dan ingin konsultasi website."><button class="go" type="submit">Chat WhatsApp <span style="width:34px;height:34px;border-radius:50%;background:var(--wa);display:grid;place-items:center"><svg class="ico" style="color:#fff"><use href="#i-wa"/></svg></span></button></div></form>
-      <div class="r"><small>atau jadwalkan meeting.</small><a class="go" data-book>Jadwalkan meeting <svg class="ico"><use href="#i-arrow"/></svg></a></div>
+      <form class="l chat" data-cta-chat novalidate aria-label="Chat WhatsApp dengan Providea">
+        <div class="ascii" aria-hidden="true"></div>
+        <span class="lbl">Chat langsung</span>
+        <div class="chat-hd"><span class="av" aria-hidden="true">P</span><div class="who"><b class="wm">Providea</b><span>Biasanya membalas dalam beberapa menit</span></div></div>
+        <div class="chat-bd">
+          <div class="bub"><label class="sr" for="cta-msg">Pesan WhatsApp, bisa Anda ubah</label><textarea id="cta-msg" rows="2" spellcheck="false" autocomplete="off">Halo Providea, saya lihat studi kasus Moto Ijo dan ingin konsultasi website.</textarea><span class="meta"><time></time><svg class="tick" viewBox="0 0 18 11" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 5.9l3.3 3.3L11.2 1.8M7.6 8.9l.6.5L16 1.8"/></svg></span></div>
+          <button class="wa-go" type="submit"><span>Chat WhatsApp</span><span class="wa-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9z"/><path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1"/></svg></span></button>
+        </div>
+        <p class="hint">Pesan bisa Anda ubah sebelum dikirim.</p>
+      </form>
+      <a class="r meet" data-book aria-label="Jadwalkan meeting, 30 menit lewat Google Meet">
+        <span class="lbl">atau jadwalkan meeting.</span>
+        <span class="meet-big">Jadwalkan meeting <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 7L7 17M8 7h9v9"/></svg></span>
+        <span class="cal"><span class="days" data-days aria-hidden="true"></span><span class="meet-meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 10l4.55-2.28A1 1 0 0 1 21 8.62v6.76a1 1 0 0 1-1.45.9L15 14z"/><rect x="3" y="6" width="12" height="12" rx="2"/></svg>30 menit · Google Meet</span></span>
+      </a>
     </div>
   </section>
 </main>
 
 <footer class="dark foot">
   <div class="foot-grid">
-    <h2>Satu tim<br>untuk <span class="rot">website</span><br>Anda.</h2>
-    <div class="loc"><span class="pin"><svg class="ico" style="width:16px"><use href="#i-pin"/></svg></span><b>Melbourne</b><span>Victoria, Australia</span><time data-tz="Australia/Melbourne">--:--</time></div>
-    <div class="loc"><span class="pin"><svg class="ico" style="width:16px"><use href="#i-pin"/></svg></span><b>Jakarta</b><span>DKI Jakarta, Indonesia</span><time data-tz="Asia/Jakarta">--:--</time></div>
-    <nav class="flinks"><a href="../index.html#karya">Karya</a><a href="../index.html#solusi">Layanan</a><a href="../index.html#proses">Cara kerja</a><a href="../index.html#faq">FAQ</a><a data-book>Jadwalkan meeting</a><a data-wa>Chat WhatsApp</a></nav>
+    <h2><span>Satu tim</span> <span>untuk</span> <span class="rot"><span>website</span></span> <span>Anda.</span></h2>
+    <div class="loc"><svg class="clock" viewBox="0 0 24 24" aria-hidden="true"><circle class="face" cx="12" cy="12" r="10.5"/><path class="hh" d="M12 12V7.4"/><path class="mh" d="M12 12V4.4"/><circle class="hub" cx="12" cy="12" r="1.1"/></svg><b>Melbourne</b><span>Victoria, Australia</span><time data-tz="Australia/Melbourne">--:--</time></div>
+    <div class="loc"><svg class="clock" viewBox="0 0 24 24" aria-hidden="true"><circle class="face" cx="12" cy="12" r="10.5"/><path class="hh" d="M12 12V7.4"/><path class="mh" d="M12 12V4.4"/><circle class="hub" cx="12" cy="12" r="1.1"/></svg><b>Jakarta</b><span>DKI Jakarta, Indonesia</span><time data-tz="Asia/Jakarta">--:--</time></div>
+    <nav class="flinks" aria-label="Tautan footer"><a href="../index.html#karya">Karya</a><a href="../index.html#solusi">Layanan</a><a href="../index.html#proses">Cara kerja</a><a href="../index.html#faq">FAQ</a></nav>
   </div>
   <div class="foot-bottom">
-    <span>Hubungi kami: <a class="u" data-wa>Chat WhatsApp</a> · <a class="u" data-book>Jadwalkan meeting</a></span>
+    <span>Hubungi kami: <a class="u" href="mailto:hello@providea.com">hello@providea.com</a> / <a class="u" href="mailto:hello@providea.co.au">hello@providea.co.au</a></span>
     <a href="#" aria-label="Kembali ke atas"><svg class="ico"><use href="#i-up"/></svg></a>
     <span>© <span data-year>2026</span> Providea. Hak cipta dilindungi.</span>
   </div>
 </footer>
 
-<a class="fab" data-wa="Halo Providea, saya lihat studi kasus Moto Ijo dan ingin konsultasi website.">Chat WhatsApp <span class="dot"><svg class="ico" style="color:#fff"><use href="#i-wa"/></svg></span></a>
+<a class="fab" data-wa="Halo Providea, saya lihat studi kasus Moto Ijo dan ingin konsultasi website." aria-label="Chat WhatsApp"><span class="fab-lbl">Chat WhatsApp</span><span class="dot"><svg class="ico" style="color:#fff"><use href="#i-wa"/></svg></span></a>
 <script src="../assets/js/main.js" defer></script>
+<script src="../assets/js/shell.js" defer></script>
+<script src="../assets/js/cta.js" defer></script>
 </body>
 </html>

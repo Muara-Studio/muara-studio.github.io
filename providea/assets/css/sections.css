@@ -1,0 +1,131 @@
+/* Sections: pillar stack, work head, clients strip, process, FAQ. Owner: agent C (see providea/REVISI-2026-11-03.md). */
+
+/* ---------- Pillar stack ---------- */
+.scard::after{background:linear-gradient(180deg,rgba(0,0,0,.12),rgba(0,0,0,.34))}
+.scard h3{max-width:20ch;text-wrap:balance}
+.searchmock .l{background:#E5E7EB}.searchmock .l.h{background:#B7BDC9}
+.plogos{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:16px}
+.plogo{display:grid;place-items:center;height:42px;padding:0 10px;border-radius:12px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.32);backdrop-filter:blur(10px);color:#fff;font-size:15px;font-weight:700;letter-spacing:-.03em;white-space:nowrap}
+.plogo img,.plogo svg{max-height:20px;width:auto}
+.shotpair{position:relative}
+.shotpair .m{position:absolute;right:10px;bottom:10px;width:23%;height:auto;aspect-ratio:390/844;object-fit:cover;object-position:top;border:3px solid rgba(255,255,255,.92);border-radius:16px}
+.gallery.one{grid-template-columns:1fr}
+.gallery .wide{aspect-ratio:3/1;object-position:left top}
+
+/* ---------- Work head ---------- */
+.wtile .cap{background:linear-gradient(transparent,rgba(0,0,0,.72))}
+.work-head h2>span{display:block}
+.work-head .wl1{font-weight:800}
+.work-head .wl2{font-weight:500}
+.work-head [data-count]{font-variant-numeric:tabular-nums}
+@media (min-width:901px){
+  .work-head p{max-width:none;white-space:nowrap;text-align:right}
+  @supports (align-items:last baseline){.work-head{align-items:last baseline}}
+}
+
+/* ---------- Clients strip: logo placeholders in a slow marquee ---------- */
+.clients{display:flex;flex-wrap:nowrap;align-items:center;gap:24px;padding:36px var(--pad) 0}
+.cl-label{flex:none;font-size:13px;font-weight:500;color:var(--slate);white-space:nowrap}
+.cl-marquee{flex:1;min-width:0;overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
+.cl-track{display:flex;width:max-content;animation:slide 70s linear infinite}
+.cl-marquee:hover .cl-track{animation-play-state:paused}
+.cl-set{display:flex;flex:none}
+.logo{display:inline-flex;align-items:center;gap:10px;height:48px;margin-right:12px;padding:0 20px 0 16px;border:1px solid var(--line);border-radius:14px;background:var(--surface);color:var(--slate);font-size:15px;font-weight:600;letter-spacing:-.01em;white-space:nowrap}
+.logo img,.logo svg{max-height:22px;width:auto}
+.g{flex:none;width:14px;height:14px;background:currentColor;opacity:.75}
+.g-circle{border-radius:50%}
+.g-square{border-radius:3px}
+.g-ring{background:none;border:2.5px solid currentColor;border-radius:50%}
+.g-half{border-radius:14px 14px 0 0;height:8px;margin-top:3px}
+.g-tri{clip-path:polygon(50% 6%,96% 92%,4% 92%)}
+.g-diamond{clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
+.g-hex{clip-path:polygon(25% 5%,75% 5%,100% 50%,75% 95%,25% 95%,0 50%)}
+.g-plus{clip-path:polygon(35% 0,65% 0,65% 35%,100% 35%,100% 65%,65% 65%,65% 100%,35% 100%,35% 65%,0 65%,0 35%,35% 35%)}
+
+/* ---------- Process: scroll-driven steps in a tall section with a sticky panel ---------- */
+.process{padding:70px 0 0}
+.proc-head{display:grid;grid-template-columns:1fr 2fr;border-top:1px solid var(--line)}
+.proc-head .eyebrow{padding:48px var(--pad) 0 0}
+.proc-head h2{border-left:1px solid var(--line);padding:40px 0 56px var(--pad);font-size:clamp(32px,5vw,68px);line-height:1.02;letter-spacing:-.04em;font-weight:600}
+.proc-track{--len:max(60svh,380px)}
+.js .proc-track{height:calc(max(100svh,640px) + 5*var(--len))}
+.proc-panel{display:flex;flex-direction:column;box-sizing:border-box;height:max(100svh,640px);padding:88px 0 84px}
+.js .proc-panel{position:sticky;top:0}
+.proc-grid{flex:1;min-height:0;width:100%;display:grid;grid-template-columns:minmax(190px,210px) minmax(0,1fr) minmax(260px,310px);gap:clamp(24px,3.4vw,48px)}
+.proc-left{display:flex;flex-direction:column;justify-content:space-between;min-width:0}
+.steps{list-style:none;display:grid;gap:4px;align-content:start}
+.steps button{display:flex;align-items:center;gap:12px;width:max-content;padding:9px 16px 9px 12px;border:1px solid transparent;border-radius:999px;font-size:15px;font-weight:500;color:var(--slate);text-align:left;transition:color .3s,background .3s,border-color .3s}
+.steps button::before{content:"";flex:none;width:8px;height:8px;border-radius:50%;border:1.5px solid currentColor;transition:background .3s,border-color .3s}
+.steps button:hover{color:var(--ink)}
+.steps button.done::before{background:var(--muted);border-color:var(--muted)}
+.steps button[aria-current]{color:var(--ink);font-weight:600;background:var(--surface);border-color:var(--line)}
+.steps button[aria-current]::before{background:var(--cyan);border-color:var(--cyan)}
+.steps button:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.bignum{display:grid;overflow:hidden;font-size:clamp(88px,10vw,160px);font-weight:600;letter-spacing:-.05em;line-height:.95;font-variant-numeric:tabular-nums}
+.pnum{grid-area:1/1;translate:0 calc((var(--i) - var(--a,0))*100%);transition:translate .65s cubic-bezier(.2,.7,.2,1)}
+.pvis{align-self:center;min-width:0}
+.pframe{position:relative;aspect-ratio:16/10;max-height:calc(max(100svh,640px) - 220px);overflow:hidden;border:1px solid var(--line);border-radius:28px;background:var(--surface);box-shadow:var(--shadow)}
+.pimg{margin:0}
+.pimg>img{width:100%;height:100%;object-fit:cover}
+.pcaps{display:grid;margin-top:14px;font-size:13px;font-weight:500;color:var(--slate)}
+.pcap{grid-area:1/1;display:flex;align-items:center;gap:8px}
+.pcap::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--cyan)}
+.pphone{background:url(../img/reeded-sky.webp) center/cover}
+.phone{position:absolute;left:50%;top:8%;width:min(220px,36%);translate:-50% 0;padding:9px;border-radius:38px;background:var(--night);box-shadow:0 18px 44px rgba(0,0,0,.35)}
+.phone img{width:100%;height:auto;border-radius:30px}
+.proc-right{display:flex;flex-direction:column;justify-content:space-between;gap:28px;min-width:0}
+.pitem .eyebrow{margin-bottom:14px}
+.pitem h3{margin-bottom:12px;font-size:clamp(26px,2.4vw,34px);line-height:1.1;letter-spacing:-.03em;font-weight:600}
+.pitem .pcp{font-size:16px;color:var(--slate)}
+.pbar{height:2px;margin-top:28px;overflow:hidden;border-radius:2px;background:var(--line)}
+.pbar i{display:block;height:100%;background:var(--cyan);transform-origin:0 50%;scale:var(--k,0) 1}
+.poc{padding:18px;border-radius:16px;background:var(--surface);font-size:14px;line-height:1.5}
+.poc b{font-weight:600}
+/* With JS: images and copy stack in one cell and crossfade; without JS the first step shows and the copy lists all five */
+.pimg:not(.on){display:none}
+.pitem+.pitem{margin-top:28px}
+.js .pimg{display:block;position:absolute;inset:0;opacity:0;scale:1.045;pointer-events:none;transition:opacity .7s ease,scale 1.2s cubic-bezier(.2,.7,.2,1)}
+.js .pimg.on{opacity:1;scale:1}
+.js .pitems{display:grid}
+.js .pcap{opacity:0;transition:opacity .45s ease}
+.js .pcap.on{opacity:1}
+.js .pitem{grid-area:1/1;margin:0;opacity:0;pointer-events:none;translate:0 calc((var(--i) - var(--a,0))*22px);transition:opacity .45s ease,translate .6s cubic-bezier(.2,.7,.2,1)}
+.js .pitem.on{opacity:1;pointer-events:auto}
+@media (prefers-reduced-motion:reduce){
+  .cl-track{animation-duration:170s}
+  .js .pimg{scale:1;transition:opacity .3s}
+  .js .pitem{translate:0 0;transition:opacity .3s}
+  .pnum{transition-duration:.2s}
+}
+
+/* ---------- Phone and small tablet ---------- */
+@media (max-width:900px){
+  .gallery .wide{aspect-ratio:2/1}
+  .gallery.g3>img:first-child{display:none}
+  .shotpair .m{width:30%;right:6px;bottom:6px;border-width:2px;border-radius:10px}
+  .plogos{grid-template-columns:repeat(2,1fr)}
+  .clients{flex-direction:column;align-items:flex-start;gap:14px}
+  .cl-marquee{width:100%;flex:none}
+  .proc-head{grid-template-columns:1fr}
+  .proc-head .eyebrow{padding:32px 0 0}
+  .proc-head h2{border-left:0;padding:12px 0 28px}
+  .proc-panel{padding:76px 0 86px}
+  .proc-grid{grid-template-columns:1fr;grid-auto-rows:auto;align-content:start;gap:14px}
+  .proc-left{flex-direction:row;align-items:center;justify-content:space-between;gap:12px}
+  .steps{display:flex;gap:0}
+  .steps button{padding:12px 11px}
+  .steps button:not([aria-current]) .nm{display:none}
+  .steps button[aria-current]{padding:12px 16px 12px 12px}
+  .bignum{font-size:48px}
+  .pvis{align-self:start}
+  .pframe{aspect-ratio:4/3;max-height:none;border-radius:22px}
+  .pcaps{margin-top:10px}
+  .phone{top:6%;width:min(150px,38%);padding:7px;border-radius:30px}
+  .phone img{border-radius:24px}
+  .proc-right{gap:16px}
+  .pitem .eyebrow{margin-bottom:8px}
+  .pitem h3{font-size:26px;margin-bottom:8px}
+  .pitem .pcp{font-size:15px}
+  .pbar{margin-top:16px}
+  .poc{padding:14px;font-size:13px}
+}

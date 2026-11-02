@@ -1,0 +1,115 @@
+/* CTA (all pages): tilted screenshot grid, ASCII clouds, chat panel, meeting panel. Also .more-work and the Agung Alpra hero shade. Owner: agent D, see providea/REVISI-2026-11-03.md */
+
+/* Right (meeting) panel follows the theme: white with ink text in light mode, a lighter night surface in dark mode */
+.cta{
+  --cx:max(var(--pad),calc((100vw - var(--max))/2 + var(--pad)));
+  --tw:clamp(190px,21vw,310px);
+  --hi:#fff; --mid:#DADDE4;
+  --r-bg:var(--bg); --r-ink:var(--ink); --r-mut:#434B5A; --r-line:rgb(var(--ink-rgb)/.16); --r-chip:rgb(var(--ink-rgb)/.04); --r-first-bg:var(--ink); --r-first-ink:var(--bg);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .cta{--r-bg:var(--night-2);--r-mut:#C9CDD6}}
+:root[data-theme="dark"] .cta{--r-bg:var(--night-2);--r-mut:#C9CDD6}
+
+.cta{isolation:isolate;padding:clamp(130px,16vw,230px) var(--cx) 0}
+.cta>*{position:relative;z-index:2}
+.cta h2{margin-top:0;text-wrap:balance}
+.cta .sub{color:var(--mid);margin:16px 0 clamp(44px,5vw,72px)}
+.cta .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* 1. Tilted grid (pattern after 21st.dev "tilted-grid-hero"): columns of portfolio screenshots drift up and down */
+.cta>.tgrid{position:absolute;inset:0;z-index:0;overflow:hidden;perspective:1300px;perspective-origin:50% 30%;pointer-events:none}
+.tg-stage{position:absolute;left:50%;top:50%;width:max(1500px,170%);translate:-50% -50%;transform:rotateX(50deg) rotateZ(-25deg);transform-style:preserve-3d;display:flex;justify-content:center;align-items:center;gap:16px}
+.tg-col{flex:0 0 var(--tw);display:flex;flex-direction:column;gap:16px;will-change:translate;animation:tg-up var(--tg-t,40s) ease-in-out var(--tg-d,0s) infinite alternate}
+.tg-col:nth-child(even){animation-name:tg-down}
+.tg-col img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:12px;box-shadow:0 12px 32px rgba(0,0,0,.45)}
+@keyframes tg-up{from{translate:0 5%}to{translate:0 -5%}}
+@keyframes tg-down{from{translate:0 -5%}to{translate:0 5%}}
+/* strong night gradient + vignette: heading and panels stay readable */
+.cta>.tgrid::after{content:"";position:absolute;inset:0;background:
+  linear-gradient(90deg,color-mix(in srgb,var(--night) 97%,transparent) 0,color-mix(in srgb,var(--night) 84%,transparent) 42%,color-mix(in srgb,var(--night) 38%,transparent) 100%),
+  linear-gradient(180deg,var(--night) 0,color-mix(in srgb,var(--night) 35%,transparent) 30%,color-mix(in srgb,var(--night) 35%,transparent) 70%,var(--night) 100%),
+  radial-gradient(120% 90% at 60% 45%,transparent 40%,var(--night) 100%)}
+
+/* 2. ASCII clouds (user asset): very slow horizontal drift, boosted with a drop-shadow pass (doubles the alpha) */
+.ascii{position:absolute;pointer-events:none;background:no-repeat center/contain;aspect-ratio:1520/554;filter:drop-shadow(0 0 0 #fff);animation:ascii-drift 140s ease-in-out infinite alternate}
+.ascii.on{background-image:url(../img/ascii-clouds.webp)}
+.cta>.ascii.top{z-index:1;top:clamp(40px,6vw,90px);right:-6%;width:min(1180px,96vw);opacity:.9}
+.cta .l>.ascii{inset:auto -8% -8% auto;z-index:0;width:min(1000px,130%);opacity:.75;animation-duration:200s;animation-direction:alternate-reverse}
+@keyframes ascii-drift{from{translate:-4% 0}to{translate:4% 0}}
+
+/* Pause while the section is off-screen (cta.js toggles .run); still under reduced motion */
+.cta:not(.run) :is(.tg-col,.ascii){animation-play-state:paused}
+@media (prefers-reduced-motion:reduce){
+  .tg-col,.ascii{animation:none}
+  .tg-col:nth-child(odd){translate:0 -3%}.tg-col:nth-child(even){translate:0 3%}
+}
+
+/* 3. Split: two equal full-bleed halves */
+.cta .split{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;margin:0 calc(-1*var(--cx));align-items:stretch}
+.cta .split>*{min-width:0}
+.cta .split .lbl{display:block;font-size:14px;line-height:1.3;margin:0 0 clamp(22px,3vw,34px);opacity:1}
+
+/* Left: chat */
+.cta .split .l{position:relative;overflow:hidden;display:flex;flex-direction:column;gap:18px;border:0;background:var(--night);color:var(--hi);padding:clamp(26px,3vw,40px) clamp(24px,3.4vw,64px) clamp(30px,3.4vw,48px) var(--cx)}
+.cta .split .l>:not(.ascii){position:relative;z-index:1}
+.cta .l .lbl{color:var(--hi);margin-bottom:6px}
+.chat-hd{display:flex;align-items:center;gap:14px;padding-bottom:18px;border-bottom:1px solid rgb(255 255 255/.16)}
+.av{flex:none;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:#F3F4F6;color:#0B1220;font:700 20px/1 "SF Pro Display",-apple-system,BlinkMacSystemFont,"Inter",system-ui,sans-serif}
+.who{display:grid;gap:2px;min-width:0}
+.who b{font-size:18px;font-weight:600;letter-spacing:-.02em;line-height:1.2}
+.who span{font-size:14px;color:var(--mid);line-height:1.35}
+.chat-bd{display:flex;flex-wrap:wrap;align-items:flex-end;gap:18px 24px;padding-top:6px}
+.bub{position:relative;flex:1 1 240px;max-width:520px;background:#0F4A40;color:#fff;border-radius:16px 0 16px 16px;padding:11px 16px 8px;box-shadow:0 1px 2px rgba(0,0,0,.35)}
+.bub::after{content:"";position:absolute;top:0;right:-9px;width:10px;height:15px;background:#0F4A40;clip-path:polygon(0 0,100% 0,0 100%)}
+.bub:focus-within{outline:2px solid #fff;outline-offset:4px}
+.cta .split textarea{display:block;width:100%;min-width:0;min-height:1.5em;background:transparent;color:#fff;border:0;border-radius:0;outline:0;padding:0;margin:0;font:400 16px/1.5 "Inter",system-ui,sans-serif;resize:none;overflow:hidden;caret-color:#fff}
+.bub .meta{display:flex;justify-content:flex-end;align-items:center;gap:5px;margin-top:3px;font-size:12px;line-height:1;color:#E8F1EE;font-variant-numeric:tabular-nums}
+.bub .meta:has(time:empty) time{display:none}
+.bub .tick{width:17px;height:11px;color:#53BDEB}
+.wa-go{flex:0 0 auto;display:inline-flex;align-items:center;gap:14px;color:var(--hi);font-size:clamp(24px,2.2vw,32px);font-weight:500;letter-spacing:-.03em;line-height:1.1;text-align:left;padding:6px 0}
+.wa-dot{flex:none;width:clamp(44px,3.6vw,52px);aspect-ratio:1;border-radius:50%;background:var(--wa);color:#fff;display:grid;place-items:center;transition:scale .25s ease}
+.wa-dot svg{width:56%;height:56%}
+.wa-go:hover .wa-dot{scale:1.08}
+.wa-go:focus-visible{outline:2px solid #fff;outline-offset:6px;border-radius:12px}
+.cta .l .hint{font-size:14px;color:var(--mid);margin:2px 0 0;max-width:46ch}
+
+/* Right: meeting (the whole panel is the link) */
+.cta .split .r{display:flex;flex-direction:column;gap:0;border:0;background:var(--r-bg);color:var(--r-ink);padding:clamp(26px,3vw,40px) var(--cx) clamp(30px,3.4vw,48px) clamp(24px,3.4vw,64px);cursor:pointer;transition:background .3s,color .3s}
+.cta .r .lbl{color:var(--r-ink);margin-bottom:clamp(22px,3vw,34px)}
+.meet-big{display:flex;align-items:center;gap:16px;font-size:clamp(24px,2.2vw,32px);font-weight:500;letter-spacing:-.03em;line-height:1.1}
+.meet-big svg{width:clamp(26px,2.3vw,34px);height:clamp(26px,2.3vw,34px);flex:none;transition:translate .25s ease}
+.r:hover .meet-big svg{translate:4px -4px}
+.cta .r:focus-visible{outline:3px solid var(--cyan);outline-offset:-6px}
+.cal{margin-top:auto;padding-top:clamp(26px,3vw,40px)}
+.days{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.days:empty{display:none}
+.day{display:grid;justify-items:center;gap:1px;padding:10px 4px 9px;border:1px solid var(--r-line);border-radius:14px;background:var(--r-chip);transition:border-color .25s}
+.day span,.day i{font-size:12px;font-style:normal;line-height:1.35;color:var(--r-mut);font-weight:500}
+.day b{font-size:clamp(20px,1.7vw,24px);font-weight:600;letter-spacing:-.03em;line-height:1.2;font-variant-numeric:tabular-nums}
+.day.first{background:var(--r-first-bg);border-color:var(--r-first-bg);color:var(--r-first-ink)}
+.day.first span,.day.first i{color:var(--r-first-ink)}
+.r:hover .day:not(.first){border-color:var(--r-ink)}
+.meet-meta{display:flex;align-items:center;gap:9px;margin-top:16px;font-size:14px;color:var(--r-mut)}
+.meet-meta svg{width:18px;height:18px;flex:none}
+
+@media (max-width:900px){
+  .cta{--pt:clamp(170px,44vw,300px);padding-top:var(--pt)}
+  .cta>.tgrid::after{background:linear-gradient(180deg,color-mix(in srgb,var(--night) 22%,transparent) 0,color-mix(in srgb,var(--night) 35%,transparent) calc(var(--pt) - 90px),color-mix(in srgb,var(--night) 90%,transparent) calc(var(--pt) - 8px),color-mix(in srgb,var(--night) 94%,transparent) calc(var(--pt) + 260px),var(--night) calc(var(--pt) + 420px))}
+  .cta .split{grid-template-columns:1fr}
+  .cta .split .l{padding:28px var(--cx) 34px}
+  .cta .split .r{padding:28px var(--cx) 34px}
+  .bub{flex-basis:100%;max-width:none}
+  .tg-col:nth-child(n+5){display:none}
+  .wa-go{width:100%;justify-content:space-between}
+  .cta .l>.ascii{width:150%;inset:auto -20% -4% auto}
+}
+
+/* More work: three project links */
+.more-work .mw{grid-template-columns:repeat(3,minmax(0,1fr))}
+.more-work .mw a{aspect-ratio:4/3}
+@media (max-width:900px){.more-work .mw{grid-template-columns:1fr}.more-work .mw a{aspect-ratio:16/10}}
+
+/* Case hero over a light screenshot: shade the lower edge so the white title stays readable */
+.case-hero.shade .img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,color-mix(in srgb,var(--night) 82%,transparent) 100%);pointer-events:none}
+.case-hero.shade h1{z-index:1}
+.case-hero.shade img{object-position:50% 30%}

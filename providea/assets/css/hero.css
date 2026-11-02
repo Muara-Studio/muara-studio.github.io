@@ -1,0 +1,103 @@
+/* owner: see providea/REVISI-2026-11-03.md (Agent B, hero)
+   Perspective tunnel hero. Layout and motion follow the 21st.dev "perspective-tunnel-hero";
+   natural page scroll drives a sticky stage, hero.js writes transforms only. */
+:root{
+  --tn-dot:rgb(var(--ink-rgb) / .15); --tn-ring:rgb(var(--ink-rgb) / .08); --tn-dash:rgb(var(--ink-rgb) / .17);
+  --tn-halo:rgb(var(--bg-rgb) / .94); --tn-halo-2:rgb(var(--bg-rgb) / .72); --tn-card-ring:rgba(255,255,255,.16);
+  --tn-shadow:0 34px 60px -26px rgba(0,0,0,.38),0 14px 28px -16px rgba(0,0,0,.22);
+  --tn-glow:
+    radial-gradient(38% 34% at 50% 50%,rgba(10,154,208,.08),transparent 70%),
+    radial-gradient(30% 28% at 32% 66%,rgba(200,54,122,.06),transparent 70%),
+    radial-gradient(28% 26% at 68% 34%,rgba(248,133,124,.08),transparent 70%),
+    radial-gradient(60% 50% at 50% 56%,rgba(11,60,134,.04),transparent 76%);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --tn-shadow:0 34px 64px -24px rgba(0,0,0,.8),0 14px 30px -16px rgba(0,0,0,.55); --tn-card-ring:rgba(255,255,255,.12);
+  --tn-glow:
+    radial-gradient(38% 34% at 50% 50%,rgba(10,154,208,.13),transparent 70%),
+    radial-gradient(30% 28% at 32% 66%,rgba(200,54,122,.11),transparent 70%),
+    radial-gradient(28% 26% at 68% 34%,rgba(248,133,124,.07),transparent 70%),
+    radial-gradient(60% 50% at 50% 56%,rgba(11,60,134,.14),transparent 76%);}}
+:root[data-theme="dark"]{
+  --tn-shadow:0 34px 64px -24px rgba(0,0,0,.8),0 14px 30px -16px rgba(0,0,0,.55); --tn-card-ring:rgba(255,255,255,.12);
+  --tn-glow:
+    radial-gradient(38% 34% at 50% 50%,rgba(10,154,208,.13),transparent 70%),
+    radial-gradient(30% 28% at 32% 66%,rgba(200,54,122,.11),transparent 70%),
+    radial-gradient(28% 26% at 68% 34%,rgba(248,133,124,.07),transparent 70%),
+    radial-gradient(60% 50% at 50% 56%,rgba(11,60,134,.14),transparent 76%);}
+
+/* Section + sticky stage: the section is the scroll track, the stage stays in view */
+.hero{position:relative}
+.js .hero{height:260vh}
+.hero-stage{position:relative;height:100svh;min-height:540px;overflow:hidden;background:var(--bg);perspective:1200px;perspective-origin:50% 50%}
+.js .hero-stage{position:sticky;top:0}
+
+/* Background: palette glow, dot grid with a radial mask */
+.tn-bg{position:absolute;inset:0;pointer-events:none}
+.tn-glow{position:absolute;inset:-12%;background:var(--tn-glow);will-change:transform}
+.tn-grid{position:absolute;inset:-6%;background-image:radial-gradient(circle,var(--tn-dot) 1px,transparent 1.6px);background-size:26px 26px;background-position:center;
+  -webkit-mask-image:radial-gradient(ellipse 58% 54% at 50% 50%,#000 12%,transparent 74%);mask-image:radial-gradient(ellipse 58% 54% at 50% 50%,#000 12%,transparent 74%);will-change:transform}
+
+/* 3D scene: cards, depth rings and the title share one rendering context, so depth decides who is in front */
+.tn-scene,.tn-depth{position:absolute;inset:0;transform-style:preserve-3d;pointer-events:none}
+.tn-ring{--d:118vmin;position:absolute;left:50%;top:50%;width:var(--d);height:var(--d);margin:calc(var(--d)*-.5) 0 0 calc(var(--d)*-.5);border-radius:50%;border:2px solid var(--tn-ring)}
+.tn-ring.dash{--d:84vmin;border:2px dashed var(--tn-dash)}
+
+.tn-card{--w:clamp(180px,18vw,270px);position:absolute;left:50%;top:50%;width:var(--w);aspect-ratio:4/5;margin:calc(var(--w)*-.625) 0 0 calc(var(--w)*-.5);
+  border-radius:16px;overflow:hidden;background:var(--surface);box-shadow:var(--tn-shadow);opacity:0;visibility:hidden;pointer-events:auto;will-change:transform,opacity}
+.tn-card img{width:100%;height:100%;object-fit:cover;transition:scale .7s cubic-bezier(.2,.7,.2,1)}
+.tn-card::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 1px var(--tn-card-ring);transition:box-shadow .3s ease;pointer-events:none}
+.tn-card figcaption{position:absolute;inset:auto 0 0 0;padding:34px 14px 13px;background:linear-gradient(to top,rgba(0,0,0,.78),rgba(0,0,0,0));color:#fff;
+  font-family:"Inter",system-ui,sans-serif;font-size:11px;font-weight:600;line-height:1.2;letter-spacing:.16em;text-transform:uppercase}
+@media (hover:hover){.tn-card:hover img{scale:1.1}.tn-card:hover::after{box-shadow:inset 0 0 0 2px var(--cyan)}}
+
+/* Centre title: sits in the scene in front of the cards until they are close and already fading */
+.tn-title{position:absolute;left:50%;top:50%;width:min(1180px,calc(100% - 2*var(--pad)));transform:translate(-50%,-50%);pointer-events:none}
+.tn-title::before{content:"";position:absolute;inset:-34% 3%;z-index:-1;background:radial-gradient(closest-side,var(--tn-halo) 34%,var(--tn-halo-2) 64%,rgb(var(--bg-rgb) / 0))}
+.tn-in{display:flex;flex-direction:column;align-items:center;text-align:center}
+.tn-eyebrow{display:flex;align-items:center;gap:12px;font-size:clamp(15px,1.2vw,18px);font-weight:600;letter-spacing:-.015em;color:var(--slate);margin-bottom:clamp(14px,1.8vw,24px)}
+.tn-eyebrow::before,.tn-eyebrow::after{content:"";width:28px;height:1px;background:linear-gradient(90deg,transparent,rgb(var(--ink-rgb) / .4))}
+.tn-eyebrow::after{background:linear-gradient(90deg,rgb(var(--ink-rgb) / .4),transparent)}
+.tn-h1{display:grid;justify-items:center;font-size:clamp(44px,5.6vw,96px);line-height:1.02;letter-spacing:-.045em;font-weight:600;color:var(--ink);transform-origin:50% 50%}
+.tn-h1>span{grid-area:1/1;display:block;max-width:100%;padding-bottom:.06em;text-wrap:balance;background:linear-gradient(180deg,var(--ink) 28%,rgb(var(--ink-rgb) / .4));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.tn-sub{max-width:44ch;margin-top:clamp(18px,2.2vw,30px);font-size:clamp(15px,1.15vw,18px);line-height:1.5;color:var(--slate);text-wrap:pretty}
+
+/* Scroll prompt: above the WhatsApp pill, fades out early */
+.tn-cue{position:absolute;left:50%;bottom:clamp(92px,12svh,124px);translate:-50% 0;display:flex;flex-direction:column;align-items:center;gap:12px;
+  font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--slate);white-space:nowrap;pointer-events:none}
+.tn-cue i{position:relative;width:1px;height:46px;overflow:hidden;background:linear-gradient(rgb(var(--ink-rgb) / .5),rgb(var(--ink-rgb) / 0))}
+.tn-cue i::after{content:"";position:absolute;left:0;top:-40%;width:1px;height:40%;background:linear-gradient(transparent,var(--ink),transparent);animation:tn-cue 2.2s cubic-bezier(.6,0,.3,1) infinite}
+@keyframes tn-cue{to{translate:0 350%}}
+
+/* Entrance (JS only). JS owns transform/opacity of the inner parts, so the entrance runs on wrappers */
+.js .tn-in{animation:tn-in 1.1s cubic-bezier(.2,.7,.2,1) .1s both}
+.js .tn-cue{animation:fade 1s ease .7s both}
+@keyframes tn-in{from{opacity:0;translate:0 18px}}
+.js .tn-l2{opacity:0}
+.js .tn-h1{transform:scale(.7)}
+
+/* Phone */
+@media (max-width:640px){
+  .hero-stage{perspective:900px;min-height:520px}
+  .tn-card{--w:clamp(130px,38vw,180px)}
+  .tn-card figcaption{font-size:10px;letter-spacing:.14em;padding:28px 11px 10px}
+  .tn-h1{font-size:clamp(36px,11.2vw,54px);letter-spacing:-.04em}
+  .tn-sub{max-width:30ch;font-size:15px}
+  .tn-title::before{inset:-16% -10%}
+}
+
+/* No JS and reduced motion: one still screen, both title lines stacked, cards parked at mid-depth */
+html:not(.js) .tn-card{display:none}
+html:not(.js) .tn-h1>span{grid-area:auto}
+@media (prefers-reduced-motion:reduce){
+  .js .hero{height:auto}
+  .js .hero-stage{position:relative}
+  .tn-h1>span{grid-area:auto}
+  .js .tn-l2{opacity:1}
+  .js .tn-h1{transform:none}
+  .js .tn-in{animation-duration:.01s}
+  .tn-cue{display:none}
+}
+
+/* Services list stays above the card plane (lead) */
+.hero-stage .services{z-index:20}

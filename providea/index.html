@@ -12,8 +12,12 @@
 <meta name="theme-color" content="#071634">
 <script>document.documentElement.classList.add("js")</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/shell.css">
+<link rel="stylesheet" href="assets/css/hero.css">
+<link rel="stylesheet" href="assets/css/sections.css">
+<link rel="stylesheet" href="assets/css/cta.css">
 <link rel="preload" as="image" href="assets/img/reeded-hero.webp">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","name":"Providea","description":"Satu tim untuk website, aplikasi, dan aktivasi untuk bisnis.","areaServed":["Indonesia","Australia"],"address":[{"@type":"PostalAddress","addressLocality":"Jakarta","addressCountry":"ID"},{"@type":"PostalAddress","addressLocality":"Melbourne","addressRegion":"VIC","addressCountry":"AU"}],"knowsAbout":["Website","E-commerce","ERP","Aktivasi digital","SEO","GEO"]}</script>
 </head>
@@ -32,47 +36,85 @@
 </svg>
 
 <header class="hdr">
+  <svg class="sprite" width="0" height="0" aria-hidden="true" focusable="false"><defs>
+    <symbol id="s-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></symbol>
+    <symbol id="s-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M3 12h1m8-9v1m8 8h1m-9 8v1M5.6 5.6l.7.7m12.1-.7l-.7.7m0 11.4l.7.7m-12.1-.7l-.7.7"/></symbol>
+    <symbol id="s-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3h.39a7.5 7.5 0 0 0 7.92 12.45A9 9 0 1 1 12 3z"/></symbol>
+    <symbol id="s-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6l6-6"/></symbol>
+    <symbol id="s-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></symbol>
+  </defs></svg>
   <a class="brand" href="index.html" aria-label="Providea, beranda">Providea</a>
   <div class="navpill">
-    <button data-menu aria-label="Buka menu"><svg class="ico"><use href="#i-menu"/></svg><span class="lbl">Menu</span></button>
-    <span class="sep hide-m"></span>
-    <button data-theme-toggle aria-label="Mode gelap"><svg class="ico"><use href="#i-contrast"/></svg></button>
-    <span class="sep hide-m"></span>
-    <button class="lang hide-m" aria-label="Bahasa"><span class="on">ID</span><span>EN</span></button>
+    <button class="menu-btn" type="button" data-menu aria-label="Buka menu" aria-expanded="false" aria-controls="menu"><span class="swap"><svg class="ico sw-a"><use href="#i-menu"/></svg><svg class="ico sw-b"><use href="#s-x"/></svg></span><span class="lbl"><span class="sw-a">Menu</span><span class="sw-b">Tutup</span></span></button>
+    <span class="sep"></span>
+    <button class="theme-btn" type="button" data-theme-toggle aria-label="Mode gelap" aria-pressed="false"><span class="swap"><svg class="ico t-sun"><use href="#s-sun"/></svg><svg class="ico t-moon"><use href="#s-moon"/></svg></span></button>
+    <span class="sep"></span>
+    <div class="lang-dd">
+      <button class="lang-btn" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="lang-h" aria-label="Bahasa: ID"><span class="lang-cur">ID</span><svg class="chev"><use href="#s-chev"/></svg></button>
+      <ul class="lang-list" id="lang-h" role="listbox" aria-label="Bahasa"><li role="option" data-lang-opt="id" aria-selected="true" tabindex="-1">Indonesia (ID)<svg class="chk"><use href="#s-check"/></svg></li><li role="option" data-lang-opt="en" aria-selected="false" tabindex="-1">English (EN)<svg class="chk"><use href="#s-check"/></svg></li></ul>
+    </div>
   </div>
-  <a class="btn btn-dark" data-book><svg class="ico"><use href="#i-cal"/></svg><span>Jadwalkan meeting</span></a>
+  <a class="btn hdr-cta" data-book aria-label="Jadwalkan meeting"><svg class="ico"><use href="#i-cal"/></svg><span>Jadwalkan meeting</span></a>
 </header>
 
-<div class="menu" id="menu" role="dialog" aria-label="Menu">
-  <nav>
-    <a href="#solusi">Solusi</a><a href="#karya">Karya</a><a href="#proses">Cara kerja</a><a href="#faq">FAQ</a><a href="#jadwal">Jadwalkan meeting</a>
-  </nav>
+<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menu" inert>
+  <div class="menu-clouds" aria-hidden="true"><i class="cloud c3"></i><i class="cloud c2 c-cyan"></i><i class="cloud c1"></i></div>
+  <div class="menu-shade" aria-hidden="true"></div>
+  <div class="menu-in">
+    <div class="menu-top">
+      <a class="brand" href="index.html" aria-label="Providea, beranda">Providea</a>
+      <div class="navpill">
+        <button class="menu-btn" type="button" data-menu-close aria-label="Tutup menu"><span class="swap"><svg class="ico sw-a"><use href="#i-menu"/></svg><svg class="ico sw-b"><use href="#s-x"/></svg></span><span class="lbl"><span class="sw-a">Menu</span><span class="sw-b">Tutup</span></span></button>
+        <span class="sep"></span>
+        <button class="theme-btn" type="button" data-theme-toggle aria-label="Mode gelap" aria-pressed="false"><span class="swap"><svg class="ico t-sun"><use href="#s-sun"/></svg><svg class="ico t-moon"><use href="#s-moon"/></svg></span></button>
+        <span class="sep"></span>
+        <div class="lang-dd">
+          <button class="lang-btn" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="lang-m" aria-label="Bahasa: ID"><span class="lang-cur">ID</span><svg class="chev"><use href="#s-chev"/></svg></button>
+          <ul class="lang-list" id="lang-m" role="listbox" aria-label="Bahasa"><li role="option" data-lang-opt="id" aria-selected="true" tabindex="-1">Indonesia (ID)<svg class="chk"><use href="#s-check"/></svg></li><li role="option" data-lang-opt="en" aria-selected="false" tabindex="-1">English (EN)<svg class="chk"><use href="#s-check"/></svg></li></ul>
+        </div>
+      </div>
+      <a class="btn hdr-cta" data-book aria-label="Jadwalkan meeting"><svg class="ico"><use href="#i-cal"/></svg><span>Jadwalkan meeting</span></a>
+    </div>
+    <nav class="menu-nav" aria-label="Menu utama"><a href="#" style="--i:0"><span>Beranda</span></a><a href="#solusi" style="--i:1"><span>Solusi</span></a><a href="#karya" style="--i:2"><span>Karya</span></a><a href="#proses" style="--i:3"><span>Cara kerja</span></a><a href="#faq" style="--i:4"><span>FAQ</span></a></nav>
+    <div class="menu-foot">
+      <div class="menu-contact"><small>Hubungi kami</small><a href="mailto:hello@providea.com">hello@providea.com</a></div>
+      <a class="menu-msg" data-wa="Halo Providea, saya ingin konsultasi untuk bisnis saya.">Message us <span class="dot"><svg class="ico"><use href="#i-wa"/></svg></span></a>
+    </div>
+  </div>
 </div>
 
 <main>
-  <section class="hero">
-    <div class="orbit" aria-hidden="true">
-      <div class="ring">
-        <div class="tile brand-t" style="--a:0deg"><span class="wm">Providea</span></div>
-        <div class="tile c1 reeded" style="--a:45deg"><span>Talia</span></div>
-        <div class="tile c2 reeded" style="--a:90deg"><span>ARUM</span></div>
-        <div class="tile c4 reeded" style="--a:135deg"><span>Pegasus</span></div>
-        <div class="tile c1 reeded" style="--a:180deg"><span>Moto Ijo</span></div>
-        <div class="tile c3 reeded" style="--a:225deg"><span>Agung Alpra</span></div>
-        <div class="tile c4 reeded" style="--a:270deg"><span>VinFast VF3</span></div>
-        <div class="tile c2 reeded" style="--a:315deg"><span>Cribl IndoSec</span></div>
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-stage">
+      <div class="tn-bg" aria-hidden="true"><div class="tn-glow"></div><div class="tn-grid"></div></div>
+      <div class="tn-scene">
+        <div class="tn-depth" aria-hidden="true">
+          <span class="tn-ring"></span><span class="tn-ring dash"></span>
+          <figure class="tn-card"><img src="https://cdn.21st.dev/assets/mirror/c3/c3fbd2afa140223999a441b32ed986f61d473930002708df805a81532a326aac.jpg" data-fallback="assets/img/talia.webp" alt="" loading="eager" decoding="async"><figcaption>Website</figcaption></figure>
+          <figure class="tn-card"><img src="https://cdn.21st.dev/assets/mirror/9d/9d8b2f675a5814476ada3736ce439bcda23c5c389e0ebf9b25d8a0c09f3bbcfe.jpg" data-fallback="assets/img/arum.webp" alt="" loading="eager" decoding="async"><figcaption>Company profile</figcaption></figure>
+          <figure class="tn-card"><img src="https://cdn.21st.dev/assets/mirror/8b/8bb738bf2f00d7f7ed3c3ec034adb9938ad38f4be4ac191d632a6a11ad525574.jpg" data-fallback="assets/img/pegasus.webp" alt="" loading="eager" decoding="async"><figcaption>E-commerce</figcaption></figure>
+          <figure class="tn-card"><img src="https://cdn.21st.dev/assets/mirror/ac/ac5ac700b188d7ef16ee9dab868098b59f15c440db3f71d4e8c03262a3287577.jpg" data-fallback="assets/img/motoijo.webp" alt="" loading="eager" decoding="async"><figcaption>SEO &amp; GEO</figcaption></figure>
+          <figure class="tn-card"><img src="https://cdn.21st.dev/assets/mirror/ef/ef25eff6ce655fba459b3b7e7711524dc92499aa18f6c7dbea9a0fcc56a8f908.jpg" data-fallback="assets/img/agungalpra.webp" alt="" loading="eager" decoding="async"><figcaption data-en="Apps">Aplikasi</figcaption></figure>
+          <figure class="tn-card"><img src="https://cdn.21st.dev/assets/mirror/f2/f28b370a5dcbf76240f1504579c4b05fc0ff0bb990a42aff8dc2f73a5dc46072.jpg" data-fallback="assets/img/talia-2.webp" alt="" loading="eager" decoding="async"><figcaption data-en="ERP dashboard">Dashboard ERP</figcaption></figure>
+          <figure class="tn-card"><img src="https://cdn.21st.dev/assets/mirror/f2/f26a1eac85704dda924820392dedfb72d51d8261d35354f83b35d683617295f3.jpg" data-fallback="assets/img/arum-2.webp" alt="" loading="eager" decoding="async"><figcaption data-en="Activations">Aktivasi</figcaption></figure>
+          <figure class="tn-card"><img src="https://cdn.21st.dev/assets/mirror/77/7755d23eaaa0aa5b403343f44afa7a29b2d06d3065fe54c602b14ba01d00f2aa.jpg" data-fallback="assets/img/pegasus-2.webp" alt="" loading="eager" decoding="async"><figcaption>AR showcase</figcaption></figure>
+          <figure class="tn-card"><img src="https://cdn.21st.dev/assets/mirror/65/657317761fe9058a1d43711b13c543a71eb5199b7a5d9abf4c28479674e39cf7.jpg" data-fallback="assets/img/motoijo-2.webp" alt="" loading="eager" decoding="async"><figcaption>WhatsApp</figcaption></figure>
+        </div>
+        <div class="tn-title">
+          <div class="tn-in">
+            <p class="tn-eyebrow wm">Providea</p>
+            <h1 class="tn-h1" id="hero-title"><span class="tn-l1" data-en="You know the business.">Anda paham bisnisnya.</span> <span class="tn-l2" data-en="We know the chemistry.">Kami paham racikannya.</span></h1>
+            <p class="tn-sub" data-en="One team for websites, apps and activations, from the event floor to your customers' phone screens.">Satu tim untuk website, aplikasi, dan aktivasi, dari lokasi acara sampai layar ponsel pelanggan.</p>
+          </div>
+        </div>
       </div>
-      <p class="orbit-copy">Satu tim untuk website, aplikasi, dan aktivasi, dari lokasi acara sampai layar ponsel pelanggan.</p>
-    </div>
-    <div class="services" aria-label="Layanan">
-      <ul>
-        <li>Company profile</li><li>Landing page</li><li>SEO dan GEO</li><li>E-commerce</li><li>ERP dan inventori</li><li>AR showcase</li><li>AI booth</li><li>Analytics dan heatmap</li>
-        <li>Company profile</li><li>Landing page</li><li>SEO dan GEO</li><li>E-commerce</li><li>ERP dan inventori</li><li>AR showcase</li><li>AI booth</li><li>Analytics dan heatmap</li>
-      </ul>
-    </div>
-    <div class="hero-foot">
-      <h1><span class="line">Bisnis Anda, naik kelas.</span> <span class="line muted">Dari aktivasi sampai digital.</span></h1>
-      <span class="scroll-cue">GULIR KE BAWAH</span>
+      <p class="tn-cue"><span data-en="Scroll to explore">Gulir untuk menjelajah</span><i aria-hidden="true"></i></p>
+      <div class="services" aria-label="Layanan">
+        <ul>
+          <li>Company profile</li><li>Landing page</li><li>SEO dan GEO</li><li>E-commerce</li><li>ERP dan inventori</li><li>AR showcase</li><li>AI booth</li><li>Analytics dan heatmap</li>
+          <li>Company profile</li><li>Landing page</li><li>SEO dan GEO</li><li>E-commerce</li><li>ERP dan inventori</li><li>AR showcase</li><li>AI booth</li><li>Analytics dan heatmap</li>
+        </ul>
+      </div>
     </div>
   </section>
 
@@ -84,44 +126,44 @@
 
     <div class="stack">
       <article class="scard reeded" style="--i:0;background-image:url(assets/img/reeded-hero.webp)">
-        <div class="top"><h3>Build Amazing Business</h3><span class="num">01</span></div>
-        <div class="cols"><div><small>Website, company profile, brand experience</small><p>Website, company profile, dan brand experience <em>yang membuat orang percaya.</em></p></div><div><small>Contoh</small><p>Company profile, landing page, katalog.</p></div></div>
+        <div class="top"><h3>Create Eye-catching Solution</h3><span class="num">01</span></div>
+        <div class="cols"><div><small>What we crafted</small><p>Website yang meningkatkan brand experience <em>dan menambah kepercayaan customer.</em></p></div><div><small>Live Solution</small><p>Company Profile, Marketing &amp; Production Tools, Awareness Monitoring, Katalog</p></div></div>
         <div class="gallery"><img src="assets/img/talia.webp" alt="Website Talia" loading="lazy" width="1000" height="625"><img src="assets/img/agungalpra.webp" alt="Website Agung Alpra" loading="lazy" width="1000" height="625"></div>
       </article>
       <article class="scard" style="--i:1;background-image:url(assets/img/reeded-sky.webp)">
         <div class="top"><h3>Grow Smarter</h3><span class="num">02</span></div>
-        <div class="cols"><div><small>SEO, GEO, analytics</small><p>Ditemukan di Google dan AI, <em>lalu diukur.</em></p></div><div><small>Contoh</small><p>SEO, GEO, analytics, heatmap, CRM.</p></div></div>
+        <div class="cols"><div><small>What we crafted</small><p>Memastikan bisnis Anda ditemukan di Google dan pencarian AI secara organik, <em>lalu kita ukur efektivitasnya.</em></p></div><div><small>Live Solution</small><p>Implementasi Search Engine Optimization (SEO), Generative Engine Optimization (GEO), Website effectivity, Dynamic CRM &amp; CMS Platform, OmniChannel.</p></div></div>
         <div class="gallery">
           <div class="searchmock"><div class="q"><svg class="ico"><use href="#i-search"/></svg>jasa website company profile</div><div class="l h"></div><div class="l"></div><div class="l s"></div><div class="l"></div><div class="l s"></div></div>
           <div class="statpanel"><small>Klien F&amp;B, Jakarta Selatan</small><div class="big">180 → <span data-count="1240" data-from="180">1.240</span></div><small>kunjungan per minggu dalam 12 minggu</small><br><span class="badge">+589%</span><div class="row"><div><b>8,2×</b><br><small>klik WhatsApp</small></div><div><b>0:38 → 1:52</b><br><small>rata-rata engagement</small></div></div></div>
         </div>
       </article>
       <article class="scard" style="--i:2;background-image:url(assets/img/reeded-hero.webp);background-position:right">
-        <div class="top"><h3>Sell Anywhere</h3><span class="num">03</span></div>
-        <div class="cols"><div><small>E-commerce dan omnichannel</small><p>Jual di website, marketplace, WhatsApp, dan toko fisik <em>dari satu sistem.</em></p></div><div><small>Integrasi</small><p>Payment gateway seperti iSeller, Yokke, dan Xendit.</p></div></div>
-        <div class="gallery" style="--n:3"><img src="assets/img/arum-2.webp" alt="Katalog ARUM" loading="lazy" width="900" height="562"><img src="assets/img/arum.webp" alt="Website ARUM" loading="lazy" width="1000" height="625"><img src="assets/img/motoijo-2.webp" alt="Pemilih model Moto Ijo" loading="lazy" width="1000" height="625"></div>
+        <div class="top"><h3>Jual di mana pun</h3><span class="num">03</span></div>
+        <div class="cols"><div><small>What we crafted</small><p>Membantu toko fisik Anda menjual langsung dari website, terhubung ke marketplace, <em>dan dekat dengan pelanggan melalui WhatsApp di satu sistem.</em></p></div><div><small>Our Solution</small><p>Full integrated warehouse setting and payment gateway</p><div class="plogos"><span class="plogo" data-logo="stripe">Stripe</span><span class="plogo" data-logo="xendit">Xendit</span><span class="plogo" data-logo="iseller">iSeller</span><span class="plogo" data-logo="yokke">Yokke</span></div></div></div>
+        <div class="gallery g3" style="--n:3"><img src="assets/img/arum-2.webp" alt="Katalog ARUM" loading="lazy" width="900" height="562"><div class="shotpair"><img src="assets/img/nurseri-produk.webp" alt="Halaman produk toko Nurseri Lestari di desktop" loading="lazy" width="1000" height="625"><img class="m" src="assets/img/nurseri-produk-m.webp" alt="Halaman produk toko Nurseri Lestari di ponsel" loading="lazy" width="390" height="844"></div><img src="assets/img/motoijo-2.webp" alt="Pemilih model Moto Ijo" loading="lazy" width="1000" height="625"></div>
       </article>
       <article class="scard" style="--i:3;background-image:url(assets/img/reeded-deep.webp)">
-        <div class="top"><h3>Manage Easier</h3><span class="num">04</span></div>
-        <div class="cols"><div><small>ERP, inventori, dashboard</small><p>Operasional rapi <em>dari satu dasbor.</em></p></div><div><small>Contoh</small><p>ERP, inventori, dashboard, aplikasi internal.</p></div></div>
-        <div class="gallery" style="--n:3"><div class="dash"><b style="height:40%"></b><b style="height:62%"></b><b class="hi" style="height:88%"></b><b style="height:55%"></b></div><div class="dash"><b style="height:70%"></b><b class="hi" style="height:92%"></b><b style="height:48%"></b><b style="height:66%"></b></div><div class="dash"><b style="height:35%"></b><b style="height:58%"></b><b style="height:44%"></b><b class="hi" style="height:80%"></b></div></div>
+        <div class="top"><h3>Kelola lebih mudah</h3><span class="num">04</span></div>
+        <div class="cols"><div><small>What we crafted</small><p>Merapikan operasional <em>dari central dashboard.</em></p></div><div><small>Our Solution</small><p>Custom ERP by Providea, Inventory Tracker, Internal App</p></div></div>
+        <div class="gallery one"><img class="wide" src="assets/img/erp-dashboard.webp" alt="Dashboard ERP dan inventori: daftar barang, status, dan lokasi" loading="lazy" width="1176" height="392"></div>
       </article>
     </div>
   </section>
 
   <section class="work" id="karya">
-    <div class="wrap work-head"><h2><span data-count="50">50</span>+ proyek,<br><span data-count="7">7</span> industri.</h2><p>Website, aplikasi, dan aktivasi sejak 2016.</p></div>
+    <div class="wrap work-head"><h2><span class="wl1"><span data-count="50">50</span>+ proyek,</span><span class="wl2"><span data-count="7">7</span>+ industri.</span></h2><p>Website, aplikasi, dan aktivasi sejak 2016.</p></div>
     <div class="marquee"><div class="track">
       <a class="wtile" href="#karya"><img src="assets/img/talia.webp" alt="" loading="lazy"><div class="cap"><b>Talia</b><small>Cerita interaktif · Website</small></div></a>
       <a class="wtile" href="#karya"><img src="assets/img/arum.webp" alt="" loading="lazy"><div class="cap"><b>ARUM</b><small>E-commerce parfum · Website</small></div></a>
       <a class="wtile" href="#karya"><img src="assets/img/pegasus.webp" alt="" loading="lazy"><div class="cap"><b>Pegasus</b><small>Studio film · Website</small></div></a>
       <a class="wtile" href="karya/moto-ijo.html"><img src="assets/img/motoijo.webp" alt="" loading="lazy"><div class="cap"><b>Moto Ijo</b><small>Dealer motor listrik · Website</small></div></a>
-      <a class="wtile" href="#karya"><img src="assets/img/agungalpra.webp" alt="" loading="lazy"><div class="cap"><b>Agung Alpra</b><small>Kontraktor arsitektur · Company profile</small></div></a>
+      <a class="wtile" href="karya/agung-alpra.html"><img src="assets/img/agungalpra.webp" alt="" loading="lazy"><div class="cap"><b>Agung Alpra</b><small>Kontraktor interior · Company profile</small></div></a>
       <a class="wtile" href="#karya" aria-hidden="true" tabindex="-1"><img src="assets/img/talia.webp" alt="" loading="lazy"><div class="cap"><b>Talia</b><small>Cerita interaktif · Website</small></div></a>
       <a class="wtile" href="#karya" aria-hidden="true" tabindex="-1"><img src="assets/img/arum.webp" alt="" loading="lazy"><div class="cap"><b>ARUM</b><small>E-commerce parfum · Website</small></div></a>
       <a class="wtile" href="#karya" aria-hidden="true" tabindex="-1"><img src="assets/img/pegasus.webp" alt="" loading="lazy"><div class="cap"><b>Pegasus</b><small>Studio film · Website</small></div></a>
       <a class="wtile" href="karya/moto-ijo.html" aria-hidden="true" tabindex="-1"><img src="assets/img/motoijo.webp" alt="" loading="lazy"><div class="cap"><b>Moto Ijo</b><small>Dealer motor listrik · Website</small></div></a>
-      <a class="wtile" href="#karya" aria-hidden="true" tabindex="-1"><img src="assets/img/agungalpra.webp" alt="" loading="lazy"><div class="cap"><b>Agung Alpra</b><small>Kontraktor arsitektur · Company profile</small></div></a>
+      <a class="wtile" href="karya/agung-alpra.html" aria-hidden="true" tabindex="-1"><img src="assets/img/agungalpra.webp" alt="" loading="lazy"><div class="cap"><b>Agung Alpra</b><small>Kontraktor interior · Company profile</small></div></a>
     </div></div>
     <div class="marquee"><div class="track rev">
       <div class="wtile reeded" style="background-image:url(assets/img/reeded-card.webp)"><div class="cap"><b>VinFast VF3</b><small>Launch IIMS 2025 · AR dengan LiDAR</small></div></div>
@@ -135,26 +177,28 @@
       <div class="wtile reeded" style="background-image:url(assets/img/reeded-hero.webp)" aria-hidden="true"><div class="cap"><b>Platform omnichannel ritel</b><small>Aplikasi dan platform</small></div></div>
       <div class="wtile reeded" style="background-image:url(assets/img/reeded-card.webp)" aria-hidden="true"><div class="cap"><b>ERP distribusi</b><small>Aplikasi dan platform</small></div></div>
     </div></div>
-    <div class="wrap clients"><span>Dipercaya oleh</span><span>VinFast</span><span>Cribl</span><span>Grassociates</span><span>Casa Nira Uluwatu</span><span>Sinar Digital Printing</span><span>Full Senyum</span><span>Econolab</span><span>Nuskara</span></div>
+    <div class="wrap clients"><p class="cl-label">Dipercaya oleh</p><div class="cl-marquee"><div class="cl-track"><div class="cl-set"><span class="logo" data-logo="vinfast"><i class="g g-tri" aria-hidden="true"></i>VinFast</span><span class="logo" data-logo="cribl"><i class="g g-ring" aria-hidden="true"></i>Cribl</span><span class="logo" data-logo="grassociates"><i class="g g-diamond" aria-hidden="true"></i>Grassociates</span><span class="logo" data-logo="casa-nira-uluwatu"><i class="g g-half" aria-hidden="true"></i>Casa Nira Uluwatu</span><span class="logo" data-logo="sinar-digital-printing"><i class="g g-square" aria-hidden="true"></i>Sinar Digital Printing</span><span class="logo" data-logo="full-senyum"><i class="g g-circle" aria-hidden="true"></i>Full Senyum</span><span class="logo" data-logo="econolab"><i class="g g-hex" aria-hidden="true"></i>Econolab</span><span class="logo" data-logo="nuskara"><i class="g g-plus" aria-hidden="true"></i>Nuskara</span></div><div class="cl-set" aria-hidden="true"><span class="logo" data-logo="vinfast"><i class="g g-tri" aria-hidden="true"></i>VinFast</span><span class="logo" data-logo="cribl"><i class="g g-ring" aria-hidden="true"></i>Cribl</span><span class="logo" data-logo="grassociates"><i class="g g-diamond" aria-hidden="true"></i>Grassociates</span><span class="logo" data-logo="casa-nira-uluwatu"><i class="g g-half" aria-hidden="true"></i>Casa Nira Uluwatu</span><span class="logo" data-logo="sinar-digital-printing"><i class="g g-square" aria-hidden="true"></i>Sinar Digital Printing</span><span class="logo" data-logo="full-senyum"><i class="g g-circle" aria-hidden="true"></i>Full Senyum</span><span class="logo" data-logo="econolab"><i class="g g-hex" aria-hidden="true"></i>Econolab</span><span class="logo" data-logo="nuskara"><i class="g g-plus" aria-hidden="true"></i>Nuskara</span></div></div></div></div>
   </section>
 
-  <section class="process wrap" id="proses">
-    <h2>Dari audit<br>sampai rilis.</h2>
-    <div class="process-grid">
-      <ul class="steps">
-        <li><button class="on" data-step="0">Audit</button></li><li><button data-step="1">Rancang</button></li><li><button data-step="2">Bangun</button></li><li><button data-step="3">Uji</button></li><li><button data-step="4">Rilis dan dampingi</button></li>
-        <li class="sprog" aria-hidden="true"><i></i></li>
-      </ul>
-      <div class="pvisual">
-        <div class="phone"><img src="assets/img/motoijo-m.webp" alt="Tampilan ponsel website Moto Ijo" loading="lazy" width="390" height="844"></div>
-        <div class="checkcard"><b>Audit digital</b><ul><li>Terbuka dalam 3 detik di ponsel?</li><li>Muncul saat orang mencari?</li><li>Disebut ChatGPT atau Gemini?</li><li>Bisa chat dalam satu ketukan?</li><li>Tahu bagian yang dibaca?</li></ul></div>
-      </div>
-      <div class="pcopy">
-        <p class="eyebrow">Langkah</p>
-        <h3 id="step-title">Audit</h3>
-        <p id="step-copy">Kami cek kecepatan di ponsel, posisi di Google, jawaban AI, jalur WhatsApp, dan data pengunjung sebelum meeting pertama.</p>
-        <div class="poc"><b>Gratis setelah meeting pertama:</b> mockup halaman utama dan audit digital, siap dalam 5 hari kerja.</div>
-        <div class="bignum" id="step-num">01</div>
+  <section class="process" id="proses" aria-labelledby="proc-h">
+    <div class="wrap proc-head">
+      <p class="eyebrow">Cara kerja</p>
+      <h2 id="proc-h">Dari perencanaan,<br><span class="muted">sampai rilis publik.</span></h2>
+    </div>
+    <div class="proc-track" data-proc>
+      <div class="proc-panel">
+        <div class="wrap proc-grid">
+          <div class="proc-left">
+            <ol class="steps"><li><button type="button" data-step="0" aria-label="Langkah 1: Perencanaan" aria-current="step"><span class="nm">Perencanaan</span></button></li><li><button type="button" data-step="1" aria-label="Langkah 2: Rancang"><span class="nm">Rancang</span></button></li><li><button type="button" data-step="2" aria-label="Langkah 3: Bangun"><span class="nm">Bangun</span></button></li><li><button type="button" data-step="3" aria-label="Langkah 4: Uji"><span class="nm">Uji</span></button></li><li><button type="button" data-step="4" aria-label="Langkah 5: Rilis publik"><span class="nm">Rilis publik</span></button></li></ol>
+            <div class="bignum"><span class="pnum" style="--i:0" aria-hidden="true">01</span><span class="pnum" style="--i:1" aria-hidden="true">02</span><span class="pnum" style="--i:2" aria-hidden="true">03</span><span class="pnum" style="--i:3" aria-hidden="true">04</span><span class="pnum" style="--i:4" aria-hidden="true">05</span></div>
+          </div>
+          <div class="pvis"><div class="pframe"><figure data-i="0" class="pimg on"><img src="assets/img/proses-rencana.webp" alt="Denah kerja website Agung Alpra, tahap perencanaan" loading="lazy" decoding="async" width="1200" height="750"></figure><figure data-i="1" class="pimg" aria-hidden="true"><img src="assets/img/proses-rancang.webp" alt="Tata letak koleksi website ARUM, tahap rancang" loading="lazy" decoding="async" width="1200" height="750"></figure><figure data-i="2" class="pimg" aria-hidden="true"><img src="assets/img/proses-bangun.webp" alt="Pemilih model Moto Ijo yang sudah berfungsi, tahap bangun" loading="lazy" decoding="async" width="1200" height="750"></figure><figure data-i="3" class="pimg pphone" aria-hidden="true"><div class="phone"><img src="assets/img/motoijo-m.webp" alt="Tampilan ponsel website Moto Ijo, tahap uji" loading="lazy" decoding="async" width="390" height="844"></div></figure><figure data-i="4" class="pimg" aria-hidden="true"><img src="assets/img/proses-rilis.webp" alt="Halaman utama website Moto Ijo yang dirilis ke publik" loading="lazy" decoding="async" width="1200" height="733"></figure></div><div class="pcaps"><span class="pcap on" data-i="0">Agung Alpra · denah</span><span class="pcap" data-i="1">ARUM · koleksi</span><span class="pcap" data-i="2">Moto Ijo · pemilih model</span><span class="pcap" data-i="3">Moto Ijo · tampilan ponsel</span><span class="pcap" data-i="4">Moto Ijo · halaman utama</span></div></div>
+          <div class="proc-right">
+            <div class="pgroup"><div class="pitems"><div class="pitem on" data-i="0" style="--i:0"><p class="eyebrow">Langkah 1 dari 5</p><h3>Perencanaan</h3><p class="pcp">Kami pelajari bisnis, pelanggan, dan kanal Anda, lalu cek kecepatan, posisi di Google, jawaban AI, dan jalur WhatsApp sebelum menyusun rencana.</p></div><div class="pitem" data-i="1" style="--i:1"><p class="eyebrow">Langkah 2 dari 5</p><h3>Rancang</h3><p class="pcp">Alur, isi, dan desain disepakati bersama sebelum dibangun, mulai dari halaman yang paling sering dikunjungi.</p></div><div class="pitem" data-i="2" style="--i:2"><p class="eyebrow">Langkah 3 dari 5</p><h3>Bangun</h3><p class="pcp">Website, aplikasi, atau aktivasi dibangun dengan progres mingguan yang bisa Anda lihat.</p></div><div class="pitem" data-i="3" style="--i:3"><p class="eyebrow">Langkah 4 dari 5</p><h3>Uji</h3><p class="pcp">Diuji di perangkat nyata: kecepatan, tampilan ponsel, aksesibilitas, dan setiap tombol menuju WhatsApp.</p></div><div class="pitem" data-i="4" style="--i:4"><p class="eyebrow">Langkah 5 dari 5</p><h3>Rilis publik</h3><p class="pcp">Tim Anda dilatih memakai CMS, lalu kami pantau data dan heatmap untuk perbaikan berikutnya.</p></div></div>
+            <div class="pbar" aria-hidden="true"><i></i></div></div>
+            <div class="poc"><b>Gratis setelah meeting pertama:</b> mockup halaman utama dan audit digital, siap dalam 5 hari kerja.</div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -164,47 +208,59 @@
       <aside><p class="eyebrow">FAQ</p></aside>
       <div class="body">
         <h2>Lima pertanyaan<br>untuk bisnis Anda.</h2>
-        <details open><summary>Apakah website Anda terbuka dalam 3 detik di ponsel?</summary><p>Halaman yang terbuka dalam 1 detik menghasilkan konversi 2,5× lebih tinggi daripada 5 detik (Portent). Audit gratis kami mengukur kecepatan website Anda di ponsel.</p></details>
-        <details><summary>Apakah Anda muncul saat orang mencari layanan Anda?</summary><p>Mesin pencari adalah kanal pertama orang Indonesia menemukan merek, 38,3% (We Are Social 2026). Kami cek posisi Anda untuk kata kunci utama.</p></details>
-        <details><summary>Apakah ChatGPT atau Gemini menyebut bisnis Anda?</summary><p>Lebih dari 1 dari 3 orang Indonesia memakai ChatGPT setiap bulan. Kami uji lima pertanyaan yang biasa diajukan pelanggan Anda.</p></details>
-        <details><summary>Bisakah pengunjung chat dalam satu ketukan?</summary><p>71% orang Indonesia mengirim chat ke akun bisnis setiap hari (Meta 2026). Setiap halaman yang kami bangun punya tombol WhatsApp berpesan terisi.</p></details>
-        <details><summary>Apakah Anda tahu bagian mana yang dibaca pengunjung?</summary><p>Heatmap Microsoft Clarity gratis dan tanpa batas traffic. Kami pasang sejak hari pertama dan membacanya bersama Anda.</p></details>
+        <details open><summary>Apakah website Anda dapat diakses dalam waktu cepat?</summary><p>Halaman yang terbuka dalam 1 detik menghasilkan konversi 2,5× lebih tinggi daripada 5 detik (Portent). Kami pastikan website Anda mudah diakses pengguna dalam waktu singkat.</p></details>
+        <details><summary>Apakah nama bisnis Anda muncul saat mencari layanan atau produk Anda?</summary><p>Mesin pencari adalah kanal pertama orang Indonesia menemukan merek, 38,3% (We Are Social 2026). Kami implementasi SEO dan cek posisi Anda untuk kata kunci utama.</p></details>
+        <details><summary>Apakah ChatGPT atau Gemini menyebut bisnis Anda?</summary><p>Lebih dari 1 dari 3 orang Indonesia memakai ChatGPT setiap bulan. Kami selipkan nama bisnis Anda dari pertanyaan biasa yang diajukan pelanggan Anda.</p></details>
+        <details><summary>Bisakah pengunjung menghubungi Anda dalam satu ketukan?</summary><p>71% orang Indonesia mengirim chat ke akun bisnis setiap hari (Meta 2026). Setiap halaman yang kami bangun punya tombol WhatsApp berpesan terisi.</p></details>
+        <details><summary>Apakah Anda tahu apa yang dicari pengunjung?</summary><p>Kami memastikan informasi yang kami sajikan efektif.</p></details>
       </div>
     </div>
   </section>
 
   <section class="dark cta" id="jadwal">
-    <div class="fan" aria-hidden="true">
-      <img src="assets/img/talia.webp" alt="" loading="lazy" style="transform:rotate(-26deg)">
-      <img src="assets/img/agungalpra.webp" alt="" loading="lazy" style="transform:rotate(-14deg)">
-      <img src="assets/img/arum.webp" alt="" loading="lazy" style="transform:rotate(-2deg)">
-      <img src="assets/img/pegasus.webp" alt="" loading="lazy" style="transform:rotate(10deg)">
-      <img src="assets/img/motoijo-2.webp" alt="" loading="lazy" style="transform:rotate(22deg)">
-    </div>
+    <div class="tgrid" data-base="assets/img/" aria-hidden="true"></div>
+    <div class="ascii top" aria-hidden="true"></div>
     <h2>Gratis: mockup halaman utama dan audit digital.</h2>
     <p class="sub">Siap dalam 5 hari kerja setelah meeting pertama.</p>
     <div class="split">
-      <form class="l" data-wa-form><small>Chat langsung</small><div class="row"><input aria-label="Pesan WhatsApp" value="Halo Providea, saya ingin konsultasi website untuk bisnis saya."><button class="go" type="submit">Chat WhatsApp <span class="fab-dot" style="width:34px;height:34px;border-radius:50%;background:var(--wa);display:grid;place-items:center"><svg class="ico" style="color:#fff"><use href="#i-wa"/></svg></span></button></div></form>
-      <div class="r"><small>atau jadwalkan meeting.</small><a class="go" data-book>Jadwalkan meeting <svg class="ico"><use href="#i-arrow"/></svg></a></div>
+      <form class="l chat" data-cta-chat novalidate aria-label="Chat WhatsApp dengan Providea">
+        <div class="ascii" aria-hidden="true"></div>
+        <span class="lbl">Chat langsung</span>
+        <div class="chat-hd"><span class="av" aria-hidden="true">P</span><div class="who"><b class="wm">Providea</b><span>Biasanya membalas dalam beberapa menit</span></div></div>
+        <div class="chat-bd">
+          <div class="bub"><label class="sr" for="cta-msg">Pesan WhatsApp, bisa Anda ubah</label><textarea id="cta-msg" rows="2" spellcheck="false" autocomplete="off">Halo Providea, saya ingin konsultasi website untuk bisnis saya.</textarea><span class="meta"><time></time><svg class="tick" viewBox="0 0 18 11" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 5.9l3.3 3.3L11.2 1.8M7.6 8.9l.6.5L16 1.8"/></svg></span></div>
+          <button class="wa-go" type="submit"><span>Chat WhatsApp</span><span class="wa-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9z"/><path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1"/></svg></span></button>
+        </div>
+        <p class="hint">Pesan bisa Anda ubah sebelum dikirim.</p>
+      </form>
+      <a class="r meet" data-book aria-label="Jadwalkan meeting, 30 menit lewat Google Meet">
+        <span class="lbl">atau jadwalkan meeting.</span>
+        <span class="meet-big">Jadwalkan meeting <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 7L7 17M8 7h9v9"/></svg></span>
+        <span class="cal"><span class="days" data-days aria-hidden="true"></span><span class="meet-meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 10l4.55-2.28A1 1 0 0 1 21 8.62v6.76a1 1 0 0 1-1.45.9L15 14z"/><rect x="3" y="6" width="12" height="12" rx="2"/></svg>30 menit · Google Meet</span></span>
+      </a>
     </div>
   </section>
 </main>
 
 <footer class="dark foot">
   <div class="foot-grid">
-    <h2>Satu tim<br>untuk <span class="rot">website</span><br>Anda.</h2>
-    <div class="loc"><span class="pin"><svg class="ico" style="width:16px"><use href="#i-pin"/></svg></span><b>Melbourne</b><span>Victoria, Australia</span><time data-tz="Australia/Melbourne">--:--</time></div>
-    <div class="loc"><span class="pin"><svg class="ico" style="width:16px"><use href="#i-pin"/></svg></span><b>Jakarta</b><span>DKI Jakarta, Indonesia</span><time data-tz="Asia/Jakarta">--:--</time></div>
-    <nav class="flinks"><a href="#karya">Karya</a><a href="#solusi">Layanan</a><a href="#proses">Cara kerja</a><a href="#faq">FAQ</a><a data-book>Jadwalkan meeting</a><a data-wa>Chat WhatsApp</a></nav>
+    <h2><span>Satu tim</span> <span>untuk</span> <span class="rot"><span>website</span></span> <span>Anda.</span></h2>
+    <div class="loc"><svg class="clock" viewBox="0 0 24 24" aria-hidden="true"><circle class="face" cx="12" cy="12" r="10.5"/><path class="hh" d="M12 12V7.4"/><path class="mh" d="M12 12V4.4"/><circle class="hub" cx="12" cy="12" r="1.1"/></svg><b>Melbourne</b><span>Victoria, Australia</span><time data-tz="Australia/Melbourne">--:--</time></div>
+    <div class="loc"><svg class="clock" viewBox="0 0 24 24" aria-hidden="true"><circle class="face" cx="12" cy="12" r="10.5"/><path class="hh" d="M12 12V7.4"/><path class="mh" d="M12 12V4.4"/><circle class="hub" cx="12" cy="12" r="1.1"/></svg><b>Jakarta</b><span>DKI Jakarta, Indonesia</span><time data-tz="Asia/Jakarta">--:--</time></div>
+    <nav class="flinks" aria-label="Tautan footer"><a href="#karya">Karya</a><a href="#solusi">Layanan</a><a href="#proses">Cara kerja</a><a href="#faq">FAQ</a></nav>
   </div>
   <div class="foot-bottom">
-    <span>Hubungi kami: <a class="u" data-wa>Chat WhatsApp</a> · <a class="u" data-book>Jadwalkan meeting</a></span>
+    <span>Hubungi kami: <a class="u" href="mailto:hello@providea.com">hello@providea.com</a> / <a class="u" href="mailto:hello@providea.co.au">hello@providea.co.au</a></span>
     <a href="#" aria-label="Kembali ke atas"><svg class="ico"><use href="#i-up"/></svg></a>
     <span>© <span data-year>2026</span> Providea. Hak cipta dilindungi.</span>
   </div>
 </footer>
 
-<a class="fab" data-wa="Halo Providea, saya ingin konsultasi untuk bisnis saya.">Chat WhatsApp <span class="dot"><svg class="ico" style="color:#fff"><use href="#i-wa"/></svg></span></a>
+<a class="fab" data-wa="Halo Providea, saya ingin konsultasi untuk bisnis saya." aria-label="Chat WhatsApp"><span class="fab-lbl">Chat WhatsApp</span><span class="dot"><svg class="ico" style="color:#fff"><use href="#i-wa"/></svg></span></a>
 <script src="assets/js/main.js" defer></script>
+<script src="assets/js/shell.js" defer></script>
+<script src="assets/js/hero.js" defer></script>
+<script src="assets/js/sections.js" defer></script>
+<script src="assets/js/cta.js" defer></script>
 </body>
 </html>
