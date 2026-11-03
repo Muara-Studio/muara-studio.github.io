@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">  <!-- preview: remove at launch -->
+<title data-en="POC · Interaction experiments | Providea">POC · Eksperimen interaksi | Providea</title>
+<meta name="description" content="Prototipe interaktif yang bisa Anda buka dan coba sendiri: kamera, gestur, AR, game, dan aplikasi. Lihat idenya bekerja sebelum dibangun penuh." data-en-content="Interactive prototypes you can open and try yourself: camera, gesture, AR, games, and apps. See an idea work before the full build.">
+<meta property="og:title" content="POC · Eksperimen interaksi | Providea" data-en-content="POC · Interaction experiments | Providea">
+<meta property="og:description" content="Prototipe interaktif yang bisa Anda coba langsung di browser." data-en-content="Interactive prototypes you can try right in your browser.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/img/poc/ascii-vision.webp">
+<meta name="theme-color" content="#071634">
+<script>document.documentElement.classList.add("js")</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/shell.css">
+<link rel="stylesheet" href="assets/css/cta.css">
+<link rel="stylesheet" href="assets/css/poc.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+    <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 17a5 5 0 0 0 0-10z" fill="currentColor"/></symbol>
+    <symbol id="i-cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm12-4v4M8 3v4m-4 4h16M8 15h2v2H8z"/></symbol>
+    <symbol id="i-wa" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9z"/><path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 7L7 17M8 7h9v9"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0-6 0"/><path d="M17.66 16.66L13.41 20.9a2 2 0 0 1-2.83 0l-4.24-4.24a8 8 0 1 1 11.32 0z"/></symbol>
+    <symbol id="i-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14m6-8l-6-6m-6 6l6-6"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10" cy="10" r="7"/><path d="M21 21l-6-6"/></symbol>
+  </defs>
+</svg>
+
+<header class="hdr">
+  <svg class="sprite" width="0" height="0" aria-hidden="true" focusable="false"><defs>
+    <symbol id="s-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></symbol>
+    <symbol id="s-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M3 12h1m8-9v1m8 8h1m-9 8v1M5.6 5.6l.7.7m12.1-.7l-.7.7m0 11.4l.7.7m-12.1-.7l-.7.7"/></symbol>
+    <symbol id="s-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3h.39a7.5 7.5 0 0 0 7.92 12.45A9 9 0 1 1 12 3z"/></symbol>
+    <symbol id="s-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6l6-6"/></symbol>
+    <symbol id="s-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></symbol>
+  </defs></svg>
+  <a class="brand" href="index.html" aria-label="Providea, beranda" data-en-aria-label="Providea, home">Providea</a>
+  <div class="navpill">
+    <button class="menu-btn" type="button" data-menu aria-label="Buka menu" data-en-aria-label="Open menu" aria-expanded="false" aria-controls="menu"><span class="swap"><svg class="ico sw-a"><use href="#i-menu"/></svg><svg class="ico sw-b"><use href="#s-x"/></svg></span><span class="lbl"><span class="sw-a">Menu</span><span class="sw-b" data-en="Close">Tutup</span></span></button>
+    <span class="sep"></span>
+    <button class="theme-btn" type="button" data-theme-toggle aria-label="Mode gelap" aria-pressed="false"><span class="swap"><svg class="ico t-sun"><use href="#s-sun"/></svg><svg class="ico t-moon"><use href="#s-moon"/></svg></span></button>
+    <span class="sep"></span>
+    <div class="lang-dd">
+      <button class="lang-btn" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="lang-h" aria-label="Bahasa: ID"><span class="lang-cur">ID</span><svg class="chev"><use href="#s-chev"/></svg></button>
+      <ul class="lang-list" id="lang-h" role="listbox" aria-label="Bahasa" data-en-aria-label="Language"><li role="option" data-lang-opt="id" aria-selected="true" tabindex="-1">Indonesia (ID)<svg class="chk"><use href="#s-check"/></svg></li><li role="option" data-lang-opt="en" aria-selected="false" tabindex="-1">English (EN)<svg class="chk"><use href="#s-check"/></svg></li></ul>
+    </div>
+  </div>
+  <a class="btn hdr-cta" data-book aria-label="Jadwalkan meeting" data-en-aria-label="Book a meeting"><svg class="ico"><use href="#i-cal"/></svg><span data-en="Book a meeting">Jadwalkan meeting</span></a>
+</header>
+
+<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menu" inert>
+  <div class="menu-clouds" aria-hidden="true"><i class="cloud c3"></i><i class="cloud c2 c-cyan"></i><i class="cloud c1"></i></div>
+  <div class="menu-shade" aria-hidden="true"></div>
+  <div class="menu-in">
+    <div class="menu-top">
+      <a class="brand" href="index.html" aria-label="Providea, beranda" data-en-aria-label="Providea, home">Providea</a>
+      <div class="navpill">
+        <button class="menu-btn" type="button" data-menu-close aria-label="Tutup menu" data-en-aria-label="Close menu"><span class="swap"><svg class="ico sw-a"><use href="#i-menu"/></svg><svg class="ico sw-b"><use href="#s-x"/></svg></span><span class="lbl"><span class="sw-a">Menu</span><span class="sw-b" data-en="Close">Tutup</span></span></button>
+        <span class="sep"></span>
+        <button class="theme-btn" type="button" data-theme-toggle aria-label="Mode gelap" aria-pressed="false"><span class="swap"><svg class="ico t-sun"><use href="#s-sun"/></svg><svg class="ico t-moon"><use href="#s-moon"/></svg></span></button>
+        <span class="sep"></span>
+        <div class="lang-dd">
+          <button class="lang-btn" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="lang-m" aria-label="Bahasa: ID"><span class="lang-cur">ID</span><svg class="chev"><use href="#s-chev"/></svg></button>
+          <ul class="lang-list" id="lang-m" role="listbox" aria-label="Bahasa" data-en-aria-label="Language"><li role="option" data-lang-opt="id" aria-selected="true" tabindex="-1">Indonesia (ID)<svg class="chk"><use href="#s-check"/></svg></li><li role="option" data-lang-opt="en" aria-selected="false" tabindex="-1">English (EN)<svg class="chk"><use href="#s-check"/></svg></li></ul>
+        </div>
+      </div>
+      <a class="btn hdr-cta" data-book aria-label="Jadwalkan meeting" data-en-aria-label="Book a meeting"><svg class="ico"><use href="#i-cal"/></svg><span data-en="Book a meeting">Jadwalkan meeting</span></a>
+    </div>
+    <nav class="menu-nav" aria-label="Menu utama" data-en-aria-label="Main menu"><a href="index.html" style="--i:0"><span data-en="Home">Beranda</span></a><a href="solusi.html" style="--i:1"><span data-en="Solutions">Solusi</span></a><a href="karya/index.html" style="--i:2"><span data-en="Work">Karya</span></a><a href="poc.html" style="--i:3"><span data-en="POC">POC</span></a><a href="tentang.html" style="--i:4"><span data-en="About">Tentang</span></a><a href="jadwal.html" style="--i:5"><span data-en="Book a meeting">Jadwalkan meeting</span></a></nav>
+    <div class="menu-foot">
+      <div class="menu-contact"><small data-en="Contact us">Hubungi kami</small><a href="mailto:hello@providea.com">hello@providea.com</a></div>
+      <a class="menu-msg" data-wa="Halo Providea, saya ingin konsultasi untuk bisnis saya." data-en-wa="Hello Providea, I would like a consultation for my business.">Message us <span class="dot"><svg class="ico"><use href="#i-wa"/></svg></span></a>
+    </div>
+  </div>
+</div>
+
+<main>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+    <symbol id="p-cam" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7h1a2 2 0 0 0 2-2a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1a2 2 0 0 0 2 2h1a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2"/><path d="M9 13a3 3 0 1 0 6 0a3 3 0 0 0-6 0"/></symbol>
+    <symbol id="p-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2z"/><path d="M11 4h2M12 17v.01"/></symbol>
+  </defs></svg>
+
+  <section class="wrap poc-hero" aria-labelledby="poc-h">
+    <p class="eyebrow">Proof of concept</p>
+    <div class="poc-head">
+      <h1 id="poc-h"><span class="l1" data-en="Interaction">Eksperimen</span><span class="l2" data-en="experiments.">interaksi.</span></h1>
+      <div class="poc-aside">
+        <p class="lead" data-en="A POC is a small prototype that you can open and try in your browser. You see the result first, then decide which ideas deserve a full build.">POC adalah prototipe kecil yang bisa Anda buka dan coba sendiri di browser. Anda melihat hasilnya lebih dulu, lalu memutuskan ide mana yang layak dibangun penuh.</p>
+        <p class="poc-stat"><b>6</b><span data-en="experiments you can try right now">eksperimen yang bisa Anda coba sekarang</span></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap poc-list" aria-label="Daftar POC" data-en-aria-label="POC list">
+    <div class="poc-bar">
+      <div class="poc-chips" role="group" aria-label="Filter menurut jenis" data-en-aria-label="Filter by type"><button class="chip" type="button" data-tag="all" aria-pressed="true"><span data-en="All">Semua</span></button><button class="chip" type="button" data-tag="camera" aria-pressed="false"><span data-en="Camera">Kamera</span></button><button class="chip" type="button" data-tag="gesture" aria-pressed="false"><span data-en="Gesture">Gestur</span></button><button class="chip" type="button" data-tag="ar" aria-pressed="false"><span data-en="AR">AR</span></button><button class="chip" type="button" data-tag="game" aria-pressed="false"><span data-en="Game">Game</span></button><button class="chip" type="button" data-tag="activation" aria-pressed="false"><span data-en="Activation">Aktivasi</span></button><button class="chip" type="button" data-tag="app" aria-pressed="false"><span data-en="App">Aplikasi</span></button></div>
+      <p class="poc-count" role="status" aria-live="polite"></p>
+    </div>
+    <ul class="poc-grid">
+      <li class="poc-card" data-tags="camera gesture">
+        <a class="poc-cover" href="https://asciivision.muarastudio.com/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
+          <img src="assets/img/poc/ascii-vision.webp" width="1200" height="750" loading="lazy" decoding="async" alt="Layar pembuka ASCII Vision: lubang hitam dari huruf dan simbol yang berputar" data-en-alt="ASCII Vision start screen: a black hole made of spinning letters and symbols">
+          <span class="poc-no">01</span>
+          <span class="poc-go"><svg class="ico"><use href="#i-arrow"/></svg></span>
+        </a>
+        <div class="poc-body">
+          <h3>ASCII Vision</h3>
+          <p data-en="A camera tracks the visitor and redraws them with letters and symbols. The start screen is a black hole made of spinning characters.">Kamera melacak sosok pengunjung, lalu menggambarnya ulang dengan huruf dan simbol. Layar pembuka berupa lubang hitam dari karakter yang berputar.</p>
+          <ul class="poc-tags" aria-label="Tag" data-en-aria-label="Tags"><li data-en="Camera">Kamera</li><li data-en="Gesture">Gestur</li></ul>
+          <div class="poc-foot">
+            <span class="poc-hint"><svg class="ico" aria-hidden="true"><use href="#p-cam"/></svg><span data-en="Webcam needed">Perlu webcam</span></span>
+            <a class="poc-open" href="https://asciivision.muarastudio.com/" target="_blank" rel="noopener" aria-label="Buka POC ASCII Vision di tab baru" data-en-aria-label="Open the ASCII Vision POC in a new tab"><span data-en="Open POC">Buka POC</span><svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          </div>
+        </div>
+      </li>
+      <li class="poc-card" data-tags="camera gesture game">
+        <a class="poc-cover" href="https://fruitninja.muarastudio.com/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
+          <img src="assets/img/poc/fruit-ninja.webp" width="1200" height="750" loading="lazy" decoding="async" alt="Layar judul gim potong buah bergaya 8-bit dengan tombol Play" data-en-alt="Title screen of an 8-bit style fruit slicing game with a Play button">
+          <span class="poc-no">02</span>
+          <span class="poc-go"><svg class="ico"><use href="#i-arrow"/></svg></span>
+        </a>
+        <div class="poc-body">
+          <h3>Fruit Ninja 3D (8-bit)</h3>
+          <p data-en="A fruit slicing game in 8-bit voxel style. Your hand is the blade in front of the webcam. No mouse and no touch screen.">Gim potong buah bergaya voxel 8-bit. Tangan Anda menjadi pedang di depan webcam, tanpa mouse dan tanpa layar sentuh.</p>
+          <ul class="poc-tags" aria-label="Tag" data-en-aria-label="Tags"><li data-en="Camera">Kamera</li><li data-en="Gesture">Gestur</li><li data-en="Game">Game</li></ul>
+          <div class="poc-foot">
+            <span class="poc-hint"><svg class="ico" aria-hidden="true"><use href="#p-cam"/></svg><span data-en="Webcam needed">Perlu webcam</span></span>
+            <a class="poc-open" href="https://fruitninja.muarastudio.com/" target="_blank" rel="noopener" aria-label="Buka POC Fruit Ninja 3D (8-bit) di tab baru" data-en-aria-label="Open the Fruit Ninja 3D (8-bit) POC in a new tab"><span data-en="Open POC">Buka POC</span><svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          </div>
+        </div>
+      </li>
+      <li class="poc-card" data-tags="ar game">
+        <a class="poc-cover" href="https://catchobject.muarastudio.com/?character=saddie" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
+          <img src="assets/img/poc/catch-object.webp" width="1200" height="750" loading="lazy" decoding="async" alt="Layar awal gim AR: karakter 3D ungu di dalam kotak bidik hijau" data-en-alt="Start screen of an AR game: a purple 3D character inside a green capture frame">
+          <span class="poc-no">03</span>
+          <span class="poc-go"><svg class="ico"><use href="#i-arrow"/></svg></span>
+        </a>
+        <div class="poc-body">
+          <h3>Catch Flying Object</h3>
+          <p data-en="A 3D object floats around you. Aim your phone, keep the object inside the frame, and it joins your collection.">Objek 3D melayang di sekitar Anda. Arahkan ponsel, tahan objek di dalam kotak bidik, dan objek itu masuk koleksi Anda.</p>
+          <ul class="poc-tags" aria-label="Tag" data-en-aria-label="Tags"><li data-en="AR">AR</li><li data-en="Game">Game</li></ul>
+          <div class="poc-foot">
+            <span class="poc-hint"><svg class="ico" aria-hidden="true"><use href="#p-phone"/></svg><span data-en="Best on a phone">Paling pas di ponsel</span></span>
+            <a class="poc-open" href="https://catchobject.muarastudio.com/?character=saddie" target="_blank" rel="noopener" aria-label="Buka POC Catch Flying Object di tab baru" data-en-aria-label="Open the Catch Flying Object POC in a new tab"><span data-en="Open POC">Buka POC</span><svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          </div>
+        </div>
+      </li>
+      <li class="poc-card" data-tags="ar activation">
+        <a class="poc-cover" href="https://propertyar.muarastudio.com/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
+          <img src="assets/img/poc/property-ar.webp" width="1200" height="750" loading="lazy" decoding="async" alt="Halaman Property AR dengan brosur rumah dan tombol Launch AR" data-en-alt="Property AR page with a house brochure and a Launch AR button">
+          <span class="poc-no">04</span>
+          <span class="poc-go"><svg class="ico"><use href="#i-arrow"/></svg></span>
+        </a>
+        <div class="poc-body">
+          <h3>AR Property Brochure</h3>
+          <p data-en="A property brochure that goes beyond paper. Buyers see the house in AR, so they are readier to visit the site.">Brosur properti tidak berhenti di kertas. Calon pembeli melihat rumahnya dalam AR, sehingga mereka lebih siap datang ke lokasi.</p>
+          <ul class="poc-tags" aria-label="Tag" data-en-aria-label="Tags"><li data-en="AR">AR</li><li data-en="Activation">Aktivasi</li></ul>
+          <div class="poc-foot">
+            <span class="poc-hint"><svg class="ico" aria-hidden="true"><use href="#p-phone"/></svg><span data-en="AR on a phone">AR di ponsel</span></span>
+            <a class="poc-open" href="https://propertyar.muarastudio.com/" target="_blank" rel="noopener" aria-label="Buka POC AR Property Brochure di tab baru" data-en-aria-label="Open the AR Property Brochure POC in a new tab"><span data-en="Open POC">Buka POC</span><svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          </div>
+        </div>
+      </li>
+      <li class="poc-card" data-tags="camera activation">
+        <a class="poc-cover" href="https://paras.muarastudio.com/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
+          <img src="assets/img/poc/paras.webp" width="1200" height="750" loading="lazy" decoding="async" alt="Layar awal PARAS: huruf besar PARAS di atas kisi abu-abu" data-en-alt="PARAS start screen: large PARAS lettering over a grey grid">
+          <span class="poc-no">05</span>
+          <span class="poc-go"><svg class="ico"><use href="#i-arrow"/></svg></span>
+        </a>
+        <div class="poc-body">
+          <h3>PARAS</h3>
+          <p data-en="A web experiment that mixes computer vision, face recognition, and digital art. It splits your face into parts and rebuilds it. Camera frames stay on your device.">Eksperimen web yang memadukan visi komputer, pengenalan wajah, dan seni digital. Wajah Anda dipecah jadi bagian-bagian, lalu disusun ulang. Gambar kamera tidak keluar dari perangkat.</p>
+          <ul class="poc-tags" aria-label="Tag" data-en-aria-label="Tags"><li data-en="Camera">Kamera</li><li data-en="Activation">Aktivasi</li></ul>
+          <div class="poc-foot">
+            <span class="poc-hint"><svg class="ico" aria-hidden="true"><use href="#p-cam"/></svg><span data-en="Camera permission needed">Perlu izin kamera</span></span>
+            <a class="poc-open" href="https://paras.muarastudio.com/" target="_blank" rel="noopener" aria-label="Buka POC PARAS di tab baru" data-en-aria-label="Open the PARAS POC in a new tab"><span data-en="Open POC">Buka POC</span><svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          </div>
+        </div>
+      </li>
+      <li class="poc-card" data-tags="app activation">
+        <a class="poc-cover" href="https://jalana.muarastudio.com/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
+          <img src="assets/img/poc/jalana.webp" width="1200" height="750" loading="lazy" decoding="async" alt="Halaman Jalana: layar aplikasi paspor museum di ponsel" data-en-alt="Jalana page: the museum passport app on a phone">
+          <span class="poc-no">06</span>
+          <span class="poc-go"><svg class="ico"><use href="#i-arrow"/></svg></span>
+        </a>
+        <div class="poc-body">
+          <h3>Jalana</h3>
+          <p data-en="A museum passport on a phone. At each visit, people collect a stamp, a badge, and a numbered card.">Paspor museum di ponsel. Di setiap kunjungan, pengunjung mengumpulkan cap, lencana, dan kartu bernomor.</p>
+          <ul class="poc-tags" aria-label="Tag" data-en-aria-label="Tags"><li data-en="App">Aplikasi</li><li data-en="Activation">Aktivasi</li></ul>
+          <div class="poc-foot">
+            <span class="poc-hint"><svg class="ico" aria-hidden="true"><use href="#p-phone"/></svg><span data-en="Phone app">Aplikasi ponsel</span></span>
+            <a class="poc-open" href="https://jalana.muarastudio.com/" target="_blank" rel="noopener" aria-label="Buka POC Jalana di tab baru" data-en-aria-label="Open the Jalana POC in a new tab"><span data-en="Open POC">Buka POC</span><svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <section class="dark cta" id="jadwal">
+    <div class="tgrid" data-base="assets/img/" aria-hidden="true"></div>
+    <div class="ascii top" aria-hidden="true"></div>
+    <h2 data-en="Free: a homepage mockup and a digital audit.">Gratis: mockup halaman utama dan audit digital.</h2>
+    <p class="sub" data-en="Ready 5 working days after the first meeting.">Siap dalam 5 hari kerja setelah meeting pertama.</p>
+    <div class="split">
+      <form class="l chat" data-cta-chat novalidate aria-label="Chat WhatsApp dengan Providea" data-en-aria-label="WhatsApp chat with Providea">
+        <div class="ascii" aria-hidden="true"></div>
+        <span class="lbl" data-en="Live chat">Chat langsung</span>
+        <div class="chat-hd"><span class="av" aria-hidden="true">P</span><div class="who"><b class="wm">Providea</b><span data-en="Usually replies within a few minutes">Biasanya membalas dalam beberapa menit</span></div></div>
+        <div class="chat-bd">
+          <div class="bub"><label class="sr" for="cta-msg" data-en="WhatsApp message, you can edit it">Pesan WhatsApp, bisa Anda ubah</label><textarea id="cta-msg" rows="2" spellcheck="false" autocomplete="off" data-en="Hello Providea, I saw the proof of concept page and would like to discuss an interactive idea for my business.">Halo Providea, saya lihat halaman POC dan ingin membahas ide interaktif untuk bisnis saya.</textarea><span class="meta"><time></time><svg class="tick" viewBox="0 0 18 11" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 5.9l3.3 3.3L11.2 1.8M7.6 8.9l.6.5L16 1.8"/></svg></span></div>
+          <button class="wa-go" type="submit"><span>Chat WhatsApp</span><span class="wa-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9z"/><path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1"/></svg></span></button>
+        </div>
+        <p class="hint" data-en="You can edit the message before you send it.">Pesan bisa Anda ubah sebelum dikirim.</p>
+      </form>
+      <a class="r meet" data-book aria-label="Jadwalkan meeting, 30 menit lewat Google Meet" data-en-aria-label="Book a meeting, 30 minutes on Google Meet">
+        <span class="lbl" data-en="or book a meeting.">atau jadwalkan meeting.</span>
+        <span class="meet-big"><span data-en="Book a meeting">Jadwalkan meeting</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 7L7 17M8 7h9v9"/></svg></span>
+        <span class="cal"><span class="days" data-days aria-hidden="true"></span><span class="meet-meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 10l4.55-2.28A1 1 0 0 1 21 8.62v6.76a1 1 0 0 1-1.45.9L15 14z"/><rect x="3" y="6" width="12" height="12" rx="2"/></svg><span data-en="30 min · Google Meet">30 menit · Google Meet</span></span></span>
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer class="dark foot">
+  <div class="foot-grid">
+    <h2><span data-en="One team">Satu tim</span> <span data-en="for your">untuk</span> <span class="rot"><span>website</span></span> <span data-en="needs.">Anda.</span></h2>
+    <div class="loc"><svg class="clock" viewBox="0 0 24 24" aria-hidden="true"><circle class="face" cx="12" cy="12" r="10.5"/><path class="hh" d="M12 12V7.4"/><path class="mh" d="M12 12V4.4"/><circle class="hub" cx="12" cy="12" r="1.1"/></svg><b>Melbourne</b><span>Victoria, Australia</span><time data-tz="Australia/Melbourne">--:--</time></div>
+    <div class="loc"><svg class="clock" viewBox="0 0 24 24" aria-hidden="true"><circle class="face" cx="12" cy="12" r="10.5"/><path class="hh" d="M12 12V7.4"/><path class="mh" d="M12 12V4.4"/><circle class="hub" cx="12" cy="12" r="1.1"/></svg><b>Jakarta</b><span>DKI Jakarta, Indonesia</span><time data-tz="Asia/Jakarta">--:--</time></div>
+    <nav class="flinks" aria-label="Tautan footer" data-en-aria-label="Footer links"><a href="solusi.html" data-en="Solutions">Solusi</a><a href="karya/index.html" data-en="Work">Karya</a><a href="poc.html" data-en="POC">POC</a><a href="tentang.html" data-en="About">Tentang</a></nav>
+  </div>
+  <div class="foot-bottom">
+    <span><span data-en="Contact us:">Hubungi kami:</span> <a class="u" href="mailto:hello@providea.com">hello@providea.com</a> / <a class="u" href="mailto:hello@providea.co.au">hello@providea.co.au</a></span>
+    <a href="#" aria-label="Kembali ke atas" data-en-aria-label="Back to top"><svg class="ico"><use href="#i-up"/></svg></a>
+    <span>© <span data-year>2026</span> Providea. <span data-en="All rights reserved.">Hak cipta dilindungi.</span></span>
+  </div>
+</footer>
+
+<a class="fab" data-wa="Halo Providea, saya lihat halaman POC dan ingin membahas ide interaktif." data-en-wa="Hello Providea, I saw the proof of concept page and would like to discuss an interactive idea." aria-label="Chat WhatsApp"><span class="fab-lbl">Chat WhatsApp</span><span class="dot"><svg class="ico" style="color:#fff"><use href="#i-wa"/></svg></span></a>
+<script src="assets/js/lang.js" defer></script>
+<script src="assets/js/main.js" defer></script>
+<script src="assets/js/shell.js" defer></script>
+<script src="assets/js/cta.js" defer></script>
+<script src="assets/js/poc.js" defer></script>
+</body>
+</html>

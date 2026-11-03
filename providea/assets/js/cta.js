@@ -7,6 +7,9 @@
   const cta = $('section.cta');
   if (!cta) return;
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  // Text made here follows <html lang> (set by lang.js, kept current by shell.js) and is redrawn on window "pv:lang"
+  const isEn = () => document.documentElement.lang === 'en';
+  const locale = () => (isEn() ? 'en-GB' : 'id-ID');
 
   /* 1. Tilted grid: built lazily when the section is near, animated only while it is on screen */
   const grid = $('.tgrid', cta);
@@ -56,7 +59,7 @@
   if (form) {
     const ta = $('textarea', form);
     const stamp = $('time', form);
-    const DEFAULT_MSG = 'Halo Providea, saya ingin konsultasi untuk bisnis saya.';
+    const DEFAULT_MSG = () => (isEn() ? 'Hello Providea, I would like a consultation for my business.' : 'Halo Providea, saya ingin konsultasi untuk bisnis saya.');
     const number = () => {
       try { if (typeof CONFIG !== 'undefined' && CONFIG && CONFIG.whatsapp) return String(CONFIG.whatsapp).replace(/\D/g, ''); } catch (e) {}
       const m = (($('a[data-wa]') || {}).href || '').match(/wa\.me\/(\d+)/);
@@ -66,7 +69,7 @@
     const now = () => {
       if (!stamp) return;
       const d = new Date();
-      stamp.textContent = new Intl.DateTimeFormat('id-ID', { hour: '2-digit', minute: '2-digit' }).format(d);
+      stamp.textContent = new Intl.DateTimeFormat(locale(), { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).format(d);
       stamp.dateTime = d.toISOString();
     };
     ta.addEventListener('input', () => { fit(); now(); });
@@ -74,9 +77,11 @@
     addEventListener('resize', () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(fit); }, { passive: true });
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
     fit(); now();
+    // The message text itself is swapped by lang.js (data-en on the textarea, unless the visitor already edited it)
+    window.addEventListener('pv:lang', () => { now(); fit(); });
     form.addEventListener('submit', e => {
       e.preventDefault();
-      const text = ta.value.trim() || DEFAULT_MSG;
+      const text = ta.value.trim() || DEFAULT_MSG();
       window.open(`https://wa.me/${number()}?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
     });
     ta.addEventListener('keydown', e => {
@@ -84,15 +89,19 @@
     });
   }
 
-  /* 3. Meeting panel: next 5 weekdays (id-ID) */
+  /* 3. Meeting panel: next 5 weekdays, named in the active language */
   const days = $('[data-days]', cta);
   if (days) {
-    const f = o => new Intl.DateTimeFormat('id-ID', o);
-    const dow = f({ weekday: 'short' }), dnum = f({ day: 'numeric' }), mon = f({ month: 'short' }), full = f({ weekday: 'long', day: 'numeric', month: 'long' });
     const d = new Date(); d.setHours(12, 0, 0, 0);
     const out = [];
     while (out.length < 5) { d.setDate(d.getDate() + 1); if (d.getDay() % 6) out.push(new Date(d)); }
-    days.innerHTML = out.map((x, i) =>
-      `<span class="day${i ? '' : ' first'}" title="${full.format(x)}"><span>${dow.format(x)}</span><b>${dnum.format(x)}</b><i>${mon.format(x)}</i></span>`).join('');
+    const draw = () => {
+      const f = o => new Intl.DateTimeFormat(locale(), o);
+      const dow = f({ weekday: 'short' }), dnum = f({ day: 'numeric' }), mon = f({ month: 'short' }), full = f({ weekday: 'long', day: 'numeric', month: 'long' });
+      days.innerHTML = out.map((x, i) =>
+        `<span class="day${i ? '' : ' first'}" title="${full.format(x)}"><span>${dow.format(x)}</span><b>${dnum.format(x)}</b><i>${mon.format(x)}</i></span>`).join('');
+    };
+    draw();
+    window.addEventListener('pv:lang', draw);
   }
 })();

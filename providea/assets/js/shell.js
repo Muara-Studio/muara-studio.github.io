@@ -9,6 +9,9 @@
     set: (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} },
   };
 
+  // Strings made here follow <html lang>: lang.js sets it on load, applyLang below keeps it current
+  const isEn = () => root.lang === 'en';
+
   /* Theme: saved choice (pv-theme), else the system preference. Icons crossfade in CSS. */
   const savedTheme = store.get('pv-theme');
   if (savedTheme === 'light' || savedTheme === 'dark') root.dataset.theme = savedTheme;
@@ -17,7 +20,7 @@
   const paintTheme = () => {
     const d = isDark();
     $$('[data-theme-toggle]').forEach(b => {
-      b.setAttribute('aria-label', d ? 'Mode terang' : 'Mode gelap');
+      b.setAttribute('aria-label', isEn() ? (d ? 'Light mode' : 'Dark mode') : (d ? 'Mode terang' : 'Mode gelap'));
       b.setAttribute('aria-pressed', d ? 'true' : 'false');
     });
   };
@@ -29,20 +32,24 @@
   sysDark.addEventListener('change', paintTheme);
   paintTheme();
 
-  /* Language dropdown (listbox). Translation is not wired yet: we only store, set lang and raise pv:lang. */
+  /* Language dropdown (listbox). We store the choice, set <html lang> and raise pv:lang; lang.js swaps the text. */
+  const langHooks = []; // re-render of text made by this file, run on every language change
   const dds = $$('.lang-dd');
   let lang = store.get('pv-lang');
   if (lang !== 'id' && lang !== 'en') lang = 'id';
   const opts = dd => $$('[role=option]', dd);
   const paintLang = () => dds.forEach(dd => {
     $('.lang-cur', dd).textContent = lang.toUpperCase();
-    $('.lang-btn', dd).setAttribute('aria-label', 'Bahasa: ' + lang.toUpperCase());
+    $('.lang-btn', dd).setAttribute('aria-label', (lang === 'en' ? 'Language: ' : 'Bahasa: ') + lang.toUpperCase());
     opts(dd).forEach(o => o.setAttribute('aria-selected', String(o.dataset.langOpt === lang)));
   });
   const applyLang = (l, emit) => {
-    lang = l; root.lang = l; root.dataset.lang = l; paintLang();
+    lang = l; root.lang = l; root.dataset.lang = l; paintLang(); paintTheme();
+    langHooks.forEach(fn => fn());
     if (emit) { store.set('pv-lang', l); window.dispatchEvent(new CustomEvent('pv:lang', { detail: l })); }
   };
+  // Changes that came from elsewhere (back/forward cache, another tab) arrive as pv:lang too
+  window.addEventListener('pv:lang', e => { if ((e.detail === 'en' ? 'en' : 'id') !== lang) applyLang(e.detail === 'en' ? 'en' : 'id', false); });
   const closeDD = (dd, refocus) => {
     if (!dd.classList.contains('open')) return;
     dd.classList.remove('open');
@@ -172,13 +179,14 @@
   /* Footer: rotating word (blur + slide, inline width animates) */
   const rot = $('.foot .rot');
   if (rot && rot.firstElementChild) {
-    const words = ['website', 'aplikasi', 'aktivasi'];
+    const WORDS = { id: ['website', 'aplikasi', 'aktivasi'], en: ['website', 'app', 'activation'] };
+    const words = () => WORDS[isEn() ? 'en' : 'id'];
     let w = 0, cur = rot.firstElementChild, timer = 0;
     const swap = () => {
-      w = (w + 1) % words.length;
+      w = (w + 1) % words().length;
       const n = document.createElement('span');
       n.className = 'enter';
-      n.textContent = words[w];
+      n.textContent = words()[w];
       rot.style.width = cur.offsetWidth + 'px';
       rot.append(n);
       rot.style.width = n.offsetWidth + 'px';
@@ -191,6 +199,8 @@
     };
     const run = on => { clearInterval(timer); if (on) timer = setInterval(swap, reduced.matches ? 4200 : 2600); };
     new IntersectionObserver(([e]) => run(e.isIntersecting)).observe(rot);
+    // Language change: show the same word in the new language (the word's width follows its text)
+    langHooks.push(() => { [...rot.children].forEach(c => { if (!c.classList.contains('leave')) c.textContent = words()[w]; }); });
   }
 
   /* Footer: analog + digital clocks per office, every 30 s */
@@ -202,9 +212,13 @@
     return {
       t, svg, h: $('.hh', svg), m: $('.mh', svg), ha: null, ma: null,
       parts: new Intl.DateTimeFormat('en-GB', { timeZone: tz, hour: 'numeric', minute: 'numeric', second: 'numeric', hourCycle: 'h23' }),
-      label: new Intl.DateTimeFormat('id-ID', { timeZone: tz, hour: '2-digit', minute: '2-digit' }),
+      tz, label: null,
     };
   }).filter(Boolean);
+  // Digital label in the active locale (24 h in both: 20.41 in Indonesian, 20:41 in English)
+  const labels = () => clocks.forEach(c => {
+    c.label = new Intl.DateTimeFormat(isEn() ? 'en-GB' : 'id-ID', { timeZone: c.tz, hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
+  });
   // Always turn forward, so 59 → 0 minutes does not spin the hand backwards
   const forward = (prev, deg) => (prev === null ? deg : prev + (((deg - prev) % 360) + 360) % 360);
   const tick = () => {
@@ -222,6 +236,8 @@
     });
   };
   if (clocks.length) {
+    labels();
+    langHooks.push(() => { labels(); tick(); });
     tick();
     requestAnimationFrame(() => requestAnimationFrame(() => clocks.forEach(c => c.svg.classList.add('live'))));
     setInterval(tick, 30000);

@@ -1,0 +1,128 @@
+/* Work: project carousel in #solusi card 1, radius overrides, case page extras, all-projects page. Owner: agent B (see providea/REVISI-2026-11-03b.md). Linked after sections.css / cta.css so it wins ties. */
+
+/* ---------- Radius: card 3 gallery and process frames ---------- */
+.gallery.g3 img,.gallery.g3 .shotpair .m{border-radius:10px}
+.pframe{border-radius:12px}
+
+/* ---------- Card 1: project carousel (drifts sideways, pauses on hover/focus) ---------- */
+.gallery.gcar{display:block;margin-inline:-40px;padding-block:6px;overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
+.gtrack{display:flex;width:max-content;animation:gdrift 80s linear infinite;will-change:transform}
+.gset{display:flex;flex:none;gap:16px;padding-right:16px}
+.gcar:hover .gtrack,.gcar:focus-within .gtrack,.gcar.off .gtrack{animation-play-state:paused}
+@keyframes gdrift{to{transform:translateX(-50%)}}
+.gslide{position:relative;display:block;flex:none;width:clamp(260px,32vw,480px);aspect-ratio:16/10;border-radius:16px;overflow:hidden;color:#fff;background:rgba(255,255,255,.12);box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.gallery .gslide img{width:100%;height:100%;aspect-ratio:auto;border-radius:0;box-shadow:none;object-fit:cover;object-position:top;transition:scale .8s cubic-bezier(.2,.7,.2,1)}
+.gov{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;gap:2px;padding:18px;background:linear-gradient(transparent 30%,rgba(0,0,0,.8));opacity:0;transition:opacity .4s ease}
+.gov>*{translate:0 10px;transition:translate .5s cubic-bezier(.2,.7,.2,1)}
+.gov b{font-size:22px;font-weight:600;letter-spacing:-.02em;line-height:1.2}
+.gov small{font-size:13px;opacity:.85}
+.gov .go{display:inline-flex;align-items:center;gap:8px;margin-top:12px;padding:8px 8px 8px 16px;border-radius:999px;background:#fff;color:#0B1220;font-size:13px;font-weight:600}
+.gov .go svg{width:18px;height:18px;flex:none}
+.gov .go svg,.gov .arr{transition:translate .3s ease}
+.gov .arr{display:none}
+.gslide:hover .gov,.gslide:focus-visible .gov{opacity:1}
+.gslide:hover .gov>*,.gslide:focus-visible .gov>*{translate:0 0}
+.gslide:hover img,.gslide:focus-visible img{scale:1.05}
+.gslide:hover .go svg,.gslide:focus-visible .go svg{translate:2px -2px}
+.gslide:focus-visible{outline:2px solid #fff;outline-offset:-3px}
+/* Touch: no hover, so each slide keeps a caption and an arrow; a tap opens the case page */
+@media (hover:none){
+  .gov{opacity:1;padding:14px;background:linear-gradient(transparent 52%,rgba(0,0,0,.72))}
+  .gov>*{translate:0 0}
+  .gov b{font-size:18px}
+  .gov small{font-size:12px}
+  .gov .go{display:none}
+  .gov .arr{position:absolute;top:12px;right:12px;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#fff;color:#0B1220;translate:0 0}
+  .gov .arr svg{width:16px;height:16px}
+}
+@media (max-width:900px){
+  .gallery.gcar{margin-inline:-24px}
+  .gslide{width:min(72vw,300px)}
+  .gset{gap:12px;padding-right:12px}
+}
+/* Reduced motion: a still row you can scroll sideways */
+@media (prefers-reduced-motion:reduce){
+  .gallery.gcar{overflow-x:auto;mask-image:none;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.4) transparent}
+  .gtrack{animation:none;will-change:auto}
+  .gset[aria-hidden="true"]{display:none}
+  .gslide img,.gov,.gov>*{transition-duration:.01s}
+}
+
+/* ---------- Case pages ---------- */
+.case-hero.shade .img.hp-talia img{object-position:50% 45%}
+.case-hero.shade .img.hp-arum img,.case-hero.shade .img.hp-pegasus img{object-position:50% 0}
+.case-hero .img.hp-talia h1{width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap} /* the artwork already carries the title */
+@media (max-width:900px){
+  .case-hero.shade .img.hp-talia img{object-position:50% 8%}
+  .case-hero.shade .img.hp-arum img{object-position:72% 50%}
+  .case-hero.shade .img.hp-pegasus img{object-position:50% 30%}
+}
+.mw-foot{display:flex;justify-content:flex-end;margin-top:28px}
+.mw-all{display:inline-flex;align-items:center;gap:10px;height:50px;padding:0 14px 0 24px;border:1px solid var(--line);border-radius:999px;font-size:15px;font-weight:600;transition:background .3s,color .3s,border-color .3s}
+.mw-all svg{width:20px;height:20px;flex:none;transition:translate .3s cubic-bezier(.2,.7,.2,1)}
+.mw-all:hover{background:var(--pill-bg);color:var(--pill-ink);border-color:var(--pill-bg)}
+.mw-all:hover svg{translate:3px -3px}
+.mw-all:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+@media (max-width:900px){.mw-foot{justify-content:flex-start}}
+
+/* ---------- All projects page ---------- */
+.kx{padding-top:clamp(112px,13vw,168px);padding-bottom:clamp(72px,9vw,120px)}
+.kx-head{display:grid;grid-template-columns:1fr 1fr;gap:20px var(--pad);align-items:end;padding-bottom:clamp(36px,5vw,64px)}
+.kx-head h1{font-size:clamp(68px,12vw,176px);line-height:.9;letter-spacing:-.055em;font-weight:600}
+.kx-head .kn{display:inline-block;margin-left:.12em;vertical-align:top;font-size:.16em;line-height:1;letter-spacing:-.02em;font-weight:500;color:var(--muted);font-variant-numeric:tabular-nums}
+.kx-head .lead{justify-self:end;max-width:36ch;font-size:clamp(17px,1.5vw,21px);line-height:1.5;color:var(--slate)}
+.kbar{display:none;align-items:center;justify-content:space-between;gap:12px 24px;flex-wrap:wrap;padding:18px 0;margin-bottom:clamp(28px,3.5vw,44px);border-block:1px solid var(--line)}
+.js .kbar{display:flex}
+.kchips{display:flex;flex-wrap:wrap;gap:8px}
+.kchip{display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 18px;border:1px solid var(--line);border-radius:999px;font-size:14px;font-weight:500;color:var(--slate);transition:background .3s,color .3s,border-color .3s}
+.kchip .n{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;transition:color .3s}
+.kchip:hover{color:var(--ink);border-color:rgb(var(--ink-rgb) / .35)}
+.kchip[aria-pressed="true"]{background:var(--pill-bg);color:var(--pill-ink);border-color:var(--pill-bg)}
+.kchip[aria-pressed="true"] .n{color:inherit;opacity:.6}
+.kchip:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.kcount{font-size:13px;color:var(--slate);font-variant-numeric:tabular-nums}
+.kgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(30px,3vw,46px) 18px}
+.kcard{display:block;color:inherit}
+.kcard[hidden]{display:none}
+.kcover{position:relative;display:block;aspect-ratio:16/10;overflow:hidden;border-radius:20px;background:var(--surface);background-size:cover;background-position:center}
+.kcover img{width:100%;height:100%;object-fit:cover;object-position:top;transition:scale .8s cubic-bezier(.2,.7,.2,1)}
+.kcover.ph{display:grid;place-items:center;color:#fff}
+.kcover.ph::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.1),rgba(0,0,0,.32));pointer-events:none}
+.kcover.ph svg{position:relative;z-index:1;width:54px;height:54px;transition:translate .6s cubic-bezier(.2,.7,.2,1)}
+.kcard:hover .kcover.ph svg{translate:0 -4px}
+.kcard.lnk:hover .kcover img{scale:1.045}
+.kgo{position:absolute;z-index:2;top:14px;right:14px;display:grid;place-items:center;width:42px;height:42px;border-radius:50%;background:#fff;color:#0B1220;opacity:0;translate:-8px 8px;scale:.85;transition:opacity .35s,translate .45s cubic-bezier(.2,.7,.2,1),scale .45s cubic-bezier(.2,.7,.2,1)}
+.kgo svg{width:20px;height:20px}
+.kcard.lnk:hover .kgo,.kcard.lnk:focus-visible .kgo{opacity:1;translate:0 0;scale:1}
+.kcard.lnk:focus-visible{outline:2px solid var(--cyan);outline-offset:6px;border-radius:22px}
+.kmeta{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 16px;padding:14px 2px 0}
+.kmeta b{justify-self:start;font-size:19px;font-weight:600;letter-spacing:-.02em;line-height:1.3;background:linear-gradient(currentColor,currentColor) 0 100%/0 1px no-repeat;transition:background-size .45s cubic-bezier(.2,.7,.2,1)}
+.kcard.lnk:hover .kmeta b{background-size:100% 1px}
+.kmeta .ky{align-self:center;font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+.kmeta small{grid-column:1/-1;font-size:14px;color:var(--slate)}
+.js .kcard{opacity:0;translate:0 26px;transition:opacity .8s cubic-bezier(.2,.7,.2,1) var(--d,0s),translate .8s cubic-bezier(.2,.7,.2,1) var(--d,0s)}
+.js .kcard.in{opacity:1;translate:0 0}
+.kcard.kin{animation:kin .55s cubic-bezier(.2,.7,.2,1) both;animation-delay:var(--kd,0s)}
+@keyframes kin{from{opacity:0;translate:0 18px}to{opacity:1;translate:0 0}}
+@media (hover:none){.kcard.lnk .kgo{opacity:1;translate:0 0;scale:1;top:10px;right:10px;width:36px;height:36px}}
+@media (max-width:1000px){.kgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:900px){
+  .kx-head{grid-template-columns:1fr}
+  .kx-head .lead{justify-self:start}
+}
+@media (max-width:560px){
+  .kgrid{grid-template-columns:1fr;gap:30px}
+  .kchip{height:40px;padding:0 15px}
+  .kcover{border-radius:18px}
+}
+@media (prefers-reduced-motion:reduce){
+  .js .kcard{translate:0 0;transition:opacity .4s var(--d,0s)}
+  @keyframes kin{from{opacity:0}to{opacity:1}}
+  .gslide img,.kcover img{transition-duration:.01s}
+}
+
+/* "Lihat semua karya" under the work marquees (lead) */
+.work-all{display:flex;justify-content:flex-end;align-items:center;gap:6px;margin-top:22px;font-size:15px;font-weight:500}
+.work-all a{color:var(--ink);text-decoration:underline;text-underline-offset:4px;text-decoration-color:rgb(var(--ink-rgb) / .3);transition:text-decoration-color .2s}
+.work-all a:hover{text-decoration-color:currentColor}
+.work-all .ico{width:16px;height:16px}

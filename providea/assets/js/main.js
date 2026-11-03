@@ -7,19 +7,28 @@ const CONFIG = {
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
-// Theme, language, menu, footer word and clocks live in shell.js.
+// Theme, language, menu, footer word and clocks live in shell.js. lang.js swaps the text and sets <html lang>.
+const pvIsEn = () => document.documentElement.lang === 'en';
+const pvWaDefault = () => (pvIsEn() ? 'Hello Providea, I would like a consultation for my business.' : 'Halo Providea, saya ingin konsultasi untuk bisnis saya.');
 
 // CTA links
 $$('[data-wa]').forEach(a => {
-  const msg = encodeURIComponent(a.dataset.wa || 'Halo Providea, saya ingin konsultasi untuk bisnis saya.');
+  const msg = encodeURIComponent(a.dataset.wa || pvWaDefault());
   a.href = `https://wa.me/${CONFIG.whatsapp}?text=${msg}`;
   a.target = '_blank'; a.rel = 'noopener';
 });
-$$('[data-book]').forEach(a => { a.href = CONFIG.booking || '#jadwal'; if (CONFIG.booking) { a.target = '_blank'; a.rel = 'noopener'; } });
+// Booking: with CONFIG.booking set, open that link; otherwise go to jadwal.html (or to the form when already there).
+// The site root comes from this script's own src ('assets/js/main.js' or '../assets/js/main.js'), so root and karya/ pages both work.
+const SITE_ROOT = (($('script[src$="assets/js/main.js"]') || document.body).getAttribute('src') || '').replace(/assets\/js\/main\.js.*$/, '');
+const onJadwal = /(^|\/)jadwal(\.html)?\/?$/.test(location.pathname);
+$$('[data-book]').forEach(a => {
+  if (CONFIG.booking) { a.href = CONFIG.booking; a.target = '_blank'; a.rel = 'noopener'; }
+  else a.href = onJadwal ? '#jadwal' : SITE_ROOT + 'jadwal.html';
+});
 const waForm = $('[data-wa-form]');
 if (waForm) waForm.addEventListener('submit', e => {
   e.preventDefault();
-  const v = encodeURIComponent($('input', waForm).value || 'Halo Providea, saya ingin konsultasi untuk bisnis saya.');
+  const v = encodeURIComponent($('input', waForm).value || pvWaDefault());
   window.open(`https://wa.me/${CONFIG.whatsapp}?text=${v}`, '_blank', 'noopener');
 });
 
@@ -33,14 +42,16 @@ $$(REVEAL).forEach(el => {
 });
 
 // Count-up numbers
-const fmt = n => Math.round(n).toLocaleString('id-ID');
+const fmt = n => Math.round(n).toLocaleString(pvIsEn() ? 'en-US' : 'id-ID');
 const cio = new IntersectionObserver(es => es.forEach(e => {
   if (!e.isIntersecting) return; cio.unobserve(e.target);
   const el = e.target, to = +el.dataset.count, from = +(el.dataset.from || 0), t0 = performance.now(), dur = 1400;
-  const step = t => { const k = Math.min(1, (t - t0) / dur), ease = 1 - Math.pow(1 - k, 3); el.textContent = fmt(from + (to - from) * ease); if (k < 1) requestAnimationFrame(step); };
+  const step = t => { const k = Math.min(1, (t - t0) / dur), ease = 1 - Math.pow(1 - k, 3); el.textContent = fmt(from + (to - from) * ease); if (k < 1) requestAnimationFrame(step); else el.dataset.done = ''; };
   el.textContent = fmt(from); requestAnimationFrame(step);
 }), { threshold: 0.6 });
 $$('[data-count]').forEach(el => cio.observe(el));
+// Language change: counters that already finished switch their thousands separator (1.240 in Indonesian, 1,240 in English)
+window.addEventListener('pv:lang', () => $$('[data-count][data-done]').forEach(el => { el.textContent = fmt(+el.dataset.count); }));
 
 // Stacked pillar cards: the covered card shrinks and dims as the next one slides over it
 const cards = $$('.scard');

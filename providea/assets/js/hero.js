@@ -91,11 +91,18 @@
 
     if (reduce) return;
 
-    // Title: 0.7 -> 1 -> 1.35, fades out over the last stretch (.72-.92) so it clears the services list
-    const s = p < 0.5 ? 0.7 + p * 0.6 : 1 + (p - 0.5) * 0.7;
-    title.style.opacity = (1 - clamp01((p - 0.72) / 0.2)).toFixed(3);
+    // Title: 0.7 -> 1, then flies past the viewer and is gone by .68, so the last stretch is cards only.
+    // Eyebrow and sub leave first (.30-.45), right after the line swap.
+    const s = p < 0.5 ? 0.7 + p * 0.6 : 1 + (p - 0.5) * 1.6;
+    const out = clamp01((p - 0.5) / 0.18);
+    title.style.opacity = (1 - out).toFixed(3);
+    title.style.filter = out > 0 && out < 1 ? `blur(${(out * 6).toFixed(2)}px)` : 'none';
+    title.style.visibility = out >= 1 ? 'hidden' : 'visible';
     h1.style.transform = `scale(${s.toFixed(4)})`;
     const d = ((1 - s) * h1H) / 2; // keep eyebrow and sub hugging the scaled h1
+    const side = (1 - clamp01((p - 0.3) / 0.15)).toFixed(3);
+    eyebrow.style.opacity = side;
+    sub.style.opacity = side;
     eyebrow.style.transform = `translate3d(0,${d.toFixed(1)}px,0)`;
     sub.style.transform = `translate3d(0,${(-d).toFixed(1)}px,0)`;
 
@@ -163,6 +170,9 @@
   mqPhone.addEventListener('change', setup);
 
   new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; if (onScreen) kick(); }).observe(hero);
+
+  // Language change (lang.js swaps the text first): the headline can wrap differently, so measure again
+  addEventListener('pv:lang', () => requestAnimationFrame(() => { measure(); if (!reduce) readScroll(); render(); kick(); }));
 
   setup();
 })();
