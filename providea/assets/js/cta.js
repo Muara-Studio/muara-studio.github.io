@@ -59,7 +59,7 @@
   if (form) {
     const ta = $('textarea', form);
     const stamp = $('time', form);
-    const DEFAULT_MSG = () => (isEn() ? 'Hello Providea, I would like a consultation for my business.' : 'Halo Providea, saya ingin konsultasi untuk bisnis saya.');
+    const DEFAULT_MSG = () => (isEn() ? 'Hello Providea, I would like a consultation for my business.' : 'Halo Providea, saya ingin berkonsultasi tentang bisnis saya.');
     const number = () => {
       try { if (typeof CONFIG !== 'undefined' && CONFIG && CONFIG.whatsapp) return String(CONFIG.whatsapp).replace(/\D/g, ''); } catch (e) {}
       const m = (($('a[data-wa]') || {}).href || '').match(/wa\.me\/(\d+)/);

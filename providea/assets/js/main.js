@@ -9,7 +9,7 @@ const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
 // Theme, language, menu, footer word and clocks live in shell.js. lang.js swaps the text and sets <html lang>.
 const pvIsEn = () => document.documentElement.lang === 'en';
-const pvWaDefault = () => (pvIsEn() ? 'Hello Providea, I would like a consultation for my business.' : 'Halo Providea, saya ingin konsultasi untuk bisnis saya.');
+const pvWaDefault = () => (pvIsEn() ? 'Hello Providea, I would like a consultation for my business.' : 'Halo Providea, saya ingin berkonsultasi tentang bisnis saya.');
 
 // CTA links
 $$('[data-wa]').forEach(a => {

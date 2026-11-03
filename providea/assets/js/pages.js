@@ -101,7 +101,7 @@
         const a = new Date(now); a.setHours(12, 0, 0, 0);
         diffEl.textContent = L() === 'en'
           ? `Melbourne is ${h} hours ahead of Jakarta (${mel}). A 09:00 to 17:00 WIB workday is ${pad(9 + h)}:00 to ${pad(17 + h)}:00 in Melbourne.`
-          : `Melbourne ${h} jam lebih awal dari Jakarta (${mel}). Jam kerja 09:00 sampai 17:00 WIB sama dengan ${pad(9 + h)}:00 sampai ${pad(17 + h)}:00 di Melbourne.`;
+          : `Waktu Melbourne ${h} jam lebih cepat daripada Jakarta (${mel}). Jam kerja 09.00 sampai 17.00 WIB sama dengan ${pad(9 + h)}.00 sampai ${pad(17 + h)}.00 di Melbourne.`;
       }
     };
     onLang(tick);
@@ -121,11 +121,11 @@
         sumIn: 'Waktu Jakarta (WIB) dan Melbourne', next: 'Berikutnya',
         okCal: 'Undangan terbuka di tab baru. Simpan acaranya agar hello@providea.com ikut diundang.',
         okWa: 'WhatsApp terbuka di tab baru. Kirim pesannya untuk mengonfirmasi jadwal.',
-        blocked: 'Tab baru tidak terbuka. Izinkan pop-up untuk situs ini, lalu coba lagi.',
+        blocked: 'Tab baru tidak terbuka. Izinkan pop-up untuk website ini, lalu coba lagi.',
         fix: 'Lengkapi isian yang ditandai.',
         title: b => `Meeting Providea: ${b}`,
         det: d => ['Meeting 30 menit lewat Google Meet bersama Providea.', '', `Waktu: ${d.when}`, `Nama: ${d.name}`, `Bisnis: ${d.biz}`, `Topik: ${d.topics}`, ...(d.wa ? [`WhatsApp: ${d.wa}`] : []), ...(d.note ? [`Catatan: ${d.note}`] : [])].join('\n'),
-        wa: d => ['Halo Providea, saya ingin konfirmasi jadwal meeting 30 menit.', '', `Waktu: ${d.when}`, `Nama: ${d.name}`, `Bisnis: ${d.biz}`, `Topik: ${d.topics}`, ...(d.wa ? [`WhatsApp: ${d.wa}`] : []), ...(d.note ? [`Catatan: ${d.note}`] : [])].join('\n'),
+        wa: d => ['Halo Providea, saya ingin mengonfirmasi jadwal meeting 30 menit.', '', `Waktu: ${d.when}`, `Nama: ${d.name}`, `Bisnis: ${d.biz}`, `Topik: ${d.topics}`, ...(d.wa ? [`WhatsApp: ${d.wa}`] : []), ...(d.note ? [`Catatan: ${d.note}`] : [])].join('\n'),
         topicLbl: { web: 'Website', seo: 'SEO & GEO', sell: 'Jual online', erp: 'ERP / aplikasi internal', act: 'Aktivasi' },
       },
       en: {
@@ -149,6 +149,7 @@
     const DAY = 864e5, WIB_MS = 7 * 36e5, MEET = 30 * 6e4;
     const state = { date: null, slot: null, topics: new Set(), touched: new Set(), submitted: false };
     const loc = () => (L() === 'en' ? 'en-AU' : 'id-ID');
+    const hm = s => (L() === 'en' ? s : s.replace(':', '.'));   // clock text: 09:00 in English, 09.00 in Indonesian
 
     // The next 10 weekdays, counted in Jakarta. Each date is a UTC-midnight number that stands for that calendar day.
     const jkt = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Jakarta', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date()).split('-').map(Number);
@@ -188,9 +189,10 @@
     const paintSlots = () => {
       const ref = refDate();
       sBtns.forEach(b => {
-        const m = mel(instant(ref, +b.dataset.m));
-        $('.c', b).textContent = `${m.clock}${m.next ? '+1' : ''} ${m.tz}`;
-        b.setAttribute('aria-label', `${b.firstChild.textContent} ${T[L()].wib}, ${m.clock} ${m.tz} ${T[L()].mel}`);
+        const mm = +b.dataset.m, m = mel(instant(ref, mm));
+        $('.b', b).textContent = hm(`${pad(Math.floor(mm / 60))}:${pad(mm % 60)}`);
+        $('.c', b).textContent = `${hm(m.clock)}${m.next ? '+1' : ''} ${m.tz}`;
+        b.setAttribute('aria-label', `${$('.b', b).textContent} ${T[L()].wib}, ${hm(m.clock)} ${m.tz} ${T[L()].mel}`);
       });
     };
     const paintTopics = () => tBtns.forEach(b => { $('span', b).textContent = T[L()].topicLbl[b.dataset.t]; });
@@ -198,8 +200,8 @@
     const whenText = () => {
       const t = instant(state.date, state.slot), m = mel(t);
       const day = fmtDate(state.date, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-      const c = `${pad(Math.floor(state.slot / 60))}:${pad(state.slot % 60)}`;
-      return `${day}, ${c} ${T[L()].wib} (${m.clock}${m.next ? '+1' : ''} ${m.tz} ${T[L()].mel})`;
+      const c = hm(`${pad(Math.floor(state.slot / 60))}:${pad(state.slot % 60)}`);
+      return `${day}, ${c} ${T[L()].wib} (${hm(m.clock)}${m.next ? '+1' : ''} ${m.tz} ${T[L()].mel})`;
     };
     const paintSum = () => {
       const ready = state.date != null && state.slot != null;
