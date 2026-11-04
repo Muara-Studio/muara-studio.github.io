@@ -1,0 +1,22 @@
+/* Static demo of the Jalana museum panel: the fixed label and the "not active" note. Colours come from admin.css. */
+.demo-badge {
+  position: fixed; right: 12px; bottom: 12px; z-index: 60;
+  padding: 4px 10px; border-radius: 999px;
+  background: var(--s-paper); color: var(--s-warn-ink);
+  border: 1px solid var(--s-warn); box-shadow: var(--s-shadow-soft);
+  font: 600 12px/1.4 Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  pointer-events: none;
+}
+.demo-toast {
+  position: fixed; left: 50%; bottom: 52px; z-index: 70;
+  width: max-content; max-width: calc(100vw - 32px);
+  transform: translate(-50%, 8px); opacity: 0; visibility: hidden;
+  background: var(--s-paper); box-shadow: var(--s-shadow);
+  transition: opacity .18s ease, transform .18s ease, visibility 0s linear .18s;
+}
+.demo-toast.is-on { opacity: 1; visibility: visible; transform: translate(-50%, 0); transition: opacity .18s ease, transform .18s ease; }
+@media (prefers-reduced-motion: reduce) { .demo-toast, .demo-toast.is-on { transition: none; } }
+@media print { .demo-badge, .demo-toast { display: none; } }
+/* The panel's .sr-only "Aksi" header is position:absolute; without a positioned .table-wrap it escapes the scroll box and
+   widens the page on phones (kunjungan, tinjauan). Same bug in the live panel's admin.css. */
+.table-wrap { position: relative; }

@@ -1,0 +1,51 @@
+/* ============================================================
+   Panel Jalana . PAGES-A page styles (CMS restyle to the SIMAKO look, 13 Okt 2026)
+   Revenue, prices, schedules, pins, push, events, acara, flags, audit, health, updates.
+   Only classes the shared admin.css does not have. Tokens from admin.css.
+   ============================================================ */
+
+/* ---- Pendapatan (revenue) ---- */
+.stat-unit.rv-pre { margin-right: -5px; font-weight: 500; }
+.rv-stats .delta { margin-top: -2px; }
+.card > .table-wrap + .card-body, .card > .table + .card-body, .card > .empty + .card-body { padding-top: 16px; border-top: 1px solid var(--s-line2); }
+.rv-notes .hint + .hint { margin-top: 8px; }
+.rv-notes .rv-h3:first-child { margin-top: 0; }
+.rv-lines th[scope="row"] { white-space: normal; }
+.card > .rv-lines { margin: 0; }
+.col-side .rv-kv > div { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); }
+.col-side .rv-kv dd { text-align: right; font-variant-numeric: tabular-nums; }
+.col-side .stackbar + .legend { margin-bottom: 12px; }
+.card-foot .hint { margin: 0; }
+
+/* ---- Pembaruan ---- */
+.card-head + .card-body.upd-bar { padding: 2px 24px 4px; }
+.upd-bar .stackbar { margin: 0 0 12px; }
+.pa-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 8px; vertical-align: 1px; }
+
+/* ---- Shared bits of PAGES-A ---- */
+.col-side .table td.small { white-space: nowrap; }
+.pa-sub { margin: 20px 0 10px; font-size: 13px; font-weight: 600; color: var(--s-ink); }
+.col-side .pa-kv > div { grid-template-columns: minmax(0, 1fr) auto; }
+.col-side .pa-kv dd { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+.pa-sticky { position: sticky; top: calc(var(--s-header, 64px) + 16px); }
+.card-tools .bulkbar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 0; }
+.card-tools .inline-filter { display: flex; align-items: center; gap: 8px; margin: 0; }
+
+/* ---- Harga kartu: ten columns must fit 1440 without a sideways scroll ---- */
+.pa-dense th, .pa-dense td { padding-left: 10px; padding-right: 10px; }
+.pa-dense thead th { white-space: normal; line-height: 1.35; vertical-align: bottom; }
+.pa-dense td.num, .pa-dates td.small { white-space: nowrap; }
+.pa-prices td.panel-hide:not(.small):not(.num) { white-space: nowrap; }
+.pa-prices td.small.panel-hide { min-width: 120px; }
+.pa-dense td .badge + .small { display: block; margin-top: 4px; white-space: nowrap; }
+.pa-dense td .pill { white-space: nowrap; }
+
+/* ---- Log audit: six filters and the button on one row ---- */
+.pa-audit .filter-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)) auto; gap: 12px 14px; align-items: end; }
+.pa-audit .filter-grid .field { max-width: none; min-width: 0; }
+@media (max-width: 1200px) { .pa-audit .filter-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.card-tools .seg { margin: 0; }
+.card-head + .week { border-top: 1px solid var(--s-line); }
+.week-day h3 { font-size: 13px; font-weight: 600; color: var(--s-ink); }
+.week-day h3 .small { font-weight: 400; color: var(--s-mid); }
+.pa-dates .inline-edit { display: flex; gap: 8px; align-items: center; justify-content: flex-end; flex-wrap: nowrap; }

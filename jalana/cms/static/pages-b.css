@@ -1,0 +1,148 @@
+/* ============================================================
+   Panel Jalana . pages-b.css (CMS-SIMAKO, 13 Okt 2026)
+   Page styles for Koleksi, Katalog kartu, Lencana, Pustaka aset, Museum, Booth, Tinjauan, Pengguna, Staf, Profil.
+   Only tokens from admin.css (Jalana palette since 27 Okt 2026); both themes follow them. No inline styles (CSP style-src 'self').
+   ============================================================ */
+
+/* ---------- List card: toolbar on top, the htmx target below ---------- */
+.pb-list { overflow: hidden; }
+.pb-toolbar { display: flex; flex-direction: column; gap: 14px; padding: 16px 24px; border-bottom: 1px solid var(--s-line); margin: 0; }
+.pb-tb-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.pb-search { position: relative; flex: 1 1 280px; min-width: 220px; max-width: 520px; }
+.pb-search .icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--s-mid); pointer-events: none; }
+.pb-search .input { padding-left: 36px; border-radius: 999px; }
+.pb-inline { display: flex; align-items: center; gap: 8px; }
+.pb-inline > label { font-size: 12.5px; font-weight: 500; color: var(--s-mid); white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; }
+.pb-inline .select { width: auto; min-width: 150px; }
+.pb-tb-row .pb-tb-end { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+.pb-filters { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px 12px; }
+.pb-filters .field { gap: 4px; }
+.pb-filters .field > label { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--s-mid); }
+.pb-filters .select, .pb-filters .input { padding-top: 7px; padding-bottom: 7px; font-size: 12.5px; }
+.pb-filters .hint { font-size: 11.5px; }
+.pb-meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 24px; border-bottom: 1px solid var(--s-line); flex-wrap: wrap; }
+.pb-meta h2 { font-size: 15px; }
+.pb-meta .sub { font-size: 12px; color: var(--s-mid); font-weight: 400; margin: 2px 0 0; }
+.pb-list .pager { border-top: 1px solid var(--s-line); }
+.pb-list .empty { border-top: 0; }
+
+/* Name cell: ink, semibold, link without the accent colour */
+.pb-name a, a.pb-name { color: var(--s-ink); font-weight: 600; }
+.pb-name a:hover, a.pb-name:hover { color: var(--s-brand-ink); text-decoration: none; }
+.pb-name .small { margin-top: 2px; font-weight: 400; }
+.pb-tags { display: flex; gap: 4px; flex-wrap: wrap; }
+.table td.pb-quiet, .pb-quiet { color: var(--s-mid); }
+
+
+/* ---------- Facts list in a side card (SIMAKO identity card) ---------- */
+.kv.pb-facts { display: block; margin: 0; }
+.kv.pb-facts > div { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 9px 0; border-bottom: 1px solid var(--s-line2); }
+.kv.pb-facts > div:first-child { padding-top: 0; }
+.kv.pb-facts > div:last-child { border-bottom: 0; padding-bottom: 0; }
+.kv.pb-facts dt { color: var(--s-mid); font-weight: 400; flex: none; max-width: 48%; }
+.kv.pb-facts dd { color: var(--s-ink); font-weight: 500; text-align: right; min-width: 0; overflow-wrap: anywhere; }
+.kv.pb-facts dd .badge { margin-left: 4px; }
+.pb-facts + .hint, .pb-facts + p { margin-top: 14px; }
+.pb-card-note { margin: 14px 0 0; font-size: 12px; color: var(--s-mid); }
+
+/* Card face preview (Koleksi): the text of a card as a small dashed tile */
+.preview.pb-face { display: block; padding: 14px 16px; background: var(--s-alt); border: 1px dashed var(--s-line); border-radius: var(--r-ctl); }
+.pb-after-face { margin-top: 16px !important; }
+.pb-flush { margin: 0; }
+
+/* Card head with title and subtitle */
+.card-head .pb-title { display: grid; gap: 2px; }
+.card-head .pb-title h2 { margin: 0; }
+.card-head .pb-title span { font-size: 12px; color: var(--s-mid); }
+
+/* Section blocks inside a form card */
+.pb-section { padding-top: 20px; margin-top: 4px; border-top: 1px solid var(--s-line2); }
+.pb-section-title { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--s-mid); margin: 0 0 12px; }
+.pb-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; padding-top: 16px; border-top: 1px solid var(--s-line2); }
+.pb-actions .pb-actions-note { margin: 0 0 0 auto; font-size: 12px; color: var(--s-mid); }
+.pb-dims { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+
+/* Action list in a side card: one row per action */
+.pb-action-list { display: grid; gap: 8px; }
+.pb-action-list .btn { width: 100%; justify-content: flex-start; }
+.pb-action-list .row { display: block; }
+
+/* ---------- Stat strip: several small figures in one card ---------- */
+.pb-strip { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); margin-bottom: 24px; overflow: hidden; }
+.pb-strip > .pb-strip-item { display: grid; gap: 2px; padding: 16px 20px; border-left: 1px solid var(--s-line2); color: var(--s-ink2); min-width: 0; }
+.pb-strip > .pb-strip-item:first-child { border-left: 0; }
+a.pb-strip-item:hover { background: var(--s-alt); text-decoration: none; }
+.pb-strip-label { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--s-mid); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pb-strip-value { font-size: 22px; font-weight: 600; color: var(--s-figure, var(--s-accent)); letter-spacing: -.4px; line-height: 1.25; margin-top: 4px; font-variant-numeric: tabular-nums; }
+.pb-strip-value small { font-size: 12px; font-weight: 500; color: var(--s-mid); letter-spacing: 0; margin-left: 4px; }
+.pb-strip-sub { font-size: 12px; color: var(--s-mid); }
+
+/* ---------- Report rows (Laporan aset) ---------- */
+.pb-rows { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); column-gap: 24px; }
+.pb-rows li { display: grid; gap: 2px; padding: 10px 0 10px 12px; border-bottom: 1px solid var(--s-line2); position: relative; }
+.pb-rows li::before { content: ""; position: absolute; left: 0; top: 12px; bottom: 12px; width: 3px; border-radius: 2px; background: var(--s-warn); opacity: .7; }
+.pb-rows li a { color: var(--s-ink); font-weight: 500; }
+
+/* ---------- Narrow screens ---------- */
+@media (max-width: 1200px) {
+  .pb-strip { grid-auto-flow: row; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .pb-strip > .pb-strip-item:nth-child(4n + 1) { border-left: 0; }
+  .pb-strip > .pb-strip-item:nth-child(n + 5) { border-top: 1px solid var(--s-line2); }
+}
+@media (max-width: 900px) {
+  .pb-dims { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pb-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pb-toolbar, .pb-meta { padding-left: 16px; padding-right: 16px; }
+  .pb-search { max-width: none; }
+}
+
+/* ---------- Group label above a stat row ---------- */
+.pb-group { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--s-mid); margin: 0 0 10px; }
+.pb-tb-title { font-family: var(--s-display); font-size: 15px; margin: 0 auto 0 0; }
+.pb-filters.pb-filters-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.pb-filters.pb-filters-7 { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+@media (max-width: 1280px) { .pb-filters.pb-filters-7 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.pb-more { margin: 12px 0 0; }
+.pb-list > .pb-toolbar + .pb-meta { border-top: 0; }
+.form-actions.pb-form-end { padding-top: 16px; border-top: 1px solid var(--s-line2); }
+.form-actions .pb-actions-note { margin: 0 auto 0 0; font-size: 12px; color: var(--s-mid); }
+.stat-sub.pb-dot-muted::before { background: var(--s-line); }
+.pb-under-table { padding-top: 16px; }
+
+/* Tables inside a list card sit one level deeper than .card > .table-wrap: same 24 px side padding as SHELL's rule */
+.pb-list .table-wrap .table th:first-child, .pb-list .table-wrap .table td:first-child { padding-left: 24px; }
+.pb-list .table-wrap .table th:last-child, .pb-list .table-wrap .table td:last-child { padding-right: 24px; }
+.pb-inline .select { max-width: 280px; }
+.pb-data tbody th[scope="row"] { white-space: nowrap; }
+.pb-rule { min-width: 280px; color: var(--s-ink2); }
+.pb-earned { min-width: 160px; }
+.pb-list td.pb-name { min-width: 180px; }
+.pb-alert-gap { margin: 16px 0; }
+.pb-block { display: block; }
+.filter-grid.pb-email .field:first-child { flex: 1 1 420px; max-width: 640px; }
+
+/* Wider form card for create and edit pages (SIMAKO "Tambah" forms): two columns of fields */
+.card.pb-form-card { max-width: 880px; }
+.pb-form-card .card-body > .lead, .pb-form-card .card-body > p.muted { max-width: 72ch; }
+.pb-form-card .choice .table-wrap { margin: 0 -16px; }
+
+/* List card where the count bar and a short filter share one row (Lencana) */
+.pb-list.pb-merge { display: grid; grid-template-columns: minmax(0, 1fr) max-content; }
+.pb-merge > #tabel { display: contents; }
+.pb-merge > .pb-toolbar { grid-column: 2; grid-row: 1; border-bottom: 1px solid var(--s-line); padding-left: 0; justify-content: center; }
+.pb-merge .pb-meta { grid-column: 1; grid-row: 1; justify-content: flex-start; gap: 16px; }
+.pb-merge .pb-meta .btn { margin-left: auto; }
+.pb-merge > #tabel > :not(.pb-meta) { grid-column: 1 / -1; }
+.pb-list.pb-merge td.pb-name { min-width: 190px; }
+.pb-filters.pb-filters-btn { grid-template-columns: repeat(3, minmax(0, 1fr)) auto; align-items: end; }
+@media (max-width: 900px) { .pb-filters.pb-filters-btn { grid-template-columns: minmax(0, 1fr); } }
+
+/* TAG-DEMO (14 Okt 2026): demo NFC tag card on the booth page, dev only */
+.dt-tag { min-width: 150px; }
+.dt-label { display: block; font-weight: 500; }
+.dt-code { display: block; color: var(--s-mid); font-size: 11.5px; margin: 2px 0 6px; }
+.dt-url { display: flex; gap: 8px; align-items: center; min-width: 220px; }
+.dt-url .input { flex: 1 1 auto; min-width: 0; width: auto; }
+.dt-help { padding-top: 16px; }
+.dt-title { font-size: 12px; font-weight: 600; margin: 0 0 8px; }
+.dt-steps { margin: 0; padding-left: 18px; display: grid; gap: 4px; color: var(--s-ink); }
