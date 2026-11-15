@@ -34,6 +34,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .hdr>*{pointer-events:auto}
 .brand,.wm{font-family:"SF Pro Display",-apple-system,BlinkMacSystemFont,"Inter",system-ui,sans-serif}
 .brand{font-weight:600;font-size:24px;letter-spacing:-.025em;line-height:1}
+.brand{display:inline-flex;align-items:center;gap:.3em}
+.brand-mark{height:.94em;width:auto;flex:none;fill:currentColor;translate:0 -.02em}
+@media (max-width:480px){.brand>span{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}.brand-mark{height:1.25em}} /* phones: the mark alone, so the centred menu pill never overlaps the name */ /* logogram: tools/logo/marks.py, the text stays for screen readers and recall */
 .navpill{display:flex;align-items:center;gap:4px;padding:5px;border-radius:999px;background:var(--pill-bg);color:var(--pill-ink);box-shadow:var(--shadow)}
 .navpill button,.navpill a{display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;font-size:14px;font-weight:500}
 .navpill .sep{width:1px;height:18px;background:currentColor;opacity:.2}

@@ -4,8 +4,6 @@
 .scard::after{background:linear-gradient(180deg,rgba(0,0,0,.12),rgba(0,0,0,.34))}
 .scard h3{max-width:20ch;text-wrap:balance}
 .searchmock .l{background:#E5E7EB}.searchmock .l.h{background:#B7BDC9}
-.shotpair{position:relative}
-.shotpair .m{position:absolute;right:10px;bottom:10px;width:23%;height:auto;aspect-ratio:390/844;object-fit:cover;object-position:top;border:3px solid rgba(255,255,255,.92);border-radius:16px}
 .gallery.one{grid-template-columns:1fr}
 .gallery .wide{aspect-ratio:3/1;object-position:left top}
 
@@ -98,8 +96,6 @@
 /* ---------- Phone and small tablet ---------- */
 @media (max-width:900px){
   .gallery .wide{aspect-ratio:2/1}
-  .gallery.g3>img:first-child{display:none}
-  .shotpair .m{width:30%;right:6px;bottom:6px;border-width:2px;border-radius:10px}
   .clients{flex-direction:column;align-items:flex-start;gap:14px}
   .cl-marquee{width:100%;flex:none}
   .proc-head{grid-template-columns:1fr}
@@ -114,7 +110,7 @@
   .steps button[aria-current]{padding:12px 16px 12px 12px}
   .bignum{font-size:48px}
   .pvis{align-self:start}
-  .pframe{aspect-ratio:4/3;max-height:none;border-radius:22px}
+  .pframe{aspect-ratio:4/3;max-height:none}
   .pcaps{margin-top:10px}
   .phone{top:6%;width:min(150px,38%);padding:7px;border-radius:30px}
   .phone img{border-radius:24px}

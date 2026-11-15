@@ -48,9 +48,6 @@ body:has(.hdr.hdr-away) .pg-nav{top:14px}
 .pl-list{list-style:none;border-top:1px solid var(--line)}
 .pl-list li{display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--line);font-size:17px;font-weight:500;letter-spacing:-.01em}
 .pl-list li::before{content:"";flex:none;width:7px;height:7px;border-radius:50%;background:var(--cyan)}
-.pl-list .pg-chips{display:flex;flex-wrap:wrap;gap:6px;margin-left:auto}
-.pl-list li:has(.pg-chips){flex-wrap:wrap}
-.pl-list li:has(.pg-chips) .pg-chips{margin:0 0 0 19px;width:100%}
 .pl-deliv{list-style:none;counter-reset:d;border-top:1px solid var(--line)}
 .pl-deliv li{counter-increment:d;display:grid;grid-template-columns:28px minmax(0,1fr);gap:0 8px;padding:16px 0;border-bottom:1px solid var(--line)}
 .pl-deliv li::before{content:counter(d,decimal-leading-zero);grid-row:span 2;padding-top:3px;font-size:12px;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums}
@@ -96,10 +93,6 @@ a.pcase:hover .ico{translate:2px -2px;color:var(--ink)}
 .fnode h3{margin:6px 0 10px;font-size:clamp(22px,2vw,28px);line-height:1.1;letter-spacing:-.03em;font-weight:600}
 .fnode p{font-size:15px;line-height:1.5;color:var(--slate)}
 .fnode>a:hover h3{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:5px}
-.partners{display:flex;flex-wrap:wrap;align-items:center;gap:14px 12px;margin-top:clamp(40px,5vw,64px);padding-top:28px;border-top:1px solid var(--line)}
-.partners>p{flex:none;margin-right:12px;font-size:14px;color:var(--slate)}
-.ptile{display:inline-flex;align-items:center;gap:10px;height:48px;padding:0 22px 0 18px;border:1px solid var(--line);border-radius:14px;background:var(--card);font-size:16px;font-weight:600;letter-spacing:-.02em}
-.ptile .pg-g{width:13px;height:13px;color:var(--ink)}
 
 /* ---------- Tentang ---------- */
 .pg-hero .img{aspect-ratio:16/6.8}
@@ -275,5 +268,4 @@ a.pcase:hover .ico{translate:2px -2px;color:var(--ink)}
   .bk-offer .five{width:60px;height:60px;font-size:34px}
   .pcase{grid-template-columns:96px minmax(0,1fr) auto}
   .pcase.ph{grid-template-columns:96px minmax(0,1fr)}
-  .partners>p{flex-basis:100%;margin:0}
 }

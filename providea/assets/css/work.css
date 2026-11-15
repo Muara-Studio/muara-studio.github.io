@@ -1,18 +1,20 @@
-/* Work: project carousel in #solusi card 1, radius overrides, case page extras, all-projects page. Owner: agent B (see providea/REVISI-2026-11-03b.md). Linked after sections.css / cta.css so it wins ties. */
+/* Work: project carousels in #solusi cards 1 and 3, radius overrides, case page extras, all-projects page. Owner: agent B (see providea/REVISI-2026-11-03b.md). Linked after sections.css / cta.css so it wins ties. */
 
-/* ---------- Radius: card 3 gallery and process frames ---------- */
-.gallery.g3 img,.gallery.g3 .shotpair .m{border-radius:10px}
-.pframe{border-radius:12px}
+/* ---------- Radius: carousel slides and process frames (10 Nov: smaller corners) ---------- */
+.pframe{border-radius:8px}
 
-/* ---------- Card 1: project carousel (drifts sideways, pauses on hover/focus) ---------- */
+/* ---------- Cards 1 and 3: project carousels (drift sideways, pause on hover/focus; every slide opens its case page) ---------- */
 .gallery.gcar{display:block;margin-inline:-40px;padding-block:6px;overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
 .gtrack{display:flex;width:max-content;animation:gdrift 80s linear infinite;will-change:transform}
 .gset{display:flex;flex:none;gap:16px;padding-right:16px}
 .gcar:hover .gtrack,.gcar:focus-within .gtrack,.gcar.off .gtrack{animation-play-state:paused}
 @keyframes gdrift{to{transform:translateX(-50%)}}
-.gslide{position:relative;display:block;flex:none;width:clamp(260px,32vw,480px);aspect-ratio:16/10;border-radius:16px;overflow:hidden;color:#fff;background:rgba(255,255,255,.12);box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.gcar.rev .gtrack{animation-direction:reverse;animation-duration:96s}
+.gslide{position:relative;display:block;flex:none;width:clamp(260px,32vw,480px);aspect-ratio:16/10;border-radius:8px;overflow:hidden;color:#fff;background:rgba(255,255,255,.12);box-shadow:0 10px 30px rgba(0,0,0,.25)}
 .gallery .gslide img{width:100%;height:100%;aspect-ratio:auto;border-radius:0;box-shadow:none;object-fit:cover;object-position:top;transition:scale .8s cubic-bezier(.2,.7,.2,1)}
-.gov{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;gap:2px;padding:18px;background:linear-gradient(transparent 30%,rgba(0,0,0,.8));opacity:0;transition:opacity .4s ease}
+/* Card 3: desktop shot with the phone view inset, so each slide shows the store on both screens */
+.gallery .gslide img.m{position:absolute;right:14px;bottom:14px;z-index:0;width:21%;height:auto;aspect-ratio:390/844;object-fit:cover;object-position:top;border:3px solid rgba(255,255,255,.92);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.gov{position:absolute;inset:0;z-index:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;gap:2px;padding:18px;background:linear-gradient(transparent 30%,rgba(0,0,0,.8));opacity:0;transition:opacity .4s ease}
 .gov>*{translate:0 10px;transition:translate .5s cubic-bezier(.2,.7,.2,1)}
 .gov b{font-size:22px;font-weight:600;letter-spacing:-.02em;line-height:1.2}
 .gov small{font-size:13px;opacity:.85}
@@ -39,6 +41,7 @@
   .gallery.gcar{margin-inline:-24px}
   .gslide{width:min(72vw,300px)}
   .gset{gap:12px;padding-right:12px}
+  .gallery .gslide img.m{right:10px;bottom:10px;border-width:2px;border-radius:6px}
 }
 /* Reduced motion: a still row you can scroll sideways */
 @media (prefers-reduced-motion:reduce){
@@ -49,11 +52,13 @@
 }
 
 /* ---------- Case pages ---------- */
-.case-hero.shade .img.hp-talia img{object-position:50% 45%}
 .case-hero.shade .img.hp-arum img,.case-hero.shade .img.hp-pegasus img{object-position:50% 0}
-.case-hero .img.hp-talia h1{width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap} /* the artwork already carries the title */
+.case-hero .img.hp-title h1{width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap} /* the screenshot already carries the name */
+.case-hero .img.hp-shot img{object-position:50% 0} /* site screenshots: keep their own header in view */
+.case-hero .img.hp-shot,.bento figure:not(.quote){outline:1px solid var(--line);outline-offset:-1px} /* hairline so white screenshots do not melt into the page */
+.dl dd a{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+.dl dd a:hover{color:var(--slate)}
 @media (max-width:900px){
-  .case-hero.shade .img.hp-talia img{object-position:50% 8%}
   .case-hero.shade .img.hp-arum img{object-position:72% 50%}
   .case-hero.shade .img.hp-pegasus img{object-position:50% 30%}
 }

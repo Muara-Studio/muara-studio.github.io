@@ -169,11 +169,14 @@
     req();
   }
 
-  /* FAB: step aside while the CTA section (#jadwal, with its own WhatsApp chat) is on screen */
-  const fab = $('.fab'), cta = $('#jadwal');
+  /* FAB: step aside while the CTA section (#jadwal, with its own WhatsApp chat) or the footer's bottom row is on screen */
+  const fab = $('.fab'), cta = $('#jadwal'), fbot = $('.foot-bottom');
   if (fab) {
     fab.addEventListener('animationend', () => { fab.style.animation = 'none'; }, { once: true });
-    if (cta) new IntersectionObserver(([e]) => fab.classList.toggle('fab-off', e.isIntersecting), { rootMargin: '0px 0px -12% 0px' }).observe(cta);
+    const away = new Set();
+    const flag = (el, on) => { if (on) away.add(el); else away.delete(el); fab.classList.toggle('fab-off', away.size > 0); };
+    if (cta) new IntersectionObserver(([e]) => flag(cta, e.isIntersecting), { rootMargin: '0px 0px -12% 0px' }).observe(cta);
+    if (fbot) new IntersectionObserver(([e]) => flag(fbot, e.isIntersecting)).observe(fbot);
   }
 
   /* Footer: rotating word (blur + slide, inline width animates) */
@@ -221,16 +224,21 @@
   });
   // Always turn forward, so 59 → 0 minutes does not spin the hand backwards
   const forward = (prev, deg) => (prev === null ? deg : prev + (((deg - prev) % 360) + 360) % 360);
+  // Until the offices reveal, the hands wait at 12 so they can sweep to local time (see the reveal below)
+  const instant = reduced.matches || !('IntersectionObserver' in window);
+  let handsOn = instant;
   const tick = () => {
     const now = new Date();
     clocks.forEach(c => {
       const p = {};
       c.parts.formatToParts(now).forEach(x => { p[x.type] = +x.value; });
       const H = p.hour % 24, M = p.minute, S = p.second;
-      c.ma = forward(c.ma, (M + S / 60) * 6);
-      c.ha = forward(c.ha, ((H % 12) + M / 60) * 30);
-      c.m.style.rotate = c.ma + 'deg';
-      c.h.style.rotate = c.ha + 'deg';
+      if (handsOn) {
+        c.ma = forward(c.ma, (M + S / 60) * 6);
+        c.ha = forward(c.ha, ((H % 12) + M / 60) * 30);
+        c.m.style.rotate = c.ma + 'deg';
+        c.h.style.rotate = c.ha + 'deg';
+      }
       c.t.textContent = c.label.format(now);
       c.t.dateTime = pad(H) + ':' + pad(M);
     });
@@ -241,6 +249,23 @@
     tick();
     requestAnimationFrame(() => requestAnimationFrame(() => clocks.forEach(c => c.svg.classList.add('live'))));
     setInterval(tick, 30000);
+  }
+
+  /* Footer offices: Melbourne, then Jakarta, reveal once the footer scrolls in. The hairline grows, the clock face
+     draws, the city rises out of a mask, address and time follow, then the hands sweep from 12 to local time.
+     The start states live under .js in shell.css, so the offices stay visible without JS. */
+  const locs = $$('.loc');
+  if (locs.length) {
+    locs.forEach((l, i) => l.style.setProperty('--ld', (i * 0.16).toFixed(2) + 's'));
+    const show = () => {
+      locs.forEach(l => l.classList.add('loc-in'));
+      if (!handsOn) setTimeout(() => { handsOn = true; tick(); }, 650);
+    };
+    if (!('IntersectionObserver' in window)) show();
+    else {
+      const lio = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { lio.disconnect(); show(); } }, { threshold: 0.35 });
+      locs.forEach(l => lio.observe(l));
+    }
   }
 
   /* Header slides away while scrolling down and comes back on scroll up, so it never sits on content. */

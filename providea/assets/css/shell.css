@@ -82,14 +82,14 @@
 .menu-in{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;overflow-y:auto}
 .menu-top .brand{color:#fff}
 .menu .hdr-cta{background:#fff;color:var(--night);-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:0 10px 30px rgb(0 0 0 / .25)}
-.menu-nav{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px var(--pad)}
+.menu-nav{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px var(--pad)}
 .menu-nav a{display:block;padding:.02em .18em;font-size:clamp(48px,calc(39px + 2.29vw),72px);font-weight:500;line-height:1.1;letter-spacing:-.045em;transition:filter .45s var(--e-out),opacity .45s var(--e-out)}
 .menu-nav a>span{display:inline-block;opacity:0;translate:0 .55em;filter:blur(6px);transition:opacity .35s ease,translate .35s ease,filter .35s ease}
 .menu.open .menu-nav a>span{opacity:1;translate:0 0;filter:blur(0);transition:opacity .7s var(--e-out),translate .9s var(--e-out),filter .7s var(--e-out);transition-delay:calc(.3s + var(--i) * .07s)}
 @media (hover:hover){.menu-nav:has(a:hover) a:not(:hover){filter:blur(4px);opacity:.35}}
 .menu-nav:has(a:focus-visible) a:not(:focus-visible){filter:blur(4px);opacity:.35}
 .menu-nav a:focus-visible{outline-offset:6px;border-radius:12px}
-.menu-foot{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;padding:0 var(--pad) 32px;opacity:0;translate:0 16px;transition:opacity .3s ease,translate .3s ease}
+.menu-foot{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;padding:0 var(--pad) calc(24px + env(safe-area-inset-bottom,0px));opacity:0;translate:0 16px;transition:opacity .3s ease,translate .3s ease}
 .menu.open .menu-foot{opacity:1;translate:0 0;transition:opacity .7s var(--e-out) .62s,translate .8s var(--e-out) .62s}
 .menu-contact{display:grid;gap:6px}
 .menu-contact small{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgb(255 255 255 / .6)}
@@ -101,7 +101,7 @@ html.pv-locked{overflow:hidden}
 html.pv-locked body{padding-right:var(--sbw,0px)}
 
 /* Footer: offices and links form tight stacks at the bottom of the grid, sitting on the baseline of the heading's last line */
-.foot{padding-bottom:104px}
+.foot{padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))} /* bottom row sits flush; the fab steps aside there (shell.js) */
 .foot-grid{grid-template-columns:1.4fr 1fr 1fr .8fr;column-gap:32px;row-gap:0;align-items:end;align-items:last baseline}
 .foot-grid>*{min-width:0}
 .foot h2{line-height:1}
@@ -121,6 +121,22 @@ html.pv-locked body{padding-right:var(--sbw,0px)}
 .clock .mh{stroke-width:1.3}
 .clock .hub{fill:#fff;stroke:none}
 .clock.live .hh,.clock.live .mh{transition:rotate 1.2s var(--e-out)}
+.loc .clock.live .hh{transition:rotate 1.4s var(--e-out) var(--ld,0s)}
+.loc .clock.live .mh{transition:rotate 1.6s var(--e-out) var(--ld,0s)}
+/* Offices reveal (shell.js adds .loc-in): hairline grows, face draws from 12, city rises out of a mask, details follow */
+.loc{position:relative;padding-top:22px}
+.loc::before{content:"";position:absolute;inset:0 0 auto;height:1px;background:rgb(255 255 255 / .2);transform-origin:0 50%}
+.js .loc::before{scale:0 1;transition:scale 1.1s var(--e-out) var(--ld,0s)}
+.js .loc .face{stroke-dasharray:66;stroke-dashoffset:66;rotate:-90deg;transform-box:fill-box;transform-origin:center;transition:stroke-dashoffset 1.2s var(--e-out) calc(var(--ld,0s) + .1s)}
+.js .loc .hub{opacity:0;transition:opacity .4s ease calc(var(--ld,0s) + .5s)}
+.js .loc b{clip-path:inset(0 0 100% 0);translate:0 100%;transition:clip-path .9s var(--e-out) calc(var(--ld,0s) + .2s),translate .9s var(--e-out) calc(var(--ld,0s) + .2s)}
+.js .loc span,.js .loc time{opacity:0;translate:0 8px;transition:opacity .7s ease calc(var(--ld,0s) + .45s),translate .7s var(--e-out) calc(var(--ld,0s) + .45s)}
+.js .loc time{transition-delay:calc(var(--ld,0s) + .58s)}
+.loc.loc-in::before{scale:1 1}
+.loc.loc-in .face{stroke-dashoffset:0}
+.loc.loc-in .hub{opacity:1}
+.loc.loc-in b{clip-path:inset(-.1em -.1em -.25em -.1em);translate:0 0}
+.loc.loc-in span,.loc.loc-in time{opacity:1;translate:0 0}
 .flinks{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
 .flinks a{transition:opacity .2s}.flinks a:hover{opacity:.65}
 .foot-bottom a.u{white-space:nowrap}
@@ -163,6 +179,10 @@ html.pv-locked body{padding-right:var(--sbw,0px)}
   .swap>*,.menu-btn .lbl>*{transition-duration:.2s}
   .js .fab{animation-duration:.4s}
   .fab.fab-off{translate:none}
+  .js .loc::before,.js .loc .face{transition:none}
+  .js .loc b,.js .loc span,.js .loc time{clip-path:none;translate:none;opacity:0;transition:opacity .4s ease}
+  .loc.loc-in b,.loc.loc-in span,.loc.loc-in time{clip-path:none;opacity:1}
+  .loc .clock.live .hh,.loc .clock.live .mh{transition:none}
 }
 
 /* Header hides on scroll down (lead) */

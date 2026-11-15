@@ -6,10 +6,11 @@
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
   const isEn = () => document.documentElement.lang === 'en';
 
-  // Home: pause the card 1 carousel while it is off screen.
-  const car = $('.gcar');
-  if (car && 'IntersectionObserver' in window) {
-    new IntersectionObserver(es => es.forEach(e => car.classList.toggle('off', !e.isIntersecting)), { rootMargin: '80px' }).observe(car);
+  // Home: pause each project carousel (cards 1 and 3) while it is off screen.
+  const cars = $$('.gcar');
+  if (cars.length && 'IntersectionObserver' in window) {
+    const cio = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle('off', !e.isIntersecting)), { rootMargin: '80px' });
+    cars.forEach(c => cio.observe(c));
   }
 
   // Karya: filter chips.

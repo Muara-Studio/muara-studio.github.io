@@ -13,7 +13,7 @@
 
   /* 1. Tilted grid: built lazily when the section is near, animated only while it is on screen */
   const grid = $('.tgrid', cta);
-  const IMGS = ['talia', 'arum', 'pegasus', 'motoijo', 'agungalpra', 'talia-2', 'arum-2', 'pegasus-2', 'motoijo-2', 'agungalpra-2'];
+  const IMGS = ['fullsenyum', 'arum', 'pegasus', 'nurseri', 'agungalpra', 'influence', 'fullsenyum-2', 'arum-2', 'pegasus-2', 'nurseri-2', 'agungalpra-2', 'influence-2'];
   const COLS = 6, GAP = 16;
   let built = false;
   const build = () => {

@@ -33,7 +33,7 @@ if (waForm) waForm.addEventListener('submit', e => {
 });
 
 // Scroll reveals, staggered inside each parent
-const REVEAL = '.intro p,.intro h2,.work-head>*,.proc-head>*,.faq h2,.faq details,.cta h2,.cta .sub,.split>*,.foot h2,.loc,.flinks,.case-intro>div,.scope li,.bento figure,.more-work .head h2,.mw a,.clients>*,.scard .cols,.scard .gallery';
+const REVEAL = '.intro p,.intro h2,.work-head>*,.proc-head>*,.faq h2,.faq details,.cta h2,.cta .sub,.split>*,.foot h2,.flinks,.case-intro>div,.scope li,.bento figure,.more-work .head h2,.mw a,.clients>*,.scard .cols,.scard .gallery';
 const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
 $$(REVEAL).forEach(el => {
   const sibs = [...el.parentElement.children].filter(c => c.matches(REVEAL));
