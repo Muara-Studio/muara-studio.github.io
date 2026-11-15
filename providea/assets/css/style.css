@@ -34,8 +34,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .hdr>*{pointer-events:auto}
 .brand,.wm{font-family:"SF Pro Display",-apple-system,BlinkMacSystemFont,"Inter",system-ui,sans-serif}
 .brand{font-weight:600;font-size:24px;letter-spacing:-.025em;line-height:1}
-.brand{display:inline-flex;align-items:center;gap:.3em}
-.brand-mark{height:.94em;width:auto;flex:none;fill:currentColor;translate:0 -.02em}
+.brand{display:inline-flex;align-items:baseline;gap:0} /* the logogram is the P of "Providea": it sits on the baseline and is as tall as the capitals */
+.brand-mark{height:.72em;width:auto;flex:none;fill:currentColor;margin-right:.03em}
 @media (max-width:480px){.brand>span{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}.brand-mark{height:1.25em}} /* phones: the mark alone, so the centred menu pill never overlaps the name */ /* logogram: tools/logo/marks.py, the text stays for screen readers and recall */
 .navpill{display:flex;align-items:center;gap:4px;padding:5px;border-radius:999px;background:var(--pill-bg);color:var(--pill-ink);box-shadow:var(--shadow)}
 .navpill button,.navpill a{display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;font-size:14px;font-weight:500}
@@ -69,7 +69,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .scard .num{font-size:clamp(44px,5vw,72px);font-weight:600;letter-spacing:-.04em;line-height:1}
 .scard .cols{display:grid;grid-template-columns:1fr 1fr;gap:24px;border-top:1px solid rgba(255,255,255,.25);padding-top:18px}
 .scard .cols small{display:flex;align-items:center;gap:8px;font-size:12px;opacity:.85;margin-bottom:6px}.scard .cols small::before{content:"";width:6px;height:6px;border-radius:50%;background:#fff}
-.scard .cols p{font-size:16px;font-weight:500}.scard .cols p em{font-style:normal;opacity:.65}
+.scard .cols p{font-size:16px;font-weight:500}.scard .cols p em{font-style:normal;opacity:.78} /* .65 measured 3.0–4.2:1 on the new backgrounds; .78 keeps the two-tone line and reads */
 .scard .more{align-self:center;background:#fff;color:var(--navy);font-size:13px;font-weight:600;padding:8px 16px;border-radius:999px}
 .gallery{display:grid;gap:14px;grid-template-columns:repeat(var(--n,2),1fr);margin-top:auto}
 .gallery img{border-radius:18px;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;box-shadow:0 10px 30px rgba(0,0,0,.25)}
@@ -189,3 +189,18 @@ details p{animation:fade .4s ease}
   .services ul{animation-duration:50s}.track{animation-duration:110s}
   .js .reveal{translate:0 10px}
 }
+
+/* ══ Loader: the logogram, gathered from dots ══════════════════
+   assets/js/loader.js (Bencho "Particles", MIT, bencho.dev/licence).
+   The <head> script adds .pv-ld to <html> before first paint; this
+   cover is up from the first frame and the canvas joins it as soon as
+   the script runs. Bencho's tokens map to this site's own: --fill-on
+   and --ink → --ink (the dots), the ground → --bg. */
+html.pv-ld body{overflow:hidden}
+html.pv-ld body::before{content:"";position:fixed;inset:0;z-index:300;background:var(--bg)}
+.pvl{position:fixed;inset:0;z-index:301;display:grid;place-items:center;background:var(--bg);transition:opacity .6s ease,visibility .6s}
+.pvl.out{opacity:0;visibility:hidden;pointer-events:none}
+.pvl-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.ptc{position:relative;display:grid;place-items:center}
+/* the dots are drawn on the canvas in its own `color`, so the ink is set here and the theme carries it */
+.ptc-canvas{display:block;width:min(64vw,320px);height:auto;aspect-ratio:1;color:var(--ink);cursor:crosshair;touch-action:none}
