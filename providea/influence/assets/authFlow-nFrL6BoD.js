@@ -1,1 +1,0 @@
-var e={specialist:`rana@agensirana.id`,kol:`halo@nadiraeats.id`},t=e=>/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e.trim()),n=e=>e===`kol`?`/kol-app`:`/app`,r=e=>e===`kol`?`/kode/kol`:`/kode`,i=e=>/^\d{6}$/.test(e);export{i as a,t as i,r as n,n as r,e as t};

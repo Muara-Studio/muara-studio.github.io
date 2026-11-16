@@ -1,0 +1,1 @@
+import{B as e,et as t}from"./ui-DKCrjZMO.js";var n=e();function r({children:e,head:r,className:i}){return(0,n.jsxs)(`div`,{className:t(`paper-stage`,i),children:[r&&(0,n.jsx)(`div`,{className:`paper-stage-head`,children:r}),e]})}function i({children:e,className:r,label:i}){return(0,n.jsx)(`article`,{className:t(`paper`,r),"aria-label":i,children:e})}export{r as n,i as t};

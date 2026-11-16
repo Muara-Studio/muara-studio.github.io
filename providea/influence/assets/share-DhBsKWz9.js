@@ -1,1 +1,0 @@
-import{l as e}from"./index-CV-TXqqn.js";var t=t=>t.campaignId??e.specialist.shareToken(t.title),n=e=>`${window.location.origin}${window.location.pathname}#/b/${e}`;export{t as n,n as t};
