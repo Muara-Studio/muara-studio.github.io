@@ -13,7 +13,7 @@
 
   /* 1. Tilted grid: built lazily when the section is near, animated only while it is on screen */
   const grid = $('.tgrid', cta);
-  const IMGS = ['fullsenyum', 'arum', 'pegasus', 'nurseri', 'agungalpra', 'influence', 'fullsenyum-2', 'arum-2', 'pegasus-2', 'nurseri-2', 'agungalpra-2', 'influence-2'];
+  const IMGS = ['grassociates', 'arum', 'pegasus', 'balistrat', 'agungalpra', 'casanira', 'ckg', 'cribl', 'vinfast', 'motoijo', 'grassociates-2', 'arum-2', 'pegasus-2', 'balistrat-2', 'agungalpra-2', 'casanira-2', 'ckg-2', 'cribl-2', 'vinfast-2', 'motoijo-2']; // client projects only: concept studies always carry their tag
   const COLS = 6, GAP = 16;
   let built = false;
   const build = () => {

@@ -67,3 +67,21 @@ const depth = () => {
 };
 if (cards.length) { addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(depth); } }, { passive: true }); depth(); }
 $$('[data-year]').forEach(y => y.textContent = new Date().getFullYear());
+
+// Case-page clips: load only near the viewport, play while visible, pause off screen.
+// Reduced motion keeps the poster and shows controls, so a clip plays only when asked.
+(() => {
+  const vids = $$('video[data-src]');
+  if (!vids.length) return;
+  const load = v => { if (!v.getAttribute('src')) { v.src = v.dataset.src; v.load(); } };
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    vids.forEach(v => { v.controls = true; v.addEventListener('play', () => load(v), { once: true }); });
+    return;
+  }
+  if (!('IntersectionObserver' in window)) { vids.forEach(v => { load(v); v.play().catch(() => {}); }); return; }
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    const v = e.target;
+    if (e.isIntersecting) { load(v); v.play().catch(() => {}); } else if (!v.paused) v.pause();
+  }), { rootMargin: '200px 0px' });
+  vids.forEach(v => io.observe(v));
+})();

@@ -164,6 +164,12 @@ details p{padding:0 0 20px;color:var(--slate);max-width:62ch}
 .mw img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}.mw a:hover img{transform:scale(1.03)}
 .mw .cap{position:absolute;inset:auto 0 0 0;padding:22px;background:linear-gradient(transparent,rgba(11,18,32,.85))}
 .mw .cap b{font-size:26px;font-weight:600;letter-spacing:-.02em;display:block}.mw .cap small{font-size:13px;opacity:.85}
+/* "Studi konsep" tag on concept-study project cards (home carousels and marquee, karya grid, related strips, solusi list).
+   Always visible, never inside the hover overlay. The case hero uses its own .cs-tag (pages.css). */
+.ctag{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:999px;background:rgb(255 255 255 / .92);color:#0B1220;font-size:12px;font-weight:600;line-height:1;letter-spacing:.01em;white-space:nowrap;box-shadow:0 0 0 1px rgb(11 18 32 / .08),0 2px 8px rgb(11 18 32 / .12)}
+.ctag::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.5}
+.wtile .ctag,.gslide .ctag,.kcover .ctag,.mw a .ctag{position:absolute;z-index:2;top:14px;left:14px;pointer-events:none}
+.pcase .ctag{margin-top:6px;height:22px;padding:0 9px;font-size:11.5px;background:transparent;color:var(--slate);box-shadow:inset 0 0 0 1px var(--line)}
 
 /* Responsive */
 @media (max-width:900px){
@@ -204,3 +210,7 @@ html.pv-ld body::before{content:"";position:fixed;inset:0;z-index:300;background
 .ptc{position:relative;display:grid;place-items:center}
 /* the dots are drawn on the canvas in its own `color`, so the ink is set here and the theme carries it */
 .ptc-canvas{display:block;width:min(64vw,320px);height:auto;aspect-ratio:1;color:var(--ink);cursor:crosshair;touch-action:none}
+/* case-page clips and the optional pair row (b6, b7) */
+.bento video,.case-hero video{display:block;width:100%;height:100%;object-fit:cover;background:var(--night)}
+.b6,.b7{grid-column:span 3;aspect-ratio:4/3}
+@media (max-width:900px){.b6,.b7{grid-column:span 1}}

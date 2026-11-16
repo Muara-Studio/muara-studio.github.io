@@ -31,6 +31,11 @@
 @media (prefers-reduced-motion:reduce){
   .ops li,.gallery.ops img{transition:none}
 }
+/* Card 04: one quiet line under the bento that links the two concept studies (Mitra Niaga, Klinik Seri) */
+.ops-more{margin:-14px 0 0;font-size:14px;font-weight:500;color:rgb(255 255 255 / .78)}
+.ops-more a{color:#fff;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;transition:text-decoration-color .25s}
+.ops-more a:hover{text-decoration-color:rgb(255 255 255 / .5)}
+.ops-more a:focus-visible{outline:2px solid #fff;outline-offset:3px;border-radius:2px}
 
 /* ---------- Work head ---------- */
 .wtile .cap{background:linear-gradient(transparent,rgba(0,0,0,.72))}

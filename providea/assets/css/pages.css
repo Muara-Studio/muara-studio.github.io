@@ -269,3 +269,18 @@ a.pcase:hover .ico{translate:2px -2px;color:var(--ink)}
   .pcase{grid-template-columns:96px minmax(0,1fr) auto}
   .pcase.ph{grid-template-columns:96px minmax(0,1fr)}
 }
+
+/* ---------- Concept-study case pages (rimba-kopi, cetak-raya; any concept page may reuse) ----------
+   .cs-tag: the "Studi konsep" pill on the case hero. .cs-body continues a .pg-sec right column.
+   .cs-mods: one row per module, text left and its screen right. The pages also load pages.js for [data-rv] and .flow. */
+.cs-tag{position:absolute;left:clamp(16px,3vw,36px);top:clamp(16px,3vw,32px);z-index:2;display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 14px;border-radius:999px;background:rgb(255 255 255 / .92);color:#0B1220;font-size:13px;font-weight:600;letter-spacing:.01em;box-shadow:0 0 0 1px rgb(11 18 32 / .08),0 2px 8px rgb(11 18 32 / .1)}
+.cs-tag::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.5}
+.cs-body{grid-column:2;border-left:1px solid var(--line);padding:0 0 clamp(48px,6vw,88px) var(--pad)}
+.cs-mods{list-style:none;margin:0 0 clamp(24px,4vw,56px);padding:0}
+.cs-mods li{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:clamp(20px,3vw,40px);padding:clamp(28px,3vw,40px) 0;border-top:1px solid var(--line)}
+.cs-mods .n{font-size:13px;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums}
+.cs-mods h3{margin:8px 0 10px;font-size:clamp(24px,2.4vw,34px);line-height:1.08;letter-spacing:-.03em;font-weight:600;text-wrap:balance}
+.cs-mods p{max-width:38ch;font-size:16px;line-height:1.55;color:var(--slate)}
+.cs-mods figure{aspect-ratio:16/10;overflow:hidden;border-radius:22px;background:var(--surface);outline:1px solid var(--line);outline-offset:-1px}
+.cs-mods img{width:100%;height:100%;object-fit:cover}
+@media (max-width:900px){.cs-body{grid-column:1;border-left:0;padding-left:0}.cs-mods li{grid-template-columns:minmax(0,1fr);gap:18px}}
