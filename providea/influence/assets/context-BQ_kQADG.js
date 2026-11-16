@@ -1,1 +1,0 @@
-import{Ft as e,Mt as t}from"./ui-DKCrjZMO.js";var n=e(t(),1),r=(0,n.createContext)(null);function i(){let e=(0,n.useContext)(r);if(!e)throw Error(`useStore must be used inside <StoreProvider>`);return e}export{i as n,r as t};
