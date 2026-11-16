@@ -1,0 +1,1 @@
+var e=`pi-rq-draft`;function t(){try{let t=sessionStorage.getItem(e);return t?JSON.parse(t):null}catch{return null}}function n(t){try{sessionStorage.setItem(e,JSON.stringify(t))}catch{}}function r(){try{sessionStorage.removeItem(e)}catch{}}export{t as n,n as r,r as t};
