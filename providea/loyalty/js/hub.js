@@ -12,9 +12,6 @@
   function rd(i) { return ' data-reveal style="--rd:' + i * 70 + 'ms"'; }
   function go(label) { return '<span class="lp-go">' + label + ic('arrow-right', 16) + '</span>'; }
 
-  var TICK = [['Rina', 'Gold', 'coin', '+5 poin'], ['Bagus', 'Platinum', 'ticket', 'voucher dipakai'], ['Putri', 'Silver', 'user-plus', 'member baru'], ['Kevin', 'Gold', 'gift', 'stempel 10/10, cup kecil gratis'],
-    ['Anisa', 'Gold', 'coins', 'bayar pakai 60 poin'], ['Laras', 'Gold', 'map-pin', 'check-in di kasir'], ['Gilang', 'Silver', 'wallet', 'kartu di Samsung Wallet'], ['Citra', 'Gold', 'crown', 'naik ke Gold'],
-    ['Yosef', 'Silver', 'refresh', 'datang lagi setelah promo'], ['Melati', 'Silver', 'coin', '+5 poin']];
   var LOOP = [
     ['scan', 'Daftar di kasir', 'Pindai QR meja atau sebut nomor HP.', 'anggota.html#/scan'],
     ['coin', 'Poin dan stempel', '1 poin tiap Rp10.000, 1 stempel tiap cup.', 'kasir.html'],
@@ -45,19 +42,10 @@
   var STAMPS = [['member', 'device-mobile', 'HP member', 'Daftar dan lihat kartu', 'anggota.html#/scan'], ['kasir', 'device-tablet', 'Kasir', 'Tambah penjualan', 'kasir.html'],
     ['pos', 'cash-register', 'Alur di POS', 'Bayar dengan member', 'kasir.html#/pos'], ['dash', 'layout-dashboard', 'Dashboard', 'Lihat hasilnya', 'dashboard.html']];
 
-  function scene() {
-    var m = P.member('m-rina') || { name: 'Rina Maharani', points: 186, no: '2607-0412' };
-    return '<div class="lp-stage" aria-hidden="true">' +
-      '<div class="lp-float lp-f-card"><div class="mcard"><div class="mcard-top"><span class="mcard-brand">' + P.sjLogo(26) + '<span class="sj-word">sejuk</span></span><span class="tier tier-gold">' + ic('crown', 13) + 'Gold</span></div>' +
-      '<div style="position:relative;z-index:1"><div class="mcard-sub">' + T('Poin') + '</div><div class="mcard-pts">' + P.num(m.points) + '</div><div class="mcard-sub">' + T('Senilai {rp} bila dipakai bayar', { rp: P.rp(m.points * P.S.rules.pointValue) }) + '</div></div>' +
-      '<div class="mcard-row"><div><div style="font-weight:600">' + esc(m.name) + '</div><div class="mcard-sub num">' + T('No. member') + ' ' + m.no + '</div></div><span class="mcard-qr">' + P.qr(m.no) + '</span></div></div></div>' +
-      '<div class="lp-float lp-f-pts">' + ic('coin', 18) + T('+5 poin') + ' · Rp47.000</div>' +
-      '<div class="lp-float lp-f-pop"><div class="row between"><span class="tag tag-success">' + ic('map-pin', 14) + T('Check-in baru') + '</span><span class="t-small muted">' + T('baru saja') + '</span></div><div class="row" style="--gap:10px"><span class="avatar avatar-brand" style="width:40px;height:40px;font-size:14px">RM</span><span class="stack" style="--gap:0"><b>Rina · Gold</b><span class="t-small sec">' + T('{n} poin', { n: P.num(m.points) }) + ' · ' + T('{n} voucher aktif', { n: 2 }) + '</span></span></div></div>' +
-      '<div class="lp-float lp-f-vch"><span class="vic">' + ic('gift', 20) + '</span><span class="stack" style="--gap:0"><b>' + T('Gratis topping') + '</b><span class="t-small">' + T('Sekali pakai') + ' · SJK-GT7-Q4M</span></span></div></div>';
-  }
-  function ticker() {
-    var items = TICK.map(function (t) { return '<span class="lp-tick"><span class="av">' + t[0][0] + '</span><b>' + t[0] + '</b><span class="muted">' + t[1] + '</span>' + ic(t[2], 15) + '<span>' + T(t[3]) + '</span></span>'; }).join('');
-    return '<div class="lp-ticker" aria-hidden="true"><div class="lp-track">' + items + items + '</div></div>';
+  function product() {
+    return '<div class="lp-product"><div class="lp-phone"><img src="img/sc-member-' + P.lang() + '.webp" alt="' + T('Halaman member Sejuk Froyo Bar di HP, contoh') + '" width="390" height="844" fetchpriority="high" decoding="async"></div>' +
+      '<div class="lp-notif" role="img" aria-label="' + T('Contoh pesan WhatsApp setelah belanja') + '"><span class="lp-notif-app">' + ic('brand-whatsapp', 20) + '</span><span class="stack" style="--gap:2px"><span class="row between"><b>Sejuk Froyo Bar</b><span class="t-small muted">' + T('sekarang') + '</span></span><p>' + T('+5 poin dari belanja Rp47.000 di Cempaka. Saldo 191 poin.') + '</p></span></div>' +
+      '<span class="lp-product-cap">' + ic('device-mobile', 14) + T('Layar dari demo · data contoh') + '</span></div>';
   }
   function shot() {
     var src = 'img/sc-' + scTab + '-' + P.lang() + '.webp';
@@ -77,11 +65,12 @@
   function render() {
     app.innerHTML = '<div class="landing page" style="padding:0;max-width:none"><div class="lp" id="lp">' +
       '<section class="lp-hero" aria-labelledby="lp-title"><div class="lp-hero-in"><div class="lp-copy">' +
-      '<span class="tag tag-brand">' + ic('building-store', 14) + T('Untuk merek dengan 1 sampai 20 outlet') + '</span>' +
-      '<h1 id="lp-title" class="lp-h1">' + T('Pelanggan <em>datang lagi</em>. Tanpa unduh aplikasi.') + '</h1>' +
-      '<p class="lp-lead">' + T('Kartu member, poin, dan voucher yang jalan di WhatsApp dan dompet HP. Pelanggan daftar di kasir dengan nomor HP, dan semuanya tersambung ke POS yang sudah kamu pakai.') + '</p>' +
+      '<h1 id="lp-title" class="lp-h1">' + T('Pelanggan datang lagi, tanpa unduh aplikasi.') + '</h1>' +
+      '<p class="lp-lead">' + T('Kartu member, poin, dan voucher untuk merek dengan 1 sampai 20 outlet. Pelanggan daftar di kasir dengan nomor HP. Kartunya ada di WhatsApp dan dompet HP.') + '</p>' +
       '<form class="lp-form" id="ldJoin" aria-label="' + T('Coba daftar jadi member') + '"><span class="input input-lg"><span class="input-icon">' + ic('brand-whatsapp', 20) + '</span><input id="ldPhone" inputmode="tel" placeholder="' + T('Nomor WhatsApp kamu') + '" aria-label="' + T('Nomor WhatsApp') + '"></span><button type="submit" class="lp-form-btn">' + T('Coba daftar') + ic('arrow-right', 18) + '</button></form>' +
-      '<nav class="lp-links" aria-label="' + T('Atau buka langsung') + '">' + [['device-mobile', 'HP member', 'anggota.html#/scan'], ['device-tablet', 'Kasir', 'kasir.html'], ['cash-register', 'Alur di POS', 'kasir.html#/pos'], ['layout-dashboard', 'Dashboard pemilik', 'dashboard.html']].map(function (x) { return '<a href="' + x[2] + '">' + ic(x[0], 18) + T(x[1]) + '</a>'; }).join('') + '</nav></div>' + scene() + '</div>' + ticker() + '</section>' +
+      '<p class="lp-form-note">' + T('Demo dengan merek contoh. Nomor hanya dipakai di browser ini.') + '</p>' +
+      '<ul class="lp-facts">' + [['clock', 'Daftar dalam 30 detik'], ['coin', '1 poin tiap Rp10.000'], ['wallet', 'Kartu di dompet HP'], ['plug-connected', 'Jalan bersama iSeller']].map(function (f) { return '<li>' + ic(f[0], 20) + '<span>' + T(f[1]) + '</span></li>'; }).join('') + '</ul>' +
+      '<p class="lp-also">' + T('Lihat juga') + ' <a href="kasir.html">' + T('Layar kasir') + ic('arrow-right', 15) + '</a><a href="dashboard.html">' + T('Dashboard pemilik') + ic('arrow-right', 15) + '</a></p></div>' + product() + '</div></section>' +
       /* loop */
       '<section class="lp-wrap" aria-labelledby="loop-t"><div class="lp-head lp-head-row"><div><h2 id="loop-t" class="lp-h2">' + T('Satu siklus, dari kunjungan pertama sampai <em>kembali lagi</em>') + '</h2><p class="lp-sub">' + T('Setiap langkah bisa dicoba di demo dengan merek contoh Sejuk Froyo Bar.') + '</p></div></div>' +
       '<div class="lp-loop">' + LOOP.map(function (s, i) { return '<a class="lp-step' + (i === 4 ? ' is-back' : '') + '" href="' + s[3] + '"' + rd(i) + '><span class="lp-step-n num">0' + (i + 1) + '</span><span class="lp-step-ic">' + ic(s[0], 22) + '</span><span class="lp-step-t">' + T(s[1]) + '</span><span class="lp-step-x">' + T(s[2]) + '</span>' + go(T('Coba')) + '</a>'; }).join('') + '</div></section>' +

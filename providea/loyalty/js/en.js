@@ -294,3 +294,11 @@ Object.assign(window.EN, {
   'Buka HP member': 'Open member phone', 'Daftar dan lihat kartu': 'Join and see the card', 'Bayar dengan member': 'Pay with a member', 'Naik tier': 'Move up a tier'
 });
 window.EN['Nomor WhatsApp kamu'] = 'Your WhatsApp number';
+Object.assign(window.EN, {
+  'Pelanggan datang lagi, tanpa unduh aplikasi.': 'Customers come back, with no app to download.',
+  'Kartu member, poin, dan voucher untuk merek dengan 1 sampai 20 outlet. Pelanggan daftar di kasir dengan nomor HP. Kartunya ada di WhatsApp dan dompet HP.': 'Member cards, points and vouchers for brands with 1 to 20 outlets. Customers join at the till with a phone number. The card lives in WhatsApp and the phone wallet.',
+  'Demo dengan merek contoh. Nomor hanya dipakai di browser ini.': 'A demo with a sample brand. The number is only used in this browser.',
+  'Daftar dalam 30 detik': 'Join in 30 seconds', 'Jalan bersama iSeller': 'Works with iSeller', 'Lihat juga': 'See also',
+  'Halaman member Sejuk Froyo Bar di HP, contoh': 'Sejuk Froyo Bar member page on a phone, sample', 'Contoh pesan WhatsApp setelah belanja': 'Sample WhatsApp message after a purchase',
+  '+5 poin dari belanja Rp47.000 di Cempaka. Saldo 191 poin.': '+5 points from a Rp47.000 purchase at Cempaka. Balance 191 points.', 'Layar dari demo · data contoh': 'Screen from the demo · sample data'
+});
