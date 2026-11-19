@@ -557,3 +557,8 @@ Object.assign(window.EN, {
   'Hubungi kami': 'Contact us',
   'Providea Loyalty · demo produk. Merek, orang, dan angka di demo ini fiktif. Gambar kafe adalah ilustrasi.': 'Providea Loyalty · product demo. The brands, people and numbers in this demo are fictional. The cafe pictures are illustrations.'
 });
+/* hero photo and FAQ (20 Nov 2026) */
+Object.assign(window.EN, {
+  'Ilustrasi: pelanggan menunjukkan QR member di HP, tablet kasir yang terhubung ke POS langsung mengenalinya': 'Illustration: a customer shows the member QR on a phone, and the cashier tablet connected to the POS recognises it at once',
+  'Kasir mengenali member': 'The till knows the member', 'QR member di HP': 'Member QR on the phone', 'Lihat jawaban': 'See the answer'
+});

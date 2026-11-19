@@ -8,7 +8,7 @@
   var P = PL, T = P.T, esc = P.esc;
   P.setView('hub');
   var app = document.getElementById('app');
-  var scTab = 'member', scTimer = null, scTouched = false, openQ = 0, flowOff = null;
+  var scTab = 'member', scTimer = null, scTouched = false, openQ = -1, flowOff = null;
   var reduce = matchMedia('(prefers-reduced-motion: reduce)');
 
   function rd(i) { return ' data-reveal style="--rd:' + i * 70 + 'ms"'; }
@@ -98,8 +98,8 @@
   function brandMark(k, s) { return k === 'kamtono' ? P.sjLogo(s) : '<span class="sj-logo is-flat" style="--s:' + s + 'px"><img src="img/brands/' + k + '/icon.webp" alt="" decoding="async"></span>'; }
   function slidePromo(L) {
     return '<article class="hs-slide kh-panel is-promo" aria-roledescription="slide" aria-label="' + T('{a} dari {b}', { a: 1, b: 5 }) + '">' +
-      '<div class="kh-stage"><picture><source media="(max-width: 860px)" srcset="img/kamtono/cafe-counter-' + L + '.webp"><img class="kh-photo" src="img/kamtono/cafe-wide-' + L + '.webp" width="2560" height="1440" alt="' + T('Ilustrasi kafe Kamtono: tablet kasir dan HP member di meja kasir, mural teman berbagi froyo di dinding') + '" fetchpriority="high" decoding="async"></picture>' +
-      '<span class="kh-pin is-tab"><b>' + T('Tablet kasir') + '</b></span><span class="kh-pin is-hp"><b>' + T('HP pelanggan') + '</b></span></div>' +
+      '<div class="kh-stage"><img class="kh-photo" src="img/scan-' + L + '.webp" width="2560" height="1440" alt="' + T('Ilustrasi: pelanggan menunjukkan QR member di HP, tablet kasir yang terhubung ke POS langsung mengenalinya') + '" fetchpriority="high" decoding="async"></div>' +
+      '<span class="kh-pin is-tab"><b>' + T('Kasir mengenali member') + '</b></span><span class="kh-pin is-hp"><b>' + T('QR member di HP') + '</b></span>' +
       '<div class="kh-copy"><p class="kh-brand"><span class="logo-mark">' + P.mark(22) + '</span><span>Providea Loyalty</span></p>' +
       '<h1 class="kh-h1" id="lp-title">' + T('Pembeli sekali jadi pelanggan tetap.') + '</h1>' +
       '<p class="kh-sub">' + T('Kartu member, poin, dan voucher langsung di HP pelanggan. Tanpa aplikasi, tanpa kartu kertas, dan terhubung ke kasirmu.') + '</p>' +
@@ -268,7 +268,7 @@
 
   /* ── set up for your business ── */
   function personalize() {
-    var L = P.lang(), cards = [['bobs', 'img/brands/bobs/card-'], ['mendaya', 'img/brands/mendaya/card-'], ['kamtono', 'img/kamtono/card-']];
+    var L = P.lang(), cards = [['kamtono', 'img/kamtono/card-'], ['mendaya', 'img/brands/mendaya/card-'], ['bobs', 'img/brands/bobs/card-']];
     return '<section class="lp-wrap" id="solusi" aria-labelledby="id-t">' + head('id-t', 'Disesuaikan dengan cara bisnismu berjalan.', 'Tampilan, program, dan koneksi kasir diatur sesuai kebutuhan merekmu. Kamu yang memilih, kami yang memasang.') + '<div class="lp-bento">' +
       '<div class="lp-tile is-big"' + rd(0) + '><div class="lp-tex"><img src="img/hero.webp" alt="" loading="lazy" decoding="async"></div><div class="stack" style="--gap:12px">' + ic('palette', 30, 'big') + '<span class="lp-tile-t">' + T('Kartu member dengan wajah merekmu') + '</span><span class="lp-tile-x">' + T('Logo, warna, dan nama merekmu tampil di HP pelanggan. Pelanggan cukup memakai nomor HP, tanpa unduh aplikasi.') + '</span></div>' +
         '<div class="pz-cards" aria-hidden="true">' + cards.map(function (c, i) { return '<img class="pz-card is-' + c[0] + '" style="--i:' + i + '" src="' + c[1] + L + '.webp" alt="" loading="lazy" decoding="async">'; }).join('') + '</div>' +
@@ -330,11 +330,12 @@
   /* ── FAQ: bento on desktop (every answer visible), accordion on phones ── */
   function faq() {
     return '<section class="lp-wrap" id="faq" aria-labelledby="faq-t">' + head('faq-t', 'Pertanyaan yang sering muncul', '', '', true) + '<div class="lp-faq">' +
-      FAQ.map(function (f, i) { var open = openQ === i; return '<div class="lp-qa is-q' + i + (open ? ' is-open' : '') + '">' + (i === 0 || i === 3 ? '<div class="lp-tex"><img src="img/' + (i === 0 ? 'hero' : 'arc') + '.webp" alt="" loading="lazy" decoding="async"></div>' : '') + '<button type="button" class="lp-q" aria-expanded="' + open + '" data-act="faq" data-i="' + i + '">' + T(f[0]) + '<span class="lp-q-ic">' + ic(open ? 'minus' : 'plus', 16) + '</span></button><p class="lp-a">' + T(f[1]) + '</p></div>'; }).join('') +
+      FAQ.map(function (f, i) { var open = openQ === i; return '<div class="lp-qa is-q' + i + (open ? ' is-open' : '') + '">' + (i === 0 || i === 3 ? '<div class="lp-tex"><img src="img/' + (i === 0 ? 'hero' : 'arc') + '.webp" alt="" loading="lazy" decoding="async"></div>' : '') +
+        '<button type="button" class="lp-q" aria-expanded="' + open + '" aria-controls="faq-a' + i + '" data-act="faq" data-i="' + i + '"><span class="lp-q-t">' + T(f[0]) + '</span><span class="lp-q-more">' + T('Lihat jawaban') + '<span class="lp-q-ic">' + ic(open ? 'minus' : 'plus', 16) + '</span></span></button>' +
+        '<div class="lp-a" id="faq-a' + i + '"><small>' + T(f[0]) + '</small><p>' + T(f[1]) + '</p></div></div>'; }).join('') +
       '<div class="lp-qa is-ask"><span class="lp-ask-ic">' + ic('message-question', 22) + '</span><b>' + T('Masih ada pertanyaan?') + '</b><p>' + T('Tulis pertanyaanmu. Tim kami membalas lewat email.') + '</p><button type="button" class="btn btn-secondary" data-act="ask" data-feature="faq" data-title="' + esc(T('Pertanyaan tentang Providea Loyalty')) + '">' + ic('mail', 16) + T('Tanya tim kami') + '</button></div></div></section>';
   }
   P.ACT.faq = function (el) {
-    if (matchMedia('(min-width: 861px)').matches) return;
     var i = +el.dataset.i; openQ = openQ === i ? -1 : i;
     document.querySelectorAll('.lp-qa:not(.is-ask)').forEach(function (q, j) { var open = j === openQ; q.classList.toggle('is-open', open); q.querySelector('.lp-q').setAttribute('aria-expanded', open); q.querySelector('.lp-q-ic').innerHTML = ic(open ? 'minus' : 'plus', 16); });
   };
