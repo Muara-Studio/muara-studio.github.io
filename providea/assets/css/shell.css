@@ -139,6 +139,7 @@ html.pv-locked body{padding-right:var(--sbw,0px)}
 .loc.loc-in span,.loc.loc-in time{opacity:1;translate:0 0}
 .flinks{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
 .flinks a{transition:opacity .2s}.flinks a:hover{opacity:.65}
+.flinks-title{font-size:12px;font-weight:500;letter-spacing:0;text-transform:none;color:rgb(255 255 255 / .55);margin-bottom:4px}
 .foot-bottom a.u{white-space:nowrap}
 
 /* FAB: pill on the right (desktop), green WhatsApp disc (phone) */
@@ -162,6 +163,7 @@ html.pv-locked body{padding-right:var(--sbw,0px)}
   .loc{margin-top:44px}
   .flinks{grid-column:1/-1;margin-top:36px;flex-direction:row;flex-wrap:wrap;gap:10px 24px}
   .flinks-products{margin-top:14px}
+  .flinks-title{flex-basis:100%;margin-bottom:0}
   .cloud.c1{--s:.8}.cloud.c2{--s:.6}.cloud.c3{--s:.38}
   .menu-foot{flex-direction:column;align-items:flex-start;gap:22px}
 }
