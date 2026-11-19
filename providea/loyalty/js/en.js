@@ -302,3 +302,24 @@ Object.assign(window.EN, {
   'Halaman member Sejuk Froyo Bar di HP, contoh': 'Sejuk Froyo Bar member page on a phone, sample', 'Contoh pesan WhatsApp setelah belanja': 'Sample WhatsApp message after a purchase',
   '+5 poin dari belanja Rp47.000 di Cempaka. Saldo 191 poin.': '+5 points from a Rp47.000 purchase at Cempaka. Balance 191 points.', 'Layar dari demo · data contoh': 'Screen from the demo · sample data'
 });
+/* brand-standard sections (19 Nov) */
+Object.assign(window.EN, {
+  'Daftar': 'Join', 'Kode WhatsApp': 'WhatsApp code', 'Check-in kasir': 'Till check-in', 'Di POS': 'In the POS', 'Wallet': 'Wallet', 'Kampanye': 'Campaigns',
+  'Bayar pakai poin': 'Pay with points', 'Apple Wallet': 'Apple Wallet', 'Samsung Wallet': 'Samsung Wallet', 'Promo WhatsApp': 'WhatsApp promos', 'Laporan 6 angka': '6-number report', 'iSeller': 'iSeller', 'Fitur': 'Features',
+  'Pelanggan datang lagi.': 'Customers come back.', 'Tanpa unduh aplikasi.': 'No app to download.',
+  'Kartu member, poin, dan voucher untuk merek dengan 1 sampai 20 outlet. Pelanggan daftar di kasir dengan nomor HP, kartunya ada di WhatsApp dan dompet HP.': 'Member cards, points and vouchers for brands with 1 to 20 outlets. Customers join at the till with a phone number; the card lives in WhatsApp and the phone wallet.',
+  'Coba demo': 'Try the demo', 'Gulir untuk menjelajah': 'Scroll to explore',
+  'Providea Loyalty bekerja di tiga layar: HP pelanggan, tablet kasir, dan dashboard pemilik. Semuanya memakai data yang sama.': 'Providea Loyalty works on three screens: the customer phone, the cashier tablet and the owner dashboard. They all use the same data.',
+  'Satu kartu.<br>Satu siklus.': 'One card.<br>One loop.', 'Yang terjadi': 'What happens', 'Di demo': 'In the demo', 'Contoh layar demo: {t}': 'Demo screen example: {t}',
+  'Pelanggan memindai QR di meja kasir atau menyebut nomor HP.': 'The customer scans the counter QR or says a phone number.', 'Kode masuk lewat WhatsApp, tanpa unduh aplikasi.': 'The code arrives by WhatsApp, with no app to download.',
+  'Pindai QR, daftar dengan nomor HP atau email, lalu kasir melihat pop-up check-in.': 'Scan the QR, join with a phone number or email, then the cashier sees the check-in pop-up.',
+  'Setiap belanja menambah poin dan stempel.': 'Every purchase adds points and stamps.', 'Tambah penjualan di kasir, lalu lihat poin dan stempel bertambah di HP member.': 'Add a sale at the till, then see the points and stamps grow on the member phone.',
+  'Naik tier otomatis': 'Automatic tier upgrades', 'Silver, Gold, dan Platinum dihitung dari belanja 12 bulan.': 'Silver, Gold and Platinum come from 12-month spend.', 'Poin naik jadi 1,25× dan 1,5×.': 'Points go up to 1,25× and 1,5×.',
+  'Atur syarat tier dan pengali poin di dashboard, lalu lihat tier di kartu member.': 'Set the tier limits and point multipliers in the dashboard, then see the tier on the member card.', 'Atur tier': 'Set tiers',
+  'Member yang mulai jarang datang masuk segmen berisiko.': 'Members who come less often move into the at-risk segment.', 'Satu pesan WhatsApp dengan voucher mengajaknya kembali.': 'One WhatsApp message with a voucher asks them back.',
+  'Pilih segmen, tulis pesan, dan lihat biaya sebelum kirim.': 'Choose a segment, write the message and see the cost before sending.', 'Buat kampanye': 'Create campaign',
+  'Kisah contoh dengan merek fiktif: bar frozen yogurt yang baru membuka outlet pertamanya, dengan satu tablet POS di kasir.': 'A sample story with a fictional brand: a frozen yogurt bar that just opened its first outlet, with one POS tablet at the till.',
+  'Sejuk Froyo Bar.<br>Empat bulan pertama.': 'Sejuk Froyo Bar.<br>The first four months.', 'Outlet Cempaka': 'Cempaka outlet', 'Situasi': 'Situation', 'Yang dipasang': 'What went in',
+  'Outlet baru dengan satu kasir. Belum ada data pelanggan.': 'A new outlet with one cashier. No customer data yet.', 'Pelanggan belum punya alasan untuk kembali.': 'Customers had no reason to come back.',
+  'QR di meja kasir, dan kasir mengajak daftar saat bayar.': 'A QR on the counter, and the cashier asks customers to join at payment.', 'Tier, voucher, dan pengingat WhatsApp jalan sendiri.': 'Tiers, vouchers and WhatsApp reminders run by themselves.'
+});
