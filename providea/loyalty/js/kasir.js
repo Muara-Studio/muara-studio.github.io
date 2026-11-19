@@ -29,6 +29,7 @@
     el.innerHTML = '<div class="k-bar"><span class="logo-mark">' + P.mark(22) + '</span><div class="k-bar-title"><span class="t-strong">' + T('Kasir') + ' · Sejuk Froyo Bar</span><span class="t-small sec">' + T('Outlet Cempaka · Ayu Kartika (kasir)') + '</span></div>' +
       '<div class="grow"></div><nav class="tabs-segmented tabs-sm k-mode" aria-label="' + T('Mode kasir') + '"><button type="button" class="tab' + (mode === 'kasir' ? ' is-active' : '') + '" data-act="mode" data-v="kasir">' + ic('device-tablet', 16) + T('Aplikasi kasir') + '</button><button type="button" class="tab' + (mode === 'pos' ? ' is-active' : '') + '" data-act="mode" data-v="pos">' + ic('cash-register', 16) + T('Di POS (contoh iSeller)') + '</button></nav>' +
       '<span class="k-status">' + T('Online · tersinkron') + '</span></div>' + (mode === 'kasir' ? kasirApp() : posApp());
+    if (mode === 'pos') P.visit('pos');
   }
 
   /* ── Cashier web app ── */

@@ -274,3 +274,23 @@ Object.assign(window.EN, {
   'check-in': 'check-in', 'kartu di Wallet': 'card in Wallet', 'promo dibaca': 'promo read', 'datang lagi': 'came back', '1,25× bulan depan': '1,25× next month',
   'member dalam 4 bulan': 'members in 4 months', 'transaksi pakai member': 'of sales use a member', 'member datang 2 kali atau lebih dalam 30 hari': 'of members came 2 times or more in 30 days', 'voucher dipakai dalam 30 hari': 'vouchers used in 30 days'
 });
+/* landing v2 (own look) */
+Object.assign(window.EN, {
+  'Kartu stempel penuh. Semua tampilan sudah dicoba.': 'Stamp card full. You have tried every view.', 'Kumpulkan 4 stempel demo': 'Collect 4 demo stamps',
+  'Buka setiap tampilan. Stempel terisi sendiri, seperti kartu stempel di kasir.': 'Open each view. The stamps fill in by themselves, like a stamp card at the till.',
+  'Lanjut: {v}': 'Next: {v}', 'Coba lagi dari HP member': 'Try again from the member phone', 'Sudah dicoba': 'Done', '{a} dari 4 stempel': '{a} of 4 stamps',
+  'Untuk merek dengan 1 sampai 20 outlet': 'For brands with 1 to 20 outlets', 'Pelanggan <em>datang lagi</em>. Tanpa unduh aplikasi.': 'Customers <em>come back</em>. No app to download.',
+  'Kartu member, poin, dan voucher yang jalan di WhatsApp dan dompet HP. Pelanggan daftar di kasir dengan nomor HP, dan semuanya tersambung ke POS yang sudah kamu pakai.': 'Member cards, points and vouchers that live in WhatsApp and the phone wallet. Customers join at the till with a phone number, and it all connects to the POS you already use.',
+  'Satu siklus, dari kunjungan pertama sampai <em>kembali lagi</em>': 'One loop, from the first visit to <em>coming back</em>', 'Setiap langkah bisa dicoba di demo dengan merek contoh Sejuk Froyo Bar.': 'You can try every step in the demo with the sample brand Sejuk Froyo Bar.',
+  'Satu data, <em>tiga layar</em>': 'One set of data, <em>three screens</em>', 'Coba {v}': 'Try {v}', 'Dibuat untuk outlet di <em>Indonesia</em>': 'Made for outlets in <em>Indonesia</em>',
+  'Halo Rina, terima kasih sudah mampir. +5 poin masuk. Saldo 191 poin, 2 cup lagi dapat cup kecil gratis.': 'Hi Rina, thanks for coming in. +5 points added. Balance 191 points, 2 more cups for a free small cup.',
+  'Aplikasi kasir di browser, atau langsung di POS. Member dan poin sama di semua outlet.': 'The cashier app in a browser, or inside the POS. Members and points are the same at every outlet.',
+  'Tanpa POS: aplikasi kasir': 'No POS: cashier app', 'Moka, majoo, ESB: segera': 'Moka, majoo, ESB: soon', 'Per promo WhatsApp, sebelum PPN. Email dan notifikasi Wallet termasuk paket.': 'Per WhatsApp promo, before VAT. Email and Wallet notices are in the plan.',
+  'Sesuai UU PDP. Member bisa unduh atau hapus datanya sendiri.': 'As UU PDP requires. Members can download or delete their own data.', 'Satu sistem, <em>tiga pengguna</em>': 'One system, <em>three users</em>',
+  'stempel 10/10, cup kecil gratis': 'stamps 10/10, free small cup', 'bayar pakai 60 poin': 'paid with 60 points', 'check-in di kasir': 'checked in at the till', 'kartu di Samsung Wallet': 'card in Samsung Wallet', 'naik ke Gold': 'moved up to Gold', 'datang lagi setelah promo': 'came back after a promo',
+  'Pindai QR meja atau sebut nomor HP.': 'Scan the counter QR or say a phone number.', '1 poin tiap Rp10.000, 1 stempel tiap cup.': '1 point per Rp10.000, 1 stamp per cup.', 'Gold dan Platinum otomatis, poin 1,25× dan 1,5×.': 'Gold and Platinum automatically, 1,25× and 1,5× points.',
+  'Voucher sekali pakai, atau bayar pakai poin.': 'Single-use vouchers, or pay with points.', 'Datang lagi': 'Come back', 'Promo WhatsApp untuk member yang mulai jarang datang.': 'WhatsApp promos for members who come less often.',
+  'Untuk pelanggan': 'For customers', 'Daftar dalam 30 detik, tanpa unduh aplikasi.': 'Join in 30 seconds, no app to download.', 'Kartu dengan QR yang berganti tiap 30 detik': 'A card with a QR that changes every 30 seconds', 'Poin, stempel, dan tier dalam satu halaman': 'Points, stamps and tier on one page',
+  'Buka HP member': 'Open member phone', 'Daftar dan lihat kartu': 'Join and see the card', 'Bayar dengan member': 'Pay with a member', 'Naik tier': 'Move up a tier'
+});
+window.EN['Nomor WhatsApp kamu'] = 'Your WhatsApp number';

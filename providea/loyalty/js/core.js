@@ -163,7 +163,10 @@
     return seed();
   }
   function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
-  function reset() { try { localStorage.removeItem(KEY); } catch (e) {} S = seed(); save(); }
+  function reset() { try { localStorage.removeItem(KEY); localStorage.removeItem('pl-visited'); } catch (e) {} S = seed(); save(); }
+  /* demo stamp card on the landing: which views a visitor has opened */
+  function visited() { try { return JSON.parse(localStorage.getItem('pl-visited') || '{}') || {}; } catch (e) { return {}; } }
+  function visit(k) { try { var v = visited(); if (!v[k]) { v[k] = 1; localStorage.setItem('pl-visited', JSON.stringify(v)); } } catch (e) {} }
   S = load();
 
   /* ── domain helpers ── */
@@ -304,7 +307,7 @@
       '<button type="button" class="icon-btn demo-reset" data-act="resetDemo" aria-label="' + T('Ulang demo') + '" title="' + T('Ulang demo') + '">' + ic('refresh', 18) + '</button></div>';
   }
 
-  function setView(v) { VIEW = v; document.documentElement.lang = LANG; renderBar(); }
+  function setView(v) { VIEW = v; document.documentElement.lang = LANG; renderBar(); if (v !== 'hub') visit(v); }
 
   /* cross-tab sync: another view changed the demo data */
   window.addEventListener('storage', function (e) { if (e.key === KEY) { S = load(); window.PL.S = S; if (window.PL.onSync) window.PL.onSync(); } });
@@ -317,7 +320,7 @@
     save: save, reset: reset, member: member, tierOf: tierOf, tierById: tierById, nextTier: nextTier, earnFor: earnFor, earnedToday: earnedToday,
     segOf: segOf, isTop: isTop, memberVouchers: memberVouchers, addAudit: addAudit, recordSale: recordSale, nextReceipt: nextReceipt,
     qr: qr, mark: mark, tierTag: tierTag, avatar: avatar, segTag: segTag, SEG: SEG, sjLogo: sjLogo,
-    toast: toast, modal: modal, ACT: ACT, setView: setView, renderBar: renderBar,
+    toast: toast, modal: modal, ACT: ACT, setView: setView, renderBar: renderBar, visit: visit, visited: visited,
     lang: function () { return LANG; }, onLang: null, onSync: null
   };
 })();
