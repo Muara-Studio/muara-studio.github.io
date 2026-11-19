@@ -231,8 +231,8 @@
   }
 
   /* ── small UI pieces ── */
-  var MARK = 'M20.63 8H56.42C72.7 8 85.89 21.2 85.89 37.47V41.68C85.89 57.96 72.7 71.16 56.42 71.16H44.84C40.77 71.16 37.47 74.46 37.47 78.53V84.84C37.47 86.59 36.06 88 34.32 88H13.26C11.74 88 10.46 86.92 10.17 85.48C10.87 72.04 17.23 61.44 29.66 53.84C24.22 56.03 17.59 57.31 10.11 58.13V18.53C10.11 12.71 14.82 8 20.63 8ZM59.91 26.62Q48 36.38 36.09 26.62Q45.86 38.53 36.09 50.44Q48 40.67 59.91 50.44Q50.14 38.53 59.91 26.62ZM36.09 50.44C33.79 51.49 31.65 52.63 29.66 53.84C32.04 52.89 34.19 51.77 36.09 50.44Z';
-  function mark(s) { return '<svg width="' + (s || 24) + '" height="' + (s || 24) + '" viewBox="8 6 80 84" fill="currentColor" aria-hidden="true"><path d="' + MARK + '"/></svg>'; }
+  var MARK = 'M20.63 8H56.42C72.7 8 85.89 21.2 85.89 37.47V41.68C85.89 57.96 72.7 71.16 56.42 71.16H44.84C40.77 71.16 37.47 74.46 37.47 78.53V84.84C37.47 86.59 36.06 88 34.32 88H13.26C11.74 88 10.46 86.92 10.17 85.48C10.87 72.04 17.23 61.44 29.66 53.84C24.22 56.03 17.59 57.31 10.11 58.13V18.53C10.11 12.71 14.82 8 20.63 8ZM59.91 26.62Q48 36.38 36.09 26.62Q45.86 38.53 36.09 50.44Q48 40.67 59.91 50.44Q50.14 38.53 59.91 26.62ZM36.09 50.44C33.79 51.49 31.65 52.63 29.66 53.84C32.04 52.89 34.19 51.77 36.09 50.44ZM21.5 31Q19 33.05 16.5 31Q18.55 33.5 16.5 36Q19 33.95 21.5 36Q19.45 33.5 21.5 31ZM22.4 40.1Q19 42.89 15.6 40.1Q18.39 43.5 15.6 46.9Q19 44.11 22.4 46.9Q19.61 43.5 22.4 40.1ZM31 41Q28.5 43.05 26 41Q28.05 43.5 26 46Q28.5 43.95 31 46Q28.95 43.5 31 41Z'; /* Providea P and star with three small stars set as an L at bottom left: Providea Loyalty (Influence has a thin ring) */
+  function mark(s) { return '<svg width="' + (s || 24) + '" height="' + (s || 24) + '" viewBox="8 6 80 84" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="' + MARK + '"/></svg>'; }
   function tierTag(t, sm) { return '<span class="tier tier-' + t.id + (sm ? ' tier-sm' : '') + '">' + ic('crown', sm ? 12 : 13) + esc(t.name) + '</span>'; }
   function avatar(m, s, cls) { return '<span class="avatar avatar-brand ' + (cls || '') + '" style="width:' + s + 'px;height:' + s + 'px;font-size:' + Math.round(s * 0.38) + 'px">' + esc(initials(m.name)) + '</span>'; }
   var SEG = { 'new': ['Baru', 'info'], active: ['Aktif', 'success'], risk: ['Berisiko', 'warning'], lapsed: ['Hilang', 'danger'] };
@@ -298,8 +298,54 @@
 
   /* demo bar: switcher between the three views */
   var VIEW = '';
+  /* site pages (landing, case pages, demo sign-in): a product-site menu instead of the view switcher */
+  var NAV = [
+    { t: 'Produk', items: [['anggota.html#/home', 'device-mobile', 'Kartu member di HP', 'Daftar dan pakai tanpa unduh aplikasi'], ['kasir.html', 'device-tablet', 'Aplikasi kasir', 'Check-in, poin, dan voucher di kasir'], ['dashboard.html', 'layout-dashboard', 'Dashboard pemilik', 'Laporan, member, dan program'], ['dashboard.html#/kampanye/baru', 'speakerphone', 'Promo WhatsApp', 'Pesan ke segmen, biaya terlihat dulu']] },
+    { t: 'Cara kerja', href: 'index.html#cara-kerja' },
+    { t: 'Manfaat', href: 'index.html#manfaat' },
+    { t: 'Kisah pelanggan', items: [['kisah.html?k=kamtono', 'ice-cream-2', 'Kamtono', 'Froyo · outlet pertama'], ['kisah.html?k=mendaya', 'bowl-chopsticks', 'Mendaya Ramen', 'Ramen · 6 outlet'], ['kisah.html?k=bobs', 'cup', 'Bobs', 'Boba milk tea · 18 outlet']] },
+    { t: 'FAQ', href: 'index.html#faq' }
+  ];
+  function siteBar(el) {
+    el.classList.add('is-site');
+    el.innerHTML = '<a class="logo" href="index.html" aria-label="Providea Loyalty"><span class="logo-mark">' + mark(24) + '</span><span class="logo-word">Providea Loyalty</span></a>' +
+      '<nav class="snav" aria-label="' + T('Menu utama') + '">' + NAV.map(function (n, i) {
+        if (!n.items) return '<a class="snav-a" href="' + n.href + '">' + T(n.t) + '</a>';
+        return '<div class="snav-dd"><button type="button" class="snav-a" aria-expanded="false" data-dd="' + i + '">' + T(n.t) + ic('chevron-down', 14) + '</button><div class="snav-panel">' + n.items.map(function (x) {
+          return '<a class="snav-item" href="' + x[0] + '">' + ic(x[1], 20) + '<span><b>' + T(x[2]) + '</b><small>' + T(x[3]) + '</small></span></a>'; }).join('') + '</div></div>';
+      }).join('') + '</nav>' +
+      '<div class="demobar-actions"><button type="button" class="btn btn-secondary btn-sm lang-btn" data-act="lang" aria-label="' + T('Ganti bahasa') + '">' + (LANG === 'en' ? 'ID' : 'EN') + '</button>' +
+      '<button type="button" class="icon-btn" data-act="theme" aria-label="' + T('Ganti tema') + '" title="' + T('Ganti tema') + '">' + ic(theme() === 'dark' ? 'sun' : 'moon', 18) + '</button>' +
+      '<a class="btn btn-secondary btn-sm snav-login" href="masuk.html">' + T('Masuk') + '</a><a class="btn btn-primary btn-sm" href="masuk.html#demo">' + T('Coba demo') + '</a>' +
+      '<button type="button" class="icon-btn snav-burger" aria-label="' + T('Buka menu') + '" aria-expanded="false" data-burger>' + ic('menu-2', 20) + '</button></div>' +
+      '<div class="snav-sheet" hidden>' + NAV.map(function (n) {
+        return n.items ? '<p class="snav-sh">' + T(n.t) + '</p>' + n.items.map(function (x) { return '<a href="' + x[0] + '">' + ic(x[1], 18) + T(x[2]) + '</a>'; }).join('') : '<a href="' + n.href + '">' + T(n.t) + '</a>';
+      }).join('') + '<a class="btn btn-primary" href="masuk.html#demo">' + T('Coba demo') + '</a></div>';
+    if (!el.dataset.wired) {
+      el.dataset.wired = '1';
+      el.addEventListener('click', function (e) {
+        var dd = e.target.closest('[data-dd]'), bg = e.target.closest('[data-burger]');
+        el.querySelectorAll('.snav-dd').forEach(function (d) { var b = d.querySelector('[data-dd]'); var open = dd === b ? b.getAttribute('aria-expanded') !== 'true' : false; b.setAttribute('aria-expanded', open); d.classList.toggle('is-open', open); });
+        if (bg) { var sh = el.querySelector('.snav-sheet'), o = sh.hidden; sh.hidden = !o; bg.setAttribute('aria-expanded', o); }
+        if (e.target.closest('.snav-sheet a, .snav-item')) { var s2 = el.querySelector('.snav-sheet'); if (s2) s2.hidden = true; }
+      });
+      document.addEventListener('click', function (e) { if (!el.contains(e.target)) el.querySelectorAll('.snav-dd.is-open').forEach(function (d) { d.classList.remove('is-open'); d.querySelector('[data-dd]').setAttribute('aria-expanded', 'false'); }); });
+    }
+  }
+  /* footer for the site pages (same build as the Providea Influence footer) */
+  function footer() {
+    var col = function (h, links) { return '<div class="sfoot-col"><h3>' + T(h) + '</h3>' + links.map(function (l) { return '<a href="' + l[1] + '"' + (l[2] ? ' target="_blank" rel="noopener"' : '') + '>' + (l[3] ? ic(l[3], 16) : '') + T(l[0]) + '</a>'; }).join('') + '</div>'; };
+    return '<footer class="sfoot"><div class="sfoot-grid"><div class="sfoot-brand"><a class="logo" href="index.html"><span class="logo-mark">' + mark(22) + '</span><span class="logo-word">Providea Loyalty</span></a>' +
+      '<p>' + T('Kartu member, poin, dan voucher tanpa aplikasi untuk merek dengan 1 sampai 20 outlet.') + '</p><button type="button" class="btn btn-secondary btn-sm" data-act="lang">' + ic('language', 16) + (LANG === 'en' ? 'English' : 'Bahasa Indonesia') + '</button></div>' +
+      col('Produk', [['Kartu member di HP', 'anggota.html#/home'], ['Aplikasi kasir', 'kasir.html'], ['Dashboard pemilik', 'dashboard.html'], ['Cara kerja', 'index.html#cara-kerja']]) +
+      col('Kisah pelanggan', [['Kamtono', 'kisah.html?k=kamtono'], ['Mendaya Ramen', 'kisah.html?k=mendaya'], ['Bobs', 'kisah.html?k=bobs']]) +
+      col('Providea', [['Tentang Providea', '../'], ['Providea Influence', '../influence/'], ['Hubungi kami', 'mailto:hello@providea.com', false, 'mail'], ['Coba demo', 'masuk.html#demo']]) +
+      '</div><div class="sfoot-bottom"><span>© 2026 Providea</span><span>' + T('Providea Loyalty · demo produk. Merek, orang, dan angka di demo ini fiktif. Gambar kafe adalah ilustrasi.') + '</span></div></footer>';
+  }
   function renderBar() {
     var el = document.getElementById('demobar'); if (!el) return;
+    if (VIEW === 'hub' || VIEW === 'site') { siteBar(el); return; }
+    el.classList.remove('is-site');
     var tabs = [['anggota.html', 'device-mobile', 'HP member', 'member'], ['kasir.html', 'device-tablet', 'Kasir', 'kasir'], ['dashboard.html', 'layout-dashboard', 'Dashboard', 'dash']];
     el.innerHTML = '<a class="logo" href="./" aria-label="Providea Loyalty">' + '<span class="logo-mark">' + mark(24) + '</span><span class="logo-word">Providea Loyalty</span></a>' +
       '<nav class="tabs-segmented tabs-sm demo-switch" aria-label="' + T('Pilih tampilan') + '">' + tabs.map(function (t) {
@@ -311,7 +357,7 @@
       '<button type="button" class="icon-btn demo-reset" data-act="resetDemo" aria-label="' + T('Ulang demo') + '" title="' + T('Ulang demo') + '">' + ic('refresh', 18) + '</button></div>';
   }
 
-  function setView(v) { VIEW = v; document.documentElement.lang = LANG; renderBar(); if (v !== 'hub') visit(v); }
+  function setView(v) { VIEW = v; document.documentElement.lang = LANG; renderBar(); if (v !== 'hub' && v !== 'site') visit(v); }
 
   /* cross-tab sync: another view changed the demo data */
   window.addEventListener('storage', function (e) { if (e.key === KEY) { S = load(); window.PL.S = S; if (window.PL.onSync) window.PL.onSync(); } });
@@ -323,8 +369,8 @@
     BRAND: BRAND, CATALOG: CATALOG, MENU: MENU, rules0: rules0,
     save: save, reset: reset, member: member, tierOf: tierOf, tierById: tierById, nextTier: nextTier, earnFor: earnFor, earnedToday: earnedToday,
     segOf: segOf, isTop: isTop, memberVouchers: memberVouchers, addAudit: addAudit, recordSale: recordSale, nextReceipt: nextReceipt,
-    qr: qr, mark: mark, tierTag: tierTag, avatar: avatar, segTag: segTag, SEG: SEG, sjLogo: sjLogo, wordmark: wordmark, cup: cup,
-    toast: toast, modal: modal, ACT: ACT, setView: setView, renderBar: renderBar, visit: visit, visited: visited,
+    qr: qr, mark: mark, MARK: MARK, tierTag: tierTag, avatar: avatar, segTag: segTag, SEG: SEG, sjLogo: sjLogo, wordmark: wordmark, cup: cup,
+    toast: toast, modal: modal, ACT: ACT, setView: setView, renderBar: renderBar, footer: footer, visit: visit, visited: visited,
     lang: function () { return LANG; }, onLang: null, onSync: null
   };
 })();

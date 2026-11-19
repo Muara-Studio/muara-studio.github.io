@@ -1,0 +1,160 @@
+/* Providea Loyalty landing · "Cara kerja" (js/flow.js). The scene is a square; everything inside is placed in
+   cqw of that square, so the big sticky stage and the small stacked stills share one set of positions. */
+@layer screens {
+  .fl { --fl-ease: cubic-bezier(0.22, 0.75, 0.2, 1); --fl-dur: 900ms; }
+  .fl-track { position: relative; --fl-h: clamp(560px, calc(100vh - var(--bar-h) - 40px), 840px); --fl-step: 44vh; height: calc(var(--fl-h) + var(--n) * var(--fl-step)); }
+  .fl-sticky { position: sticky; top: calc(var(--bar-h) + 20px); height: var(--fl-h); }
+  .fl-panel { height: 100%; display: grid; grid-template-columns: minmax(320px, 0.8fr) 1.2fr; gap: 6px; padding: 6px; border-radius: 28px; background: var(--bg-subtle); box-shadow: inset 0 0 0 1px var(--border-default); }
+
+  /* rail */
+  .fl-side { display: flex; flex-direction: column; gap: 24px; min-width: 0; padding: 36px 30px 28px; }
+  .fl-steps { position: relative; display: flex; flex-direction: column; gap: 2px; margin: auto 0; list-style: none; padding: 0; }
+  .fl-steps::before, .fl-steps::after { content: ''; position: absolute; left: 14px; top: 22px; width: 2px; border-radius: 2px; }
+  .fl-steps::before { bottom: 22px; background: var(--border-default); }
+  .fl-steps::after { height: calc((100% - 44px) * var(--fl-p, 0)); background: var(--action-primary); }
+  .fl-step { position: relative; z-index: 1; }
+  .fl-mini { display: none; }
+  .fl-step-h { margin: 0; font: inherit; }
+  .fl-jump { display: flex; align-items: center; gap: 14px; width: 100%; padding: 7px 0; text-align: left; color: var(--text-secondary); font-size: 17px; line-height: 1.3; font-weight: 600; letter-spacing: -0.01em; border-radius: 10px; transition: color var(--dur); }
+  .fl-jump:hover { color: var(--text-primary); }
+  .fl-jump:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+  .fl-num { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; width: 30px; height: 30px; border-radius: 50%; background: var(--bg-surface); box-shadow: inset 0 0 0 1.5px var(--border-strong); font-size: 13px; font-weight: 600; color: var(--text-secondary); transition: background-color var(--dur), color var(--dur), box-shadow var(--dur); }
+  .fl-step.is-done .fl-num { background: var(--bg-brand-subtle); box-shadow: none; color: var(--text-brand); }
+  .fl-step.is-on .fl-jump { color: var(--text-primary); }
+  .fl-step.is-on .fl-num { background: var(--action-primary); box-shadow: none; color: var(--action-on-primary); }
+  .fl-step-b { display: grid; grid-template-rows: 0fr; margin-left: 44px; transition: grid-template-rows 450ms var(--fl-ease); }
+  .fl-step-b > div { overflow: hidden; }
+  .fl-step-b p { padding: 0 0 10px; font-size: 15px; line-height: 1.55; color: var(--text-secondary); max-width: 40ch; text-wrap: pretty; }
+  .fl-step.is-on .fl-step-b { grid-template-rows: 1fr; }
+  .fl-try { align-self: flex-start; }
+  .fl-note { position: absolute; left: 14px; bottom: 14px; z-index: 5; display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: var(--radius-pill); background: color-mix(in srgb, var(--bg-surface) 88%, transparent); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); box-shadow: inset 0 0 0 1px var(--border-default); font-size: 12px; color: var(--text-secondary); }
+  .fl-note.is-stacked { display: none; }
+
+  /* stage */
+  .fl-stage { position: relative; isolation: isolate; overflow: hidden; display: flex; align-items: flex-end; justify-content: center; min-width: 0; border-radius: 22px; background: var(--bg-surface); box-shadow: inset 0 0 0 1px var(--border-default); container-type: size; }
+  .fl-stage > .fl-scene { flex: none; width: min(100cqw, 100cqh); }
+
+  /* scene: square, 1 cqw = 1% of its side */
+  .fl-scene { position: relative; width: 100%; aspect-ratio: 1; container-type: inline-size; perspective: 1700px; --hx: 0cqw; --hy: 0cqw; --hs: 1; --rx: 4deg; --ry: 0deg; --rz: 0deg; }
+  .fl-scene > * { position: absolute; }
+  .fl-img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+  /* hand + phone: the screen layer sits under the keyed photo, in the photo's screen hole (see key-hand.py) */
+  .fl-hand { left: 26cqw; top: 11cqw; width: 69.4cqw; height: 114cqw; z-index: 3; transform-origin: 34.6% 31.5%;
+    transform: translate3d(var(--hx), var(--hy), 0) scale(var(--hs)) rotateX(var(--rx)) rotateY(var(--ry)) rotateZ(var(--rz));
+    filter: drop-shadow(0 2.6cqw 3.4cqw rgb(20 20 30 / 0.2)); }
+  .fl-hand-img { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .fl-screen { position: absolute; left: 11.85%; top: 1.25%; width: 45.55%; height: 60.5%; overflow: hidden; border-radius: 11% / 5%; background: #fff; }
+  .fl-scr { position: absolute; inset: 0; opacity: 0; transition: opacity 420ms var(--ease); }
+  .fl-scene[data-scr='scan'] .fl-scr[data-s='scan'], .fl-scene[data-scr='join'] .fl-scr[data-s='join'], .fl-scene[data-scr='otp'] .fl-scr[data-s='otp'],
+  .fl-scene[data-scr='checkin'] .fl-scr[data-s='checkin'], .fl-scene[data-scr='home'] .fl-scr[data-s='home'] { opacity: 1; }
+
+  /* per-step placement of the hand */
+  .fl-scene[data-step='0'] { --hx: 13cqw; --hs: 0.96; --rx: 5deg; --ry: -16deg; --rz: 3deg; }
+  .fl-scene[data-step='1'] { --hx: 0cqw; --rx: 4deg; --ry: 9deg; --rz: -2deg; }
+  .fl-scene[data-step='2'] { --hx: 0cqw; --rx: 3deg; --ry: -9deg; --rz: 2deg; }
+  .fl-scene[data-step='3'] { --hx: -27cqw; --hy: 3cqw; --hs: 0.84; --rx: 3deg; --ry: 14deg; --rz: -3deg; }
+  .fl-scene[data-step='4'] { --hx: -15cqw; --hy: 0cqw; --hs: 1; --rx: 3deg; --ry: -6deg; --rz: 1deg; }
+  .fl-scene[data-step='5'] { --hx: -25cqw; --hy: 4cqw; --hs: 0.82; --rx: 3deg; --ry: 12deg; --rz: -2deg; }
+
+  /* step 1: the QR standee on the counter */
+  .fl-standee { left: 5cqw; top: 26cqw; width: 27cqw; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 1.2cqw; padding: 2.6cqw 2.4cqw 2.2cqw; border-radius: 2.4cqw; background: #fff5ea; color: #0f2690; text-align: center;
+    box-shadow: 0 0 0 1px rgb(15 38 144 / 0.08), 0 3cqw 5cqw -2cqw rgb(15 38 144 / 0.35);
+    opacity: 0; transform: translate3d(-8cqw, 0, 0) rotateY(28deg); transform-origin: 0 50%; }
+  .fl-standee .sj-wm { height: 5.4cqw !important; }
+  .fl-standee span { font-size: clamp(9px, 1.6cqw, 13px); font-weight: 600; line-height: 1.25; }
+  .fl-standee small { font-size: clamp(8px, 1.3cqw, 11px); font-weight: 500; }
+  .fl-standee .qr { width: 100%; border-radius: 1cqw; }
+  .fl-scene[data-step='0'] .fl-standee { opacity: 1; transform: rotateY(22deg); }
+
+  /* steps 4 and 5: the cashier tablet */
+  .fl-tab { left: 28cqw; top: 21cqw; width: 70cqw; z-index: 2; padding: 1.3cqw; border-radius: 3.6cqw; background: #1b1b1d; box-shadow: inset 0 0 0 0.25cqw #3a3a3e, 0 3cqw 6cqw -2cqw rgb(20 20 30 / 0.35);
+    opacity: 0; transform: translate3d(36cqw, 0, 0) rotateY(-32deg); transform-origin: 100% 50%; }
+  .fl-tab-scr { aspect-ratio: 1816 / 1136; overflow: hidden; border-radius: 2.4cqw; background: #fff; }
+  .fl-scene[data-step='3'] .fl-tab { opacity: 1; transform: rotateY(-14deg); }
+  .fl-scene[data-step='4'] .fl-tab { opacity: 0.5; transform: translate3d(1cqw, 4cqw, -16cqw) rotateY(-18deg); }
+
+  /* step 5: points arrive on the phone */
+  .fl-earn { left: 53cqw; top: 25cqw; z-index: 4; display: flex; flex-direction: column; gap: 0.9cqw; padding: 1.4cqw; border-radius: 2.2cqw; background: var(--bg-surface); box-shadow: inset 0 0 0 1px var(--border-default), var(--elevation-overlay);
+    opacity: 0; transform: translate3d(10cqw, 0, 0) scale(0.92); }
+  .fl-earn span { display: flex; align-items: center; gap: 0.8cqw; padding: 0.8cqw 1.4cqw 0.8cqw 1cqw; border-radius: 1.4cqw; background: var(--status-success-bg); color: var(--status-success); font-size: clamp(11px, 2cqw, 16px); white-space: nowrap; }
+  .fl-earn b { font-weight: 600; }
+  .fl-scene[data-step='4'] .fl-earn { opacity: 1; transform: none; }
+
+  /* step 6: dashboard and the POS already in use */
+  .fl-dash { left: 50cqw; top: 9cqw; width: 47cqw; z-index: 2; overflow: hidden; border-radius: 1.8cqw; background: var(--bg-surface); box-shadow: inset 0 0 0 1px var(--border-default), 0 3cqw 5cqw -2.4cqw rgb(20 20 30 / 0.3);
+    opacity: 0; transform: translate3d(0, -4cqw, 0) rotateX(10deg); }
+  .fl-dash-bar { position: relative; display: flex; align-items: center; justify-content: center; height: 3.6cqw; border-bottom: 1px solid var(--border-default); font-size: clamp(8px, 1.3cqw, 11px); color: var(--text-muted); white-space: nowrap; }
+  .fl-dash-bar i { position: absolute; left: 1.6cqw; top: 50%; width: 0.9cqw; height: 0.9cqw; margin-top: -0.45cqw; border-radius: 50%; background: var(--border-strong); box-shadow: 1.5cqw 0 var(--border-strong), 3cqw 0 var(--border-strong); }
+  .fl-dash > .fl-img { height: auto; aspect-ratio: 960 / 512; }
+  .fl-sale { left: 54cqw; top: 36cqw; width: 40cqw; z-index: 4; display: flex; align-items: center; gap: 1.4cqw; padding: 1.3cqw 1.6cqw; border-radius: 2cqw; background: var(--bg-surface); box-shadow: inset 0 0 0 1px var(--border-default), var(--elevation-overlay);
+    font-size: clamp(10px, 1.7cqw, 14px); opacity: 0; transform: translate3d(0, 3cqw, 0); }
+  .fl-sale > svg { flex-shrink: 0; color: var(--text-brand); }
+  .fl-sale > span { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+  .fl-sale b { font-weight: 600; white-space: nowrap; }
+  .fl-sale small { font-size: 0.86em; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .fl-sale em { font-style: normal; font-weight: 600; color: var(--status-success); white-space: nowrap; }
+  .fl-pos { left: 59cqw; top: 66cqw; z-index: 4; display: flex; align-items: center; gap: 1.4cqw; padding: 1.2cqw 2cqw 1.2cqw 1.2cqw; border-radius: 99cqw; background: var(--bg-inverse); color: var(--text-inverse);
+    box-shadow: 0 2.4cqw 4cqw -2cqw rgb(20 20 30 / 0.45); font-size: clamp(10px, 1.7cqw, 14px); opacity: 0; transform: translate3d(0, 4cqw, 0); }
+  .fl-pos-ic { display: inline-flex; align-items: center; justify-content: center; width: 4.6cqw; height: 4.6cqw; min-width: 26px; min-height: 26px; border-radius: 50%; background: rgb(255 255 255 / 0.14); }
+  .fl-pos > span:last-child { display: flex; flex-direction: column; }
+  .fl-pos b { font-weight: 600; white-space: nowrap; }
+  .fl-pos small { font-size: 0.86em; opacity: 0.72; white-space: nowrap; }
+  .fl-wire { inset: 0; width: 100%; height: 100%; z-index: 1; overflow: visible; opacity: 0; }
+  .fl-wire path { fill: none; stroke: var(--border-strong); stroke-width: 0.32; stroke-dasharray: 1 1.1; stroke-linecap: round; }
+  .fl-wire circle { fill: var(--action-primary); }
+  .fl-scene[data-step='5'] :is(.fl-dash, .fl-sale, .fl-pos, .fl-wire) { opacity: 1; transform: none; }
+  /* small scenes (stacked cards): chips keep a readable 10px, so they hang from the right edge */
+  @container (max-width: 520px) {
+    .fl-dash { left: 45cqw; width: 52cqw; }
+    .fl-sale { left: auto; right: 3cqw; width: auto; max-width: 58cqw; }
+    .fl-pos { left: auto; right: 3cqw; }
+  }
+
+  /* motion: only the big stage moves; one change per step, then rest */
+  .fl-stage .fl-hand { transition: transform var(--fl-dur) var(--fl-ease); }
+  .fl-stage :is(.fl-standee, .fl-tab, .fl-dash, .fl-pos, .fl-wire) { transition: opacity 600ms var(--ease), transform var(--fl-dur) var(--fl-ease); }
+  .fl-stage :is(.fl-earn, .fl-sale) { transition: opacity 400ms var(--ease), transform 600ms var(--fl-ease); }
+  .fl-stage .fl-scene[data-step='4'] .fl-earn, .fl-stage .fl-scene[data-step='5'] .fl-sale { transition-delay: 450ms; }
+  .fl-stage .fl-scene[data-step='5'] .fl-pos { transition-delay: 250ms; }
+
+  /* dark: lighter wires and a softer drop shadow */
+  :root[data-theme='dark'] .fl-hand { filter: drop-shadow(0 2.6cqw 3.4cqw rgb(0 0 0 / 0.45)); }
+  :root[data-theme='dark'] .fl-pos { background: #2c2c2e; color: #f4f4f2; box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.08); }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme='light']) .fl-hand { filter: drop-shadow(0 2.6cqw 3.4cqw rgb(0 0 0 / 0.45)); }
+    :root:not([data-theme='light']) .fl-pos { background: #2c2c2e; color: #f4f4f2; box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.08); }
+  }
+
+  @media (max-width: 1100px) {
+    .fl-panel { grid-template-columns: minmax(280px, 0.85fr) 1.15fr; }
+    .fl-side { padding: 28px 22px 24px; }
+    .fl-jump { font-size: 16px; }
+  }
+
+  /* stacked: phones, and everyone who asks for less motion. Each step is a card with its own still scene. */
+  @media (max-width: 860px), (prefers-reduced-motion: reduce) {
+    .fl-track { height: auto; }
+    .fl-sticky { position: static; height: auto; }
+    .fl-panel { display: block; height: auto; padding: 0; border-radius: 0; background: none; box-shadow: none; }
+    .fl-stage { display: none; }
+    .fl-side { padding: 0; gap: 16px; }
+    .fl-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: 0; }
+    .fl-steps::before, .fl-steps::after { display: none; }
+    .fl-step { display: flex; flex-direction: column; padding: 6px; border-radius: 22px; background: var(--bg-subtle); box-shadow: inset 0 0 0 1px var(--border-default); }
+    .fl-mini { display: block; position: relative; overflow: hidden; aspect-ratio: 1 / 0.88; border-radius: 16px; background: var(--bg-surface); box-shadow: inset 0 0 0 1px var(--border-default); }
+    .fl-mini > .fl-scene { position: absolute; left: 0; top: 0; }
+    .fl-jump { pointer-events: none; padding: 14px 10px 6px; color: var(--text-primary); }
+    .fl-num { background: var(--bg-brand-subtle); box-shadow: none; color: var(--text-brand); }
+    .fl-step-b { grid-template-rows: 1fr; margin-left: 54px; padding-right: 10px; }
+    .fl-step-b p { padding-bottom: 12px; }
+    .fl-note.is-stacked { display: inline-flex; position: static; margin-top: 16px; }
+    .fl-try { margin-top: 4px; }
+  }
+  @media (max-width: 1100px) and (prefers-reduced-motion: reduce) { .fl-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 860px) { .fl-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 640px) {
+    .fl-steps { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+    .fl-step-b { margin-left: 54px; }
+  }
+}

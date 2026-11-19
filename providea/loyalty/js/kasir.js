@@ -27,7 +27,7 @@
   function renderTablet() {
     var el = document.getElementById('tsa'); if (!el) return;
     el.innerHTML = '<div class="k-bar"><span class="logo-mark">' + P.mark(22) + '</span><div class="k-bar-title"><span class="t-strong">' + T('Kasir') + ' · Kamtono</span><span class="t-small sec">' + T('Outlet Cempaka · Ayu Kartika (kasir)') + '</span></div>' +
-      '<div class="grow"></div><nav class="tabs-segmented tabs-sm k-mode" aria-label="' + T('Mode kasir') + '"><button type="button" class="tab' + (mode === 'kasir' ? ' is-active' : '') + '" data-act="mode" data-v="kasir">' + ic('device-tablet', 16) + T('Aplikasi kasir') + '</button><button type="button" class="tab' + (mode === 'pos' ? ' is-active' : '') + '" data-act="mode" data-v="pos">' + ic('cash-register', 16) + T('Di POS (contoh iSeller)') + '</button></nav>' +
+      '<div class="grow"></div><nav class="tabs-segmented tabs-sm k-mode" aria-label="' + T('Mode kasir') + '"><button type="button" class="tab' + (mode === 'kasir' ? ' is-active' : '') + '" data-act="mode" data-v="kasir">' + ic('device-tablet', 16) + T('Aplikasi kasir') + '</button><button type="button" class="tab' + (mode === 'pos' ? ' is-active' : '') + '" data-act="mode" data-v="pos">' + ic('cash-register', 16) + T('Di POS') + '</button></nav>' +
       '<span class="k-status">' + T('Online · tersinkron') + '</span></div>' + (mode === 'kasir' ? kasirApp() : posApp());
     if (mode === 'pos') P.visit('pos');
   }
@@ -119,8 +119,8 @@
     }
     md.el.addEventListener('click', function (e) {
       var k = e.target.closest('[data-key]'), qk = e.target.closest('[data-quick]'), c = e.target.closest('[data-cups]');
-      if (k) { st.amount = padKey(st.amount, k.dataset.key); draw(); }
-      else if (qk) { st.amount = qk.dataset.add === '1' ? st.amount + +qk.dataset.quick : +qk.dataset.quick; draw(); }
+      if (k) { st.amount = padKey(st.typed || k.dataset.key === 'del' ? st.amount : 0, k.dataset.key); st.typed = true; draw(); }  /* the first key replaces the prefilled amount */
+      else if (qk) { st.amount = qk.dataset.add === '1' ? st.amount + +qk.dataset.quick : +qk.dataset.quick; st.typed = true; draw(); }
       else if (c) { st.cups = Math.max(0, st.cups + +c.dataset.cups); draw(); }
     });
     draw();
@@ -198,7 +198,7 @@
         renderTablet();
       };
     }
-    md.el.addEventListener('click', function (e) { var k = e.target.closest('[data-key]'); if (k) { st.bill = padKey(st.bill, k.dataset.key); draw(); } });
+    md.el.addEventListener('click', function (e) { var k = e.target.closest('[data-key]'); if (k) { st.bill = padKey(st.billTyped || k.dataset.key === 'del' ? st.bill : 0, k.dataset.key); st.billTyped = true; draw(); } });
     draw();
   };
 
@@ -280,7 +280,7 @@
   function posApp() {
     var items = P.MENU.filter(function (x) { return x.cat === posCat; });
     var m = posMember ? P.member(posMember) : null, tot = posTotals();
-    return '<div class="pos-banner">' + ic('info-circle', 16) + '<span>' + T('Contoh alur di POS yang terhubung, seperti iSeller. Tampilan POS ini ilustrasi, bukan tampilan asli aplikasi POS mana pun.') + '</span></div>' +
+    return '<div class="pos-banner">' + ic('info-circle', 16) + '<span>' + T('Contoh alur di POS yang terhubung. Tampilan POS ini ilustrasi, bukan tampilan aplikasi POS mana pun.') + '</span></div>' +
       '<div class="pos"><section class="pos-menu"><div class="tabs-segmented tabs-sm">' + [['froyo', 'Froyo'], ['topping', 'Topping'], ['minum', 'Minuman']].map(function (c) { return '<button type="button" class="tab' + (posCat === c[0] ? ' is-active' : '') + '" data-act="posCat" data-v="' + c[0] + '">' + T(c[1]) + '</button>'; }).join('') + '</div>' +
       '<div class="pos-grid">' + items.map(function (it) { return '<button type="button" class="pos-item" data-act="posAdd" data-id="' + it.id + '"><span class="pos-thumb' + (it.cat !== 'froyo' ? ' is-' + it.cat : '') + '">' + ic(it.cat === 'froyo' ? 'ice-cream-2' : it.cat === 'minum' ? 'cup' : 'sparkles', 20) + '</span><span class="t-strong">' + T(it.name) + '</span><span class="sec num">' + P.rp(it.price) + '</span></button>'; }).join('') + '</div></section>' +
       '<aside class="pos-order"><div class="pos-order-body"><div class="row between"><span class="t-h3">' + T('Pesanan') + ' <span class="num">C-00' + posReceipt + '</span></span><span class="t-small sec">Ayu · Cempaka</span></div>' +
