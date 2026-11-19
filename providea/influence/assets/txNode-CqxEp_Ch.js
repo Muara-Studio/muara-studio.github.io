@@ -1,0 +1,1 @@
+import{B as e,Rt as t,Vt as n}from"./ui-DKCr2K5R.js";var r=n(t(),1),i=e();function a(e,t){return e.split(/(\{\w+\})/g).map((e,n)=>{let a=/^\{(\w+)\}$/.exec(e)?.[1];return(0,i.jsx)(r.Fragment,{children:a&&a in t?t[a]:e},n)})}export{a as t};
