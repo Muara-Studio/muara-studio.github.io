@@ -858,7 +858,7 @@
   .cs-tab.is-active { background: var(--c-soft); box-shadow: inset 0 0 0 2px var(--c-ac); }
   :is(.cs-tab, .cs).is-kamtono { --c-ac: #1535BD; --c-soft: #EEF1FF; --c-panel: #EEF1FF; --c-ink: #10196B; --c-muted: #3D4785; }
   :is(.cs-tab, .cs).is-mendaya { --c-ac: #CF3A1E; --c-soft: #FBE9E2; --c-panel: #1A1512; --c-ink: #F5EBDB; --c-muted: rgb(245 235 219 / 0.72); }
-  :is(.cs-tab, .cs).is-tehnari { --c-ac: #8A4B24; --c-soft: #F6EBDD; --c-panel: #F6EBDD; --c-ink: #4A2614; --c-muted: #7A5A46; }
+  :is(.cs-tab, .cs).is-bobs { --c-ac: #E39B00; --c-soft: #FFF3D6; --c-panel: #FFF1CF; --c-ink: #3A2008; --c-muted: #7A5A2E; }
   .cs { background: var(--c-panel, var(--bg-subtle)); box-shadow: none; }
   .cs .cs-h, .cs .cs-ps { color: var(--c-ink); }
   .cs .cs-id small { color: var(--c-muted); }
@@ -869,14 +869,14 @@
   .cs.is-mendaya .cs-ps small::before { background: #F08A6E; }
   .cs-ps p { font-size: 15px; line-height: 1.6; text-wrap: pretty; }
   :root[data-theme='dark'] .cs.is-kamtono { --c-panel: #161B33; --c-ink: #E2E7FF; --c-muted: #A3AEDB; --c-soft: #1B2142; }
-  :root[data-theme='dark'] .cs.is-tehnari { --c-panel: #2A1F18; --c-ink: #F4E6D6; --c-muted: #C9AE98; --c-soft: #33251B; }
+  :root[data-theme='dark'] .cs.is-bobs { --c-panel: #2A2110; --c-ink: #FBEBC8; --c-muted: #CDB27F; --c-soft: #33280F; }
   :root[data-theme='dark'] .cs.is-mendaya { --c-panel: #110D0B; }
-  :root[data-theme='dark'] .cs-tab.is-kamtono { --c-soft: #1B2142; --c-ac: #8DA2FF; } :root[data-theme='dark'] .cs-tab.is-tehnari { --c-soft: #33251B; --c-ac: #D9A27A; } :root[data-theme='dark'] .cs-tab.is-mendaya { --c-soft: #2A1612; --c-ac: #F08A6E; }
+  :root[data-theme='dark'] .cs-tab.is-kamtono { --c-soft: #1B2142; --c-ac: #8DA2FF; } :root[data-theme='dark'] .cs-tab.is-bobs { --c-soft: #33280F; --c-ac: #F5B300; } :root[data-theme='dark'] .cs-tab.is-mendaya { --c-soft: #2A1612; --c-ac: #F08A6E; }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme='light']) .cs.is-kamtono { --c-panel: #161B33; --c-ink: #E2E7FF; --c-muted: #A3AEDB; --c-soft: #1B2142; }
-    :root:not([data-theme='light']) .cs.is-tehnari { --c-panel: #2A1F18; --c-ink: #F4E6D6; --c-muted: #C9AE98; --c-soft: #33251B; }
+    :root:not([data-theme='light']) .cs.is-bobs { --c-panel: #2A2110; --c-ink: #FBEBC8; --c-muted: #CDB27F; --c-soft: #33280F; }
     :root:not([data-theme='light']) .cs.is-mendaya { --c-panel: #110D0B; }
-    :root:not([data-theme='light']) .cs-tab.is-kamtono { --c-soft: #1B2142; --c-ac: #8DA2FF; } :root:not([data-theme='light']) .cs-tab.is-tehnari { --c-soft: #33251B; --c-ac: #D9A27A; } :root:not([data-theme='light']) .cs-tab.is-mendaya { --c-soft: #2A1612; --c-ac: #F08A6E; }
+    :root:not([data-theme='light']) .cs-tab.is-kamtono { --c-soft: #1B2142; --c-ac: #8DA2FF; } :root:not([data-theme='light']) .cs-tab.is-bobs { --c-soft: #33280F; --c-ac: #F5B300; } :root:not([data-theme='light']) .cs-tab.is-mendaya { --c-soft: #2A1612; --c-ac: #F08A6E; }
   }
   @media (max-width: 860px) {
     .cs-tab { flex: 0 0 auto; }
@@ -884,3 +884,9 @@
   }
 }
 @layer screens { @media (max-width: 640px) { .cs-photo figcaption { top: 10px; bottom: auto; left: 10px; font-size: 11px; } } }
+@layer screens {
+  .cs-logo { display: block; width: auto; flex-shrink: 0; height: 40px; }
+  .cs-logo.is-mendaya { height: 30px; } .cs-logo.is-bobs { height: 46px; margin: -4px 0; }
+  .cs-h .cs-id { padding-left: 4px; border-left: 1px solid color-mix(in srgb, var(--c-ink, currentColor) 18%, transparent); padding-left: 12px; }
+  @media (max-width: 640px) { .cs-logo { height: 32px; } .cs-logo.is-mendaya { height: 24px; } .cs-logo.is-bobs { height: 38px; } .cs-h .cs-id { border-left: 0; padding-left: 0; flex-basis: 100%; } }
+}

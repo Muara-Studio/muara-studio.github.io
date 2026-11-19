@@ -175,7 +175,7 @@
   }
 
   /* ── sample case: nested panel, timeline + figures ── */
-  /* sample cases: three fictional brands, one problem each, own colours and photo (Kamtono, Mendaya Ramen, Tehnari) */
+  /* sample cases: three fictional brands, one problem each, own colours and photo (Kamtono, Mendaya Ramen, Bobs) */
   var CASES = [
     { k: 'kamtono', name: 'Kamtono', ind: 'Froyo · outlet pertama', meta: 'Outlet Cempaka · 1 kasir · mulai dari 0 member',
       photo: 'img/kamtono/cafe-counter-', photoM: 'img/kamtono/cafe-wide-', alt: 'Ilustrasi meja kasir Kamtono: tablet kasir dan HP member',
@@ -191,21 +191,25 @@
         ['Bulan 2', 'Mangkuk ke-8 gratis', 'Kartu stempel per mangkuk, dan telur ajitama gratis di bulan ulang tahun.'],
         ['Bulan 3', 'Voucher jam sepi', 'Member yang 45 hari tidak datang menerima voucher untuk Senin sampai Kamis, 14.00 sampai 17.00.']],
       figs: [['9.800', 9800, 'member', 'dalam 6 bulan di 6 outlet'], ['+24%', 24, 'transaksi', 'di jam 14.00 sampai 17.00'], ['31%', 31, 'member', 'makan di 2 outlet atau lebih'], ['Rp118.000', 118000, 'per kunjungan', 'rata-rata belanja member']] },
-    { k: 'tehnari', name: 'Tehnari', ind: 'Boba milk tea · 18 outlet', meta: '18 outlet · sebelumnya kartu stempel kertas',
-      photo: 'img/brands/tehnari/shop-', alt: 'Ilustrasi meja kasir Tehnari: POS dengan member dan web-app member di HP, kartu stempel kertas lama di meja',
-      prob: 'Kartu stempel kertas sering hilang dan mudah dipalsukan. Tehnari tidak tahu siapa pelanggannya, dan tidak bisa menghubungi mereka.',
-      sol: 'Providea Loyalty membuatkan web-app member dengan nama dan warna Tehnari. Data penjualan masuk lewat webhook dari POS yang sudah mereka pakai. Kami sudah bekerja sama dengan penyedia POS tersebut untuk koneksi ini, jadi kasir tetap memakai POS yang sama.',
-      story: [['Minggu 1', 'Web-app member Tehnari', 'Halaman member dengan logo dan warna Tehnari, di domain mereka sendiri. Tanpa unduh aplikasi.'],
+    { k: 'bobs', name: 'Bobs', ind: 'Boba milk tea · 18 outlet', meta: '18 outlet · sebelumnya kartu stempel kertas',
+      photo: 'img/brands/bobs/shop-', alt: 'Ilustrasi meja kasir Bobs: POS dengan member dan web-app member di HP, kartu stempel kertas lama di meja',
+      prob: 'Kartu stempel kertas sering hilang dan mudah dipalsukan. Bobs tidak tahu siapa pelanggannya, dan tidak bisa menghubungi mereka.',
+      sol: 'Providea Loyalty membuatkan web-app member dengan nama dan warna Bobs. Data penjualan masuk lewat webhook dari POS yang sudah mereka pakai. Kami sudah bekerja sama dengan penyedia POS tersebut untuk koneksi ini, jadi kasir tetap memakai POS yang sama.',
+      story: [['Minggu 1', 'Web-app member Bobs', 'Halaman member dengan logo dan warna Bobs, di domain mereka sendiri. Tanpa unduh aplikasi.'],
         ['Minggu 2', 'Webhook dari POS', 'Setiap transaksi di POS langsung masuk ke Providea Loyalty. Poin dan stempel dihitung otomatis.'],
         ['Bulan 1', 'Tukar kartu kertas', 'Kasir memindai kartu kertas lama satu kali. Stempelnya pindah ke web-app.'],
         ['Bulan 2', 'Stempel tidak bisa dipalsukan', 'Setiap stempel berasal dari transaksi POS, jadi stempel tulisan tangan tidak berlaku lagi.']],
       figs: [['26.400', 26400, 'member', 'dalam 4 bulan di 18 outlet'], ['71%', 71, 'kartu kertas', 'sudah pindah ke web-app'], ['Rp0', 0, 'cetak kartu', 'tidak ada kartu kertas baru'], ['2,3×', null, 'per bulan', 'rata-rata kunjungan per member']] }
   ];
   var csTab = 'kamtono';
-  function brandMark(k, s) { return k === 'kamtono' ? P.sjLogo(s) : '<span class="sj-logo is-flat" style="--s:' + s + 'px"><img src="img/brands/' + k + '/icon.svg" alt="" decoding="async"></span>'; }
+  function brandMark(k, s) { return k === 'kamtono' ? P.sjLogo(s) : '<span class="sj-logo is-flat" style="--s:' + s + 'px"><img src="img/brands/' + k + '/icon.webp" alt="" decoding="async"></span>'; }
+  function caseLogo(k) {
+    var src = { kamtono: 'img/kamtono/wordmark.svg', mendaya: 'img/brands/mendaya/word-cream.webp', bobs: 'img/brands/bobs/logo.webp' }[k];
+    return '<img class="cs-logo is-' + k + '" src="' + src + '" alt="" decoding="async">';
+  }
   function casePanel(c) {
     var L = P.lang();
-    return '<article class="cs is-' + c.k + '" id="csPanel" role="tabpanel" aria-label="' + esc(c.name) + '"><header class="cs-h">' + brandMark(c.k, 36) + '<span class="cs-id"><b>' + esc(c.name) + '</b><small>' + T(c.meta) + '</small></span><span class="tag tag-warning">' + ic('info-circle', 13) + T('Angka contoh') + '</span></header>' +
+    return '<article class="cs is-' + c.k + '" id="csPanel" role="tabpanel" aria-label="' + esc(c.name) + '"><header class="cs-h">' + caseLogo(c.k) + '<span class="cs-id"><b class="sr-only">' + esc(c.name) + '</b><small>' + T(c.meta) + '</small></span><span class="tag tag-warning">' + ic('info-circle', 13) + T('Angka contoh') + '</span></header>' +
       '<figure class="cs-photo"><picture>' + (c.photoM ? '<source media="(max-width: 860px)" srcset="' + c.photoM + L + '.webp">' : '') + '<img src="' + c.photo + L + '.webp" width="2400" height="1350" alt="' + T(c.alt) + '" loading="lazy" decoding="async"></picture><figcaption>' + ic('info-circle', 13) + T('Ilustrasi. Layar diambil dari demo ini.') + '</figcaption></figure>' +
       '<div class="cs-ps"><div><small>' + T('Masalah') + '</small><p>' + T(c.prob) + '</p></div><div><small>' + T('Solusi Providea Loyalty') + '</small><p>' + T(c.sol) + '</p></div></div>' +
       '<div class="cs-in"><ol class="cs-tl">' + c.story.map(function (s) { return '<li><span class="cs-when">' + T(s[0]) + '</span><span class="cs-rail" aria-hidden="true"></span><span class="cs-step"><b>' + T(s[1]) + '</b><span>' + T(s[2]) + '</span></span></li>'; }).join('') + '</ol>' +
@@ -260,7 +264,7 @@
       '<section class="lp-wrap" aria-labelledby="faq-t"><div class="lp-head is-center"><h2 id="faq-t" class="lp-h2">' + T('Pertanyaan umum') + '</h2></div><div class="lp-faq">' +
       FAQ.map(function (f, i) { var open = openQ === i; return '<div class="lp-qa' + (open ? ' is-open' : '') + '"><button type="button" class="lp-q" aria-expanded="' + open + '" data-act="faq" data-i="' + i + '">' + T(f[0]) + '<span class="lp-q-ic">' + ic(open ? 'minus' : 'plus', 16) + '</span></button><p class="lp-a"' + (open ? '' : ' hidden') + '>' + T(f[1]) + '</p></div>'; }).join('') + '</div></section>' +
       stampCard() +
-      '<footer class="lp-wrap lfoot"><span class="row" style="--gap:10px"><span class="logo-mark">' + P.mark(20) + '</span><b>Providea Loyalty</b></span><span class="t-small sec">' + T('Demo. Merek Kamtono, Mendaya Ramen, dan Tehnari, orang, dan semua angka di halaman ini fiktif. Gambar kafe adalah ilustrasi. Klik di demo tersimpan di browser ini saja.') + '</span><span class="row wrap t-small"><a class="link-quiet" href="../influence/">Providea Influence</a><a class="link-quiet" href="../">Providea</a></span></footer>' +
+      '<footer class="lp-wrap lfoot"><span class="row" style="--gap:10px"><span class="logo-mark">' + P.mark(20) + '</span><b>Providea Loyalty</b></span><span class="t-small sec">' + T('Demo. Merek Kamtono, Mendaya Ramen, dan Bobs, orang, dan semua angka di halaman ini fiktif. Gambar kafe adalah ilustrasi. Klik di demo tersimpan di browser ini saja.') + '</span><span class="row wrap t-small"><a class="link-quiet" href="../influence/">Providea Influence</a><a class="link-quiet" href="../">Providea</a></span></footer>' +
       '</div></div>';
     reveal();
     startRelay();
