@@ -883,3 +883,4 @@
     .cs-ps { grid-template-columns: minmax(0, 1fr); gap: 16px; padding: 16px 12px 18px; }
   }
 }
+@layer screens { @media (max-width: 640px) { .cs-photo figcaption { top: 10px; bottom: auto; left: 10px; font-size: 11px; } } }
