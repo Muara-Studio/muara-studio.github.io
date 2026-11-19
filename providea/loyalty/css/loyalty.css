@@ -845,3 +845,41 @@
     .cs-photo img { aspect-ratio: 4 / 3; object-position: 72% 60%; }
   }
 }
+@layer screens {
+  /* ── Sample cases (19 Nov 2026): three fictional brands, each panel wears its brand colours ── */
+  .sj-logo.is-flat { background: transparent; }
+  .cs-tabs { display: flex; gap: 10px; margin-bottom: 16px; overflow-x: auto; scrollbar-width: none; padding: 2px; }
+  .cs-tabs::-webkit-scrollbar { display: none; }
+  .cs-tab { flex: 1 1 0; min-width: 0; display: flex; align-items: center; gap: 12px; padding: 10px 16px 10px 10px; border-radius: 16px; background: var(--bg-surface); box-shadow: inset 0 0 0 1px var(--border-default); text-align: left; transition: box-shadow var(--dur), background-color var(--dur); }
+  .cs-tab > span:last-child { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .cs-tab b { font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .cs-tab small { font-size: 12px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .cs-tab:hover { box-shadow: inset 0 0 0 1px var(--border-strong); }
+  .cs-tab.is-active { background: var(--c-soft); box-shadow: inset 0 0 0 2px var(--c-ac); }
+  :is(.cs-tab, .cs).is-kamtono { --c-ac: #1535BD; --c-soft: #EEF1FF; --c-panel: #EEF1FF; --c-ink: #10196B; --c-muted: #3D4785; }
+  :is(.cs-tab, .cs).is-mendaya { --c-ac: #CF3A1E; --c-soft: #FBE9E2; --c-panel: #1A1512; --c-ink: #F5EBDB; --c-muted: rgb(245 235 219 / 0.72); }
+  :is(.cs-tab, .cs).is-tehnari { --c-ac: #8A4B24; --c-soft: #F6EBDD; --c-panel: #F6EBDD; --c-ink: #4A2614; --c-muted: #7A5A46; }
+  .cs { background: var(--c-panel, var(--bg-subtle)); box-shadow: none; }
+  .cs .cs-h, .cs .cs-ps { color: var(--c-ink); }
+  .cs .cs-id small { color: var(--c-muted); }
+  .cs .cs-rail::before { background: var(--c-ac); box-shadow: 0 0 0 4px color-mix(in srgb, var(--c-ac) 16%, transparent); }
+  .cs-ps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; padding: 18px 16px 22px; }
+  .cs-ps small { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; color: var(--c-muted); margin-bottom: 6px; }
+  .cs-ps small::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--c-ac); }
+  .cs.is-mendaya .cs-ps small::before { background: #F08A6E; }
+  .cs-ps p { font-size: 15px; line-height: 1.6; text-wrap: pretty; }
+  :root[data-theme='dark'] .cs.is-kamtono { --c-panel: #161B33; --c-ink: #E2E7FF; --c-muted: #A3AEDB; --c-soft: #1B2142; }
+  :root[data-theme='dark'] .cs.is-tehnari { --c-panel: #2A1F18; --c-ink: #F4E6D6; --c-muted: #C9AE98; --c-soft: #33251B; }
+  :root[data-theme='dark'] .cs.is-mendaya { --c-panel: #110D0B; }
+  :root[data-theme='dark'] .cs-tab.is-kamtono { --c-soft: #1B2142; --c-ac: #8DA2FF; } :root[data-theme='dark'] .cs-tab.is-tehnari { --c-soft: #33251B; --c-ac: #D9A27A; } :root[data-theme='dark'] .cs-tab.is-mendaya { --c-soft: #2A1612; --c-ac: #F08A6E; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme='light']) .cs.is-kamtono { --c-panel: #161B33; --c-ink: #E2E7FF; --c-muted: #A3AEDB; --c-soft: #1B2142; }
+    :root:not([data-theme='light']) .cs.is-tehnari { --c-panel: #2A1F18; --c-ink: #F4E6D6; --c-muted: #C9AE98; --c-soft: #33251B; }
+    :root:not([data-theme='light']) .cs.is-mendaya { --c-panel: #110D0B; }
+    :root:not([data-theme='light']) .cs-tab.is-kamtono { --c-soft: #1B2142; --c-ac: #8DA2FF; } :root:not([data-theme='light']) .cs-tab.is-tehnari { --c-soft: #33251B; --c-ac: #D9A27A; } :root:not([data-theme='light']) .cs-tab.is-mendaya { --c-soft: #2A1612; --c-ac: #F08A6E; }
+  }
+  @media (max-width: 860px) {
+    .cs-tab { flex: 0 0 auto; }
+    .cs-ps { grid-template-columns: minmax(0, 1fr); gap: 16px; padding: 16px 12px 18px; }
+  }
+}

@@ -362,3 +362,33 @@ Object.assign(window.EN, {
   'Ilustrasi meja kasir. Layar diambil dari demo ini.': 'Counter illustration. The screens come from this demo.',
   'Froyo · Outlet Cempaka': 'Froyo · Cempaka outlet'
 });
+/* three sample cases (19 Nov 2026) */
+Object.assign(window.EN, {
+  'Kisah contoh: tiga merek, tiga masalah': 'Sample stories: three brands, three problems',
+  'Merek fiktif dari tiga industri. Providea Loyalty dipasang sesuai masalah masing-masing.': 'Fictional brands from three industries. Providea Loyalty is set up for the problem each one has.',
+  'Pilih kisah contoh': 'Choose a sample story', 'Masalah': 'Problem', 'Solusi Providea Loyalty': 'Providea Loyalty solution',
+  'Ilustrasi. Layar diambil dari demo ini.': 'Illustration. The screens come from this demo.',
+  'Froyo · outlet pertama': 'Froyo · first outlet', 'Ramen · 6 outlet': 'Ramen · 6 outlets', 'Boba milk tea · 18 outlet': 'Boba milk tea · 18 outlets',
+  'Outlet baru dengan satu kasir. Belum ada data pelanggan, dan pelanggan belum punya alasan untuk kembali.': 'A new outlet with one till. No customer data yet, and customers have no reason to come back.',
+  'Kartu member di HP tanpa unduh aplikasi, kartu stempel 10 cup, tier yang naik otomatis, dan pengingat WhatsApp.': 'A member card on the phone with no app to download, a 10-cup stamp card, tiers that move up by themselves, and WhatsApp reminders.',
+  '6 outlet di Jakarta dan Tangerang · makan di tempat': '6 outlets in Jakarta and Tangerang · dine-in',
+  'Ilustrasi meja kasir Mendaya Ramen: tablet kasir dengan pop-up check-in dan HP member': 'Illustration of the Mendaya Ramen counter: cashier tablet with the check-in pop-up and a member phone',
+  'Pelanggan setia datang 1 sampai 2 kali sebulan, tetapi datanya tersebar di 6 outlet. Jam 14.00 sampai 17.00 selalu sepi.': 'Loyal customers come 1 to 2 times a month, but their data is spread over 6 outlets. 14.00 to 17.00 is always quiet.',
+  'Satu kartu member untuk semua outlet. Pelanggan check-in dari QR di meja, dan voucher jam sepi dikirim lewat WhatsApp ke member yang lama tidak datang.': 'One member card for every outlet. Customers check in from the QR on the table, and quiet-hour vouchers go by WhatsApp to members who have not come for a while.',
+  'Minggu 3': 'Week 3', 'Bulan 3': 'Month 3', 'Minggu 2': 'Week 2',
+  'QR di setiap meja': 'A QR on every table', 'Pelanggan check-in saat duduk. Kasir melihat nama dan tier sebelum pesanan dibayar.': 'Customers check in when they sit down. The cashier sees the name and tier before the bill is paid.',
+  'Satu kartu untuk 6 outlet': 'One card for 6 outlets', 'Poin dan tier sama di semua outlet. Dashboard membandingkan outlet satu per satu.': 'Points and tiers are the same at every outlet. The dashboard compares the outlets one by one.',
+  'Mangkuk ke-8 gratis': 'The 8th bowl is free', 'Kartu stempel per mangkuk, dan telur ajitama gratis di bulan ulang tahun.': 'A stamp for every bowl, and a free ajitama egg in the birthday month.',
+  'Voucher jam sepi': 'Quiet-hour vouchers', 'Member yang 45 hari tidak datang menerima voucher untuk Senin sampai Kamis, 14.00 sampai 17.00.': 'Members who have not come for 45 days get a voucher for Monday to Thursday, 14.00 to 17.00.',
+  'dalam 6 bulan di 6 outlet': 'in 6 months at 6 outlets', 'di jam 14.00 sampai 17.00': 'between 14.00 and 17.00', 'makan di 2 outlet atau lebih': 'eat at 2 or more outlets', 'per kunjungan': 'per visit', 'rata-rata belanja member': 'average member spend',
+  '18 outlet · sebelumnya kartu stempel kertas': '18 outlets · paper stamp cards before',
+  'Ilustrasi meja kasir Tehnari: POS dengan member dan web-app member di HP, kartu stempel kertas lama di meja': 'Illustration of the Tehnari counter: the POS with a member and the member web app on a phone, an old paper stamp card on the counter',
+  'Kartu stempel kertas sering hilang dan mudah dipalsukan. Tehnari tidak tahu siapa pelanggannya, dan tidak bisa menghubungi mereka.': 'Paper stamp cards often get lost and are easy to fake. Tehnari did not know who its customers were and could not reach them.',
+  'Providea Loyalty membuatkan web-app member dengan nama dan warna Tehnari. Data penjualan masuk lewat webhook dari POS yang sudah mereka pakai. Kami sudah bekerja sama dengan penyedia POS tersebut untuk koneksi ini, jadi kasir tetap memakai POS yang sama.': 'Providea Loyalty built a member web app with the Tehnari name and colours. Sales data comes in by webhook from the POS they already use. We already work with that POS provider on this connection, so the cashiers keep the same POS.',
+  'Web-app member Tehnari': 'Tehnari member web app', 'Halaman member dengan logo dan warna Tehnari, di domain mereka sendiri. Tanpa unduh aplikasi.': 'A member page with the Tehnari logo and colours, on their own domain. No app to download.',
+  'Webhook dari POS': 'Webhook from the POS', 'Setiap transaksi di POS langsung masuk ke Providea Loyalty. Poin dan stempel dihitung otomatis.': 'Every POS transaction goes straight to Providea Loyalty. Points and stamps are counted automatically.',
+  'Tukar kartu kertas': 'Swap the paper cards', 'Kasir memindai kartu kertas lama satu kali. Stempelnya pindah ke web-app.': 'The cashier scans the old paper card once. Its stamps move to the web app.',
+  'Stempel tidak bisa dipalsukan': 'Stamps cannot be faked', 'Setiap stempel berasal dari transaksi POS, jadi stempel tulisan tangan tidak berlaku lagi.': 'Every stamp comes from a POS transaction, so hand-drawn stamps no longer count.',
+  'dalam 4 bulan di 18 outlet': 'in 4 months at 18 outlets', 'kartu kertas': 'paper cards', 'sudah pindah ke web-app': 'already moved to the web app', 'cetak kartu': 'card printing', 'tidak ada kartu kertas baru': 'no new paper cards', 'per bulan': 'per month', 'rata-rata kunjungan per member': 'average visits per member',
+  'Demo. Merek Kamtono, Mendaya Ramen, dan Tehnari, orang, dan semua angka di halaman ini fiktif. Gambar kafe adalah ilustrasi. Klik di demo tersimpan di browser ini saja.': 'Demo. The Kamtono, Mendaya Ramen and Tehnari brands, the people and all numbers on this page are fictional. The cafe pictures are illustrations. Clicks in the demo are saved in this browser only.'
+});
