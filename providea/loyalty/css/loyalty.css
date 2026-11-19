@@ -1091,7 +1091,7 @@
   /* ── 20 Nov 2026 fixes ── */
 
   /* hero slide 1 (is-wall): the wide Kamtono café with copy on the plain blue wall, as Thomas chose on 20 Nov 2026.
-     The phone-scanned-at-the-POS photo (img/scan-*.webp) is the Kamtono story slide's picture now. */
+     Slide 1 uses img/people/kamtono-*.webp (barista, customer with the member QR, cashier tablet). */
   .kh-panel.is-wall .kh-stage { transform: none; }
   .kh-panel.is-wall .kh-pin.is-tab { left: 59.2%; top: 68%; }
   .kh-panel.is-wall .kh-pin.is-hp { left: 81.2%; top: 57%; }
