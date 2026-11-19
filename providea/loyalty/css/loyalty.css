@@ -1327,3 +1327,4 @@
     .kh-panel.is-sale .hs-trio { flex: none; align-self: stretch; height: auto; width: auto; margin: 8px 16px 18px; }
   }
 }
+@layer screens { .kh-panel.is-sale .hs-hp img { border-radius: 7% / 3.3%; } }
