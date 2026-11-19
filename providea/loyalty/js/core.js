@@ -519,6 +519,7 @@
     { t: 'Cara kerja', href: 'index.html#cara-kerja' },
     { t: 'Manfaat', href: 'index.html#manfaat' },
     { t: 'Kisah pelanggan', items: [['kisah.html?k=kamtono', 'ice-cream-2', 'Kamtono', 'Froyo · outlet pertama'], ['kisah.html?k=mendaya', 'bowl-chopsticks', 'Mendaya Ramen', 'Ramen · 6 outlet'], ['kisah.html?k=bobs', 'cup', 'Bobs', 'Boba milk tea · 18 outlet']] },
+    { t: 'Harga', href: 'harga.html' },
     { t: 'FAQ', href: 'index.html#faq' }
   ];
   function siteBar(el) {
@@ -553,7 +554,7 @@
     var col = function (h, links) { return '<div class="sfoot-col"><h3>' + T(h) + '</h3>' + links.map(function (l) { return '<a href="' + l[1] + '"' + (l[2] ? ' target="_blank" rel="noopener"' : '') + '>' + (l[3] ? ic(l[3], 16) : '') + T(l[0]) + '</a>'; }).join('') + '</div>'; };
     return '<footer class="sfoot"><div class="sfoot-grid"><div class="sfoot-brand"><a class="logo" href="index.html"><span class="logo-mark">' + mark(22) + '</span><span class="logo-word">Providea Loyalty</span></a>' +
       '<p>' + T('Kartu member, poin, dan voucher tanpa aplikasi untuk merek dengan 1 sampai 20 outlet.') + '</p></div>' +
-      col('Produk', [['Kartu member di HP', 'anggota.html#/home'], ['Aplikasi kasir', 'kasir.html'], ['Dashboard pemilik', 'dashboard.html'], ['Cara kerja', 'index.html#cara-kerja']]) +
+      col('Produk', [['Kartu member di HP', 'anggota.html#/home'], ['Aplikasi kasir', 'kasir.html'], ['Dashboard pemilik', 'dashboard.html'], ['Cara kerja', 'index.html#cara-kerja'], ['Harga', 'harga.html']]) +
       col('Kisah pelanggan', [['Kamtono', 'kisah.html?k=kamtono'], ['Mendaya Ramen', 'kisah.html?k=mendaya'], ['Bobs', 'kisah.html?k=bobs']]) +
       col('Providea', [['Tentang Providea', '../'], ['Providea Influence', '../influence/'], ['Hubungi kami', 'mailto:hello@providea.com', false, 'mail'], ['Coba demo', 'masuk.html#demo']]) +
       '</div><div class="sfoot-bottom"><span>© 2026 Providea</span><span>' + T('Providea Loyalty · demo produk. Merek, orang, dan angka di demo ini fiktif. Gambar kafe adalah ilustrasi.') + '</span></div></footer>';

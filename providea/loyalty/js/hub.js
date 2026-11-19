@@ -8,7 +8,7 @@
   var P = PL, T = P.T, esc = P.esc;
   P.setView('hub');
   var app = document.getElementById('app');
-  var scTab = 'member', scTimer = null, scTouched = false, openQ = -1, flowOff = null;
+  var scTab = 'member', scTimer = null, scTouched = false, openQ = -1, flowOff = null, priceOff = null;
   var reduce = matchMedia('(prefers-reduced-motion: reduce)');
 
   function rd(i) { return ' data-reveal style="--rd:' + i * 70 + 'ms"'; }
@@ -353,11 +353,13 @@
   function render() {
     document.title = T('Providea Loyalty · Kartu member tanpa aplikasi');
     if (flowOff) { flowOff(); flowOff = null; }
+    if (priceOff) { priceOff(); priceOff = null; }
     app.innerHTML = '<div class="landing page" style="padding:0;max-width:none"><div class="lp" id="lp">' +
-      heroSlider() + (window.PLFlow ? PLFlow.html() : '') + relay() + benefits() + personalize() + showcase() + caseStudy() + people() + faq() + closing() +
+      heroSlider() + (window.PLFlow ? PLFlow.html() : '') + relay() + benefits() + personalize() + showcase() + caseStudy() + people() + (window.PLPrice ? PLPrice.section() : '') + faq() + closing() +
       '</div></div>' + P.footer();
     reveal(); hsInit(); startRelay(); countUp(); startRotate();
     if (window.PLFlow) flowOff = PLFlow.init() || null;
+    if (window.PLPrice) priceOff = PLPrice.init(document.getElementById('harga')) || null;
   }
 
   function setSc(k) {

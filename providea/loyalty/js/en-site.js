@@ -10,5 +10,7 @@ Object.assign(window.EN = window.EN || {}, {
   /* sign-in page: one note about the demo data, role picker subtitle */
   'Email dan kata sandi sudah terisi. Data contoh hanya tersimpan di browser ini. Demo bisa diulang kapan saja.': 'The email and password are filled in. Sample data stays in this browser only. You can restart the demo at any time.',
   'Mulai dari layar mana saja.': 'Start from any screen.',
-  'Boba milk tea · 18 outlet': 'Boba milk tea · 18 outlets', 'Ramen · 6 outlet': 'Ramen · 6 outlets', 'Froyo · outlet pertama': 'Froyo · first outlet'
+  'Boba milk tea · 18 outlet': 'Boba milk tea · 18 outlets', 'Ramen · 6 outlet': 'Ramen · 6 outlets', 'Froyo · outlet pertama': 'Froyo · first outlet',
+  'Harga': 'Pricing',
+  'Pro': 'Pro', 'Gratis': 'Free', 'Grup': 'Group'
 });
