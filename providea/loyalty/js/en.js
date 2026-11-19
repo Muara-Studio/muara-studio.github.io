@@ -323,3 +323,30 @@ Object.assign(window.EN, {
   'Outlet baru dengan satu kasir. Belum ada data pelanggan.': 'A new outlet with one cashier. No customer data yet.', 'Pelanggan belum punya alasan untuk kembali.': 'Customers had no reason to come back.',
   'QR di meja kasir, dan kasir mengajak daftar saat bayar.': 'A QR on the counter, and the cashier asks customers to join at payment.', 'Tier, voucher, dan pengingat WhatsApp jalan sendiri.': 'Tiers, vouchers and WhatsApp reminders run by themselves.'
 });
+/* landing v5 (19 Nov 2026): sale relay hero, four ways back, case panel */
+Object.assign(window.EN, {
+  'Kartu penuh. Cup kecil gratis masuk ke voucher.': 'Card full. A free small cup goes to vouchers.',
+  '{n} cup lagi, dapat cup kecil gratis': '{n} more cups for a free small cup',
+  'Kartu member, poin, dan voucher untuk merek dengan 1 sampai 20 outlet. Satu penjualan di kasir langsung masuk ke HP pelanggan dan dashboard pemilik.': 'Member cards, points and vouchers for brands with 1 to 20 outlets. One sale at the till goes straight to the customer\'s phone and the owner\'s dashboard.',
+  'Contoh: satu penjualan di tiga layar': 'Example: one sale on three screens',
+  'Hari ini': 'Today', 'Transaksi member': 'Member transactions', 'hari ini': 'today', 'Terakhir': 'Latest', 'Belum ada': 'None yet',
+  'Contoh dengan data demo. Di demo, penjualan dari layar kasir masuk ke HP member dan dashboard dengan cara yang sama.': 'Example with demo data. In the demo, a sale from the cashier screen reaches the member phone and the dashboard the same way.',
+  'Kartu Rina': 'Rina\'s card', '= {r} bila dipakai bayar': '= {r} when used to pay', '1 poin / Rp10.000': '1 point / Rp10,000', '1 poin = Rp500': '1 point = Rp500',
+  'dari {r}': 'from {r}', 'Rina: {r} lagi ke Platinum': 'Rina: {r} more to Platinum',
+  'Empat alasan untuk kembali': 'Four reasons to come back', 'Pakai satu atau semuanya. Aturan bisa diubah di dashboard kapan saja.': 'Use one or all of them. You can change the rules in the dashboard at any time.',
+  'Atur program': 'Set up the programme',
+  'Empat bulan pertama Sejuk Froyo Bar': 'The first four months of Sejuk Froyo Bar', 'Outlet Cempaka · 1 kasir · mulai dari 0 member': 'Cempaka outlet · 1 till · started with 0 members',
+  'Buka tiga layarnya': 'Open the three screens', 'Semua layar di demo bisa diklik dan memakai data yang sama di browser ini.': 'Every screen in the demo is clickable and uses the same data in this browser.',
+  '1 cup, 2 topping': '1 cup, 2 toppings', '1 cup besar': '1 large cup', '2 cup sedang': '2 medium cups',
+  'Setiap cup menambah satu stempel. Stempel ke-10 menjadi cup kecil gratis.': 'Each cup adds one stamp. The 10th stamp becomes a free small cup.',
+  'Coba di kasir': 'Try it at the till', '1 poin tiap belanja Rp10.000. Saat bayar, 1 poin bernilai Rp500.': '1 point for every Rp10,000 spent. When paying, 1 point is worth Rp500.',
+  'Lihat kartu member': 'See the member card',
+  'Silver, Gold, dan Platinum dihitung dari belanja 12 bulan. Tier lebih tinggi mendapat poin lebih banyak.': 'Silver, Gold and Platinum come from 12 months of spend. Higher tiers earn more points.',
+  'Voucher sekali pakai dengan QR. Kode yang sudah dipakai ditolak di kasir.': 'Single-use vouchers with a QR code. The till rejects a code that was already used.',
+  'Minggu 1': 'Week 1', 'QR di meja kasir': 'QR on the counter', 'Kasir mengajak daftar saat pelanggan bayar. Kode masuk lewat WhatsApp.': 'The cashier asks customers to join when they pay. The code arrives on WhatsApp.',
+  'Bulan 1': 'Month 1', 'Kartu stempel 10 cup': '10-cup stamp card', 'Member baru mendapat voucher sambutan: gratis topping.': 'New members get a welcome voucher: a free topping.',
+  'Bulan 2': 'Month 2', 'Tier Gold dan Platinum': 'Gold and Platinum tiers', 'Pelanggan tetap mendapat poin 1,25× dan 1,5×.': 'Regular customers earn 1.25× and 1.5× points.',
+  'Bulan 3 dan 4': 'Months 3 and 4', 'Pengingat WhatsApp': 'WhatsApp reminders', 'Member yang 30 hari tidak datang menerima satu pesan dengan voucher.': 'Members who have not visited for 30 days get one message with a voucher.',
+  'Mulai': 'Start', '+{p} poin dari belanja {r}. Saldo {b} poin.': '+{p} points from a {r} purchase. Balance {b} points.',
+  'dari 0, dalam 4 bulan': 'from 0, in 4 months', 'memakai kartu member': 'use the member card', 'datang 2 kali atau lebih dalam 30 hari': 'visit 2 times or more in 30 days', 'dipakai dalam 30 hari': 'used in 30 days'
+});
