@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" type="image/png" href="favicon.png"><link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<meta name="theme-color" content="#006768">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Jurnal Kulit: Tips & Panduan Perawatan Wajah | Himalaya Indonesia</title>
+<meta name="description" content="Panduan perawatan kulit dari Himalaya: facial wash untuk kulit berjerawat, cara merawat kulit bernoda, serum vitamin C untuk pemula, dan lainnya.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="journal">
+<div id="chrome-top"></div>
+<main>
+
+<!-- 01 HERO: DermaGlow blog head (tag chip + centred serif) + Essentia "Beyond your skin." -->
+<section data-shot="01-hero" data-title="Hero Jurnal Kulit">
+  <div class="wrap center-hero">
+    <nav class="crumb" aria-label="Breadcrumb"><a href="index.html">Beranda</a><i class="ti ti-chevron-right"></i><span>Jurnal Kulit</span></nav>
+    <span class="tag"><i class="ti ti-notebook"></i>Jurnal Kulit</span>
+    <h1 class="h1" data-i18n="jr.title">Jurnal Kulit untuk<br><em>iklim tropis.</em></h1>
+    <p class="lead" style="text-align:center">Panduan praktis, penjelasan bahan, dan jawaban jujur untuk pertanyaan perawatan wajah yang paling sering dicari.</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:8px" id="cats"></div>
+  </div>
+</section>
+
+<!-- 02 SOROTAN: Essentia journal big card + 2 -->
+<section class="sec-s" style="padding-top:8px" data-shot="02-artikel-sorotan" data-title="Artikel sorotan">
+  <div class="wrap"><div class="jr" id="feat"></div></div>
+</section>
+
+<!-- 03 SEMUA ARTIKEL: DermaGlow blog cards -->
+<section class="sec-s" data-shot="03-semua-artikel" data-title="Semua artikel (6 kartu)">
+  <div class="wrap">
+    <div class="sec-row"><h2 class="h2">Artikel terbaru.</h2><label class="nl" style="width:min(360px,100%);border:1px solid var(--line)"><i class="ti ti-search" style="align-self:center;margin-left:12px;color:var(--muted)"></i><input id="aq" placeholder="Cari artikel…" aria-label="Cari artikel"></label></div>
+    <div class="grid-3" id="list"></div>
+  </div>
+</section>
+
+<!-- 04 BELANJA DARI ARTIKEL: product tie-in -->
+<section class="sec-s" data-shot="04-produk-terkait" data-title="Produk yang dibahas">
+  <div class="wrap">
+    <div class="sec-row"><div class="sec-head left" style="margin:0"><span class="tag"><i class="ti ti-shopping-bag"></i>Dibahas di jurnal</span><h2 class="h2">Produk yang<br><em>sering disebut.</em></h2></div><a class="link" href="perawatan-wajah.html">Semua perawatan wajah <i class="ti ti-arrow-right"></i></a></div>
+    <div class="grid-p" id="jProducts"></div>
+  </div>
+</section>
+
+<!-- 05 NEWSLETTER: DermaGlow "Start your journey" -->
+<section class="panel bg-forest on-dark cta-p" style="margin-top:56px" data-shot="05-newsletter" data-title="Langganan Jurnal Kulit">
+  <span class="tag"><i class="ti ti-mail"></i>Langganan</span>
+  <h2 class="h2">Artikel baru,<br><em>langsung ke emailmu.</em></h2>
+  <p class="lead" style="margin:0 auto">Dua kali sebulan. Tanpa spam, bisa berhenti kapan saja.</p>
+  <form class="nl" onsubmit="event.preventDefault();this.innerHTML='<span style=\'padding:12px 16px;font-weight:600;color:var(--ink)\'>Terima kasih, cek email kamu.</span>'"><input type="email" required placeholder="Alamat email kamu" aria-label="Email"><button class="btn btn-p btn-sm" type="submit">Daftar<span class="ar"><i class="ti ti-arrow-right"></i></span></button></form>
+</section>
+</main>
+<div id="chrome-bottom"></div>
+<script src="data.js"></script><script src="assets.js"></script><script src="content.js"></script><script src="app.js"></script>
+<script>
+(function(){
+const $ = s => document.querySelector(s);
+const cats = ['Semua','Panduan Produk','Kulit Bernoda','Serum','Kulit Berminyak','Rutinitas','Bahan Herbal'];
+let cat = 'Semua', q = '';
+$('#cats').innerHTML = cats.map((c,i) => `<button class="chip ${i===0?'on':''}" data-c="${c}">${c}</button>`).join('');
+const jc = (a, big) => `<a class="jcard ${big?'big':''} rv-up" href="#"><img src="${IMG[a.img]}&w=${big?1400:900}" alt=""><span class="m"><b>${a.cat}</b>${a.date} · ${a.min} menit baca</span><h3>${a.t}</h3></a>`;
+$('#feat').innerHTML = jc(ARTICLES[0], true) + `<div class="side">${jc(ARTICLES[1])}${jc(ARTICLES[2])}</div>`;
+function render(){
+  const l = ARTICLES.filter(a => (cat==='Semua' || a.cat===cat) && (!q || (a.t+a.d+a.q).toLowerCase().includes(q)));
+  $('#list').innerHTML = l.map(a => `<a class="bcard rv-up" href="#"><div class="ph"><img loading="lazy" src="${IMG[a.img]}&w=800&h=550" alt=""></div><div class="bd"><span class="cat">${a.cat}</span><h3>${a.t}</h3><p>${a.d}</p><span class="q"><i class="ti ti-search"></i>Menjawab: "${a.q}"</span><div class="m"><span><i class="ti ti-calendar"></i>${a.date}</span><span><i class="ti ti-clock"></i>${a.min} menit baca</span></div></div></a>`).join('') || '<p class="small">Belum ada artikel untuk topik ini.</p>';
+  window.HM.afterRender();
+}
+$('#cats').onclick = e => { const b = e.target.closest('.chip'); if (!b) return; cat = b.dataset.c; [...b.parentNode.children].forEach(x => x.classList.toggle('on', x===b)); render(); };
+$('#aq').oninput = e => { q = e.target.value.toLowerCase(); render(); };
+render();
+$('#jProducts').innerHTML = ['himalaya-purifying-neem-face-wash','himalaya-dark-spot-treatment-turmeric-face-serum','himalaya-brightening-vitamin-c-orange-face-serum','oil-control-lemon-face-wash'].map(id => window.HM.cardHTML(window.HM.byId(id))).join('');
+window.HM.afterRender();
+})();
+</script>
+</body>
+</html>
