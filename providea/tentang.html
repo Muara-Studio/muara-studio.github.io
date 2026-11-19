@@ -85,7 +85,29 @@
 
 <main>
   <section class="case-hero shade pg-hero">
-    <div class="img"><img src="assets/img/reeded-hero.webp" alt="" width="1440" height="738">
+    <div class="img ab-hero"><img src="assets/img/reeded-hero.webp" alt="" width="1440" height="738">
+      <!-- grey Providea mark seen through the same reeded glass (Thomas, 20 Nov 2026) -->
+      <div class="ab-mark" aria-hidden="true">
+        <svg viewBox="-12 -12 120 120" focusable="false">
+          <defs>
+            <linearGradient id="abm-fill" x1="0" y1="0" x2=".45" y2="1">
+              <stop offset="0" stop-color="#eef0f3"/><stop offset=".5" stop-color="#bcc2cb"/><stop offset="1" stop-color="#848c98"/>
+            </linearGradient>
+            <filter id="abm-reed" x="-25%" y="-25%" width="150%" height="150%" color-interpolation-filters="sRGB">
+              <feTurbulence type="fractalNoise" baseFrequency=".24 0" numOctaves="1" seed="11" result="ribs"/>
+              <feDisplacementMap in="SourceGraphic" in2="ribs" scale="7.5" xChannelSelector="R" yChannelSelector="A" result="refr"/>
+              <feGaussianBlur in="refr" stdDeviation="2.3"/>
+            </filter>
+            <pattern id="abm-ribs" width="4.4" height="8" patternUnits="userSpaceOnUse">
+              <rect x="0" width=".5" height="8" fill="#fff" fill-opacity=".5"/><rect x="3.6" width=".8" height="8" fill="#08223f" fill-opacity=".18"/>
+            </pattern>
+            <path id="abm-p" d="M20.63 8H56.42C72.7 8 85.89 21.2 85.89 37.47V41.68C85.89 57.96 72.7 71.16 56.42 71.16H44.84C40.77 71.16 37.47 74.46 37.47 78.53V84.84C37.47 86.59 36.06 88 34.32 88H13.26C11.74 88 10.46 86.92 10.17 85.48C10.87 72.04 17.23 61.44 29.66 53.84C24.22 56.03 17.59 57.31 10.11 58.13V18.53C10.11 12.71 14.82 8 20.63 8ZM59.91 26.62Q48 36.38 36.09 26.62Q45.86 38.53 36.09 50.44Q48 40.67 59.91 50.44Q50.14 38.53 59.91 26.62ZM36.09 50.44C33.79 51.49 31.65 52.63 29.66 53.84C32.04 52.89 34.19 51.77 36.09 50.44Z"/>
+          </defs>
+          <g class="abm-body" filter="url(#abm-reed)"><use href="#abm-p" fill="url(#abm-fill)"/></g>
+          <g class="abm-ribs" filter="url(#abm-reed)"><use href="#abm-p" fill="url(#abm-ribs)"/></g>
+        </svg>
+      </div>
+      <span class="ab-sweep" aria-hidden="true"></span>
       <h1 data-en="From a student collective to one team.">Dari kumpulan mahasiswa menjadi satu tim.</h1></div>
   </section>
 
@@ -165,5 +187,6 @@
 <script src="assets/js/shell.js" defer></script>
 <script src="assets/js/cta.js" defer></script>
 <script src="assets/js/pages.js" defer></script>
+<script src="assets/js/about-hero.js" defer></script>
 </body>
 </html>
