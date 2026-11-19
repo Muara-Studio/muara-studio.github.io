@@ -1093,11 +1093,11 @@
   /* hero slide 1 (is-wall): the wide Kamtono café with copy on the plain blue wall, as Thomas chose on 20 Nov 2026.
      Slide 1 uses img/people/kamtono-*.webp (barista, customer with the member QR, cashier tablet). */
   .kh-panel.is-wall .kh-stage { transform: none; }
-  .kh-panel.is-wall .kh-pin.is-tab { left: 59.2%; top: 68%; }
-  .kh-panel.is-wall .kh-pin.is-hp { left: 81.2%; top: 57%; }
+  .kh-panel.is-wall .kh-pin.is-tab { left: 54.2%; top: 63.4%; }
+  .kh-panel.is-wall .kh-pin.is-hp { left: 84%; top: 56.2%; }
   @media (max-width: 640px) {
     .kh-panel.is-wall .kh-photo { object-position: 85% 50%; }
-    .kh-panel.is-wall .kh-pin.is-tab { left: 50.6%; } .kh-panel.is-wall .kh-pin.is-hp { left: 80%; }
+    .kh-panel.is-wall .kh-pin.is-tab { left: 43.9%; } .kh-panel.is-wall .kh-pin.is-hp { left: 83.7%; }
   }
   /* phones: the story slides' note sits on the photo (bottom), not over the brand line */
   @media (max-width: 860px) { .kh-panel.is-case .kh-note { top: auto; bottom: 10px; } }
@@ -1308,4 +1308,22 @@
 @layer screens {
   /* site pages (landing, stories, sign-in, pricing): let the body grow so the sticky menu stays on screen on long pages */
   body:has(> #demobar.is-site) { height: auto; min-height: 100%; }
+}
+@layer screens {
+  /* last hero slide (is-sale), 20 Nov 2026: copy and devices in their own grid columns so they never collide,
+     devices staggered inside their own box with only corner overlaps */
+  .kh-panel.is-sale { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: center; column-gap: 4%; padding: 0 4% 0 4.4%; }
+  .kh-panel.is-sale .kh-copy { grid-column: 1; grid-row: 1; position: relative; left: auto; top: auto; transform: none; width: auto; max-width: 30rem; z-index: 2; }
+  .kh-panel.is-sale .hs-trio { grid-column: 2; grid-row: 1; position: relative; inset: auto; z-index: 1; width: 100%; aspect-ratio: 4 / 3.1; margin: 0; }
+  .kh-panel.is-sale .hs-trio > div { box-shadow: 0 26px 50px -24px rgb(0 0 0 / 0.75), 0 0 0 1px rgb(255 255 255 / 0.1); }
+  .kh-panel.is-sale .hs-dash { left: auto; right: 0; top: 0; bottom: auto; width: 70%; border-radius: 12px; }
+  .kh-panel.is-sale .hs-tab { left: 0; right: auto; top: auto; bottom: 0; width: 62%; border-width: 0; border-radius: 22px; }
+  .kh-panel.is-sale .hs-hp { left: auto; right: 2%; top: auto; bottom: 4%; width: 21%; border-width: 0; border-radius: 0; background: transparent; box-shadow: none; aspect-ratio: auto; }
+  .kh-panel.is-sale .hs-hp img { height: auto; object-fit: initial; filter: drop-shadow(0 22px 30px rgb(0 0 0 / 0.55)); }
+  @media (max-width: 1100px) { .kh-panel.is-sale { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 3%; } .kh-panel.is-sale .kh-copy { width: auto; } }
+  @media (max-width: 860px) {
+    .kh-panel.is-sale { display: flex; flex-direction: column-reverse; padding: 0; }
+    .kh-panel.is-sale .kh-copy { max-width: none; }
+    .kh-panel.is-sale .hs-trio { flex: none; align-self: stretch; height: auto; width: auto; margin: 8px 16px 18px; }
+  }
 }
