@@ -508,7 +508,7 @@
   .mcard { position: relative; border-radius: 22px; padding: 18px 18px 16px; color: #fff; min-height: 196px; display: flex; flex-direction: column; justify-content: space-between; gap: 12px; overflow: hidden; text-align: left; width: 100%;
     background: radial-gradient(90% 120% at 100% 0%, rgb(92 207 255 / 0.5) 0%, rgb(92 207 255 / 0) 55%), radial-gradient(60% 80% at 0% 100%, rgb(255 245 234 / 0.14) 0%, rgb(255 245 234 / 0) 60%), linear-gradient(140deg, #2148D8 0%, #0F2690 100%); }
   .mcard::after { content: ''; position: absolute; right: -40px; bottom: -60px; width: 200px; height: 200px; border-radius: 50%; border: 28px solid rgb(255 255 255 / 0.06); }
-  .mcard::before { content: ''; position: absolute; right: -26px; top: 34px; width: 168px; height: 168px; background: url(../img/kamtono/mascot.png) center / contain no-repeat; opacity: 0.16; transform: rotate(10deg); pointer-events: none; }
+  .mcard::before { content: ''; position: absolute; right: -26px; top: 34px; width: 168px; height: 168px; background: url(../img/kamtono/mascot.webp) center / contain no-repeat; opacity: 0.16; transform: rotate(10deg); pointer-events: none; }
   .mcard > * { position: relative; z-index: 1; }
   .mcard-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
   .mcard-brand { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; }

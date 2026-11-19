@@ -237,7 +237,7 @@
   function avatar(m, s, cls) { return '<span class="avatar avatar-brand ' + (cls || '') + '" style="width:' + s + 'px;height:' + s + 'px;font-size:' + Math.round(s * 0.38) + 'px">' + esc(initials(m.name)) + '</span>'; }
   var SEG = { 'new': ['Baru', 'info'], active: ['Aktif', 'success'], risk: ['Berisiko', 'warning'], lapsed: ['Hilang', 'danger'] };
   function segTag(s) { return '<span class="tag tag-' + SEG[s][1] + ' tag-sm">' + T(SEG[s][0]) + '</span>'; }
-  function sjLogo(s) { return '<span class="sj-logo" style="--s:' + (s || 28) + 'px"><img src="img/kamtono/icon.png" alt="" decoding="async"></span>'; }
+  function sjLogo(s) { return '<span class="sj-logo" style="--s:' + (s || 28) + 'px"><img src="img/kamtono/icon.webp" alt="" decoding="async"></span>'; }
   /* Kamtono sample brand: stacked wordmark and the froyo-cup stamp glyph (img/kamtono/, made in _build/kamtono/) */
   function wordmark(h) { return '<img class="sj-wm" src="img/kamtono/wordmark.svg" alt="Kamtono" style="height:' + (h || 28) + 'px" decoding="async">'; }
   var cupN = 0;

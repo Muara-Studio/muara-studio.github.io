@@ -110,7 +110,7 @@
   SCR.join = function () {
     var ph = joinTab === 'phone';
     var ok = draft.consent && draft.age && draft.name.trim() && (ph ? draft.phone.replace(/\D/g, '').length >= 10 : /.+@.+\..+/.test(draft.email));
-    return '<div class="sj-hero"><img class="sj-hero-mascot" src="img/kamtono/mascot.png" alt="" decoding="async"><div class="row">' + P.wordmark(46) + '<span class="t-small" style="opacity:.85">Froyo · Outlet Cempaka</span></div>' +
+    return '<div class="sj-hero"><img class="sj-hero-mascot" src="img/kamtono/mascot.webp" alt="" decoding="async"><div class="row">' + P.wordmark(46) + '<span class="t-small" style="opacity:.85">Froyo · Outlet Cempaka</span></div>' +
       '<h1 class="ps-title" style="color:#fff;margin-top:6px">' + T('Jadi member Kamtono') + '</h1>' +
       '<div class="perk">' + ic('coin', 18) + '<span>' + T('1 poin tiap belanja Rp10.000') + '</span></div>' +
       '<div class="perk">' + ic('rubber-stamp', 18) + '<span>' + T('Kumpulkan 10 stempel, dapat cup kecil gratis') + '</span></div>' +
