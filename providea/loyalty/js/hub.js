@@ -97,9 +97,9 @@
   var hs = { i: 0, timer: null, paused: false, io: null, visible: true };
   function brandMark(k, s) { return k === 'kamtono' ? P.sjLogo(s) : '<span class="sj-logo is-flat" style="--s:' + s + 'px"><img src="img/brands/' + k + '/icon.webp" alt="" decoding="async"></span>'; }
   function slidePromo(L) {
-    return '<article class="hs-slide kh-panel is-promo" aria-roledescription="slide" aria-label="' + T('{a} dari {b}', { a: 1, b: 5 }) + '">' +
-      '<div class="kh-stage"><img class="kh-photo" src="img/scan-' + L + '.webp" width="2560" height="1440" alt="' + T('Ilustrasi: pelanggan menunjukkan QR member di HP, tablet kasir yang terhubung ke POS langsung mengenalinya') + '" fetchpriority="high" decoding="async"></div>' +
-      '<span class="kh-pin is-tab"><b>' + T('Kasir mengenali member') + '</b></span><span class="kh-pin is-hp"><b>' + T('QR member di HP') + '</b></span>' +
+    return '<article class="hs-slide kh-panel is-wall" aria-roledescription="slide" aria-label="' + T('{a} dari {b}', { a: 1, b: 5 }) + '">' +
+      '<div class="kh-stage"><img class="kh-photo" src="img/people/kamtono-' + L + '.webp" width="2560" height="1440" alt="' + T('Ilustrasi kafe Kamtono: barista di balik meja kasir, pelanggan menunjukkan QR member di HP, tablet kasir di meja') + '" fetchpriority="high" decoding="async">' +
+      '<span class="kh-pin is-tab"><b>' + T('Tablet kasir') + '</b></span><span class="kh-pin is-hp"><b>' + T('HP pelanggan') + '</b></span></div>' +
       '<div class="kh-copy"><p class="kh-brand"><span class="logo-mark">' + P.mark(22) + '</span><span>Providea Loyalty</span></p>' +
       '<h1 class="kh-h1" id="lp-title">' + T('Pembeli sekali jadi pelanggan tetap.') + '</h1>' +
       '<p class="kh-sub">' + T('Kartu member, poin, dan voucher langsung di HP pelanggan. Tanpa aplikasi, tanpa kartu kertas, dan terhubung ke kasirmu.') + '</p>' +
@@ -201,7 +201,7 @@
         '<div class="stat"><span class="stat-label">' + T('Transaksi member') + '</span><span class="stat-row"><b class="rl-big num" id="rlTx">' + TX0 + '</b><span class="unit-pill">' + T('hari ini') + '</span></span></div>' +
         '<div class="rl-chart" aria-hidden="true"><div class="rl-bars">' + barsHtml(TX0) + '</div><div class="rl-days">' + days() + '</div></div>' +
         '<div class="rl-last"><span>' + T('Terakhir') + '</span><b id="rlLast">' + T('Belum ada') + '</b></div></div></article>' +
-      '</div><p class="lh-cap">' + ic('info-circle', 14) + T('Contoh dengan data demo. Coba sendiri: tambah penjualan di layar kasir, lalu buka HP pelanggan dan dashboard.') + '</p></div></section>';
+      '</div><p class="lh-cap">' + ic('info-circle', 14) + T('Contoh dengan data demo.') + '</p></div></section>';
   }
   var rl = { i: 0, tx: TX0, timers: [], io: null, visible: false };
   function at(ms, fn) { rl.timers.push(setTimeout(fn, ms)); }
@@ -260,7 +260,7 @@
       '<div class="mx-vc"><span><b>' + T('Gratis topping') + '</b><small>' + T('Hadiah naik Gold') + '</small><small class="num">KMT-GT7-Q4M</small></span><span class="mx-qr">' + ic('qrcode', 34) + '</span></div>';
   }
   function benefits() {
-    return '<section class="lp-wrap" id="manfaat" aria-labelledby="mx-t">' + head('mx-t', 'Pelanggan makin dekat. Bisnis ikut untung.', 'Empat cara Providea Loyalty mengikat pelanggan ke produkmu. Pakai satu atau semuanya, aturannya bisa diubah kapan saja.', '<a href="dashboard.html#/tier">' + go(T('Atur program di dashboard')) + '</a>') +
+    return '<section class="lp-wrap" id="manfaat" aria-labelledby="mx-t">' + head('mx-t', 'Pelanggan makin dekat. Bisnis ikut untung.', 'Empat cara Providea Loyalty mengikat pelanggan ke produkmu. Pakai satu atau semuanya, aturannya bisa diubah kapan saja.') +
       '<div class="mx-grid">' + MX.map(function (m, i) { return '<a class="mx" href="' + m.href + '"' + rd(i) + '><div class="mx-well is-' + m.k + '">' + well(m.k) + '</div><div class="mx-txt"><h3>' + T(m.t) + '</h3><p>' + T(m.x) + '</p><p class="mx-win">' + ic('trending-up', 16) + '<span><b>' + T('Untuk merek:') + '</b> ' + T(m.win) + '</span></p></div>' + go(T(m.cta)) + '</a>'; }).join('') + '</div>' +
       '<div class="wins" data-reveal><header class="wins-h">' + ic('building-store', 18) + '<b>' + T('Yang didapat merekmu') + '</b></header><div class="wins-in">' +
       WINS.map(function (w) { return '<div class="win">' + ic(w[0], 22) + '<b>' + T(w[1]) + '</b><span>' + T(w[2]) + '</span></div>'; }).join('') + '</div></div></section>';
@@ -274,7 +274,7 @@
         '<div class="pz-cards" aria-hidden="true">' + cards.map(function (c, i) { return '<img class="pz-card is-' + c[0] + '" style="--i:' + i + '" src="' + c[1] + L + '.webp" alt="" loading="lazy" decoding="async">'; }).join('') + '</div>' +
         '<span class="pz-cap">' + T('Contoh: kartu Kamtono, Mendaya Ramen, dan Bobs') + '</span></div>' +
       '<div class="lp-tile is-wide"' + rd(1) + '>' + ic('plug-connected', 30, 'big') + '<span class="lp-tile-t">' + T('Terhubung dengan POS yang sudah dipakai') + '</span><span class="lp-tile-x">' + T('Penjualan masuk otomatis lewat integrasi yang fleksibel. Belum punya POS? Pakai aplikasi kasir di browser tablet.') + '</span>' +
-        '<span class="lp-chips"><span class="is-on">' + ic('plug-connected', 14) + T('Integrasi fleksibel') + '</span><span>' + T('Aplikasi kasir di browser') + '</span><span>' + T('Satu data untuk semua outlet') + '</span></span></div>' +
+        '<span class="lp-chips"><span class="is-on">' + ic('building-store', 14) + T('Satu data untuk semua outlet') + '</span></span></div>' +
       '<div class="lp-tile"' + rd(2) + '>' + ic('adjustments-horizontal', 30, 'big') + '<span class="lp-tile-t">' + T('Program sesuai jenis usaha') + '</span><span class="lp-tile-x">' + T('Stempel untuk kopi dan froyo, poin untuk restoran, tier untuk pelanggan rutin.') + '</span></div>' +
       '<div class="lp-tile"' + rd(3) + '>' + ic('brand-whatsapp', 30, 'big') + '<span class="lp-tile-t">' + T('Promo lewat saluran yang dibaca') + '</span><span class="lp-tile-x">' + T('WhatsApp, email, atau notifikasi Wallet. Biaya tiap kampanye terlihat sebelum kirim.') + '</span></div></div>' +
       '<div class="pz-cta" data-reveal><div><b>' + T('Lihat dulu, lalu putuskan.') + '</b><span>' + T('Masuk dengan akun demo dan coba semua layar. Atau minta akses untuk merekmu sendiri.') + '</span></div>' +
@@ -351,6 +351,7 @@
   }
 
   function render() {
+    document.title = T('Providea Loyalty · Kartu member tanpa aplikasi');
     if (flowOff) { flowOff(); flowOff = null; }
     app.innerHTML = '<div class="landing page" style="padding:0;max-width:none"><div class="lp" id="lp">' +
       heroSlider() + (window.PLFlow ? PLFlow.html() : '') + relay() + benefits() + personalize() + showcase() + caseStudy() + people() + faq() + closing() +
@@ -392,8 +393,8 @@
     el.querySelectorAll('[data-reveal]:not([data-shown])').forEach(function (n) { io.observe(n); });
   }
   /* until the guide module (PLAsk) is on the page, ask and access fall back to email */
-  if (!P.ACT.ask) P.ACT.ask = function (el) { location.href = 'mailto:hello@providea.com?subject=' + encodeURIComponent('[Providea Loyalty] ' + (el.dataset.title || 'Pertanyaan')); };
-  if (!P.ACT.access) P.ACT.access = function () { location.href = 'mailto:hello@providea.com?subject=' + encodeURIComponent('[Providea Loyalty] Minta akses'); };
+  if (!P.ACT.ask) P.ACT.ask = function (el) { location.href = 'mailto:hello@providea.com?subject=' + encodeURIComponent('[Providea Loyalty] ' + (el.dataset.title || T('Pertanyaan'))); };
+  if (!P.ACT.access) P.ACT.access = function () { location.href = 'mailto:hello@providea.com?subject=' + encodeURIComponent('[Providea Loyalty] ' + T('Minta akses')); };
 
   P.onLang = function () { var y = scrollY; render(); scrollTo(0, y); };
   render();

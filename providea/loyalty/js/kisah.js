@@ -231,9 +231,9 @@
 
   /* ── results: four sample figures ── */
   function results() {
-    return '<section class="ks-wrap" aria-labelledby="ks-res"><div class="ks-head ks-head-row"><div>' + label('Hasil') + '<h2 id="ks-res" class="ks-h2">' + T(C.after) + '</h2></div><p class="ks-sub">' + T('Merek, orang, dan angka di halaman ini fiktif. Angkanya menunjukkan apa yang diukur di dashboard.') + '</p></div>' +
+    return '<section class="ks-wrap" aria-labelledby="ks-res"><div class="ks-head ks-head-row"><div>' + label('Hasil') + '<h2 id="ks-res" class="ks-h2">' + T(C.after) + '</h2></div><div class="ks-res-note">' + sample() + '<p class="ks-sub">' + T('Merek, orang, dan angka di halaman ini fiktif. Angkanya menunjukkan apa yang diukur di dashboard.') + '</p></div></div>' +
       '<div class="ks-figs">' + C.figs.map(function (f) {
-        return '<div class="ks-fig">' + sample('tag-sm') + '<span class="ks-fig-v"><b class="num">' + f[0] + '</b><span class="unit-pill">' + T(f[1]) + '</span></span><p>' + T(f[2]) + '</p></div>'; }).join('') + '</div></section>';
+        return '<div class="ks-fig"><span class="ks-fig-v"><b class="num">' + f[0] + '</b><span class="unit-pill">' + T(f[1]) + '</span></span><p>' + T(f[2]) + '</p></div>'; }).join('') + '</div></section>';
   }
 
   /* ── other stories ── */

@@ -7,7 +7,7 @@
 
   var mode = location.hash === '#/pos' ? 'pos' : 'kasir';
   var sel = null, leftTab = 'checkin', q = '';
-  var cart = [], posMember = null, posVoucher = null, posPoints = 0, posCat = 'froyo', posReceipt = P.S.receiptNo + 1;
+  var cart = [], posMember = null, posVoucher = null, posPoints = 0, posCat = P.BRAND.cats[0][0], posReceipt = P.S.receiptNo + 1;
   var STEPS = [['checkin', 'Check-in muncul'], ['find', 'Cari atau pindai member'], ['join', 'Daftarkan member baru'], ['sale', 'Tambah penjualan'], ['voucher', 'Pakai voucher'], ['points', 'Bayar pakai poin'], ['void', 'Batalkan penjualan'], ['pos', 'Alur di POS']];
 
   function ts() { return document.getElementById('ts'); }
@@ -26,7 +26,7 @@
   }
   function renderTablet() {
     var el = document.getElementById('tsa'); if (!el) return;
-    el.innerHTML = '<div class="k-bar"><span class="logo-mark">' + P.mark(22) + '</span><div class="k-bar-title"><span class="t-strong">' + T('Kasir') + ' · Kamtono</span><span class="t-small sec">' + T('Outlet Cempaka · Ayu Kartika (kasir)') + '</span></div>' +
+    el.innerHTML = '<div class="k-bar"><span class="logo-mark">' + P.mark(22) + '</span><span class="k-bar-brand">' + P.sjLogo(28) + '<span class="k-bar-title"><span class="t-strong ellip">' + T('Kasir') + ' · ' + esc(P.BRAND.name) + '</span><span class="t-small sec ellip">' + T('Outlet Cempaka · Ayu Kartika (kasir)') + '</span></span></span>' +
       '<div class="grow"></div><nav class="tabs-segmented tabs-sm k-mode" aria-label="' + T('Mode kasir') + '"><button type="button" class="tab' + (mode === 'kasir' ? ' is-active' : '') + '" data-act="mode" data-v="kasir">' + ic('device-tablet', 16) + T('Aplikasi kasir') + '</button><button type="button" class="tab' + (mode === 'pos' ? ' is-active' : '') + '" data-act="mode" data-v="pos">' + ic('cash-register', 16) + T('Di POS') + '</button></nav>' +
       '<span class="k-status">' + T('Online · tersinkron') + '</span></div>' + (mode === 'kasir' ? kasirApp() : posApp());
     if (mode === 'pos') P.visit('pos');
@@ -67,7 +67,7 @@
       '<span class="t-small sec num">' + (m.phone ? P.maskPhone(m.phone) : esc(m.email)) + ' · ' + T('No. member') + ' ' + m.no + ' · ' + T('member sejak {d}', { d: P.fmonth(m.joined) }) + '</span></div><button type="button" class="btn btn-ghost btn-sm" data-act="clear">' + ic('x', 16) + '<span class="btn-label">' + T('Ganti member') + '</span></button></div>' +
       '<div class="k-stats"><div class="k-stat"><span class="t-small sec">' + T('Poin') + '</span><span class="k-stat-val">' + P.num(m.points) + '</span><span class="t-small sec">' + T('senilai {rp}', { rp: P.rp(m.points * R.pointValue) }) + '</span></div>' +
       '<div class="k-stat"><span class="t-small sec">' + T('Stempel') + '</span><span class="k-stat-val">' + m.stamps + ' / ' + R.stampGoal + '</span><span class="t-small sec">' + T('{n} cup lagi, cup kecil gratis', { n: R.stampGoal - m.stamps }) + '</span></div>' +
-      '<div class="k-stat"><span class="t-small sec">' + T('Belanja 12 bulan') + '</span><span class="k-stat-val">' + P.rp(m.spend) + '</span>' + (nt ? '<div class="pbar' + (t.id === 'gold' ? ' is-gold' : '') + '"><span style="width:' + Math.min(100, m.spend / nt.min * 100).toFixed(1) + '%"></span></div><span class="t-small sec">' + T('{rp} lagi ke {t}', { rp: P.rp(nt.min - m.spend), t: nt.name }) + '</span>' : '<span class="t-small sec">' + T('Tier tertinggi') + '</span>') + '</div></div>' +
+      '<div class="k-stat"><span class="t-small sec">' + T('Belanja 12 bulan') + '</span><span class="k-stat-val">' + P.rp(m.spend) + '</span>' + (nt ? '<div class="pbar' + (P.tierLook(t) === 'gold' ? ' is-gold' : '') + '"><span style="width:' + Math.min(100, m.spend / nt.min * 100).toFixed(1) + '%"></span></div><span class="t-small sec">' + T('{rp} lagi ke {t}', { rp: P.rp(nt.min - m.spend), t: nt.name }) + '</span>' : '<span class="t-small sec">' + T('Tier tertinggi') + '</span>') + '</div></div>' +
       '<div class="k-actions"><button type="button" class="k-act is-primary" data-act="sale">' + ic('receipt', 24) + '<span class="t-h3">' + T('Tambah penjualan') + '</span><span class="t-small sec">' + T('Poin dan stempel masuk otomatis') + '</span></button>' +
       '<button type="button" class="k-act" data-act="voucher">' + ic('ticket', 24) + '<span class="t-h3">' + T('Pakai voucher') + '</span><span class="t-small sec">' + T('Pindai QR atau ketik kode · {n} aktif', { n: vs.length }) + '</span></button>' +
       '<button type="button" class="k-act" data-act="points">' + ic('coins', 24) + '<span class="t-h3">' + T('Bayar pakai poin') + '</span><span class="t-small sec">' + T('1 poin = {rp}', { rp: P.rp(R.pointValue) }) + '</span></button></div>' +
@@ -78,13 +78,13 @@
   function actItem(l) {
     var title = '', side = '';
     if (l.kind === 'sale') { title = (l.void ? T('Penjualan dibatalkan') : T('Penjualan')) + ' ' + P.rp(l.amount); side = l.void ? T('{n} poin', { n: '−' + l.points }) : T('{n} poin', { n: '+' + l.points }); }
-    else if (l.kind === 'tier') title = T('Naik ke {t}', { t: l.title });
+    else if (l.kind === 'tier') title = T('Naik ke {t}', { t: esc(P.tn(l.title)) });
     else if (l.kind === 'redeem') { title = T('Tukar poin: {v}', { v: T(l.title) }); side = T('{n} poin', { n: '−' + Math.abs(l.points) }); }
     else if (l.kind === 'pay') { title = T('Bayar pakai poin'); side = T('{n} poin', { n: '−' + Math.abs(l.points) }); }
     else if (l.kind === 'voucher') title = T('Voucher dipakai: {v}', { v: T(l.title) });
     else if (l.kind === 'join') title = T('Jadi member');
     else if (l.kind === 'adjust') { title = T('Penyesuaian poin'); side = T('{n} poin', { n: (l.points > 0 ? '+' : '−') + Math.abs(l.points) }); }
-    return '<div class="tl-item' + (l.kind === 'tier' ? ' tl-current' : ' tl-signed') + '"><span class="tl-mark"></span><span class="tl-main"><span class="tl-title' + (l.void ? ' strike' : '') + '">' + title + '</span><span class="tl-sub">' + P.fdate(l.at, true) + ' · ' + P.ftime(l.at) + (l.by ? ' · ' + esc(l.by) : '') + '</span></span><span class="tl-side"><span class="tl-date num">' + side + '</span></span></div>';
+    return '<div class="tl-item' + (l.kind === 'tier' ? ' tl-current' : ' tl-signed') + '"><span class="tl-mark"></span><span class="tl-main"><span class="tl-title' + (l.void ? ' strike' : '') + '">' + title + '</span><span class="tl-sub">' + P.fdate(l.at, true) + ' · ' + P.ftime(l.at) + (l.by ? ' · ' + esc(T(l.by)) : '') + '</span></span><span class="tl-side"><span class="tl-date num">' + side + '</span></span></div>';
   }
 
   /* keypad amount control */
@@ -94,13 +94,13 @@
   /* ── Add sale ── */
   ACT.sale = function () {
     var m = cur(); if (!m) return;
-    var st = { amount: 47000, cups: 1, receipt: 'C-00' + (P.S.receiptNo + 1) };
+    var st = { amount: P.BRAND.sale0.amount, cups: P.BRAND.sale0.cups, receipt: 'C-00' + (P.S.receiptNo + 1) };
     var md = P.modal({ host: ts(), title: T('Tambah penjualan'), desc: esc(m.name) + ' · ' + P.tierOf(m).name, width: 760 });
     function draw() {
       var pts = P.earnFor(st.amount, m), room = Math.max(0, P.S.rules.capDay - P.earnedToday(m)), got = Math.min(pts, room), t = P.tierOf(m), base = Math.floor(st.amount / P.S.rules.earnPer);
       var stampsAfter = m.stamps + st.cups;
       md.set('<div class="two-col"><div class="stack" style="--gap:12px"><div class="amount">' + P.rp(st.amount) + '</div>' +
-        '<div class="row wrap">' + [['Cup kecil', 32000], ['Cup sedang', 42000], ['Cup besar', 55000], ['+ Topping', 8000]].map(function (c, i) { return '<button type="button" class="chip" data-quick="' + c[1] + '" data-add="' + (i === 3 ? 1 : 0) + '">' + T(c[0]) + ' <span class="num muted">' + P.rp(c[1]) + '</span></button>'; }).join('') + '</div>' + keypad('sale') + '</div>' +
+        '<div class="row wrap">' + P.BRAND.quick.map(function (c, i) { return '<button type="button" class="chip" data-quick="' + c[1] + '" data-add="' + (i === 3 ? 1 : 0) + '">' + T(c[0]) + ' <span class="num muted">' + P.rp(c[1]) + '</span></button>'; }).join('') + '</div>' + keypad('sale') + '</div>' +
         '<div class="stack" style="--gap:14px"><div class="field"><span class="field-label">' + T('Jumlah cup froyo') + '</span><span class="stepper"><button type="button" data-cups="-1" aria-label="' + T('Kurangi') + '"' + (st.cups <= 0 ? ' disabled' : '') + '>' + ic('minus', 16) + '</button><span class="stepper-value num">' + st.cups + '</span><button type="button" data-cups="1" aria-label="' + T('Tambah') + '">' + ic('plus', 16) + '</button></span><span class="field-hint">' + T('1 cup = 1 stempel') + '</span></div>' +
         '<label class="field"><span class="field-label">' + T('No. struk') + '</span><span class="input"><input id="srec" value="' + st.receipt + '"></span></label>' +
         '<div class="preview-box"><div class="row between"><span class="sec">' + T('Poin didapat') + '</span><b class="num">' + T('{n} poin', { n: '+' + got }) + '</b></div><div class="t-small sec num">' + T('{b} poin dasar × {x} ({t})', { b: base, x: P.dec(t.mult), t: t.name }) + '</div>' +
@@ -128,7 +128,7 @@
   function successHtml(m, r) {
     return '<div class="stack center" style="--gap:12px;padding:8px 0"><span class="success-burst">' + ic('circle-check', 36) + '</span><h3 class="t-h2">' + T('{n} poin', { n: '+' + r.points }) + (r.stamps ? ' · ' + T('{n} stempel', { n: '+' + r.stamps }) : '') + '</h3>' +
       '<p class="sec">' + T('Saldo {n} poin. {name} dapat pesan WhatsApp berisi poin baru.', { n: P.num(m.points), name: esc(m.name.split(' ')[0]) }) + '</p>' +
-      (r.tierUp ? '<div class="result is-ok" style="text-align:left">' + ic('crown', 20) + '<div class="stack" style="--gap:2px"><span class="t-strong">' + T('Naik ke {t}', { t: r.tierUp.name }) + '</span><span class="t-small">' + T('Kartu Wallet dan halaman member ikut berubah sekarang.') + '</span></div></div>' : '') +
+      (r.tierUp ? '<div class="result is-ok" style="text-align:left">' + ic('crown', 20) + '<div class="stack" style="--gap:2px"><span class="t-strong">' + T('Naik ke {t}', { t: esc(r.tierUp.name) }) + '</span><span class="t-small">' + T('Kartu Wallet dan halaman member ikut berubah sekarang.') + '</span></div></div>' : '') +
       (r.reward ? '<div class="result is-ok" style="text-align:left">' + ic('gift', 20) + '<div class="stack" style="--gap:2px"><span class="t-strong">' + T('Kartu stempel penuh') + '</span><span class="t-small">' + T('Voucher cup kecil gratis sudah masuk ke halaman member.') + '</span></div></div>' : '') +
       (r.capped ? '<div class="demo-note">' + ic('alert-triangle', 14) + '<span>' + T('Batas poin harian tercapai.') + '</span></div>' : '') + '</div>';
   }
@@ -139,9 +139,9 @@
     var md = P.modal({ host: ts(), title: T('Pakai voucher'), desc: m ? esc(m.name) : '', width: 560 });
     function check(c) {
       c = (c || '').trim().toUpperCase(); codeVal = c;
-      var v = P.S.vouchers.filter(function (x) { return x.code === c; })[0];
+      var key = P.vcodeIn(c), v = P.S.vouchers.filter(function (x) { return x.code === key; })[0];
       if (!v) result = { bad: T('Kode tidak ditemukan. Cek lagi huruf dan angkanya.') };
-      else if (v.used) result = { bad: T('Voucher sudah dipakai {d} pukul {t} di {o}, oleh {by}.', { d: P.fdate(v.used.at), t: P.ftime(v.used.at), o: v.used.outlet, by: v.used.by }), v: v };
+      else if (v.used) result = { bad: T('Voucher sudah dipakai {d} pukul {t} di {o}, oleh {by}.', { d: P.fdate(v.used.at), t: P.ftime(v.used.at), o: esc(P.ol(v.used.outlet)), by: esc(v.used.by) }), v: v };
       else if (v.exp < Date.now()) result = { bad: T('Voucher kedaluwarsa sejak {d}.', { d: P.fdate(v.exp) }), v: v };
       else if (v.tier && P.S.rules.tiers.indexOf(P.tierOf(P.member(v.memberId))) < P.S.rules.tiers.indexOf(P.tierById(v.tier))) result = { bad: T('Voucher ini khusus {t} ke atas.', { t: P.tierById(v.tier).name }), v: v };
       else result = { ok: true, v: v };
@@ -155,7 +155,7 @@
       md.set('<div class="tabs-segmented tabs-sm" style="margin-bottom:12px"><button type="button" class="tab' + (tab === 'scan' ? ' is-active' : '') + '" data-tab="scan">' + ic('scan', 16) + T('Pindai QR') + '</button><button type="button" class="tab' + (tab === 'code' ? ' is-active' : '') + '" data-tab="code">' + ic('pencil', 16) + T('Ketik kode') + '</button></div>' +
         (tab === 'scan' ? '<div class="k-cam"><div class="cam-frame"><span class="scanline"></span></div><span style="position:absolute;bottom:12px" class="t-small">' + T('Arahkan kamera ke QR voucher di HP member') + '</span></div><div class="t-small sec mt-12">' + T('Simulasi pindai untuk demo:') + '</div><div class="row wrap mt-8">' +
           own.concat(used.slice(0, 1)).map(function (v) { return '<button type="button" class="chip" data-code="' + v.code + '">' + ic(v.used ? 'ban' : 'qrcode', 14) + esc(T(v.title)) + (v.used ? ' · ' + T('sudah dipakai') : '') + '</button>'; }).join('') + '</div>'
-          : '<div class="row"><span class="input grow"><input id="vcode" placeholder="KMT-XXX-XXX" value="' + esc(codeVal) + '" aria-label="' + T('Kode voucher') + '" autocomplete="off"></span><button type="button" class="btn btn-secondary" id="vchk">' + T('Cek') + '</button></div><p class="field-hint mt-8">' + T('Coba kode KMT-WL8-H2D untuk melihat voucher yang sudah dipakai.') + '</p>') +
+          : '<div class="row"><span class="input grow"><input id="vcode" placeholder="' + P.vcode('KMT-XXX-XXX') + '" value="' + esc(codeVal) + '" aria-label="' + T('Kode voucher') + '" autocomplete="off"></span><button type="button" class="btn btn-secondary" id="vchk">' + T('Cek') + '</button></div><p class="field-hint mt-8">' + T('Coba kode KMT-WL8-H2D untuk melihat voucher yang sudah dipakai.') + '</p>') +
         (res ? '<div class="mt-16">' + res + '</div>' : ''),
         '<button type="button" class="btn btn-secondary" data-close>' + T('Tutup') + '</button>' + (result && result.ok ? '<button type="button" class="btn btn-primary" id="vgo">' + ic('check', 18) + '<span class="btn-label">' + T('Pakai voucher sekarang') + '</span></button>' : ''));
       var go = md.el.querySelector('#vgo');
@@ -278,16 +278,17 @@
 
   /* ── POS flow (generic POS, not a copy of any vendor UI) ── */
   function posApp() {
+    if (!P.BRAND.cats.some(function (c) { return c[0] === posCat; })) posCat = P.BRAND.cats[0][0];
     var items = P.MENU.filter(function (x) { return x.cat === posCat; });
     var m = posMember ? P.member(posMember) : null, tot = posTotals();
     return '<div class="pos-banner">' + ic('info-circle', 16) + '<span>' + T('Contoh alur di POS yang terhubung. Tampilan POS ini ilustrasi, bukan tampilan aplikasi POS mana pun.') + '</span></div>' +
-      '<div class="pos"><section class="pos-menu"><div class="tabs-segmented tabs-sm">' + [['froyo', 'Froyo'], ['topping', 'Topping'], ['minum', 'Minuman']].map(function (c) { return '<button type="button" class="tab' + (posCat === c[0] ? ' is-active' : '') + '" data-act="posCat" data-v="' + c[0] + '">' + T(c[1]) + '</button>'; }).join('') + '</div>' +
-      '<div class="pos-grid">' + items.map(function (it) { return '<button type="button" class="pos-item" data-act="posAdd" data-id="' + it.id + '"><span class="pos-thumb' + (it.cat !== 'froyo' ? ' is-' + it.cat : '') + '">' + ic(it.cat === 'froyo' ? 'ice-cream-2' : it.cat === 'minum' ? 'cup' : 'sparkles', 20) + '</span><span class="t-strong">' + T(it.name) + '</span><span class="sec num">' + P.rp(it.price) + '</span></button>'; }).join('') + '</div></section>' +
-      '<aside class="pos-order"><div class="pos-order-body"><div class="row between"><span class="t-h3">' + T('Pesanan') + ' <span class="num">C-00' + posReceipt + '</span></span><span class="t-small sec">Ayu · Cempaka</span></div>' +
+      '<div class="pos"><section class="pos-menu"><div class="tabs-segmented tabs-sm">' + P.BRAND.cats.map(function (c) { return '<button type="button" class="tab' + (posCat === c[0] ? ' is-active' : '') + '" data-act="posCat" data-v="' + c[0] + '">' + T(c[1]) + '</button>'; }).join('') + '</div>' +
+      '<div class="pos-grid">' + items.map(function (it) { return '<button type="button" class="pos-item" data-act="posAdd" data-id="' + it.id + '">' + P.prodThumb(it) + '<span class="t-strong pos-name">' + T(it.name) + '</span><span class="sec num pos-price">' + P.rp(it.price) + '</span></button>'; }).join('') + '</div></section>' +
+      '<aside class="pos-order"><div class="pos-order-body"><div class="row between"><span class="t-h3">' + T('Pesanan') + ' <span class="num">C-00' + posReceipt + '</span></span><span class="t-small sec">Ayu · ' + esc(P.ol('Cempaka')) + '</span></div>' +
       (m ? '<div class="pos-member is-set">' + P.avatar(m, 36) + '<div class="stack grow" style="--gap:2px"><span class="row" style="--gap:6px"><span class="t-strong ellip">' + esc(m.name) + '</span>' + P.tierTag(P.tierOf(m), true) + '</span><span class="t-small sec num">' + T('{n} poin', { n: P.num(m.points) }) + ' · ' + T('{n} voucher', { n: P.memberVouchers(m.id).length }) + '</span></div><button type="button" class="icon-btn icon-btn-sm" data-act="posUnset" aria-label="' + T('Lepas member') + '">' + ic('x', 16) + '</button></div>' +
         '<div class="row"><button type="button" class="btn btn-secondary btn-sm grow" data-act="posVoucher">' + ic('ticket', 16) + '<span class="btn-label">' + (posVoucher ? T('Voucher dipasang') : T('Voucher member')) + '</span></button><button type="button" class="btn btn-secondary btn-sm grow" data-act="posPts">' + ic('coins', 16) + '<span class="btn-label">' + (posPoints ? T('{n} poin dipakai', { n: posPoints }) : T('Pakai poin')) + '</span></button></div>'
         : '<button type="button" class="pos-member" data-act="posFind">' + ic('user-plus', 20) + '<span class="stack grow" style="--gap:2px;text-align:left"><span class="t-strong">' + T('Tambah member') + '</span><span class="t-small sec">' + T('Dari Providea Loyalty: nomor HP, email, atau QR') + '</span></span>' + ic('chevron-right', 16) + '</button>') +
-      (cart.length ? cart.map(function (c) { var it = P.MENU.filter(function (x) { return x.id === c.id; })[0]; return '<div class="pos-line"><span class="grow stack" style="--gap:0"><span class="t-strong ellip">' + T(it.name) + '</span><span class="t-small sec num">' + P.rp(it.price) + '</span></span><span class="stepper"><button type="button" data-act="posQty" data-id="' + c.id + '" data-d="-1" aria-label="' + T('Kurangi') + '">' + ic('minus', 14) + '</button><span class="stepper-value num">' + c.qty + '</span><button type="button" data-act="posQty" data-id="' + c.id + '" data-d="1" aria-label="' + T('Tambah') + '">' + ic('plus', 14) + '</button></span></div>'; }).join('')
+      (cart.length ? cart.map(function (c) { var it = P.MENU.filter(function (x) { return x.id === c.id; })[0]; return '<div class="pos-line">' + P.prodThumb(it) + '<span class="grow stack" style="--gap:0;min-width:0"><span class="t-strong ellip">' + T(it.name) + '</span><span class="t-small sec num">' + P.rp(it.price) + '</span></span><span class="stepper"><button type="button" data-act="posQty" data-id="' + c.id + '" data-d="-1" aria-label="' + T('Kurangi') + '">' + ic('minus', 14) + '</button><span class="stepper-value num">' + c.qty + '</span><button type="button" data-act="posQty" data-id="' + c.id + '" data-d="1" aria-label="' + T('Tambah') + '">' + ic('plus', 14) + '</button></span></div>'; }).join('')
         : '<p class="t-small sec center" style="padding:24px 0">' + T('Pilih menu di kiri.') + '</p>') + '</div>' +
       '<div class="pos-foot"><div class="pos-sum t-small"><span class="sec">' + T('Subtotal') + '</span><span class="num">' + P.rp(tot.sub) + '</span></div>' +
       (tot.vcut ? '<div class="pos-sum t-small"><span class="sec">' + T('Voucher') + '</span><span class="num c-success">' + P.rp(-tot.vcut) + '</span></div>' : '') +
@@ -355,10 +356,10 @@
       }
       P.S.receiptNo = Math.max(P.S.receiptNo, posReceipt); P.save();
       var lines = cart.map(function (c) { var it = P.MENU.filter(function (x) { return x.id === c.id; })[0]; return '<div class="rline"><span>' + c.qty + '× ' + T(it.name) + '</span><span class="num">' + P.rp(it.price * c.qty) + '</span></div>'; }).join('');
-      md.set('<div class="receipt"><div class="center"><b>Kamtono</b><br><span>Outlet Cempaka · ' + rec + '</span><br><span>' + P.fdate(Date.now()) + ' ' + P.ftime(Date.now()) + '</span></div><div class="rdash"></div>' + lines + '<div class="rdash"></div>' +
+      md.set('<div class="receipt"><div class="center"><span class="receipt-brand">' + P.sjLogo(22) + '<b>' + esc(P.BRAND.name) + '</b></span><br><span>' + T('Outlet Cempaka') + ' · ' + rec + '</span><br><span>' + P.fdate(Date.now()) + ' ' + P.ftime(Date.now()) + '</span></div><div class="rdash"></div>' + lines + '<div class="rdash"></div>' +
         '<div class="rline"><span>' + T('Subtotal') + '</span><span class="num">' + P.rp(tot.sub) + '</span></div>' + (tot.vcut ? '<div class="rline"><span>' + T('Voucher') + '</span><span class="num">' + P.rp(-tot.vcut) + '</span></div>' : '') + (tot.pcut ? '<div class="rline"><span>' + T('Poin') + '</span><span class="num">' + P.rp(-tot.pcut) + '</span></div>' : '') +
         '<div class="rline"><b>' + T('Total') + '</b><b class="num">' + P.rp(tot.total) + '</b></div>' +
-        (m ? '<div class="loyal"><b>' + esc(m.name) + ' · ' + P.tierOf(m).name + '</b><span class="num">' + T('{n} poin', { n: '+' + r.points }) + ' · ' + T('saldo {n} poin', { n: P.num(m.points) }) + '</span><span class="num">' + T('Stempel {a}/{b}', { a: m.stamps, b: P.S.rules.stampGoal }) + '</span>' + (r.tierUp ? '<span>' + T('Naik ke {t}', { t: r.tierUp.name }) + '</span>' : '') + '</div>' : '') + '</div>' +
+        (m ? '<div class="loyal"><b>' + esc(m.name) + ' · ' + P.tierOf(m).name + '</b><span class="num">' + T('{n} poin', { n: '+' + r.points }) + ' · ' + T('saldo {n} poin', { n: P.num(m.points) }) + '</span><span class="num">' + T('Stempel {a}/{b}', { a: m.stamps, b: P.S.rules.stampGoal }) + '</span>' + (r.tierUp ? '<span>' + T('Naik ke {t}', { t: esc(r.tierUp.name) }) + '</span>' : '') + '</div>' : '') + '</div>' +
         (m ? '<p class="t-small sec center mt-12">' + T('Poin, stempel, dan voucher terkirim ke Providea Loyalty lewat koneksi POS.') + '</p>' : ''),
         '<button type="button" class="btn btn-primary" data-close>' + T('Pesanan baru') + '</button>');
       cart = []; posMember = null; posVoucher = null; posPoints = 0; posReceipt = P.S.receiptNo + 1; renderTablet();
@@ -387,6 +388,11 @@
   app.addEventListener('input', function (e) { if (e.target.id === 'kq') { q = e.target.value; var pos = e.target.selectionStart; renderTablet(); var i = document.getElementById('kq'); if (i) { i.focus(); i.setSelectionRange(pos, pos); } } });
 
   P.onLang = render;
+  P.onBrand = function () {
+    cart = []; posMember = null; posVoucher = null; posPoints = 0; posCat = P.BRAND.cats[0][0];
+    document.querySelectorAll('.overlay').forEach(function (o) { o.remove(); });
+    render();
+  };
   P.onSync = function () { if (document.querySelector('.overlay')) return; renderTablet(); checkUnseen(); };
   render();
   setTimeout(function () {

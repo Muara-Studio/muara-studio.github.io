@@ -29,7 +29,7 @@
   }
   function start() {
     var wrap = document.createElement('div'); wrap.className = 'pvl'; wrap.setAttribute('role', 'status');
-    wrap.innerHTML = '<div class="ptc"><canvas class="ptc-canvas" aria-hidden="true"></canvas></div><span class="sr-only">' + (document.documentElement.lang === 'en' ? 'Loading Providea Loyalty' : 'Memuat Providea Loyalty') + '</span>';
+    wrap.innerHTML = '<div class="ptc"><canvas class="ptc-canvas" aria-hidden="true"></canvas></div><span class="sr-only">' + (document.documentElement.lang === 'en' ? 'Loading Providea Loyalty' : 'Memuat Providea Loyalty') + '</span>'; /* i18n-ok: runs before en.js, so the label is picked by <html lang> */
     document.body.appendChild(wrap);
     var cv = wrap.querySelector('canvas'), reduce = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
     var dpr = Math.min(2, window.devicePixelRatio || 1); cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);

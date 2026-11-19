@@ -31,7 +31,7 @@
   }
 
   function aside() {
-    return '<aside class="ms-aside" aria-label="' + T('Tentang akun demo') + '"><div class="ms-aside-top">' + P.sjLogo(28) + '<span>' + T('Kamtono · Outlet Cempaka') + '</span><span class="tag tag-outline tag-sm">' + T('Merek contoh') + '</span></div>' +
+    return '<aside class="ms-aside" aria-label="' + T('Tentang akun demo') + '"><div class="ms-aside-top">' + P.sjLogo(28) + '<span>' + T('Kamtono · Outlet Cempaka') + '</span></div>' +
       '<div class="ms-aside-mid"><h2 class="ms-aside-title">' + T('Satu akun demo, tiga layar.') + '</h2>' +
       '<p class="ms-aside-sub">' + T('Pemilik membuka dashboard, kasir memakai tablet, pelanggan memakai HP. Data contoh yang sama muncul di ketiganya.') + '</p>' + feed() + '</div>' +
       '<p class="ms-aside-foot">' + T('Merek Kamtono, orang, dan angka di demo ini fiktif.') + '</p></aside>';
@@ -43,19 +43,18 @@
   function loginStep() {
     return '<div class="ms-step ms-head"><a class="back-link" href="index.html">' + ic('chevron-left', 16) + T('Kembali ke beranda') + '</a>' +
       '<h1 class="ms-title" tabindex="-1">' + T('Masuk') + '</h1><p class="ms-sub">' + T('Coba Providea Loyalty dengan akun demo, atau minta akses untuk merekmu.') + '</p></div>' +
-      '<section class="npanel ms-card ms-step" id="akun-demo" aria-labelledby="msDemoT"><div class="npanel-head"><span class="npanel-title" id="msDemoT">' + ic('user-circle', 16) + T('Coba dengan akun demo') + '</span><span class="npanel-action"><span class="tag tag-warning tag-sm">' + T('Data contoh') + '</span></span></div>' +
-      '<div class="npanel-body"><p class="info-note">' + ic('lock', 16) + '<span>' + T('Ini akun demo dengan data contoh. Email dan kata sandi sudah terisi. Tidak ada yang dikirim ke mana pun.') + '</span></p>' +
+      '<section class="npanel ms-card ms-step" id="akun-demo" aria-labelledby="msDemoT"><div class="npanel-head"><span class="npanel-title" id="msDemoT">' + ic('user-circle', 16) + T('Coba dengan akun demo') + '</span></div>' +
+      '<div class="npanel-body"><p class="info-note">' + ic('lock', 16) + '<span>' + T('Email dan kata sandi sudah terisi. Data contoh hanya tersimpan di browser ini. Demo bisa diulang kapan saja.') + '</span></p>' +
       '<div class="ms-cred">' + field('msEmail', T('Email'), ACC.email) + field('msPass', T('Kata sandi'), ACC.pass) + '</div>' +
       '<button type="button" class="btn btn-primary btn-block ms-go" data-ms="login">' + ic('login-2', 18) + '<span class="btn-label">' + T('Masuk ke demo') + '</span></button></div></section>' +
       '<div class="ms-or ms-step">' + T('atau') + '</div>' +
       '<section class="npanel ms-card ms-step" aria-labelledby="msAccT"><div class="npanel-head"><span class="npanel-title" id="msAccT">' + ic('key', 16) + T('Minta akses untuk merekmu') + '</span></div>' +
       '<div class="npanel-body"><p class="sec">' + T('Untuk merek dengan 1 sampai 20 outlet. Isi nama, email, dan jumlah outlet. Tim kami membalas lewat email.') + '</p>' +
-      '<button type="button" class="btn btn-secondary btn-block" data-act="access" data-feature="masuk-minta-akses">' + ic('mail', 18) + '<span class="btn-label">' + T('Minta akses') + '</span></button></div></section>' +
-      '<p class="ms-fine ms-step">' + T('Akun demo memakai data contoh yang tersimpan di browser ini saja. Kamu bisa mengulang demo kapan saja.') + '</p>';
+      '<button type="button" class="btn btn-secondary btn-block" data-act="access" data-feature="masuk-minta-akses">' + ic('mail', 18) + '<span class="btn-label">' + T('Minta akses') + '</span></button></div></section>';
   }
   function rolesStep() {
     return '<div class="ms-step ms-head"><button type="button" class="back-link" data-ms="logout">' + ic('chevron-left', 16) + T('Ganti akun') + '</button>' +
-      '<h1 class="ms-title" tabindex="-1">' + T('Pilih tampilan') + '</h1><p class="ms-sub">' + T('Satu akun demo membuka tiga layar. Mulai dari sisi mana saja.') + '</p></div>' +
+      '<h1 class="ms-title" tabindex="-1">' + T('Pilih tampilan') + '</h1><p class="ms-sub">' + T('Mulai dari layar mana saja.') + '</p></div>' +
       '<div class="ms-who ms-step"><span class="avatar avatar-brand" style="width:32px;height:32px;font-size:12px">SW</span><span class="grow stack" style="--gap:0"><span class="t-strong ellip">' + ACC.email + '</span><span class="t-small sec">' + T('Akun demo · Kamtono') + '</span></span><span class="tag tag-success tag-sm">' + T('Sudah masuk') + '</span></div>' +
       '<div class="ms-roles ms-step">' + ROLES.map(function (r) {
         return '<a class="npanel ms-role" href="' + r.href + '"><div class="npanel-head"><span class="npanel-title">' + ic(r.icon, 18) + T(r.name) + '</span><span class="npanel-action">' + T(r.open) + ic('arrow-right', 16) + '</span></div>' +

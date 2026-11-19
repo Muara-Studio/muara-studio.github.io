@@ -1,9 +1,10 @@
 /* Providea Loyalty demo · owner summary board ("Ringkasan") with three sample brands.
    window.PLBoard = { html(), mount(), chrome(), brand() }
-   - html(): the whole ringkasan page (head, brand switcher, widget board). Pure, no DOM work.
+   - html(): the whole ringkasan page (head, widget board). Pure, no DOM work.
    - mount(): call right after html() is in the DOM (and after every dashboard re-render).
-   Brand theme: body[data-brand] (css/board.css). Layout per brand (order, width, hidden, widget settings)
-   lives in localStorage 'pl-board'. Kamtono reads the live demo state; Mendaya Ramen and Bobs are sample numbers.
+   The brand is the demo's active brand (PL.brand(), chosen in the sidebar dropdown); body[data-brand] themes it (css/board.css).
+   Layout per brand (order, width, hidden, widget settings) lives in localStorage 'pl-board'.
+   Kamtono reads the live demo state; Mendaya Ramen and Bobs are sample numbers.
    All brands, people and numbers are fictional. */
 (function () {
   'use strict';
@@ -36,7 +37,6 @@
   function reduced() { return reduceMq.matches; }
 
   /* ════════════ sample brands ════════════ */
-  var BRANDS = ['kamtono', 'mendaya', 'bobs'];
   var B = {
     kamtono: { name: 'Kamtono', icon: 'img/kamtono/icon.webp', bmeta: 'Froyo · 1 outlet', outlets: 1, meta: '1 outlet · Cempaka', sub: 'Kamtono · Outlet Cempaka · dibuka Juli 2026', pdir: 'kamtono' },
     mendaya: { name: 'Mendaya Ramen', icon: 'img/brands/mendaya/icon.webp', bmeta: 'Ramen · 6 outlet', outlets: 6, meta: '6 outlet · Jabodetabek', sub: 'Mendaya Ramen · 6 outlet di Jakarta dan Tangerang · 6 bulan di Providea Loyalty', pdir: 'mendaya' },
@@ -62,8 +62,7 @@
   };
   /* new members per week, oldest first (12 weeks) */
   var WEEKS = { kamtono: [104, 99, 95, 90, 86, 82, 79, 76, 98, 92, 87, 96], mendaya: [352, 340, 331, 318, 309, 300, 296, 288, 301, 289, 284, 296], bobs: [1620, 1520, 1430, 1340, 1260, 1190, 1130, 1080, 1040, 1010, 990, 990] };
-  /* Silver, Gold, Platinum (Kamtono: Gold and Platinum fixed, Silver from the live total) */
-  var TIERS = { kamtono: [null, 231, 25], mendaya: [7640, 1860, 300], bobs: [22300, 3640, 460] };
+  /* members per tier: the 1st tier is the rest of the total; the others come from the brand's sample numbers (core.js dash.tiers) */
   /* products: [file, name, price, sold in 30 days, change vs the period before (%)] */
   var PR = {
     kamtono: [['froyo-original', 'Froyo Original · cup kecil', 32000, 1860, 6], ['mangga-ketan', 'Froyo Mangga Ketan', 48000, 1020, 31], ['stroberi-kemangi', 'Froyo Stroberi Kemangi', 46000, 860, -4], ['kopi-gula-aren', 'Froyo Kopi Gula Aren', 46000, 780, 2], ['cup-besar-granola', 'Froyo Original · cup besar', 55000, 740, 9], ['smoothie-yogurt', 'Smoothie yogurt', 38000, 470, -8]],
@@ -130,7 +129,6 @@
     var s = null;
     try { s = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) {}
     if (!s || typeof s !== 'object') s = {};
-    if (!B[s.brand]) s.brand = 'kamtono';
     if (!PF[s.period]) s.period = '30';
     if (!s.L || typeof s.L !== 'object') s.L = {};
     return s;
@@ -139,7 +137,7 @@
   function save() { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} }
   function defLayout(b) { var w = {}; DEF[b].forEach(function (x) { w[x[0]] = x[1]; }); return { order: DEF[b].map(function (x) { return x[0]; }), w: w, cfg: {} }; }
   function lay(b) {
-    b = b || st.brand;
+    b = b || P.brand();
     var l = st.L[b];
     if (!l || !Array.isArray(l.order)) l = st.L[b] = defLayout(b);
     if (!l.w || typeof l.w !== 'object') l.w = {};
@@ -148,10 +146,10 @@
     l.order = l.order.filter(function (id) { if (!W[id] || seen[id] || avail(id, b) !== true) return false; seen[id] = 1; return true; });
     return l;
   }
-  function avail(id, b) { var a = W[id].avail; return a ? a(b || st.brand) : true; }
+  function avail(id, b) { var a = W[id].avail; return a ? a(b || P.brand()) : true; }
   function spanOf(id) { var s = lay().w[id] || W[id].span || 1; return Math.max(1, Math.min(3, s)); }
   function cfg(id) {
-    var d = W[id].cfg ? W[id].cfg(st.brand) : {}, c = lay().cfg[id] || {}, o = {};
+    var d = W[id].cfg ? W[id].cfg(P.brand()) : {}, c = lay().cfg[id] || {}, o = {};
     Object.keys(d).forEach(function (k) { o[k] = c[k] != null ? c[k] : d[k]; });
     return o;
   }
@@ -174,7 +172,6 @@
   function totalOf(b) { return b === 'kamtono' ? kTotal() : KD[b].total; }
   function chip(c) { var m = { wa: ['ch-wa', 'brand-whatsapp', 'WhatsApp'], email: ['ch-email', 'mail', 'Email'], wallet: ['ch-wallet', 'wallet', 'Wallet'] }[c]; return m ? '<span class="ch ' + m[0] + '">' + ic(m[1], 12) + m[2] + '</span>' : ''; }
   function img(b, file, alt, cls) { return '<img class="' + (cls || '') + '" src="img/products/' + B[b].pdir + '/' + file + '.webp" alt="' + esc(alt) + '" width="360" height="360" loading="lazy" decoding="async">'; }
-  function brandIcon(b, s) { return '<span class="bd-bicon" style="--s:' + s + 'px"><img src="' + B[b].icon + '" alt="" decoding="async"></span>'; }
   function segBtns(name, cur, opts, label) {
     return '<div class="tabs-segmented tabs-sm bd-seg" role="group" aria-label="' + esc(label) + '">' + opts.map(function (o) {
       return '<button type="button" class="tab' + (String(cur) === String(o[0]) ? ' is-active' : '') + '" aria-pressed="' + (String(cur) === String(o[0])) + '" data-bd="' + name + '" data-v="' + o[0] + '">' + o[1] + '</button>';
@@ -235,16 +232,17 @@
   /* 3 · tier mix */
   W.tier = {
     name: 'Sebaran tier', icon: 'crown', span: 1,
-    desc: 'Berapa member di Silver, Gold, dan Platinum.',
+    desc: 'Berapa member di setiap tier.',
     cfg: function () { return { mode: 'n' }; },
     menu: function () { return [{ h: 'Tampilkan' }, { k: 'mode', v: 'n', t: 'Jumlah member' }, { k: 'mode', v: 'pct', t: 'Persen' }]; },
     head: function (b) { return { count: num(totalOf(b)) }; },
     body: function (b, c) {
-      var t = TIERS[b].slice(), tot = totalOf(b); if (t[0] == null) t[0] = tot - t[1] - t[2];
-      var rows = [['bd-t-silver', 'Silver', t[0], '1×'], ['bd-t-gold', 'Gold', t[1], '1,25×'], ['bd-t-plat', 'Platinum', t[2], '1,5×']];
+      var tiers = P.S.rules.tiers, tc = P.brandInfo(b).dash.tiers, tot = totalOf(b), up = 0;
+      tiers.slice(1).forEach(function (x) { up += tc[x.id] || 0; });
+      var rows = tiers.map(function (x, i) { return ['bd-t-' + P.tierLook(x), x.name, i ? (tc[x.id] || 0) : Math.max(0, tot - up), P.dec(x.mult) + '×']; });
       return '<div class="bd-tier"><div class="bd-tierbar" role="img" aria-label="' + esc(rows.map(function (r) { return r[1] + ' ' + pct(r[2], tot) + '%'; }).join(', ')) + '">' + rows.map(function (r) { return '<span class="' + r[0] + '" style="flex:' + Math.max(r[2], tot * 0.025) + '"></span>'; }).join('') + '</div>' +
         '<ul class="bd-tier-list">' + rows.map(function (r) {
-          return '<li><span class="legend-dot ' + r[0] + '"></span><span class="bd-tier-name">' + r[1] + '<span class="muted">' + T('poin {x}', { x: r[3] }) + '</span></span><span class="num t-strong">' + (c.mode === 'pct' ? pct(r[2], tot) + '%' : num(r[2])) + '</span></li>';
+          return '<li><span class="legend-dot ' + r[0] + '"></span><span class="bd-tier-name">' + esc(r[1]) + '<span class="muted">' + T('poin {x}', { x: r[3] }) + '</span></span><span class="num t-strong">' + (c.mode === 'pct' ? pct(r[2], tot) + '%' : num(r[2])) + '</span></li>';
         }).join('') + '</ul>' +
         '<div class="divider"></div><div class="row between"><span class="sec">' + T('Penjualan dari member') + '</span><b class="num">' + KD[b].ms + '%</b></div><div class="pbar bd-pbar"><span style="width:' + KD[b].ms + '%"></span></div></div>';
     }
@@ -446,13 +444,13 @@
       var who = '<b>' + esc(m.name) + '</b>', t = '';
       if (l.kind === 'sale') t = l.void ? T('{m}: penjualan {rp} dibatalkan', { m: who, rp: rp(l.amount) }) : T('{m} belanja {rp}, dapat {n} poin', { m: who, rp: rp(l.amount), n: l.points });
       else if (l.kind === 'join') t = T('{m} jadi member', { m: who });
-      else if (l.kind === 'tier') t = T('{m} naik ke {t}', { m: who, t: l.title });
+      else if (l.kind === 'tier') t = T('{m} naik ke {t}', { m: who, t: esc(P.tn(l.title)) });
       else if (l.kind === 'voucher') t = T('{m} memakai voucher {v}', { m: who, v: T(l.title) });
       else if (l.kind === 'redeem') t = T('{m} menukar {n} poin', { m: who, n: Math.abs(l.points) });
       else if (l.kind === 'pay') t = T('{m} bayar pakai {n} poin', { m: who, n: Math.abs(l.points) });
       else if (l.kind === 'adjust') t = T('Poin {m} disesuaikan', { m: who });
       else return null;
-      return [t, l.at, l.outlet || '', l.kind];
+      return [t, l.at, P.ol(l.outlet || ''), l.kind];
     }).filter(Boolean).slice(0, n);
   }
   function sampleActs(b, n) {
@@ -461,7 +459,7 @@
       if (a[1] === 'checkin') t = T('{m} check-in dari QR meja', { m: who });
       else if (a[1] === 'sale') t = a[6] ? T('{m} belanja {rp}, dapat {n} poin dan {s} stempel', { m: who, rp: rp(a[4]), n: a[5], s: a[6] }) : T('{m} belanja {rp}, dapat {n} poin', { m: who, rp: rp(a[4]), n: a[5] });
       else if (a[1] === 'voucher') t = T('{m} memakai voucher {v}', { m: who, v: T(a[4]) });
-      else if (a[1] === 'tier') t = T('{m} naik ke {t}', { m: who, t: a[4] });
+      else if (a[1] === 'tier') t = T('{m} naik ke {t}', { m: who, t: esc(P.tn(a[4])) });
       else if (a[1] === 'stamp') t = T('Kartu stempel {m} penuh: {v}', { m: who, v: T(a[4]) });
       else if (a[1] === 'join') t = T('{m} jadi member', { m: who });
       else if (a[1] === 'paper') t = T('{m} memindahkan kartu kertas ({n} stempel)', { m: who, n: a[4] });
@@ -484,29 +482,23 @@
 
   /* ════════════ page ════════════ */
   function head() {
-    var b = st.brand;
-    return '<header class="page-head bd-head"><div class="page-head-text"><h1 class="t-h1">' + T('Ringkasan') + '</h1><p class="page-head-sub">' + T(B[b].sub) + '</p></div>' +
+    var b = P.brand();
+    return '<header class="page-head bd-head"><div class="page-head-text"><h1 class="t-h1">' + T('Ringkasan') + '</h1><p class="page-head-sub">' + T(B[b].sub) + ' <span class="tag tag-warning tag-sm bd-sample">' + ic('info-circle', 13) + T('Angka contoh') + '</span></p></div>' +
       '<div class="page-head-actions"><div class="tabs-segmented tabs-sm" role="group" aria-label="' + esc(T('Periode')) + '">' + PERIODS.map(function (p) {
         return '<button type="button" class="tab' + (st.period === p[0] ? ' is-active' : '') + '" aria-pressed="' + (st.period === p[0]) + '" data-bd="period" data-v="' + p[0] + '">' + T(p[1]) + '</button>';
       }).join('') + '</div>' +
       (edit ? '<button type="button" class="btn btn-primary" data-bd="edit">' + ic('check', 18) + '<span class="btn-label">' + T('Selesai') + '</span></button>'
         : '<button type="button" class="btn btn-secondary" data-bd="edit">' + ic('layout-grid', 18) + '<span class="btn-label">' + T('Atur ringkasan') + '</span></button>') + '</div></header>' +
-      '<div class="bd-brandbar"><span class="bd-brandbar-label" id="bd-brands-l">' + T('Lihat contoh merek') + '</span>' +
-      '<div class="bd-brands" role="radiogroup" aria-labelledby="bd-brands-l">' + BRANDS.map(function (id) {
-        var on = id === b;
-        return '<button type="button" class="bd-brand' + (on ? ' is-on' : '') + '" role="radio" aria-checked="' + on + '" tabindex="' + (on ? 0 : -1) + '" data-bd="brand" data-v="' + id + '">' + brandIcon(id, 28) +
-          '<span class="bd-brand-tx"><span class="bd-brand-name">' + B[id].name + '</span><span class="bd-brand-meta">' + T(B[id].bmeta) + '</span></span></button>';
-      }).join('') + '</div>' +
-      '<span class="tag tag-warning tag-sm bd-sample">' + ic('info-circle', 13) + T('Angka contoh') + '</span></div>';
+      '';
   }
   function editBar() {
     return '<div class="bd-editbar" role="region" aria-label="' + esc(T('Mode atur ringkasan')) + '">' + ic('arrows-move', 20) +
-      '<span class="bd-editbar-tx"><b>' + T('Mode atur ringkasan.') + '</b> ' + T('Tarik widget dari pegangannya, atau pakai tombol panah.') + ' <span class="bd-wide-only">' + T('Atur lebar 1, 2, atau 3 kolom.') + '</span> ' + T('Susunan disimpan untuk {b} di browser ini.', { b: B[st.brand].name }) + '</span>' +
+      '<span class="bd-editbar-tx"><b>' + T('Mode atur ringkasan.') + '</b> ' + T('Tarik widget dari pegangannya, atau pakai tombol panah.') + ' <span class="bd-wide-only">' + T('Atur lebar 1, 2, atau 3 kolom.') + '</span> ' + T('Susunan disimpan untuk {b} di browser ini.', { b: B[P.brand()].name }) + '</span>' +
       '<span class="bd-editbar-act"><button type="button" class="btn btn-ghost btn-sm" data-bd="reset">' + ic('arrow-back-up', 16) + '<span class="btn-label">' + T('Kembalikan susunan awal') + '</span></button>' +
       '<button type="button" class="btn btn-primary btn-sm" data-bd="edit">' + ic('check', 16) + '<span class="btn-label">' + T('Selesai') + '</span></button></span></div>';
   }
   function widget(id) {
-    var w = W[id], c = cfg(id), s = spanOf(id), h = (w.head && w.head(st.brand, c)) || {}, name = T(w.name);
+    var w = W[id], c = cfg(id), s = spanOf(id), h = (w.head && w.head(P.brand(), c)) || {}, name = T(w.name);
     var l = lay(), i = l.order.indexOf(id);
     return '<section class="npanel bd-w bd-s' + s + (edit ? ' is-edit' : '') + '" data-w="' + id + '" aria-labelledby="bdt-' + id + '">' +
       '<header class="npanel-head bd-w-head"><h2 class="npanel-title bd-w-title" id="bdt-' + id + '">' + ic(w.icon, 16) + '<span class="ellip">' + name + '</span>' + (h.count != null ? '<span class="npanel-count num">' + h.count + '</span>' : '') + '</h2>' +
@@ -517,7 +509,7 @@
         '<button type="button" class="icon-btn icon-btn-sm" data-bd="move" data-v="1"' + (i >= l.order.length - 1 ? ' disabled' : '') + ' aria-label="' + esc(T('Pindah ke belakang: {name}', { name: name })) + '" title="' + esc(T('Pindah ke belakang')) + '">' + ic('arrow-narrow-right', 16) + '</button></span>' +
         '<span class="bd-ewidth"><span class="bd-ewidth-l">' + T('Lebar') + '</span>' + segBtns('width', s, [[1, '1'], [2, '2'], [3, '3']], T('Lebar {name} dalam kolom', { name: name })) + '</span>' +
         '<button type="button" class="btn btn-ghost btn-sm bd-ehide" data-bd="hide" aria-label="' + esc(T('Sembunyikan {name}', { name: name })) + '">' + ic('eye-off', 16) + '<span class="btn-label">' + T('Sembunyikan') + '</span></button></div>' : '') +
-      '<div class="npanel-body ' + (w.pad === 'none' ? 'pad-none' : 'pad-md') + ' bd-w-body"' + (edit ? ' inert' : '') + '>' + w.body(st.brand, c) + '</div></section>';
+      '<div class="npanel-body ' + (w.pad === 'none' ? 'pad-none' : 'pad-md') + ' bd-w-body"' + (edit ? ' inert' : '') + '>' + w.body(P.brand(), c) + '</div></section>';
   }
   function addTile() {
     var n = hiddenIds().filter(function (id) { return avail(id) === true; }).length;
@@ -525,33 +517,17 @@
   }
   function grid() { return lay().order.map(widget).join('') + (edit ? addTile() : ''); }
   function inner() {
-    var b = st.brand;
+    var b = P.brand();
     return head() + (edit ? editBar() : '') +
       '<div class="bd-board"><div class="bd-grid' + (edit ? ' is-edit' : '') + '" data-bd-grid>' + grid() + '</div></div>' +
-      '<div class="demo-note mt-16">' + ic('info-circle', 14) + '<span>' + (b === 'kamtono' ? T('Semua angka contoh. Penjualan, member baru, dan voucher yang kamu klik di tampilan kasir dan HP member ikut masuk ke sini.') : T('{b} adalah merek contoh. Semua angka di sini angka contoh, tidak terhubung dengan tampilan kasir dan HP member.', { b: B[b].name })) + '</span></div>' +
+      '<div class="demo-note mt-16">' + ic('info-circle', 14) + '<span>' + (b === 'kamtono' ? T('Semua angka contoh. Penjualan, member baru, dan voucher yang kamu klik di tampilan kasir dan HP member ikut masuk ke sini.') : T('Semua angka di ringkasan {b} adalah angka contoh. Klik di kasir dan HP member tidak mengubah angka ini.', { b: B[b].name })) + '</span></div>' +
       '<p class="sr-only" aria-live="polite" id="bd-live"></p>';
   }
   function html() { return '<div class="bd-page" data-bd-page>' + inner() + '</div>'; }
 
-  /* ════════════ brand theme + sidebar ════════════ */
-  /* the brand look applies on the summary only; the other dashboard pages show Kamtono's live demo data */
-  function onSummary() { var h = location.hash.replace(/^#\/?/, ''); return !h || h.indexOf('ringkasan') === 0; }
-  function applyTheme() { if (onSummary()) document.body.setAttribute('data-brand', st.brand); else document.body.removeAttribute('data-brand'); }
-  function chrome() {
-    applyTheme();
-    if (!onSummary()) return;
-    var b = B[st.brand], ws = document.querySelector('.ws-card');
-    if (ws && ws.getAttribute('data-bd-ws') !== st.brand + P.lang()) {
-      ws.setAttribute('data-bd-ws', st.brand + P.lang());
-      ws.innerHTML = brandIcon(st.brand, 30) + '<span class="stack" style="--gap:0;min-width:0"><span class="t-strong ellip" title="' + esc(b.name) + '">' + esc(b.name) + '</span><span class="t-small sec ellip" title="' + esc(T(b.meta)) + '">' + T(b.meta) + '</span></span>';
-    }
-    var cr = document.querySelector('.crumbs .crumb');
-    if (cr && cr.textContent !== b.name) cr.textContent = b.name;
-  }
-  applyTheme();
-  /* the dashboard re-renders #app on every route change: keep the sidebar card on the chosen brand */
-  var app = document.getElementById('app');
-  if (app && window.MutationObserver) new MutationObserver(function () { chrome(); }).observe(app, { childList: true });
+  /* ════════════ brand ════════════ */
+  /* core.js sets body[data-brand] on the demo views and the dashboard renders the brand dropdown; nothing to do here */
+  function chrome() {}
 
   /* ════════════ rendering ════════════ */
   function root() { return document.querySelector('[data-bd-page]'); }
@@ -581,7 +557,7 @@
     var wEl = btn.closest('[data-w]'), id = wEl.getAttribute('data-w'), w = W[id], c = cfg(id), s = spanOf(id);
     if (menuEl && menuBtn === btn) { closeMenu(true); return; }
     closeMenu();
-    var items = (w.menu ? w.menu(st.brand) : []).concat([{ sep: 1 }, { wrow: 1 }, { sep: 1 }, { act: 'hide', icon: 'eye-off', t: 'Sembunyikan' }, { act: 'ask', icon: 'message-question', t: 'Tanya tim tentang ini' }]);
+    var items = (w.menu ? w.menu(P.brand()) : []).concat([{ sep: 1 }, { wrow: 1 }, { sep: 1 }, { act: 'hide', icon: 'eye-off', t: 'Sembunyikan' }, { act: 'ask', icon: 'message-question', t: 'Tanya tim tentang ini' }]);
     var h = '<div class="menu-list">' + items.map(function (it) {
       if (it.sep) return '<div class="menu-divider" role="separator"></div>';
       if (it.h) return '<div class="menu-header">' + T(it.h) + '</div>';
@@ -699,7 +675,7 @@
 
   /* add-widget picker */
   function picker() {
-    var b = st.brand, hid = hiddenIds(), ok = hid.filter(function (id) { return avail(id) === true; }), no = hid.filter(function (id) { return avail(id) !== true; });
+    var b = P.brand(), hid = hiddenIds(), ok = hid.filter(function (id) { return avail(id) === true; }), no = hid.filter(function (id) { return avail(id) !== true; });
     function row(id, reason) {
       return '<li class="bd-pick-row' + (reason ? ' is-off' : '') + '"><span class="bd-pick-ic">' + ic(W[id].icon, 20) + '</span><span class="bd-pick-tx"><span class="t-strong">' + T(W[id].name) + '</span><span class="t-small sec">' + (reason || T(W[id].desc)) + '</span></span>' +
         (reason ? '<span class="tag tag-outline tag-sm">' + T('Tidak tersedia') + '</span>' : '<button type="button" class="btn btn-secondary btn-sm" data-add="' + id + '">' + ic('plus', 16) + '<span class="btn-label">' + T('Tambah') + '</span></button>') + '</li>';
@@ -807,13 +783,9 @@
   function onClick(e) {
     var a = e.target.closest('[data-bd]'); if (!a || a.disabled) return;
     var k = a.getAttribute('data-bd'), v = a.getAttribute('data-v'), wEl = a.closest('[data-w]'), id = wEl && wEl.getAttribute('data-w');
-    if (k === 'brand') {
-      if (v === st.brand) return;
-      st.brand = v; save(); applyTheme(); rerender('[data-bd="brand"][data-v="' + v + '"]');
-      announce(T('Contoh {b} ditampilkan', { b: B[v].name }));
-    } else if (k === 'period') { st.period = v; save(); rerender('[data-bd="period"][data-v="' + v + '"]'); }
+    if (k === 'period') { st.period = v; save(); rerender('[data-bd="period"][data-v="' + v + '"]'); }
     else if (k === 'edit') { edit = !edit; rerender('.page-head [data-bd="edit"]'); announce(edit ? T('Mode atur ringkasan.') : T('Susunan ringkasan disimpan')); }
-    else if (k === 'reset') { st.L[st.brand] = defLayout(st.brand); save(); rerender('[data-bd="reset"]'); P.toast(T('Susunan awal {b} dikembalikan', { b: B[st.brand].name }), 'arrow-back-up'); }
+    else if (k === 'reset') { st.L[P.brand()] = defLayout(P.brand()); save(); rerender('[data-bd="reset"]'); P.toast(T('Susunan awal {b} dikembalikan', { b: B[P.brand()].name }), 'arrow-back-up'); }
     else if (k === 'menu') openMenu(a);
     else if (k === 'move') { moveW(id, +v); var nb = root().querySelector('[data-w="' + id + '"] [data-bd="move"][data-v="' + v + '"]'); if (nb && !nb.disabled) nb.focus({ preventScroll: true }); else { var gb = root().querySelector('[data-w="' + id + '"] .bd-grip'); if (gb) gb.focus({ preventScroll: true }); } }
     else if (k === 'width') setWidth(id, +v);
@@ -828,10 +800,6 @@
       e.preventDefault();
       var id = t.closest('[data-w]').getAttribute('data-w');
       if (moveW(id, e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? -1 : 1)) { var g = root().querySelector('[data-w="' + id + '"] .bd-grip'); if (g) g.focus({ preventScroll: true }); }
-    } else if (t.matches && t.matches('.bd-brand') && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
-      e.preventDefault();
-      var i = BRANDS.indexOf(t.getAttribute('data-v')), n = BRANDS[(i + (e.key === 'ArrowRight' ? 1 : -1) + BRANDS.length) % BRANDS.length];
-      var nb = root().querySelector('[data-bd="brand"][data-v="' + n + '"]'); if (nb) nb.click();
     }
   }
   function mount() {
@@ -844,5 +812,5 @@
     r.addEventListener('pointerdown', function (e) { var g = e.target.closest('.bd-grip'); if (g && r.contains(g)) onGripDown(e, g); });
   }
 
-  window.PLBoard = { html: html, mount: mount, chrome: chrome, brand: function () { return st.brand; }, brands: B };
+  window.PLBoard = { html: html, mount: mount, chrome: chrome, brand: function () { return P.brand(); }, brands: B };
 })();

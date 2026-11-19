@@ -1090,25 +1090,17 @@
 @layer screens {
   /* ── 20 Nov 2026 fixes ── */
 
-  /* hero slide 1: photo of a phone QR scanned at the POS, copy on a crimson scrim */
-  .kh-panel.is-promo { background: #3d1416; }
-  .kh-panel.is-promo .kh-stage { transform: none; }
-  .kh-panel.is-promo::after { content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none; background: linear-gradient(90deg, rgb(46 8 11 / 0.92) 0%, rgb(46 8 11 / 0.84) 30%, rgb(46 8 11 / 0) 58%); }
-  .kh-panel.is-promo .kh-copy, .kh-panel.is-promo .kh-note, .kh-panel.is-promo .kh-pin { z-index: 2; }
-  .kh-panel.is-promo .kh-pin.is-tab { left: 78.6%; top: 25%; }
-  .kh-panel.is-promo .kh-pin.is-hp { left: 59.4%; top: 46%; }
-  .kh-panel.is-promo .kh-pin b { color: #8a1c22; }
-  @media (max-width: 860px) {
-    .kh-panel.is-promo { background: linear-gradient(180deg, #3d1416 0%, #2a0d0f 100%); }
-    .kh-panel.is-promo::after { display: none; }
-    .kh-panel.is-promo .kh-stage::before { background: linear-gradient(#3d1416, rgb(61 20 22 / 0)); }
-    .kh-panel.is-promo .kh-pin.is-tab { left: 79%; top: 25%; } .kh-panel.is-promo .kh-pin.is-hp { left: 56%; top: 46%; }
-  }
+  /* hero slide 1 (is-wall): the wide Kamtono café with copy on the plain blue wall, as Thomas chose on 20 Nov 2026.
+     The phone-scanned-at-the-POS photo (img/scan-*.webp) is the Kamtono story slide's picture now. */
+  .kh-panel.is-wall .kh-stage { transform: none; }
+  .kh-panel.is-wall .kh-pin.is-tab { left: 59.2%; top: 68%; }
+  .kh-panel.is-wall .kh-pin.is-hp { left: 81.2%; top: 57%; }
   @media (max-width: 640px) {
-    .kh-panel.is-promo .kh-photo { object-position: 72% 50%; }
-    .kh-panel.is-promo .kh-pin.is-tab { left: 81.4%; } .kh-panel.is-promo .kh-pin.is-hp { left: 55.5%; }
+    .kh-panel.is-wall .kh-photo { object-position: 85% 50%; }
+    .kh-panel.is-wall .kh-pin.is-tab { left: 50.6%; } .kh-panel.is-wall .kh-pin.is-hp { left: 80%; }
   }
-
+  /* phones: the story slides' note sits on the photo (bottom), not over the brand line */
+  @media (max-width: 860px) { .kh-panel.is-case .kh-note { top: auto; bottom: 10px; } }
   /* brand cards: a calm fan where every card shows in full */
   .pz-cards { height: auto; aspect-ratio: 16 / 9; max-height: 300px; margin-top: auto; }
   .pz-card { left: auto; right: auto; bottom: auto; top: 50%; width: 52%; max-width: 300px; transform-origin: 50% 100%; }
@@ -1192,4 +1184,128 @@
   @media (max-width: 640px) { .pz-cards { gap: 8px; padding-top: 14px; } }
   /* FAQ: the +/− chip on the two reeded cards */
   @media (min-width: 861px) { .lp-qa.is-q0 .lp-q-ic, .lp-qa.is-q3 .lp-q-ic { background: rgb(255 255 255 / 0.16); color: #fff; } }
+}
+@layer screens {
+  /* ══ v6 brand switch, ID | EN control, auto-hiding demo bar (20 Nov 2026) ══
+     body[data-brand] is set by core.js on the three demo views only (anggota, kasir, dashboard). */
+
+  /* ── ID | EN segmented control (demo bar, site bar, phone menu sheet) ── */
+  .lang-seg { display: inline-flex; flex-shrink: 0; padding: 2px; gap: 2px; border-radius: var(--radius-pill); background: var(--bg-subtle); box-shadow: inset 0 0 0 1px var(--border-default); }
+  .lang-seg button { min-width: 34px; height: 28px; padding: 0 8px; border-radius: var(--radius-pill); font-size: 12px; font-weight: 600; letter-spacing: 0.02em; color: var(--text-muted); transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease); }
+  .lang-seg button:hover { color: var(--text-primary); }
+  .lang-seg button[aria-pressed='true'] { background: var(--text-primary); color: var(--bg-canvas); cursor: default; }
+  .lang-seg button:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 1px; }
+  .snav-lang { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 12px; margin: 4px 0 6px; border-radius: var(--radius-sm); background: var(--bg-subtle); font-size: var(--fs-label); color: var(--text-secondary); }
+  @media (max-width: 767px) { .demobar.is-site .lang-site { display: none; } }
+
+  /* ── demo bar: hidden at the top of the three demo views; it overlays the page when it comes back ── */
+  .has-autobar { --bar-h: 0px; --demobar-h: 56px; }
+  .has-autobar .demobar:not(.is-site) { position: fixed; left: 0; right: 0; top: 0; height: var(--demobar-h); z-index: 85; transform: translateY(calc(-100% - 2px)); transition: transform 220ms var(--ease), box-shadow 220ms var(--ease); }
+  .has-autobar .demobar.is-shown:not(.is-site) { transform: none; box-shadow: var(--elevation-overlay); }
+  .bar-tab { display: none; }
+  @media (hover: none), (pointer: coarse) {
+    .has-autobar .bar-tab { display: flex; position: fixed; top: 0; left: 50%; z-index: 86; transform: translateX(-50%); height: 44px; min-width: 120px; padding: 0 6px; align-items: flex-start; justify-content: center; transition: top 220ms var(--ease); }
+    .has-autobar.bar-shown .bar-tab { top: var(--demobar-h); }
+    .bar-tab-pill { display: inline-flex; align-items: center; gap: 4px; height: 24px; padding: 0 10px 0 8px; border-radius: 0 0 12px 12px; background: var(--bg-surface); color: var(--text-secondary); border: 1px solid var(--border-default); border-top: 0; box-shadow: 0 6px 14px -8px rgb(0 0 0 / 0.35); font-size: 11px; font-weight: 600; white-space: nowrap; }
+    .bar-tab .ic { transition: transform 220ms var(--ease); }
+    .bar-tab[aria-expanded='true'] .ic { transform: rotate(180deg); }
+    .bar-tab:focus-visible { outline: none; }
+    .bar-tab:focus-visible .bar-tab-pill { outline: 2px solid var(--focus-ring); outline-offset: 1px; }
+  }
+  @media (max-width: 767px) { .has-autobar { --demobar-h: 52px; } }
+  @media (prefers-reduced-motion: reduce) { .has-autobar .demobar:not(.is-site), .bar-tab, .bar-tab .ic { transition: none; } }
+  /* views that sat under the bar: keep clear of the pull tab on touch screens */
+  @media (max-width: 959px) and (hover: none), (max-width: 959px) and (pointer: coarse) {
+    .has-autobar .checkin-pop { top: 30px; }
+    .has-autobar .kv { padding-top: 30px; }
+  }
+  @media (max-width: 767px) and (hover: none), (max-width: 767px) and (pointer: coarse) {
+    .has-autobar .ps-status { display: flex; height: 22px; padding: 0; }
+    .has-autobar .ps-status > * { display: none; }
+  }
+
+  /* ── stamp glyph and brand tiles ── */
+  .stamp.is-on { color: var(--action-on-primary); }
+  .tier-copper { background: #f6e1d3; color: #7c3a15; }
+  :root[data-theme='dark'] .tier-copper { background: #3b2419; color: #e6a07a; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme='light']) .tier-copper { background: #3b2419; color: #e6a07a; } }
+  .mcard .tier-copper { background: #f0c9ad; color: #5a2a0e; }
+  .sj-logo { background: var(--sj-logo-bg, #1535BD); }
+  .sj-wm-auto { display: inline-flex; }
+  .sj-wm-auto .wm-cream { display: none; }
+  :root[data-theme='dark'] .sj-wm-auto .wm-ink { display: none; }
+  :root[data-theme='dark'] .sj-wm-auto .wm-cream { display: block; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme='light']) .sj-wm-auto .wm-ink { display: none; } :root:not([data-theme='light']) .sj-wm-auto .wm-cream { display: block; } }
+  .sj-hero .ps-title { color: inherit; margin-top: 6px; }
+  .sj-hero-sub { opacity: 0.85; }
+  .standee .t-small, .standee .t-caption { color: inherit; }
+  body { --bk-soft: #eef1ff; --bk-ink: #1535bd; }
+  :root[data-theme='dark'] body { --bk-soft: #1d2036; --bk-ink: #a9b7ff; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme='light']) body { --bk-soft: #1d2036; --bk-ink: #a9b7ff; } }
+
+  /* Mendaya Ramen: ink black, ramen red, rice paper */
+  body[data-brand='mendaya'] { --sj-logo-bg: #F5EBDB; --bk-soft: #fbe9e2; --bk-ink: #b8321a; }
+  body[data-brand='mendaya'] .phone-screen { --sj: #CF3A1E; --sj-deep: #A42C14; --sj-soft: #FBE6DE; --sj-ink: #B3321A; --focus-ring: #E8826B; }
+  :root[data-theme='dark'] body[data-brand='mendaya'] { --bk-soft: #2c1f1b; --bk-ink: #f2937a; }
+  :root[data-theme='dark'] body[data-brand='mendaya'] .phone-screen { --sj: #F07C5F; --sj-deep: #F59C84; --sj-soft: #2C1B16; --sj-ink: #F59C84; --action-on-primary: #1A0905; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme='light']) body[data-brand='mendaya'] { --bk-soft: #2c1f1b; --bk-ink: #f2937a; }
+    :root:not([data-theme='light']) body[data-brand='mendaya'] .phone-screen { --sj: #F07C5F; --sj-deep: #F59C84; --sj-soft: #2C1B16; --sj-ink: #F59C84; --action-on-primary: #1A0905; }
+  }
+  body[data-brand='mendaya'] :is(.mcard, .pass, .sj-hero) { background: radial-gradient(90% 120% at 100% 0%, rgb(207 58 30 / 0.5) 0%, rgb(207 58 30 / 0) 55%), linear-gradient(140deg, #2B211C 0%, #120E0C 100%); color: #F5EBDB; }
+  body[data-brand='mendaya'] .mcard::before { background-image: url(../img/brands/mendaya/emblem-cream.webp); opacity: 0.13; right: -18px; top: 38px; transform: rotate(-6deg); }
+  body[data-brand='mendaya'] .mcard-sub, body[data-brand='mendaya'] .pass-label { color: rgb(245 235 219 / 0.72); }
+  body[data-brand='mendaya'] .perk .ic { color: #F5A58F; }
+  body[data-brand='mendaya'] .standee { background: #F5EBDB; color: #141210; }
+  body[data-brand='mendaya'] .mcard-brand .sj-logo, body[data-brand='mendaya'] .pass .sj-logo { box-shadow: 0 0 0 1.5px rgb(245 235 219 / 0.7); }
+
+  /* Bobs: brown sugar, golden tea, cream */
+  body[data-brand='bobs'] { --sj-logo-bg: #FFF1D6; --bk-soft: #fff1d6; --bk-ink: #7a4a0c; }
+  body[data-brand='bobs'] .phone-screen { --sj: #4A2A0E; --sj-deep: #2E1906; --sj-soft: #FFF1D6; --sj-ink: #5A340F; --focus-ring: #F5B300; }
+  :root[data-theme='dark'] body[data-brand='bobs'] { --bk-soft: #2e2614; --bk-ink: #f7c64a; }
+  :root[data-theme='dark'] body[data-brand='bobs'] .phone-screen { --sj: #F5B300; --sj-deep: #FFC93C; --sj-soft: #2E2614; --sj-ink: #F7C64A; --action-on-primary: #2A1705; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme='light']) body[data-brand='bobs'] { --bk-soft: #2e2614; --bk-ink: #f7c64a; }
+    :root:not([data-theme='light']) body[data-brand='bobs'] .phone-screen { --sj: #F5B300; --sj-deep: #FFC93C; --sj-soft: #2E2614; --sj-ink: #F7C64A; --action-on-primary: #2A1705; }
+  }
+  body[data-brand='bobs'] :is(.mcard, .pass, .sj-hero) { color: #3A2008; background: radial-gradient(90% 120% at 100% 0%, rgb(255 255 255 / 0.45) 0%, rgb(255 255 255 / 0) 55%), linear-gradient(140deg, #FFC93C 0%, #F2A900 100%); }
+  body[data-brand='bobs'] .mcard::before { display: none; }
+  body[data-brand='bobs'] .mcard::after { border-color: rgb(74 42 14 / 0.08); }
+  body[data-brand='bobs'] .mcard-sub, body[data-brand='bobs'] .pass-label { color: rgb(58 32 8 / 0.72); }
+  body[data-brand='bobs'] .mcard .tier, body[data-brand='bobs'] .pass .tier { background: #3A2008; color: #FFE3A0; }
+  body[data-brand='bobs'] .perk .ic { color: #6B3F14; }
+  body[data-brand='bobs'] .sj-hero .row, body[data-brand='bobs'] .sj-hero .ps-title { padding-right: 0; }
+  body[data-brand='bobs'] .standee { background: #FFF1D6; color: #4A2A0E; }
+  body[data-brand='bobs'] .mcard-brand .sj-logo, body[data-brand='bobs'] .pass .sj-logo { box-shadow: 0 0 0 1.5px rgb(74 42 14 / 0.25); }
+
+  /* Wallet pass: the brand name and tier can be long (Black Pearl, Gold Pearl) */
+  .pass-fields > div { min-width: 0; }
+  .pass-val { overflow-wrap: anywhere; line-height: 1.2; }
+  .pass-head { gap: 10px; }
+  .pass-head > .t-small { min-width: 0; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .tier-mean { font-size: var(--fs-small); line-height: var(--lh-small); color: var(--text-secondary); }
+
+  /* ── cashier: brand in the bar, POS tiles with product photos ── */
+  .k-bar-brand { display: inline-flex; align-items: center; gap: 10px; min-width: 0; padding-left: 12px; margin-left: 2px; border-left: 1px solid var(--border-default); }
+  .pthumb { display: block; width: 100%; aspect-ratio: 4 / 3; border-radius: 10px; overflow: hidden; background: var(--bk-soft); flex-shrink: 0; }
+  .pthumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .pthumb.is-icon { display: flex; align-items: center; justify-content: center; color: var(--bk-ink); }
+  .pthumb.is-icon .ic { width: 28px; height: 28px; }
+  .pos-item { min-height: 0; gap: 8px; padding: 8px 8px 10px; }
+  .pos-item .pos-name { overflow-wrap: anywhere; line-height: 1.3; }
+  .pos-item .pos-price { margin-top: auto; }
+  .pos-grid { align-items: stretch; }
+  .pos-line .pthumb { width: 40px; aspect-ratio: 1; border-radius: 8px; }
+  .pos-line .pthumb.is-icon .ic { width: 18px; height: 18px; }
+  .receipt-brand { display: inline-flex; align-items: center; gap: 8px; justify-content: center; }
+  @media (max-width: 959px) { .k-bar-brand { padding-left: 10px; } }
+
+  /* ── dashboard: tier rows of 4 and the outlet list ── */
+  .tier-cards.is-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  @media (max-width: 1399px) { .tier-cards.is-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 767px) { .tier-cards.is-4 { grid-template-columns: minmax(0, 1fr); } }
+}
+@layer screens {
+  /* site pages (landing, stories, sign-in, pricing): let the body grow so the sticky menu stays on screen on long pages */
+  body:has(> #demobar.is-site) { height: auto; min-height: 100%; }
 }

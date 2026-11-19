@@ -226,6 +226,9 @@
   .ks-fig-v b { font-size: clamp(36px, 3.3vw, 50px); line-height: 1; font-weight: 600; letter-spacing: -0.035em; }
   .ks-fig-v .unit-pill { transform: translateY(-6px); }
   .ks-fig p { font-size: 14px; line-height: 1.45; color: var(--text-secondary); text-wrap: pretty; }
+  /* one "Angka contoh" label for the whole results row (beside the note), not one per card */
+  .ks-head-row > .ks-res-note { align-items: flex-start; gap: 10px; }
+  .ks-fig > .ks-fig-v:first-child { margin-top: 0; }
 
   /* ── other stories ── */
   .ks-more { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
