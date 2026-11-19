@@ -7,6 +7,7 @@
 
   var route = (location.hash.replace(/^#\/?/, '') || 'home');
   var draft = { name: 'Nadia Putri', phone: '081312345678', email: 'nadia.putri@example.com', bday: '', consent: true, promo: false, age: true };
+  try { var jp = sessionStorage.getItem('pl-join-phone'); if (jp) { draft.phone = jp[0] === '0' ? jp : '0' + jp.replace(/^62/, ''); sessionStorage.removeItem('pl-join-phone'); } } catch (e) {}
   var joinTab = 'phone', otp = '', vTab = 'mine', walletTab = 'apple', checkDone = false, qrTimer = null, notifTimer = null;
 
   var STEPS = [
