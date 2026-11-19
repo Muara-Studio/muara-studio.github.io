@@ -15,7 +15,7 @@
     { g: 'Member lama · Rina (Gold)', items: [['checkin', 'Check-in dari QR meja kasir'], ['home', 'Kartu, poin, stempel, tier'], ['voucher', 'Voucher, tukar poin, bayar pakai poin'], ['riwayat', 'Riwayat'], ['wallet', 'Kartu di Apple / Samsung Wallet'], ['promo', 'Kotak promo'], ['akun', 'Akun dan data pribadi']] }
   ];
   var NOTES = {
-    scan: ['Pindai, tanpa unduh aplikasi', 'Pelanggan memindai QR di standee meja kasir dengan kamera HP. Halaman member Sejuk terbuka di browser.', ['QR yang sama dipakai untuk daftar dan untuk check-in', 'Jalan di HP Android murah dan iPhone', 'Kasir juga bisa mendaftarkan member dari tablet']],
+    scan: ['Pindai, tanpa unduh aplikasi', 'Pelanggan memindai QR di standee meja kasir dengan kamera HP. Halaman member Kamtono terbuka di browser.', ['QR yang sama dipakai untuk daftar dan untuk check-in', 'Jalan di HP Android murah dan iPhone', 'Kasir juga bisa mendaftarkan member dari tablet']],
     join: ['Daftar dalam 30 detik', 'Cukup nomor HP (WhatsApp) atau email. Nama dan tanggal lahir membantu hadiah ulang tahun.', ['Persetujuan syarat terpisah dari izin promo', 'Cek usia sebelum daftar', 'Data disimpan di Jakarta, sesuai UU PDP']],
     otp: ['Kode lewat WhatsApp', 'Kode 6 angka dikirim lewat WhatsApp. Member yang daftar pakai email mendapat kode lewat email.', ['Pesan kode memakai tarif WhatsApp utility, sekitar Rp357 sebelum PPN', 'Ketuk notifikasi untuk mengisi kode']],
     welcome: ['Langsung jadi member', 'Member baru mulai di Silver dan langsung dapat voucher sambutan. Kasir bisa menambah poin pada pembelian pertama.', ['Pesan sambutan terkirim lewat WhatsApp', 'Member baru muncul di dashboard pemilik']],
@@ -68,7 +68,7 @@
     document.getElementById('notes').innerHTML = '<div class="npanel"><div class="npanel-head"><span class="npanel-title">' + ic('info-circle', 16) + T('Yang terjadi') + '</span></div><div class="npanel-body pad-md"><div class="note-body">' +
       '<h3 class="t-h3">' + T(n[0]) + '</h3><p>' + T(n[1]) + '</p><ul class="note-list">' + n[2].map(function (x) { return '<li>' + ic('check', 16) + '<span>' + T(x) + '</span></li>'; }).join('') + '</ul>' +
       (links ? '<div class="row wrap">' + links + '</div>' : '') +
-      '<div class="demo-note">' + ic('info-circle', 14) + '<span>' + T('Merek Sejuk Froyo Bar, orang, dan angka di demo ini fiktif.') + '</span></div></div></div></div>';
+      '<div class="demo-note">' + ic('info-circle', 14) + '<span>' + T('Merek Kamtono, orang, dan angka di demo ini fiktif.') + '</span></div></div></div></div>';
   }
 
   var DARK = { scan: 1, checkin: 1 };
@@ -94,14 +94,14 @@
   function head(title, right) { return '<div class="ps-head"><span class="ps-head-title">' + title + '</span>' + (right || '') + '</div>'; }
   function brandHead() {
     var m = me(), u = unread(m);
-    return head(P.sjLogo(28) + '<span class="sj-word">sejuk</span>', '<button type="button" class="icon-btn" data-act="go" data-r="promo" aria-label="' + T('Kotak promo') + '">' + ic('bell', 20) + (u ? '<span class="icon-btn-badge num">' + u + '</span>' : '') + '</button>');
+    return head('<span class="sj-lock">' + P.sjLogo(32) + P.wordmark(34) + '</span>', '<button type="button" class="icon-btn" data-act="go" data-r="promo" aria-label="' + T('Kotak promo') + '">' + ic('bell', 20) + (u ? '<span class="icon-btn-badge num">' + u + '</span>' : '') + '</button>');
   }
 
   /* ── screens ── */
   var SCR = {};
   function camera(pillAct, pillText) {
     return '<div class="cam"><div class="cam-hint">' + T('Arahkan kamera ke QR di meja kasir') + '</div>' +
-      '<div class="cam-frame"><div class="standee">' + P.sjLogo(30) + '<b class="sj-word" style="font-size:20px">sejuk</b><span class="t-small" style="color:#0a4f52">' + T('Jadi member atau check-in') + '</span>' + P.qr('counter-cempaka') + '<span class="t-caption" style="color:#0a4f52">Outlet Cempaka</span></div><span class="scanline"></span></div>' +
+      '<div class="cam-frame"><div class="standee">' + P.wordmark(44) + '<span class="t-small" style="color:#0f2690">' + T('Jadi member atau check-in') + '</span>' + P.qr('counter-cempaka') + '<span class="t-caption" style="color:#0f2690">Outlet Cempaka</span></div><span class="scanline"></span></div>' +
       '<button type="button" class="cam-pill" data-act="' + pillAct + '">' + ic('world', 18) + '<span>' + P.BRAND.domain + '</span><span style="opacity:.7">' + pillText + '</span>' + ic('chevron-right', 16) + '</button>' +
       '<div class="cam-hint">' + T('Ketuk tautan kuning untuk membuka halaman member') + '</div></div>';
   }
@@ -110,8 +110,8 @@
   SCR.join = function () {
     var ph = joinTab === 'phone';
     var ok = draft.consent && draft.age && draft.name.trim() && (ph ? draft.phone.replace(/\D/g, '').length >= 10 : /.+@.+\..+/.test(draft.email));
-    return '<div class="sj-hero"><div class="row">' + P.sjLogo(34) + '<b class="sj-word" style="font-size:22px">sejuk</b><span class="t-small" style="opacity:.8">Froyo Bar · Cempaka</span></div>' +
-      '<h1 class="ps-title" style="color:#fff;margin-top:6px">' + T('Jadi member Sejuk') + '</h1>' +
+    return '<div class="sj-hero"><img class="sj-hero-mascot" src="img/kamtono/mascot.png" alt="" decoding="async"><div class="row">' + P.wordmark(46) + '<span class="t-small" style="opacity:.85">Froyo · Outlet Cempaka</span></div>' +
+      '<h1 class="ps-title" style="color:#fff;margin-top:6px">' + T('Jadi member Kamtono') + '</h1>' +
       '<div class="perk">' + ic('coin', 18) + '<span>' + T('1 poin tiap belanja Rp10.000') + '</span></div>' +
       '<div class="perk">' + ic('rubber-stamp', 18) + '<span>' + T('Kumpulkan 10 stempel, dapat cup kecil gratis') + '</span></div>' +
       '<div class="perk">' + ic('gift', 18) + '<span>' + T('Gratis topping untuk member baru') + '</span></div></div>' +
@@ -120,11 +120,11 @@
       (ph ? field(T('Nomor WhatsApp'), '<div class="input input-lg"><span class="input-suffix" style="font-size:14px">+62</span><input data-bind="phone" inputmode="tel" value="' + esc(draft.phone.replace(/^0/, '')) + '"></div>', T('Kode daftar dikirim ke nomor ini lewat WhatsApp.'))
         : field(T('Email'), '<div class="input input-lg"><input data-bind="email" type="email" inputmode="email" value="' + esc(draft.email) + '"></div>', T('Kode daftar dikirim ke email ini.'))) +
       field(T('Tanggal lahir (boleh dikosongkan)'), '<div class="input input-lg"><input data-bind="bday" type="date" value="' + esc(draft.bday) + '"></div>', T('Untuk hadiah ulang tahun.')) +
-      '<div class="stack" style="--gap:10px">' + check('consent', T('Saya setuju dengan Syarat dan Kebijakan Privasi Sejuk.'), draft.consent) +
+      '<div class="stack" style="--gap:10px">' + check('consent', T('Saya setuju dengan Syarat dan Kebijakan Privasi Kamtono.'), draft.consent) +
       check('age', T('Umur saya 17 tahun ke atas, atau saya sudah dapat izin orang tua.'), draft.age) +
       check('promo', ph ? T('Kirim info promo ke WhatsApp saya. Bisa berhenti kapan saja.') : T('Kirim info promo ke email saya. Bisa berhenti kapan saja.'), draft.promo) + '</div>' +
       '<button type="button" class="btn btn-primary btn-block" style="height:48px" data-act="sendCode"' + (ok ? '' : ' disabled') + '>' + ic(ph ? 'brand-whatsapp' : 'mail', 18) + '<span class="btn-label">' + (ph ? T('Kirim kode lewat WhatsApp') : T('Kirim kode lewat email')) + '</span></button>' +
-      '<p class="t-small muted center">' + T('Data kamu disimpan di Jakarta dan hanya dipakai oleh Sejuk Froyo Bar. Layanan oleh Providea Loyalty.') + '</p></div>';
+      '<p class="t-small muted center">' + T('Data kamu disimpan di Jakarta dan hanya dipakai oleh Kamtono. Layanan oleh Providea Loyalty.') + '</p></div>';
   };
   function field(label, control, hint) { return '<label class="field"><span class="field-label">' + label + '</span>' + control + (hint ? '<span class="field-hint">' + hint + '</span>' : '') + '</label>'; }
   function check(k, label, on) { return '<label class="check" style="align-items:flex-start"><input type="checkbox" data-bind="' + k + '"' + (on ? ' checked' : '') + '><span class="check-box" style="margin-top:1px">' + ic('check', 14) + '</span><span class="check-label t-small">' + label + '</span></label>'; }
@@ -143,11 +143,11 @@
   SCR.home = function () {
     var m = me(), t = P.tierOf(m), nt = P.nextTier(m), vs = P.memberVouchers(m.id), R = P.S.rules;
     var pct = nt ? Math.min(100, m.spend / nt.min * 100) : 100;
-    var stamps = ''; for (var i = 0; i < R.stampGoal; i++) stamps += '<span class="stamp' + (i < m.stamps ? ' is-on' : '') + (i === R.stampGoal - 1 && i >= m.stamps ? ' is-gift' : '') + '">' + (i < m.stamps ? ic('ice-cream-2', 18) : (i === R.stampGoal - 1 ? ic('gift', 18) : i + 1)) + '</span>';
+    var stamps = ''; for (var i = 0; i < R.stampGoal; i++) stamps += '<span class="stamp' + (i < m.stamps ? ' is-on' : '') + (i === R.stampGoal - 1 && i >= m.stamps ? ' is-gift' : '') + '">' + (i < m.stamps ? P.cup(24) : (i === R.stampGoal - 1 ? ic('gift', 18) : i + 1)) + '</span>';
     var periodEnd = P.fdate(m.joined + 365 * P.DAY);
     return brandHead() + '<div class="ps-pad" style="padding-top:4px">' +
       '<div><div class="t-small sec">' + T('Halo,') + '</div><div class="t-h2">' + esc(first(m.name)) + '</div></div>' +
-      '<button type="button" class="mcard" data-act="showQr" aria-label="' + T('Tunjukkan QR member') + '"><div class="mcard-top"><span class="mcard-brand">' + P.sjLogo(26) + '<span class="sj-word">sejuk</span></span>' + P.tierTag(t) + '</div>' +
+      '<button type="button" class="mcard" data-act="showQr" aria-label="' + T('Tunjukkan QR member') + '"><div class="mcard-top"><span class="mcard-brand">' + P.wordmark(38) + '</span>' + P.tierTag(t) + '</div>' +
       '<div style="position:relative;z-index:1"><div class="mcard-sub">' + T('Poin') + '</div><div class="mcard-pts">' + P.num(m.points) + '</div><div class="mcard-sub">' + T('Senilai {rp} bila dipakai bayar', { rp: P.rp(m.points * R.pointValue) }) + '</div></div>' +
       '<div class="mcard-row"><div><div style="font-weight:600">' + esc(m.name) + '</div><div class="mcard-sub num">' + T('No. member') + ' ' + m.no + '</div></div><span class="mcard-qr">' + P.qr(m.no) + '</span></div></button>' +
       '<button type="button" class="btn btn-primary btn-block" style="height:48px" data-act="showQr">' + ic('qrcode', 18) + '<span class="btn-label">' + T('Tunjukkan QR ke kasir') + '</span></button>' +
@@ -206,14 +206,14 @@
     if (l.kind === 'redeem') return '<div class="hist-row"><span class="hist-ic">' + ic('gift', 18) + '</span><span class="hist-main"><span class="t-strong">' + T('Tukar poin: {v}', { v: T(l.title) }) + '</span><span class="t-small sec">' + when + '</span></span><span class="hist-side"><span class="minus num t-small">' + T('{n} poin', { n: '−' + Math.abs(l.points) }) + '</span></span></div>';
     if (l.kind === 'pay') return '<div class="hist-row"><span class="hist-ic">' + ic('coins', 18) + '</span><span class="hist-main"><span class="t-strong">' + T('Bayar pakai poin') + '</span><span class="t-small sec">' + when + ' · ' + T('potongan {rp}', { rp: P.rp(l.amount) }) + '</span></span><span class="hist-side"><span class="minus num t-small">' + T('{n} poin', { n: '−' + Math.abs(l.points) }) + '</span></span></div>';
     if (l.kind === 'voucher') return '<div class="hist-row"><span class="hist-ic">' + ic('ticket', 18) + '</span><span class="hist-main"><span class="t-strong">' + T('Voucher dipakai: {v}', { v: T(l.title) }) + '</span><span class="t-small sec">' + when + ' · ' + esc(l.outlet || '') + '</span></span></div>';
-    if (l.kind === 'join') return '<div class="hist-row"><span class="hist-ic">' + ic('user-plus', 18) + '</span><span class="hist-main"><span class="t-strong">' + T('Jadi member Sejuk') + '</span><span class="t-small sec">' + when + '</span></span></div>';
+    if (l.kind === 'join') return '<div class="hist-row"><span class="hist-ic">' + ic('user-plus', 18) + '</span><span class="hist-main"><span class="t-strong">' + T('Jadi member Kamtono') + '</span><span class="t-small sec">' + when + '</span></span></div>';
     if (l.kind === 'adjust') return '<div class="hist-row"><span class="hist-ic">' + ic('adjustments', 18) + '</span><span class="hist-main"><span class="t-strong">' + T('Penyesuaian poin') + '</span><span class="t-small sec">' + when + ' · ' + esc(l.title || '') + '</span></span><span class="hist-side"><span class="' + (l.points < 0 ? 'minus' : 'plus') + ' num t-small">' + T('{n} poin', { n: (l.points > 0 ? '+' : '−') + Math.abs(l.points) }) + '</span></span></div>';
     return '';
   }
 
   function passHtml(m, kind) {
     var t = P.tierOf(m);
-    return '<div class="pass' + (kind === 'samsung' ? ' is-samsung' : '') + '"><div class="pass-head"><span class="mcard-brand">' + P.sjLogo(26) + '<span class="sj-word">sejuk</span></span><span class="t-small" style="opacity:.8">' + esc(m.name) + '</span></div>' +
+    return '<div class="pass' + (kind === 'samsung' ? ' is-samsung' : '') + '"><div class="pass-head"><span class="mcard-brand">' + P.sjLogo(28) + P.wordmark(30) + '</span><span class="t-small" style="opacity:.8">' + esc(m.name) + '</span></div>' +
       '<div class="pass-fields"><div><div class="pass-label">' + T('POIN') + '</div><div class="pass-val">' + P.num(m.points) + '</div></div><div><div class="pass-label">' + T('TIER') + '</div><div class="pass-val">' + t.name + '</div></div><div><div class="pass-label">' + T('STEMPEL') + '</div><div class="pass-val">' + m.stamps + '/' + P.S.rules.stampGoal + '</div></div></div>' +
       '<div class="pass-qr">' + P.qr(m.no + 'w') + '</div><div class="center t-small" style="opacity:.75;padding:0 0 14px">' + T('No. member') + ' ' + m.no + '</div></div>';
   }
@@ -255,7 +255,7 @@
     if (!checkDone) return camera('doCheckin', T('Check-in'));
     var m = P.member('m-rina'), vs = P.memberVouchers(m.id);
     return brandHead() + '<div class="ps-pad center" style="padding-top:24px"><span class="success-burst">' + ic('circle-check', 36) + '</span>' +
-      '<h1 class="ps-title">' + T('Kamu sudah check-in') + '</h1><p class="ps-sub">' + T('Sejuk · Outlet Cempaka. Kasir sudah melihat namamu. Sebut pesananmu, poin masuk otomatis.') + '</p>' +
+      '<h1 class="ps-title">' + T('Kamu sudah check-in') + '</h1><p class="ps-sub">' + T('Kamtono · Outlet Cempaka. Kasir sudah melihat namamu. Sebut pesananmu, poin masuk otomatis.') + '</p>' +
       '<div class="pcard" style="text-align:left"><div class="row" style="--gap:12px">' + P.avatar(m, 44) + '<div class="stack grow" style="--gap:2px"><span class="t-strong">' + esc(m.name) + '</span><span class="row" style="--gap:6px">' + P.tierTag(P.tierOf(m), true) + '<span class="t-small sec num">' + T('{n} poin', { n: P.num(m.points) }) + ' · ' + T('stempel {a}/{b}', { a: m.stamps, b: P.S.rules.stampGoal }) + '</span></span></div></div>' +
       (vs.length ? '<div class="t-small sec">' + T('{n} voucher bisa dipakai hari ini.', { n: vs.length }) + '</div>' : '') + '</div>' +
       '<button type="button" class="btn btn-primary btn-block" style="height:48px" data-act="go" data-r="home">' + T('Lihat kartu') + '</button>' +
@@ -277,9 +277,9 @@
     var html;
     if (kind === 'wallet') {
       var m = me();
-      html = '<button type="button" class="pnotif" data-act="dismissNotif"><span class="pnotif-app is-wallet">' + ic('wallet', 20) + '</span><span class="stack grow" style="--gap:2px"><span class="row between"><b>Sejuk Froyo Bar</b><span class="t-small muted">' + T('sekarang') + '</span></span><span class="t-small">' + T('Poin bertambah. Saldo kamu {n} poin, {t}.', { n: P.num(m.points), t: P.tierOf(m).name }) + '</span></span></button>';
+      html = '<button type="button" class="pnotif" data-act="dismissNotif"><span class="pnotif-app is-wallet">' + ic('wallet', 20) + '</span><span class="stack grow" style="--gap:2px"><span class="row between"><b>Kamtono</b><span class="t-small muted">' + T('sekarang') + '</span></span><span class="t-small">' + T('Poin bertambah. Saldo kamu {n} poin, {t}.', { n: P.num(m.points), t: P.tierOf(m).name }) + '</span></span></button>';
     } else {
-      html = '<button type="button" class="pnotif" data-act="fillOtp"><span class="pnotif-app"' + (kind === 'mail' ? ' style="background:#1f5799"' : '') + '>' + ic(kind === 'mail' ? 'mail' : 'brand-whatsapp', 20) + '</span><span class="stack grow" style="--gap:2px"><span class="row between"><b>' + (kind === 'mail' ? T('Email') + ' · Sejuk' : 'Sejuk Froyo Bar') + '</b><span class="t-small muted">' + T('sekarang') + '</span></span><span class="t-small">' + T('Kode member Sejuk: 482 913. Jangan berikan kode ini ke siapa pun.') + '</span><span class="t-small c-brand">' + T('Ketuk untuk mengisi kode') + '</span></span></button>';
+      html = '<button type="button" class="pnotif" data-act="fillOtp"><span class="pnotif-app"' + (kind === 'mail' ? ' style="background:#1f5799"' : '') + '>' + ic(kind === 'mail' ? 'mail' : 'brand-whatsapp', 20) + '</span><span class="stack grow" style="--gap:2px"><span class="row between"><b>' + (kind === 'mail' ? T('Email') + ' · Kamtono' : 'Kamtono') + '</b><span class="t-small muted">' + T('sekarang') + '</span></span><span class="t-small">' + T('Kode member Kamtono: 482 913. Jangan berikan kode ini ke siapa pun.') + '</span><span class="t-small c-brand">' + T('Ketuk untuk mengisi kode') + '</span></span></button>';
     }
     l.innerHTML = html;
     if (kind === 'wallet') setTimeout(function () { if (l.firstChild) l.innerHTML = ''; }, 5000);
@@ -355,7 +355,7 @@
   ACT.wTab = function (el) { walletTab = el.dataset.v; renderPhone(); };
   ACT.walletAdd = function () {
     var m = me(), ap = walletTab === 'apple';
-    sheet(ap ? 'Apple Wallet' : 'Samsung Wallet', passHtml(m, walletTab) + '<p class="t-small sec center">' + T('Kartu ini akan diperbarui otomatis oleh Sejuk Froyo Bar.') + '</p><button type="button" class="btn ' + (ap ? 'btn-wallet' : 'btn-samsung') + ' btn-block" data-act="walletAddGo">' + T('Tambah') + '</button>');
+    sheet(ap ? 'Apple Wallet' : 'Samsung Wallet', passHtml(m, walletTab) + '<p class="t-small sec center">' + T('Kartu ini akan diperbarui otomatis oleh Kamtono.') + '</p><button type="button" class="btn ' + (ap ? 'btn-wallet' : 'btn-samsung') + ' btn-block" data-act="walletAddGo">' + T('Tambah') + '</button>');
   };
   ACT.walletAddGo = function () { var m = me(); m.wallet = walletTab; P.save(); closeSheet(); renderPhone(); P.toast(T('Kartu masuk ke Wallet')); };
   ACT.walletNotif = function () { showNotif('wallet'); };
@@ -368,7 +368,7 @@
   ACT.pref = function (el) { var m = me(), k = el.dataset.k; m[k] = !m[k]; P.save(); renderPhone(); P.toast(m[k] ? T('Izin promo dinyalakan') : T('Izin promo dimatikan')); };
   ACT.exportMe = function () { P.toast(T('Data kamu dikirim ke email dalam bentuk file (demo)')); };
   ACT.deleteMe = function () {
-    sheet(T('Hapus akun?'), '<p class="sec">' + T('Poin, voucher, dan riwayat kamu di Sejuk akan dihapus. Ini tidak bisa dibatalkan.') + '</p><button type="button" class="btn btn-danger btn-block" data-act="deleteGo">' + T('Hapus akun') + '</button><button type="button" class="btn btn-secondary btn-block" data-act="closeSheet">' + T('Batal') + '</button>');
+    sheet(T('Hapus akun?'), '<p class="sec">' + T('Poin, voucher, dan riwayat kamu di Kamtono akan dihapus. Ini tidak bisa dibatalkan.') + '</p><button type="button" class="btn btn-danger btn-block" data-act="deleteGo">' + T('Hapus akun') + '</button><button type="button" class="btn btn-secondary btn-block" data-act="closeSheet">' + T('Batal') + '</button>');
   };
   ACT.deleteGo = function () {
     var m = me(); closeSheet();
@@ -395,7 +395,7 @@
       promoWa: ph && draft.promo, promoEmail: !ph && draft.promo, bday: draft.bday ? P.fdate(new Date(draft.bday).getTime(), true) : '', no: '2611-' + String(2000 + Math.floor(Math.random() * 7000)), wallet: '' });
     P.S.vouchers.unshift({ id: P.uid('v-'), memberId: 'm-new', title: 'Gratis topping', src: 'Hadiah sambutan', code: P.code('WL' + Math.floor(Math.random() * 9)), exp: now + 30 * P.DAY, kind: 'free', value: 8000 });
     P.S.log.unshift({ id: P.uid('l'), kind: 'join', memberId: 'm-new', at: now, by: 'QR meja kasir', outlet: 'Cempaka' });
-    P.S.inbox.unshift({ id: P.uid('i'), memberId: 'm-new', ch: ph ? 'wa' : 'email', title: 'Selamat datang di Sejuk', body: 'Kamu member Silver. Voucher gratis topping sudah ada di halaman member.', at: now, read: false });
+    P.S.inbox.unshift({ id: P.uid('i'), memberId: 'm-new', ch: ph ? 'wa' : 'email', title: 'Selamat datang di Kamtono', body: 'Kamu member Silver. Voucher gratis topping sudah ada di halaman member.', at: now, read: false });
     P.S.checkins.unshift({ id: P.uid('c'), memberId: 'm-new', at: now, seen: false, isNew: true });
   }
 

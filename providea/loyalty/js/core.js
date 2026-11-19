@@ -2,7 +2,7 @@
    Plain JS, no build step. All brands, people and numbers are fictional sample data. */
 (function () {
   'use strict';
-  var KEY = 'pl-demo-v2';
+  var KEY = 'pl-demo-v3';
   var DAY = 864e5, HOUR = 36e5, MIN = 6e4;
 
   /* ── i18n: Indonesian strings are the keys; window.EN holds English ── */
@@ -36,10 +36,10 @@
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function initials(n) { return n.split(' ').slice(0, 2).map(function (w) { return w[0]; }).join('').toUpperCase(); }
   function uid(p) { return p + Math.random().toString(36).slice(2, 8); }
-  function code(prefix) { var c = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789', s = ''; for (var i = 0; i < 6; i++) s += c[Math.floor(Math.random() * c.length)]; return 'SJK-' + prefix + '-' + s.slice(0, 3) + s.slice(3); }
+  function code(prefix) { var c = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789', s = ''; for (var i = 0; i < 6; i++) s += c[Math.floor(Math.random() * c.length)]; return 'KMT-' + prefix + '-' + s.slice(0, 3) + s.slice(3); }
 
   /* ── rules + seed ── */
-  var BRAND = { name: 'Sejuk Froyo Bar', short: 'Sejuk', outlet: 'Cempaka', outletFull: 'Sejuk · Outlet Cempaka', domain: 'sejuk.providea.id' };
+  var BRAND = { name: 'Kamtono', short: 'Kamtono', outlet: 'Cempaka', outletFull: 'Kamtono · Outlet Cempaka', domain: 'kamtono.providea.id' };
   function rules0() {
     return {
       type: 'both', earnPer: 10000, pointValue: 500, payMode: 'voucher', capSale: 50, capDay: 100, expiry: 12, period: 'rolling',
@@ -112,12 +112,12 @@
     log.push({ id: 'l-tier2', kind: 'tier', memberId: 'm-laras', at: now - 17 * DAY, title: 'Gold', by: 'Fajar (manual)' });
 
     var vouchers = [
-      { id: 'v-r1', memberId: 'm-rina', title: 'Gratis topping', src: 'Hadiah naik Gold', code: 'SJK-GT7-Q4M', exp: now + 42 * DAY, kind: 'free', value: 8000 },
-      { id: 'v-r2', memberId: 'm-rina', title: 'Diskon 20% cup besar', src: 'Selasa Gold', code: 'SJK-SG2-K8P', exp: now + 12 * DAY, tier: 'gold', kind: 'pct', value: 20 },
-      { id: 'v-r0', memberId: 'm-rina', title: 'Gratis topping', src: 'Hadiah sambutan', code: 'SJK-WL8-H2D', exp: now - 40 * DAY, kind: 'free', value: 8000, used: { at: now - 136 * DAY, by: 'Ayu', outlet: 'Cempaka' } },
-      { id: 'v-b1', memberId: 'm-bagus', title: 'Beli 1 gratis 1', src: 'Platinum bulanan', code: 'SJK-PB1-7RX', exp: now + 11 * DAY, tier: 'platinum', kind: 'free', value: 42000 },
-      { id: 'v-p1', memberId: 'm-putri', title: 'Gratis topping', src: 'Hadiah sambutan', code: 'SJK-WL3-N6T', exp: now + 25 * DAY, kind: 'free', value: 8000 },
-      { id: 'v-k1', memberId: 'm-kevin', title: 'Diskon 20% cup besar', src: 'Selasa Gold', code: 'SJK-SG5-W2C', exp: now + 12 * DAY, tier: 'gold', kind: 'pct', value: 20 }
+      { id: 'v-r1', memberId: 'm-rina', title: 'Gratis topping', src: 'Hadiah naik Gold', code: 'KMT-GT7-Q4M', exp: now + 42 * DAY, kind: 'free', value: 8000 },
+      { id: 'v-r2', memberId: 'm-rina', title: 'Diskon 20% cup besar', src: 'Selasa Gold', code: 'KMT-SG2-K8P', exp: now + 12 * DAY, tier: 'gold', kind: 'pct', value: 20 },
+      { id: 'v-r0', memberId: 'm-rina', title: 'Gratis topping', src: 'Hadiah sambutan', code: 'KMT-WL8-H2D', exp: now - 40 * DAY, kind: 'free', value: 8000, used: { at: now - 136 * DAY, by: 'Ayu', outlet: 'Cempaka' } },
+      { id: 'v-b1', memberId: 'm-bagus', title: 'Beli 1 gratis 1', src: 'Platinum bulanan', code: 'KMT-PB1-7RX', exp: now + 11 * DAY, tier: 'platinum', kind: 'free', value: 42000 },
+      { id: 'v-p1', memberId: 'm-putri', title: 'Gratis topping', src: 'Hadiah sambutan', code: 'KMT-WL3-N6T', exp: now + 25 * DAY, kind: 'free', value: 8000 },
+      { id: 'v-k1', memberId: 'm-kevin', title: 'Diskon 20% cup besar', src: 'Selasa Gold', code: 'KMT-SG5-W2C', exp: now + 12 * DAY, tier: 'gold', kind: 'pct', value: 20 }
     ];
     var inbox = [
       { id: 'i1', memberId: 'm-rina', ch: 'email', title: 'Poinmu cukup untuk cup sedang gratis', body: 'Kamu punya 186 poin. Tukar 80 poin jadi cup sedang gratis di menu Voucher.', at: now - 5 * DAY, read: false },
@@ -129,7 +129,7 @@
       { id: 'k1', name: 'Poin hampir cukup', seg: 'active', ch: ['email'], at: now - 5 * DAY, sent: 512, read: 196, used: 58, cost: 0, status: 'sent' },
       { id: 'k2', name: 'Selasa Gold', seg: 'gold', ch: ['wa'], at: now - 8 * DAY, sent: 231, read: 201, used: 64, cost: 135442, status: 'sent' },
       { id: 'k3', name: 'Menu baru Mangga Ketan', seg: 'all', ch: ['wallet'], at: now - 9 * DAY, sent: 1310, read: 0, used: 188, cost: 0, status: 'sent' },
-      { id: 'k4', name: 'Kangen Sejuk', seg: 'risk', ch: ['wa'], at: now - 16 * DAY, sent: 286, read: 233, used: 41, cost: 167690, status: 'sent' }
+      { id: 'k4', name: 'Kangen Kamtono', seg: 'risk', ch: ['wa'], at: now - 16 * DAY, sent: 286, read: 233, used: 41, cost: 167690, status: 'sent' }
     ];
     var vtpl = [
       { id: 'vt1', name: 'Hadiah sambutan · gratis topping', trigger: 'Saat daftar', tier: 'all', issued: 2140, used: 1426, on: true },
@@ -237,7 +237,11 @@
   function avatar(m, s, cls) { return '<span class="avatar avatar-brand ' + (cls || '') + '" style="width:' + s + 'px;height:' + s + 'px;font-size:' + Math.round(s * 0.38) + 'px">' + esc(initials(m.name)) + '</span>'; }
   var SEG = { 'new': ['Baru', 'info'], active: ['Aktif', 'success'], risk: ['Berisiko', 'warning'], lapsed: ['Hilang', 'danger'] };
   function segTag(s) { return '<span class="tag tag-' + SEG[s][1] + ' tag-sm">' + T(SEG[s][0]) + '</span>'; }
-  function sjLogo(s) { return '<span class="sj-logo" style="--s:' + (s || 28) + 'px">' + ic('ice-cream-2', Math.round((s || 28) * 0.6)) + '</span>'; }
+  function sjLogo(s) { return '<span class="sj-logo" style="--s:' + (s || 28) + 'px"><img src="img/kamtono/icon.png" alt="" decoding="async"></span>'; }
+  /* Kamtono sample brand: stacked wordmark and the froyo-cup stamp glyph (img/kamtono/, made in _build/kamtono/) */
+  function wordmark(h) { return '<img class="sj-wm" src="img/kamtono/wordmark.svg" alt="Kamtono" style="height:' + (h || 28) + 'px" decoding="async">'; }
+  var cupN = 0;
+  function cup(s) { var id = 'kc' + (++cupN); return '<svg class="cup" width="' + s + '" height="' + s + '" viewBox="0 0 48 48" fill="currentColor" aria-hidden="true"><defs><mask id="' + id + '"><rect width="48" height="48" fill="#fff"/><g fill="none" stroke="#000" stroke-width="2.1" stroke-linecap="round"><path d="M39.6 23.4C31 21.6 20.4 23 14.2 27.6"/><path d="M35.4 16.4C28.6 15.2 21.8 16.8 17.6 20.4"/><path d="M31.8 10.8C28.2 10.2 25 11.2 22.6 13.2"/><path d="M13.4 36.9H31.2C33.6 36.9 34.2 38.2 33.4 40.4"/></g></mask></defs><g mask="url(#' + id + ')"><path d="M9 29.2C9 24.4 12.4 21.4 16.4 20.4C15.4 15.8 19.2 12.2 23.4 11.8C22.8 8.6 24.8 5.4 28.6 4.4C27.2 6.6 27.6 9 29.6 10.2C33.2 11.4 34.8 14.4 33.8 17.6C37.8 18.8 39.8 22.2 39.2 25.8L38.6 29.2Z"/><rect x="6.5" y="30.2" width="35" height="3.8" rx="1.9"/><path d="M9 34H39C38.6 40.4 33.8 44.6 27.6 44.6H20.4C14.2 44.6 9.4 40.4 9 34Z"/></g></svg>'; }
 
   /* toast */
   function toast(msg, icon) {
@@ -319,7 +323,7 @@
     BRAND: BRAND, CATALOG: CATALOG, MENU: MENU, rules0: rules0,
     save: save, reset: reset, member: member, tierOf: tierOf, tierById: tierById, nextTier: nextTier, earnFor: earnFor, earnedToday: earnedToday,
     segOf: segOf, isTop: isTop, memberVouchers: memberVouchers, addAudit: addAudit, recordSale: recordSale, nextReceipt: nextReceipt,
-    qr: qr, mark: mark, tierTag: tierTag, avatar: avatar, segTag: segTag, SEG: SEG, sjLogo: sjLogo,
+    qr: qr, mark: mark, tierTag: tierTag, avatar: avatar, segTag: segTag, SEG: SEG, sjLogo: sjLogo, wordmark: wordmark, cup: cup,
     toast: toast, modal: modal, ACT: ACT, setView: setView, renderBar: renderBar, visit: visit, visited: visited,
     lang: function () { return LANG; }, onLang: null, onSync: null
   };

@@ -44,7 +44,7 @@
     dash: { label: 'Dashboard', icon: 'layout-dashboard', text: 'Laporan, member, tier, voucher, segmen, dan kampanye untuk pemilik merek.', href: 'dashboard.html' }
   };
   var PEOPLE = [
-    { acc: '#0f6b6f', icon: 'device-mobile', title: 'Untuk pelanggan', text: 'Daftar dalam 30 detik, tanpa unduh aplikasi.', points: ['Kartu dengan QR yang berganti tiap 30 detik', 'Poin, stempel, dan tier dalam satu halaman', 'Kartu di Apple Wallet dan Samsung Wallet'], cta: 'Buka HP member', href: 'anggota.html#/home' },
+    { acc: '#1535BD', icon: 'device-mobile', title: 'Untuk pelanggan', text: 'Daftar dalam 30 detik, tanpa unduh aplikasi.', points: ['Kartu dengan QR yang berganti tiap 30 detik', 'Poin, stempel, dan tier dalam satu halaman', 'Kartu di Apple Wallet dan Samsung Wallet'], cta: 'Buka HP member', href: 'anggota.html#/home' },
     { acc: '#c4232c', icon: 'device-tablet', title: 'Untuk kasir', text: 'Cepat di jam ramai. Kasir tidak perlu mengetik nomor HP.', points: ['Pop-up saat member check-in dari QR meja', 'Voucher dipindai; kode yang sudah dipakai ditolak', 'Bayar pakai poin, dan batalkan penjualan dengan alasan'], cta: 'Buka layar kasir', href: 'kasir.html' },
     { acc: '#1f1e1c', icon: 'layout-dashboard', title: 'Untuk pemilik merek', text: 'Lihat apakah pelanggan datang lagi, lalu atur program dari satu tempat.', points: ['Laporan 6 angka: member baru, join rate, member aktif, repeat rate, poin beredar, voucher dipakai', 'Kampanye WhatsApp, email, dan Wallet dengan perkiraan biaya', 'Peran staf per outlet dan log audit'], cta: 'Buka dashboard', href: 'dashboard.html' }
   ];
@@ -62,7 +62,7 @@
   /* ── hero ── */
   function stampsHtml(n, fresh) {
     var h = '';
-    for (var k = 1; k <= 10; k++) h += '<i class="' + (k <= n ? 'is-on' : '') + (fresh && k > n - fresh && k <= n ? ' is-new' : '') + '">' + (k === 10 && k > n ? ic('gift', 11) : '') + '</i>';
+    for (var k = 1; k <= 10; k++) h += '<i class="' + (k <= n ? 'is-on' : '') + (fresh && k > n - fresh && k <= n ? ' is-new' : '') + '">' + (k <= n ? P.cup(13) : k === 10 ? ic('gift', 11) : '') + '</i>';
     return h;
   }
   function waText(r) { return T('+{p} poin dari belanja {r}. Saldo {b} poin.', { p: r.add, r: P.rp(r.amt), b: P.num(r.p + r.add) }); }
@@ -75,11 +75,11 @@
   function barsHtml(tx) { return BARS.map(function (v) { return '<i style="--h:' + Math.round(v / BAR_MAX * 100) + '%"></i>'; }).join('') + '<i class="is-today" id="rlBar" style="--h:' + Math.round(tx / BAR_MAX * 100) + '%"></i>'; }
   function hero() {
     var r = RELAY[0];
-    return '<section class="lp-wrap lh" aria-labelledby="lp-title"><div class="lh-panel">' +
+    return '<section class="lp-wrap lh" aria-labelledby="rl-t"><div class="lh-panel">' +
       '<div class="lp-tex lh-tex" aria-hidden="true"><img src="img/hero.webp" alt="" decoding="async" fetchpriority="high"></div>' +
-      '<div class="lh-top"><h1 class="lh-h1" id="lp-title">' + T('Pelanggan datang lagi.') + ' <span>' + T('Tanpa unduh aplikasi.') + '</span></h1>' +
-      '<div class="lh-side"><p class="lh-sub">' + T('Kartu member, poin, dan voucher untuk merek dengan 1 sampai 20 outlet. Satu penjualan di kasir langsung masuk ke HP pelanggan dan dashboard pemilik.') + '</p>' +
-      '<div class="lh-cta"><a class="lh-btn" href="anggota.html#/scan">' + T('Coba demo') + ic('arrow-right', 16) + '</a><a class="lh-btn is-glass" href="kasir.html">' + ic('device-tablet', 16) + T('Layar kasir') + '</a></div></div></div>' +
+      '<div class="lh-top"><h2 class="lh-h1 is-h2" id="rl-t">' + T('Satu penjualan,') + ' <span>' + T('tiga layar.') + '</span></h2>' +
+      '<div class="lh-side"><p class="lh-sub">' + T('Kasir menambah penjualan. Poin dan stempel langsung masuk ke HP member, dan angkanya muncul di dashboard pemilik.') + '</p>' +
+      '<div class="lh-cta"><a class="lh-btn is-glass" href="kasir.html">' + ic('device-tablet', 16) + T('Coba di layar kasir') + '</a></div></div></div>' +
       '<div class="rl" id="relay" role="group" aria-label="' + T('Contoh: satu penjualan di tiga layar') + '">' +
       '<article class="rl-card" data-k="0"><header class="rl-h">' + ic('device-tablet', 16) + '<b>' + T('Kasir') + '</b><span>' + T('Outlet Cempaka') + '</span><i class="rl-n">1</i></header><div class="rl-b">' +
         '<div class="rl-who"><span class="avatar avatar-brand rl-av" id="rlAv">' + ini(r.n) + '</span><span class="rl-who-t"><b id="rlName">' + r.n + '</b><span id="rlTier">' + tag(r.t) + '</span></span></div>' +
@@ -87,7 +87,7 @@
         '<span class="rl-btn" id="rlBtn">' + ic('plus', 16) + T('Tambah penjualan') + '</span></div></article>' +
       '<span class="rl-link" data-k="1" aria-hidden="true"><i></i></span>' +
       '<article class="rl-card" data-k="2"><header class="rl-h">' + ic('device-mobile', 16) + '<b>' + T('HP member') + '</b><span id="rlWho">' + r.n.split(' ')[0] + '</span><i class="rl-n">2</i></header><div class="rl-b">' +
-        '<div class="rl-mc"><div class="rl-mc-top">' + P.sjLogo(22) + '<b>sejuk</b><span id="rlTier2">' + tag(r.t) + '</span></div><small>' + T('Poin') + '</small>' +
+        '<div class="rl-mc"><div class="rl-mc-top">' + P.wordmark(26) + '<span id="rlTier2">' + tag(r.t) + '</span></div><small>' + T('Poin') + '</small>' +
         '<div class="rl-mc-pts"><b class="num" id="rlPts">' + P.num(r.p) + '</b><span class="rl-plus" id="rlPlus">+' + r.add + ' ' + T('poin') + '</span></div></div>' +
         '<div class="rl-st" id="rlSt">' + stampsHtml(r.s) + '</div><small class="rl-note" id="rlNote">' + noteFor(r.s) + '</small>' +
         '<div class="rl-wa" id="rlWa">' + ic('brand-whatsapp', 15) + '<span id="rlWaT">' + waText(r) + '</span></div></div></article>' +
@@ -99,6 +99,18 @@
       '</div><p class="lh-cap">' + ic('info-circle', 14) + T('Contoh dengan data demo. Di demo, penjualan dari layar kasir masuk ke HP member dan dashboard dengan cara yang sama.') + '</p></div></section>';
   }
 
+  /* hero: the sample brand's cafe (illustration, Figma AI) with the real demo screens on the tablet and phone */
+  function cafeHero() {
+    var L = P.lang();
+    return '<section class="lp-wrap kh" aria-labelledby="lp-title"><div class="kh-panel">' +
+      '<div class="kh-stage"><picture><source media="(max-width: 860px)" srcset="img/kamtono/cafe-counter-' + L + '.webp"><img class="kh-photo" src="img/kamtono/cafe-wide-' + L + '.webp" width="1536" height="864" alt="' + T('Ilustrasi kafe Kamtono: tablet kasir dan HP member di meja kasir, mural teman berbagi froyo di dinding') + '" fetchpriority="high" decoding="async"></picture>' +
+      '<span class="kh-pin is-tab"><b>' + T('Tablet kasir') + '</b></span><span class="kh-pin is-hp"><b>' + T('HP member') + '</b></span></div>' +
+      '<div class="kh-copy"><p class="kh-brand">' + P.sjLogo(26) + '<span>' + T('Contoh: Kamtono, Outlet Cempaka') + '</span></p>' +
+      '<h1 class="kh-h1" id="lp-title">' + T('Pelanggan datang lagi.') + ' <span>' + T('Tanpa unduh aplikasi.') + '</span></h1>' +
+      '<p class="kh-sub">' + T('Kartu member, poin, dan voucher untuk merek dengan 1 sampai 20 outlet. Pelanggan daftar di kasir dengan nomor HP, kartunya ada di WhatsApp dan dompet HP.') + '</p>' +
+      '<div class="lh-cta"><a class="lh-btn" href="anggota.html#/scan">' + T('Coba demo') + ic('arrow-right', 16) + '</a><a class="lh-btn is-glass" href="kasir.html">' + ic('device-tablet', 16) + T('Layar kasir') + '</a></div></div>' +
+      '<p class="kh-note">' + ic('info-circle', 13) + T('Ilustrasi. Layar di tablet dan HP diambil dari demo ini.') + '</p></div></section>';
+  }
   /* relay loop: kasir → link → HP member → link → dashboard, then the next member */
   var rl = { i: 0, tx: TX0, timers: [], io: null, visible: false };
   function at(ms, fn) { rl.timers.push(setTimeout(fn, ms)); }
@@ -147,14 +159,14 @@
 
   /* ── four ways back ── */
   function well(k) {
-    if (k === 'stempel') return '<div class="mx-st">' + stampsHtml(7).replace(/<i class="is-on">/g, '<i class="is-on">' + ic('ice-cream-2', 14)) + '</div><div class="mx-cap"><span>' + T('Kartu Rina') + '</span><span class="tag tag-brand num">7 / 10</span></div>';
+    if (k === 'stempel') return '<div class="mx-st">' + stampsHtml(7).replace(/<i class="is-on"><svg class="cup" width="13" height="13"/g, '<i class="is-on"><svg class="cup" width="26" height="26"') + '</div><div class="mx-cap"><span>' + T('Kartu Rina') + '</span><span class="tag tag-brand num">7 / 10</span></div>';
     if (k === 'poin') return '<span class="stat-row"><b class="mx-big num">186</b><span class="unit-pill">' + T('poin') + '</span></span><span class="mx-eq">' + T('= {r} bila dipakai bayar', { r: P.rp(93000) }) + '</span>' +
       '<span class="mx-chips"><span class="tag tag-outline num">' + T('1 poin / Rp10.000') + '</span><span class="tag tag-outline num">' + T('1 poin = Rp500') + '</span></span>';
     if (k === 'tier') return '<div class="mx-tiers">' + [['silver', 0, '1×'], ['gold', 1500000, '1,25×'], ['platinum', 4000000, '1,5×']].map(function (t) {
       return '<div class="mx-tr' + (t[0] === 'gold' ? ' is-me' : '') + '">' + tag(t[0]) + '<span class="num">' + (t[1] ? P.rp(t[1]) : T('Mulai')) + '</span><b class="num">' + t[2] + '</b></div>'; }).join('') + '</div>' +
       '<div class="mx-bar" aria-hidden="true"><i style="width:43.6%"></i></div><small class="mx-small num">' + T('Rina: {r} lagi ke Platinum', { r: P.rp(2258000) }) + '</small>';
-    return '<div class="mx-vc is-used"><span><b>' + T('Gratis topping') + '</b><small class="num">SJK-WL8-H2D</small></span><span class="tag tag-sm">' + T('Sudah dipakai') + '</span></div>' +
-      '<div class="mx-vc"><span><b>' + T('Gratis topping') + '</b><small>' + T('Hadiah naik Gold') + '</small><small class="num">SJK-GT7-Q4M</small></span><span class="mx-qr">' + ic('qrcode', 34) + '</span></div>';
+    return '<div class="mx-vc is-used"><span><b>' + T('Gratis topping') + '</b><small class="num">KMT-WL8-H2D</small></span><span class="tag tag-sm">' + T('Sudah dipakai') + '</span></div>' +
+      '<div class="mx-vc"><span><b>' + T('Gratis topping') + '</b><small>' + T('Hadiah naik Gold') + '</small><small class="num">KMT-GT7-Q4M</small></span><span class="mx-qr">' + ic('qrcode', 34) + '</span></div>';
   }
   function ways() {
     return '<section class="lp-wrap" aria-labelledby="mx-t"><div class="lp-head lp-head-row"><div><h2 id="mx-t" class="lp-h2">' + T('Empat alasan untuk kembali') + '</h2><p class="lp-sub">' + T('Pakai satu atau semuanya. Aturan bisa diubah di dashboard kapan saja.') + '</p></div>' +
@@ -164,15 +176,16 @@
 
   /* ── sample case: nested panel, timeline + figures ── */
   function caseStudy() {
-    return '<section class="lp-wrap" aria-labelledby="case-t"><div class="lp-head lp-head-row"><div><h2 id="case-t" class="lp-h2">' + T('Empat bulan pertama Sejuk Froyo Bar') + '</h2><p class="lp-sub">' + T('Kisah contoh dengan merek fiktif: bar frozen yogurt yang baru membuka outlet pertamanya, dengan satu tablet POS di kasir.') + '</p></div></div>' +
-      '<article class="cs" data-reveal><header class="cs-h">' + P.sjLogo(36) + '<span class="cs-id"><b>Sejuk Froyo Bar</b><small>' + T('Outlet Cempaka · 1 kasir · mulai dari 0 member') + '</small></span><span class="tag tag-warning">' + ic('info-circle', 13) + T('Angka contoh') + '</span></header>' +
+    return '<section class="lp-wrap" aria-labelledby="case-t"><div class="lp-head lp-head-row"><div><h2 id="case-t" class="lp-h2">' + T('Empat bulan pertama Kamtono') + '</h2><p class="lp-sub">' + T('Kisah contoh dengan merek fiktif: bar frozen yogurt yang baru membuka outlet pertamanya, dengan satu tablet POS di kasir.') + '</p></div></div>' +
+      '<article class="cs" data-reveal><header class="cs-h">' + P.sjLogo(36) + '<span class="cs-id"><b>Kamtono</b><small>' + T('Outlet Cempaka · 1 kasir · mulai dari 0 member') + '</small></span><span class="tag tag-warning">' + ic('info-circle', 13) + T('Angka contoh') + '</span></header>' +
+      '<figure class="cs-photo"><picture><source media="(max-width: 860px)" srcset="img/kamtono/cafe-wide-' + P.lang() + '.webp"><img src="img/kamtono/cafe-counter-' + P.lang() + '.webp" width="1536" height="864" alt="' + T('Ilustrasi meja kasir Kamtono: tablet kasir dan HP member') + '" loading="lazy" decoding="async"></picture><figcaption>' + ic('info-circle', 13) + T('Ilustrasi meja kasir. Layar diambil dari demo ini.') + '</figcaption></figure>' +
       '<div class="cs-in"><ol class="cs-tl">' + STORY.map(function (s) { return '<li><span class="cs-when">' + T(s[0]) + '</span><span class="cs-rail" aria-hidden="true"></span><span class="cs-step"><b>' + T(s[1]) + '</b><span>' + T(s[2]) + '</span></span></li>'; }).join('') + '</ol>' +
       '<div class="cs-figs">' + CASE.map(function (c) { return '<div class="cs-fig"><span class="stat-row"><b class="cs-big num" data-count="' + c[1] + '" data-text="' + c[0] + '">' + c[0] + '</b><span class="unit-pill">' + T(c[2]) + '</span></span><small>' + T(c[3]) + '</small></div>'; }).join('') + '</div></div></article></section>';
   }
 
   function shot() {
     var src = 'img/sc-' + scTab + '-' + P.lang() + '.webp';
-    if (scTab === 'dash') return '<div class="lsc-frame"><div class="lsc-chrome"><i></i>loyalty.providea.id/sejuk</div><img class="lsc-img" src="' + src + '" alt="' + T('Dashboard pemilik Providea Loyalty, contoh') + '" loading="lazy" decoding="async"></div>';
+    if (scTab === 'dash') return '<div class="lsc-frame"><div class="lsc-chrome"><i></i>loyalty.providea.id/kamtono</div><img class="lsc-img" src="' + src + '" alt="' + T('Dashboard pemilik Providea Loyalty, contoh') + '" loading="lazy" decoding="async"></div>';
     return '<div class="lsc-device is-' + scTab + '"><img class="lsc-img" src="' + src + '" alt="' + (scTab === 'member' ? T('Halaman member di HP, contoh') : T('Aplikasi kasir di tablet, contoh')) + '" loading="lazy" decoding="async"></div>';
   }
   function stampCard() {
@@ -187,7 +200,7 @@
 
   function render() {
     app.innerHTML = '<div class="landing page" style="padding:0;max-width:none"><div class="lp" id="lp">' +
-      hero() + ways() +
+      cafeHero() + hero() + ways() +
       /* showcase */
       '<section class="lp-wrap" aria-labelledby="sc-t"><div class="lp-head lp-head-row"><div><h2 id="sc-t" class="lp-h2">' + T('Buka tiga layarnya') + '</h2><p class="lp-sub">' + T('Semua layar di demo bisa diklik dan memakai data yang sama di browser ini.') + '</p></div></div>' +
       '<div class="lp-show' + (scTouched ? ' is-static' : '') + '" id="lpShow"><div class="lp-tabs" role="tablist">' + Object.keys(SC).map(function (k) { return '<button type="button" role="tab" class="lp-tab' + (scTab === k ? ' is-active' : '') + '" aria-selected="' + (scTab === k) + '" data-act="sc" data-v="' + k + '">' + ic(SC[k].icon, 22) + '<b>' + T(SC[k].label) + '</b><span>' + T(SC[k].text) + '</span><i class="lp-tab-bar"></i></button>'; }).join('') +
@@ -195,7 +208,7 @@
       /* bento */
       '<section class="lp-wrap" aria-labelledby="id-t"><div class="lp-head lp-head-row"><div><h2 id="id-t" class="lp-h2">' + T('Dibuat untuk outlet di <em>Indonesia</em>') + '</h2><p class="lp-sub">' + T('Bahasa Indonesia lebih dulu, nomor HP sebagai ID, dan jalan di HP Android murah.') + '</p></div></div><div class="lp-bento">' +
       '<a class="lp-tile is-big" href="anggota.html#/join"' + rd(0) + '><div class="lp-tex"><img src="img/hero.webp" alt="" loading="lazy"></div><div class="stack" style="--gap:12px">' + ic('brand-whatsapp', 34, 'big') + '<span class="lp-tile-t">' + T('WhatsApp jadi kartu member') + '</span><span class="lp-tile-x">' + T('Nomor HP adalah ID member. Kode daftar, poin baru, dan promo datang lewat WhatsApp.') + '</span></div>' +
-      '<div class="lp-wa"><span class="lp-wa-h">' + ic('brand-whatsapp', 15) + 'Sejuk Froyo Bar</span><span>' + T('Halo Rina, terima kasih sudah mampir. +5 poin masuk. Saldo 191 poin, 2 cup lagi dapat cup kecil gratis.') + '</span><span class="lp-wa-t">15.12</span></div>' + go(T('Lihat di demo')) + '</a>' +
+      '<div class="lp-wa"><span class="lp-wa-h">' + ic('brand-whatsapp', 15) + 'Kamtono</span><span>' + T('Halo Rina, terima kasih sudah mampir. +5 poin masuk. Saldo 191 poin, 2 cup lagi dapat cup kecil gratis.') + '</span><span class="lp-wa-t">15.12</span></div>' + go(T('Lihat di demo')) + '</a>' +
       '<a class="lp-tile is-wide" href="kasir.html#/pos"' + rd(1) + '>' + ic('cash-register', 30, 'big') + '<span class="lp-tile-t">' + T('Jalan di kasir yang sudah ada') + '</span><span class="lp-tile-x">' + T('Aplikasi kasir di browser, atau langsung di POS. Member dan poin sama di semua outlet.') + '</span><span class="lp-chips"><span class="is-on">' + ic('plug-connected', 14) + 'iSeller</span><span>' + T('Tanpa POS: aplikasi kasir') + '</span><span>' + T('Moka, majoo, ESB: segera') + '</span></span></a>' +
       '<a class="lp-tile" href="dashboard.html#/kampanye/baru"' + rd(2) + '><span class="lp-fig num">Rp586</span><span class="lp-tile-t">' + T('Biaya terlihat sebelum kirim') + '</span><span class="lp-tile-x">' + T('Per promo WhatsApp, sebelum PPN. Email dan notifikasi Wallet termasuk paket.') + '</span></a>' +
       '<a class="lp-tile" href="anggota.html#/akun"' + rd(3) + '>' + ic('shield-lock', 30, 'big') + '<span class="lp-tile-t">' + T('Data di Jakarta') + '</span><span class="lp-tile-x">' + T('Sesuai UU PDP. Member bisa unduh atau hapus datanya sendiri.') + '</span></a></div></section>' +
@@ -207,7 +220,7 @@
       '<section class="lp-wrap" aria-labelledby="faq-t"><div class="lp-head is-center"><h2 id="faq-t" class="lp-h2">' + T('Pertanyaan umum') + '</h2></div><div class="lp-faq">' +
       FAQ.map(function (f, i) { var open = openQ === i; return '<div class="lp-qa' + (open ? ' is-open' : '') + '"><button type="button" class="lp-q" aria-expanded="' + open + '" data-act="faq" data-i="' + i + '">' + T(f[0]) + '<span class="lp-q-ic">' + ic(open ? 'minus' : 'plus', 16) + '</span></button><p class="lp-a"' + (open ? '' : ' hidden') + '>' + T(f[1]) + '</p></div>'; }).join('') + '</div></section>' +
       stampCard() +
-      '<footer class="lp-wrap lfoot"><span class="row" style="--gap:10px"><span class="logo-mark">' + P.mark(20) + '</span><b>Providea Loyalty</b></span><span class="t-small sec">' + T('Demo. Merek Sejuk Froyo Bar, orang, dan semua angka di halaman ini fiktif. Klik di demo tersimpan di browser ini saja.') + '</span><span class="row wrap t-small"><a class="link-quiet" href="../influence/">Providea Influence</a><a class="link-quiet" href="../">Providea</a></span></footer>' +
+      '<footer class="lp-wrap lfoot"><span class="row" style="--gap:10px"><span class="logo-mark">' + P.mark(20) + '</span><b>Providea Loyalty</b></span><span class="t-small sec">' + T('Demo. Merek Kamtono, orang, dan semua angka di halaman ini fiktif. Klik di demo tersimpan di browser ini saja.') + '</span><span class="row wrap t-small"><a class="link-quiet" href="../influence/">Providea Influence</a><a class="link-quiet" href="../">Providea</a></span></footer>' +
       '</div></div>';
     reveal();
     startRelay();
