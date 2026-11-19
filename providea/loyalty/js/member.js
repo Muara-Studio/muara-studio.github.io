@@ -100,7 +100,7 @@
   var SCR = {};
   function camera(pillAct, pillText) {
     return '<div class="cam"><div class="cam-hint">' + T('Arahkan kamera ke QR di meja kasir') + '</div>' +
-      '<div class="cam-frame"><div class="standee">' + P.sjLogo(30) + '<b class="sj-word" style="font-size:20px">sejuk</b><span class="t-small" style="color:#6e1235">' + T('Jadi member atau check-in') + '</span>' + P.qr('counter-cempaka') + '<span class="t-caption" style="color:#6e1235">Outlet Cempaka</span></div><span class="scanline"></span></div>' +
+      '<div class="cam-frame"><div class="standee">' + P.sjLogo(30) + '<b class="sj-word" style="font-size:20px">sejuk</b><span class="t-small" style="color:#0a4f52">' + T('Jadi member atau check-in') + '</span>' + P.qr('counter-cempaka') + '<span class="t-caption" style="color:#0a4f52">Outlet Cempaka</span></div><span class="scanline"></span></div>' +
       '<button type="button" class="cam-pill" data-act="' + pillAct + '">' + ic('world', 18) + '<span>' + P.BRAND.domain + '</span><span style="opacity:.7">' + pillText + '</span>' + ic('chevron-right', 16) + '</button>' +
       '<div class="cam-hint">' + T('Ketuk tautan kuning untuk membuka halaman member') + '</div></div>';
   }

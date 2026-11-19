@@ -1,5 +1,30 @@
 /* Providea Loyalty demo: screen styles. Builds on ui.css (the Providea Influence design system). */
 @layer screens {
+  /* Providea Loyalty colour mode (Figma file iTB6C2Lj8WAcHrZ3cWX10e, PI Semantic modes "Loyalty Light/Dark", 18 Nov 2026):
+     crimson primary and peach soft fills; neutrals and status colours stay as in Influence. */
+  :root {
+    --bg-brand: #6e1418; --bg-brand-raised: #8a1c22; --bg-brand-subtle: #ffe9dc; --bg-warm: #ffe9dc;
+    --text-brand: #a51d26; --text-on-brand-muted: #ffceb4; --text-accent: #ffceb4; --border-on-brand: #8a1c22;
+    --action-primary: #c4232c; --action-primary-hover: #a51d26; --action-on-primary: #ffffff; --action-accent: #ffceb4; --action-on-accent: #6e1418; --focus-ring: #ff9f80;
+    --glow-emerald: #e04848; --glow-lime: #ffba95;
+    --frost-soft: radial-gradient(120% 140% at 100% 0%, #ffceb4 0%, rgb(255 206 180 / 0) 55%), radial-gradient(90% 120% at 85% 100%, #fff3ea 0%, rgb(255 243 234 / 0) 60%), linear-gradient(135deg, #fff6f0 0%, #ffe9dc 100%);
+    --frost-strong: radial-gradient(80% 160% at 50% 120%, #e04848 0%, rgb(224 72 72 / 0) 60%), radial-gradient(60% 120% at 70% 50%, rgb(255 186 149 / 0.55) 0%, rgb(255 186 149 / 0) 60%), linear-gradient(135deg, #6e1418 0%, #c4232c 100%);
+    --frost-bar: linear-gradient(90deg, rgb(255 255 255 / 0) 0%, rgb(255 255 255 / 0) 45%, #fff1e8 80%, #ffe9dc 100%);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme='light']) {
+      --bg-brand: #3d1416; --bg-brand-raised: #4f1a1d; --bg-brand-subtle: #2e201c; --bg-warm: #2e201c;
+      --text-brand: #f4978c; --border-on-brand: #4f1a1d; --action-primary: #ef6a6f; --action-primary-hover: #f48a8e; --action-on-primary: #1f0a0b; --focus-ring: #ff9f80; --glow-emerald: #ef6a6f;
+      --frost-soft: radial-gradient(120% 140% at 100% 0%, rgb(239 106 111 / 0.1) 0%, rgb(239 106 111 / 0) 55%), linear-gradient(135deg, #252121 0%, #202020 100%);
+      --frost-bar: linear-gradient(90deg, rgb(25 25 25 / 0) 0%, rgb(25 25 25 / 0) 55%, rgb(239 106 111 / 0.06) 100%);
+    }
+  }
+  :root[data-theme='dark'] {
+    --bg-brand: #3d1416; --bg-brand-raised: #4f1a1d; --bg-brand-subtle: #2e201c; --bg-warm: #2e201c;
+    --text-brand: #f4978c; --border-on-brand: #4f1a1d; --action-primary: #ef6a6f; --action-primary-hover: #f48a8e; --action-on-primary: #1f0a0b; --focus-ring: #ff9f80; --glow-emerald: #ef6a6f;
+    --frost-soft: radial-gradient(120% 140% at 100% 0%, rgb(239 106 111 / 0.1) 0%, rgb(239 106 111 / 0) 55%), linear-gradient(135deg, #252121 0%, #202020 100%);
+    --frost-bar: linear-gradient(90deg, rgb(25 25 25 / 0) 0%, rgb(25 25 25 / 0) 55%, rgb(239 106 111 / 0.06) 100%);
+  }
   :root { --bar-h: 56px; }
   html, body { min-height: 100%; }
   body { overflow-x: hidden; }
@@ -111,12 +136,12 @@
   .phone-screen {
     position: relative; height: 100%; border-radius: 44px; overflow: hidden; display: flex; flex-direction: column; background: var(--bg-canvas);
     /* the member page wears the brand's look (white-label): berry accent instead of Providea green */
-    --sj: #9b1b4b; --sj-deep: #6e1235; --sj-soft: #fbe9f0; --sj-ink: #8a1843;
+    --sj: #0f6b6f; --sj-deep: #0a4f52; --sj-soft: #dff1ef; --sj-ink: #0d5e62;
     --action-primary: var(--sj); --action-primary-hover: var(--sj-deep); --action-on-primary: #fff;
-    --text-brand: var(--sj-ink); --bg-brand-subtle: var(--sj-soft); --focus-ring: #e0628f;
+    --text-brand: var(--sj-ink); --bg-brand-subtle: var(--sj-soft); --focus-ring: #4cc2bf;
   }
-  :root[data-theme='dark'] .phone-screen { --sj: #e0628f; --sj-deep: #f08bb0; --sj-soft: #3a1a26; --sj-ink: #f29bbb; --action-on-primary: #1a0710; }
-  @media (prefers-color-scheme: dark) { :root:not([data-theme='light']) .phone-screen { --sj: #e0628f; --sj-deep: #f08bb0; --sj-soft: #3a1a26; --sj-ink: #f29bbb; --action-on-primary: #1a0710; } }
+  :root[data-theme='dark'] .phone-screen { --sj: #4cc2bf; --sj-deep: #74d3d0; --sj-soft: #16302f; --sj-ink: #7fd8d4; --action-on-primary: #062322; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme='light']) .phone-screen { --sj: #4cc2bf; --sj-deep: #74d3d0; --sj-soft: #16302f; --sj-ink: #7fd8d4; --action-on-primary: #062322; } }
   .ps-status { height: 50px; flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; padding: 6px 30px 0 34px; font-size: 15px; font-weight: 600; position: relative; z-index: 6; }
   .ps-island { position: absolute; left: 50%; top: 11px; width: 120px; height: 34px; border-radius: 20px; background: #0f0f0e; transform: translateX(-50%); }
   .ps-sig { display: inline-flex; gap: 5px; align-items: center; }
@@ -135,7 +160,7 @@
   .ps-title { font-size: 24px; line-height: 30px; font-weight: 700; letter-spacing: -0.015em; }
   .ps-sub { color: var(--text-secondary); }
 
-  .sj-logo { display: inline-flex; align-items: center; justify-content: center; width: var(--s); height: var(--s); border-radius: 30%; background: var(--sj, #9b1b4b); color: #fff; flex-shrink: 0; }
+  .sj-logo { display: inline-flex; align-items: center; justify-content: center; width: var(--s); height: var(--s); border-radius: 30%; background: var(--sj, #0f6b6f); color: #fff; flex-shrink: 0; }
   .sj-word { font-weight: 800; letter-spacing: -0.02em; text-transform: lowercase; }
 
   /* in-phone sheet */
@@ -156,7 +181,7 @@
   .cam { position: relative; height: 100%; min-height: 560px; background: radial-gradient(120% 80% at 50% 40%, #3a3a37 0%, #121211 70%); color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; padding: 24px; }
   .cam-frame { position: relative; width: 250px; padding: 18px; border-radius: 18px; }
   .cam-frame::before { content: ''; position: absolute; inset: -6px; border-radius: 24px; border: 3px solid #fff; -webkit-mask: linear-gradient(#000 0 0) top left / 34px 34px no-repeat, linear-gradient(#000 0 0) top right / 34px 34px no-repeat, linear-gradient(#000 0 0) bottom left / 34px 34px no-repeat, linear-gradient(#000 0 0) bottom right / 34px 34px no-repeat; mask: linear-gradient(#000 0 0) top left / 34px 34px no-repeat, linear-gradient(#000 0 0) top right / 34px 34px no-repeat, linear-gradient(#000 0 0) bottom left / 34px 34px no-repeat, linear-gradient(#000 0 0) bottom right / 34px 34px no-repeat; }
-  .standee { background: #fdf6ee; color: #3d0a1f; border-radius: 14px; padding: 16px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; transform: rotate(-2deg); }
+  .standee { background: #fbf7ef; color: #073f42; border-radius: 14px; padding: 16px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; transform: rotate(-2deg); }
   .standee .qr { width: 150px; }
   .cam-pill { display: inline-flex; align-items: center; gap: 10px; padding: 10px 16px; border-radius: 999px; background: #fdd835; color: #141413; font-weight: 600; box-shadow: 0 8px 24px rgb(0 0 0 / 0.3); animation: pop-in 260ms var(--ease); }
   .cam-hint { font-size: var(--fs-label); color: rgb(255 255 255 / 0.75); text-align: center; }
@@ -164,10 +189,10 @@
   @keyframes scan { to { top: 88%; } }
 
   /* brand page header (join) */
-  .sj-hero { padding: 20px 20px 24px; background: radial-gradient(120% 120% at 100% 0%, rgb(224 98 143 / 0.35) 0%, rgb(224 98 143 / 0) 55%), linear-gradient(160deg, #7a1239, #3d0a1f); color: #fff; display: flex; flex-direction: column; gap: 10px; }
-  .sj-hero .sj-logo { background: #fff; color: #9b1b4b; }
+  .sj-hero { padding: 20px 20px 24px; background: radial-gradient(120% 120% at 100% 0%, rgb(126 224 214 / 0.35) 0%, rgb(126 224 214 / 0) 55%), linear-gradient(160deg, #11797c, #073f42); color: #fff; display: flex; flex-direction: column; gap: 10px; }
+  .sj-hero .sj-logo { background: #fff; color: #0f6b6f; }
   .perk { display: flex; gap: 10px; align-items: center; font-size: var(--fs-label); line-height: var(--lh-label); }
-  .perk .ic { color: #ffd1e1; }
+  .perk .ic { color: #a8ece6; }
 
   .otp { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; }
   .otp span { height: 52px; border-radius: 12px; border: 1px solid var(--border-strong); background: var(--bg-surface); display: inline-flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 600; font-variant-numeric: tabular-nums; }
@@ -176,11 +201,11 @@
 
   /* member card */
   .mcard { position: relative; border-radius: 22px; padding: 18px 18px 16px; color: #fff; min-height: 196px; display: flex; flex-direction: column; justify-content: space-between; gap: 12px; overflow: hidden; text-align: left; width: 100%;
-    background: radial-gradient(90% 120% at 100% 0%, rgb(255 140 180 / 0.45) 0%, rgb(255 140 180 / 0) 55%), radial-gradient(60% 80% at 0% 100%, rgb(253 216 53 / 0.18) 0%, rgb(253 216 53 / 0) 60%), linear-gradient(140deg, #8a1843 0%, #4a0c26 100%); }
+    background: radial-gradient(90% 120% at 100% 0%, rgb(126 224 214 / 0.45) 0%, rgb(126 224 214 / 0) 55%), radial-gradient(60% 80% at 0% 100%, rgb(253 216 53 / 0.18) 0%, rgb(253 216 53 / 0) 60%), linear-gradient(140deg, #11797c 0%, #073f42 100%); }
   .mcard::after { content: ''; position: absolute; right: -40px; bottom: -60px; width: 200px; height: 200px; border-radius: 50%; border: 28px solid rgb(255 255 255 / 0.06); }
   .mcard-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
   .mcard-brand { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; }
-  .mcard-brand .sj-logo { background: #fff; color: #8a1843; }
+  .mcard-brand .sj-logo { background: #fff; color: #0f6b6f; }
   .mcard-pts { font-size: 40px; line-height: 44px; font-weight: 700; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
   .mcard-row { display: flex; justify-content: space-between; align-items: flex-end; gap: 8px; position: relative; z-index: 1; }
   .mcard-qr { width: 54px; height: 54px; border-radius: 10px; background: #fff; padding: 4px; flex-shrink: 0; }
@@ -232,14 +257,14 @@
   .btn-wallet:hover { background: #2b2b29; }
   .btn-samsung { background: #1428a0; color: #fff; border-color: #1428a0; }
   .btn-samsung:hover { background: #0f1f7c; }
-  .pass { border-radius: 18px; overflow: hidden; color: #fff; background: linear-gradient(160deg, #8a1843, #4a0c26); box-shadow: 0 12px 30px -10px rgb(0 0 0 / 0.45); }
+  .pass { border-radius: 18px; overflow: hidden; color: #fff; background: linear-gradient(160deg, #11797c, #073f42); box-shadow: 0 12px 30px -10px rgb(0 0 0 / 0.45); }
   .pass-head { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; }
   .pass-fields { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; padding: 4px 16px 14px; }
   .pass-label { font-size: 10px; letter-spacing: 0.04em; color: rgb(255 255 255 / 0.7); font-weight: 600; }
   .pass-val { font-size: 17px; font-weight: 600; font-variant-numeric: tabular-nums; }
   .pass-qr { background: #fff; margin: 0 auto 16px; width: 132px; padding: 6px; border-radius: 10px; }
   .pass.is-samsung { border-radius: 22px; }
-  .pass .sj-logo { background: #fff; color: #8a1843; }
+  .pass .sj-logo { background: #fff; color: #0f6b6f; }
   .otp-wrap { position: relative; }
   .otp-input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; border: 0; font-size: 16px; }
   .wallet-stack { display: flex; flex-direction: column; gap: -20px; }
@@ -319,7 +344,7 @@
   .pos-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
   .pos-item { display: flex; flex-direction: column; gap: 8px; padding: 12px; border-radius: var(--radius-md); background: var(--bg-surface); border: 1px solid var(--border-default); text-align: left; min-height: 112px; }
   .pos-item:hover { border-color: var(--border-strong); }
-  .pos-thumb { width: 36px; height: 36px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; background: #f6e4ec; color: #8a1843; }
+  .pos-thumb { width: 36px; height: 36px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; background: #dff1ef; color: #0d5e62; }
   .pos-thumb.is-topping { background: #fbf0d6; color: #8a5a0b; }
   .pos-thumb.is-minum { background: #e1ecfa; color: #1f5799; }
   .pos-order { min-height: 0; display: flex; flex-direction: column; border-left: 1px solid var(--border-default); background: var(--bg-surface); }
@@ -335,7 +360,7 @@
   .receipt { max-width: 340px; margin: 0 auto; width: 100%; padding: 20px; border-radius: 4px; background: #fffdf8; color: #1f1e1c; border: 1px solid #ececea; display: flex; flex-direction: column; gap: 8px; font-size: var(--fs-label); }
   .receipt .rline { display: flex; justify-content: space-between; gap: 8px; }
   .receipt .rdash { border-top: 1px dashed #cfceca; margin: 4px 0; }
-  .receipt .loyal { background: #f6e4ec; border-radius: 8px; padding: 10px; color: #4a0c26; display: flex; flex-direction: column; gap: 4px; }
+  .receipt .loyal { background: #ffe9dc; border-radius: 8px; padding: 10px; color: #6e1418; display: flex; flex-direction: column; gap: 4px; }
 
   @media (min-width: 960px) {
     .tablet-screen .overlay { position: absolute; }
@@ -376,7 +401,7 @@
   .dash .topbar { top: var(--bar-h); }
   .dash .sb-brand { height: auto; padding: 4px 8px 8px; margin-bottom: 4px; }
   .ws-card { display: flex; align-items: center; gap: 10px; padding: 8px; border-radius: var(--radius-sm); }
-  .ws-card .sj-logo { --sj: #9b1b4b; }
+  .ws-card .sj-logo { --sj: #0f6b6f; }
   .m-dash-bar { display: none; }
   .kpi-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
   .kpi-grid > .npanel, .eq-row > * { height: 100%; }
@@ -388,7 +413,7 @@
   .dash-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; align-items: stretch; }
   .bars { display: flex; align-items: flex-end; gap: 8px; height: 180px; padding-top: 8px; }
   .bar-col { flex: 1 1 0; display: flex; flex-direction: column; align-items: center; gap: 6px; height: 100%; justify-content: flex-end; min-width: 0; }
-  .bar { width: 100%; max-width: 36px; border-radius: 6px 6px 2px 2px; background: var(--dot-success); opacity: 0.85; position: relative; }
+  .bar { width: 100%; max-width: 36px; border-radius: 6px 6px 2px 2px; background: var(--action-primary); opacity: 0.8; position: relative; }
   .bar.is-last { opacity: 1; background: var(--action-primary); }
   .bar-val { font-size: 11px; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
   .bar-lbl { font-size: 11px; color: var(--text-muted); white-space: nowrap; }
