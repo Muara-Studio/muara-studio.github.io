@@ -8,7 +8,8 @@
   var mode = location.hash === '#/pos' ? 'pos' : 'kasir';
   var sel = null, leftTab = 'checkin', q = '';
   var cart = [], posMember = null, posVoucher = null, posPoints = 0, posCat = P.BRAND.cats[0][0], posReceipt = P.S.receiptNo + 1;
-  var STEPS = [['checkin', 'Check-in muncul'], ['find', 'Cari atau pindai member'], ['join', 'Daftarkan member baru'], ['sale', 'Tambah penjualan'], ['voucher', 'Pakai voucher'], ['points', 'Bayar pakai poin'], ['void', 'Batalkan penjualan'], ['pos', 'Alur di POS']];
+  var W = window.PLWA, joinMd = null;
+  var STEPS = [['checkin', 'Check-in muncul'], ['find', 'Cari atau pindai member'], ['join', 'Member baru lewat WhatsApp'], ['sale', 'Tambah penjualan'], ['voucher', 'Pakai voucher'], ['points', 'Bayar pakai poin'], ['void', 'Batalkan penjualan'], ['pos', 'Alur di POS']];
 
   function ts() { return document.getElementById('ts'); }
   function cur() { return sel ? P.member(sel) : null; }
@@ -40,7 +41,7 @@
       list = '<div class="steps-group">' + T('Hasil cari') + ' <span class="num">' + res.length + '</span></div>' + (res.length ? res.map(function (m) { return mRow(m, P.maskPhone(m.phone) || m.email); }).join('') : '<p class="t-small sec" style="padding:8px 10px">' + T('Tidak ada member dengan data itu. Daftarkan sebagai member baru?') + '</p><div style="padding:0 10px"><button type="button" class="btn btn-secondary btn-sm" data-act="join">' + ic('user-plus', 16) + '<span class="btn-label">' + T('Daftarkan member baru') + '</span></button></div>');
     } else if (leftTab === 'checkin') {
       var cis = P.S.checkins.slice(0, 12);
-      list = cis.length ? cis.map(function (c) { var m = P.member(c.memberId); return m ? mRow(m, T('QR meja kasir') + ' · ' + P.ago(c.at), c.isNew) : ''; }).join('') : '<div class="empty"><span class="empty-icon">' + ic('scan', 20) + '</span><p class="empty-text t-small">' + T('Belum ada check-in. Member memindai QR di meja kasir, lalu namanya muncul di sini.') + '</p></div>';
+      list = cis.length ? cis.map(function (c) { var m = P.member(c.memberId); return m ? mRow(m, (c.via === 'wa' ? T('Daftar via WhatsApp') : T('QR meja kasir')) + ' · ' + P.ago(c.at), c.isNew) : ''; }).join('') : '<div class="empty"><span class="empty-icon">' + ic('scan', 20) + '</span><p class="empty-text t-small">' + T('Belum ada check-in. Member memindai QR di meja kasir, lalu namanya muncul di sini.') + '</p></div>';
     } else {
       var ss = todaySales();
       list = ss.length ? ss.map(function (l) {
@@ -56,14 +57,15 @@
       '<div class="k-list">' + list + '</div></aside><section class="k-main">' + memberPanel() + '</section></div>';
   }
   function mRow(m, sub, isNew) {
-    return '<button type="button" class="k-row' + (sel === m.id ? ' is-active' : '') + '" data-act="pick" data-id="' + m.id + '">' + P.avatar(m, 36) + '<span class="k-row-main"><span class="row" style="--gap:6px"><span class="t-strong ellip">' + esc(m.name) + '</span>' + P.tierTag(P.tierOf(m), true) + (isNew ? '<span class="tag tag-info tag-sm">' + T('Baru') + '</span>' : '') + '</span><span class="t-small sec ellip">' + sub + '</span></span></button>';
+    return '<button type="button" class="k-row' + (sel === m.id ? ' is-active' : '') + '" data-act="pick" data-id="' + m.id + '">' + P.avatar(m, 36) + '<span class="k-row-main"><span class="row" style="--gap:6px"><span class="t-strong ellip">' + esc(m.name) + '</span>' + P.tierTag(P.tierOf(m), true) + (m.pending ? '<span class="tag tag-wa tag-sm">' + T('Diundang') + '</span>' : isNew ? '<span class="tag tag-info tag-sm">' + T('Baru') + '</span>' : '') + '</span><span class="t-small sec ellip">' + sub + '</span></span></button>';
   }
   function memberPanel() {
     var m = cur();
     if (!m) return '<div class="empty k-empty"><span class="empty-icon">' + ic('users', 22) + '</span><h2 class="t-h3">' + T('Pilih member untuk mulai') + '</h2><p class="empty-text">' + T('Cari dengan nomor HP atau email, pindai QR di HP member, atau buka check-in terbaru di kiri.') + '</p><div class="empty-actions"><button type="button" class="btn btn-primary" data-act="scan">' + ic('scan', 18) + '<span class="btn-label">' + T('Pindai QR member') + '</span></button><button type="button" class="btn btn-secondary" data-act="join">' + ic('user-plus', 18) + '<span class="btn-label">' + T('Daftarkan member baru') + '</span></button></div></div>';
     var t = P.tierOf(m), nt = P.nextTier(m), R = P.S.rules, vs = P.memberVouchers(m.id);
     var acts = P.S.log.filter(function (l) { return l.memberId === m.id; }).sort(function (a, b) { return b.at - a.at; }).slice(0, 5);
-    return '<div class="k-member">' + P.avatar(m, 56) + '<div class="stack grow" style="--gap:4px"><span class="row wrap" style="--gap:8px"><span class="t-h2">' + esc(m.name) + '</span>' + P.tierTag(t) + (m.override ? '<span class="tag tag-outline tag-sm" title="' + esc(T(m.overrideWhy || '')) + '">' + T('tier manual') + '</span>' : '') + '</span>' +
+    return (m.pending ? '<div class="info-note">' + ic('brand-whatsapp', 16) + '<span>' + T('Undangan WhatsApp terkirim. {n} melengkapi nama dan persetujuan dari HP-nya. Poin tetap bisa ditambahkan sekarang.', { n: esc(m.name.split(' ')[0]) }) + '</span></div>' : '') +
+      '<div class="k-member">' + P.avatar(m, 56) + '<div class="stack grow" style="--gap:4px"><span class="row wrap" style="--gap:8px"><span class="t-h2">' + esc(m.name) + '</span>' + P.tierTag(t) + (m.pending ? '<span class="tag tag-wa tag-sm">' + T('Diundang') + '</span>' : '') + (m.override ? '<span class="tag tag-outline tag-sm" title="' + esc(T(m.overrideWhy || '')) + '">' + T('tier manual') + '</span>' : '') + '</span>' +
       '<span class="t-small sec num">' + (m.phone ? P.maskPhone(m.phone) : esc(m.email)) + ' · ' + T('No. member') + ' ' + m.no + ' · ' + T('member sejak {d}', { d: P.fmonth(m.joined) }) + '</span></div><button type="button" class="btn btn-ghost btn-sm" data-act="clear">' + ic('x', 16) + '<span class="btn-label">' + T('Ganti member') + '</span></button></div>' +
       '<div class="k-stats"><div class="k-stat"><span class="t-small sec">' + T('Poin') + '</span><span class="k-stat-val">' + P.num(m.points) + '</span><span class="t-small sec">' + T('senilai {rp}', { rp: P.rp(m.points * R.pointValue) }) + '</span></div>' +
       '<div class="k-stat"><span class="t-small sec">' + T('Stempel') + '</span><span class="k-stat-val">' + m.stamps + ' / ' + R.stampGoal + '</span><span class="t-small sec">' + T('{n} cup lagi, cup kecil gratis', { n: R.stampGoal - m.stamps }) + '</span></div>' +
@@ -227,8 +229,57 @@
     md.el.addEventListener('click', function (ev) { var c = ev.target.closest('[data-mid]'); if (!c) return; md.close(); if (forPos) { posMember = c.dataset.mid; } else { sel = c.dataset.mid; q = ''; } renderTablet(); P.toast(T('Member ditemukan: {n}', { n: P.member(c.dataset.mid).name })); });
   };
 
-  /* ── Join at the till ── */
+  /* ── Member baru: WhatsApp first. The tablet shows the "Daftar via WhatsApp" QR; or the cashier sends an invite. ── */
   ACT.join = function () {
+    var st = { phone: '813-5550-8812', name: 'Dimas Aryo', ok: false, touched: false, sent: null }, since = Date.now() - 500, arrived = null;
+    var md = P.modal({ host: ts(), title: T('Member baru'), desc: T('Pelanggan daftar lewat WhatsApp. Tanpa formulir dan tanpa kode OTP.'), width: 780, cls: 'wa-joinm', onClose: function () { joinMd = null; } });
+    function valid() { return st.ok && W.phoneOk(st.phone); }
+    function find() {
+      var c = P.S.checkins.filter(function (x) { return x.via === 'wa' && x.at >= since && P.member(x.memberId); })[0];
+      if (c) { if (!c.seen) { c.seen = true; P.save(); } arrived = P.member(c.memberId); }
+    }
+    function draw() {
+      find();
+      var left = '<section class="npanel"><header class="npanel-head"><span class="npanel-title">' + ic('qrcode', 16) + T('Pelanggan memindai QR') + '</span><span class="npanel-action t-small sec">' + T('Utama') + '</span></header><div class="npanel-body pad-md"><div class="wa-qrbox">' +
+        '<span class="std-chip">' + ic('brand-whatsapp', 15) + '<span>' + T('Daftar via WhatsApp') + '</span></span>' + P.qr('wa-daftar-' + P.brand()) +
+        '<p class="t-small sec">' + T('Arahkan tablet ke pelanggan. Kamera HP membuka WhatsApp dengan pesan {kw}.', { kw: '<b class="wa-kw">' + esc(W.kwJoin()) + '</b>' }) + '</p>' +
+        (arrived ? '<div class="result is-ok" style="text-align:left;width:100%">' + ic('circle-check', 20) + '<div class="stack grow" style="--gap:2px"><span class="t-strong">' + T('{n} terdaftar lewat WhatsApp', { n: esc(arrived.name) }) + '</span><span class="t-small">' + T('Nomor terverifikasi otomatis, tanpa OTP') + '</span></div></div>' +
+            '<button type="button" class="btn btn-primary btn-sm" data-w="open" data-id="' + arrived.id + '">' + ic('user-check', 16) + '<span class="btn-label">' + T('Buka member') + '</span></button>'
+          : '<span class="wa-wait"><span class="wa-wait-dot"></span>' + T('Menunggu pesan dari pelanggan') + '</span>' +
+            '<button type="button" class="chip" data-w="sim">' + ic('device-mobile', 14) + T('Simulasi: pelanggan mengirim pesan') + '</button>') +
+        '</div></div></section>';
+      var right = '<section class="npanel"><header class="npanel-head"><span class="npanel-title">' + ic('send', 16) + T('Kirim undangan WhatsApp') + '</span></header><div class="npanel-body pad-md">' +
+        (st.sent ? '<div class="result is-ok">' + ic('brand-whatsapp', 20) + '<div class="stack" style="--gap:2px"><span class="t-strong">' + T('Undangan terkirim ke {p}', { p: '<span class="num" style="white-space:nowrap">' + esc(P.fmtPhone(st.sent.phone)) + '</span>' }) + '</span><span class="t-small">' + T('{n} bisa langsung dapat poin hari ini. Nama dan persetujuan dilengkapi pelanggan dari pesan WhatsApp.', { n: esc(st.sent.name.split(' ')[0]) }) + '</span></div></div>' +
+            '<div class="row wrap"><button type="button" class="btn btn-primary btn-sm" data-w="open" data-id="' + st.sent.id + '">' + ic('user-check', 16) + '<span class="btn-label">' + T('Buka member') + '</span></button><button type="button" class="btn btn-secondary btn-sm" data-w="again">' + T('Kirim undangan lain') + '</button></div>'
+          : '<p class="t-small sec">' + T('Untuk pelanggan yang tidak memindai QR. Kasir mengetik nomornya, pelanggan melengkapi data dari pesan WhatsApp.') + '</p>' +
+            '<label class="field"><span class="field-label">' + T('Nomor WhatsApp') + ' <span class="field-req">*</span></span><span class="input' + (st.touched && !W.phoneOk(st.phone) ? ' is-invalid' : '') + '"><span class="input-suffix">+62</span><input data-w="phone" inputmode="tel" autocomplete="off" value="' + esc(st.phone) + '" aria-label="' + T('Nomor WhatsApp') + '"></span>' +
+              '<span class="field-error"' + (st.touched && !W.phoneOk(st.phone) ? '' : ' hidden') + '>' + T('Nomor belum lengkap. Contoh: 813-5550-8812.') + '</span></label>' +
+            '<label class="field"><span class="field-label">' + T('Nama panggilan (boleh dikosongkan)') + '</span><span class="input"><input data-w="name" value="' + esc(st.name) + '"></span></label>' +
+            '<label class="check" style="align-items:flex-start"><input type="checkbox" data-w="ok"' + (st.ok ? ' checked' : '') + ' required aria-required="true"><span class="check-box" style="margin-top:1px">' + ic('check', 14) + '</span><span class="check-label t-small">' + T('Pelanggan setuju dihubungi lewat WhatsApp') + ' <span class="field-req">*</span></span></label>' +
+            '<button type="button" class="btn btn-primary btn-block" data-w="send"' + (valid() ? '' : ' disabled') + '>' + ic('brand-whatsapp', 18) + '<span class="btn-label">' + T('Kirim undangan WhatsApp') + '</span></button>' +
+            '<span class="wa-cost-note" data-w="why">' + ic('info-circle', 14) + '<span>' + (valid() ? T('Pesan template utility, sekitar Rp357 sebelum PPN.') : T('Isi nomor dan centang persetujuan untuk mengirim.')) + '</span></span>') +
+        '</div></section>';
+      md.set('<div class="wa-join">' + left + right + '</div>',
+        '<button type="button" class="btn btn-ghost wa-foot-left" data-w="otp">' + ic('message-2', 18) + '<span class="btn-label">' + T('Daftar pakai kode OTP') + '</span></button><button type="button" class="btn btn-secondary" data-close>' + T('Tutup') + '</button>');
+    }
+    function sync() { var b = md.el.querySelector('[data-w="send"]'), why = md.el.querySelector('[data-w="why"] span'); if (b) b.disabled = !valid(); if (why) why.textContent = valid() ? T('Pesan template utility, sekitar Rp357 sebelum PPN.') : T('Isi nomor dan centang persetujuan untuk mengirim.'); }
+    md.el.addEventListener('input', function (e) { var k = e.target.getAttribute('data-w'); if (k === 'phone' || k === 'name') { st[k] = e.target.value; sync(); } });
+    md.el.addEventListener('change', function (e) { var k = e.target.getAttribute('data-w'); if (k === 'ok') { st.ok = e.target.checked; sync(); } else if (k === 'phone' && !W.phoneOk(st.phone)) { st.touched = true; draw(); } });
+    md.el.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-w]'); if (!b || b.tagName === 'INPUT') return;
+      var k = b.getAttribute('data-w');
+      if (k === 'sim') { W.joinViaWa({ name: 'Nadia Putri', phone: '081312345678' }); draw(); renderTablet(); }
+      else if (k === 'send') { if (!valid()) { st.touched = true; draw(); return; } var m = W.invite({ phone: st.phone, name: st.name }); st.sent = { id: m.id, name: m.name, phone: m.phone }; draw(); renderTablet(); P.toast(T('Undangan WhatsApp terkirim ke {p}', { p: P.fmtPhone(m.phone) }), 'brand-whatsapp'); }
+      else if (k === 'again') { st = { phone: '', name: '', ok: false, touched: false, sent: null }; draw(); var i = md.el.querySelector('[data-w="phone"]'); if (i) i.focus(); }
+      else if (k === 'open') { var id = b.getAttribute('data-id'); md.close(); mode = 'kasir'; sel = id; q = ''; renderTablet(); }
+      else if (k === 'otp') { md.close(); ACT.joinOtp(); }
+    });
+    joinMd = { refresh: draw };
+    draw();
+  };
+
+  /* ── Second option: join at the till with a code (phone or email) ── */
+  ACT.joinOtp = function () {
     var st = { tab: 'phone', name: 'Dimas Aryo', phone: '081355508812', email: '', consent: false, step: 1, code: '' };
     var md = P.modal({ host: ts(), title: T('Daftarkan member baru'), desc: T('Member mendaftar di kasir dengan nomor HP atau email.'), width: 520 });
     function draw() {
@@ -266,7 +317,7 @@
     var old = el.querySelector('.checkin-pop'); if (old) old.remove();
     var vs = P.memberVouchers(m.id).length;
     var d = document.createElement('div'); d.className = 'checkin-pop'; d.setAttribute('role', 'alert');
-    d.innerHTML = '<div class="row between"><span class="tag tag-success">' + ic('map-pin', 14) + T('Check-in baru') + '</span><span class="t-small muted">' + P.ago(c.at) + '</span></div>' +
+    d.innerHTML = '<div class="row between">' + (c.via === 'wa' ? '<span class="tag tag-wa">' + ic('brand-whatsapp', 14) + T('Daftar via WhatsApp') + '</span>' : '<span class="tag tag-success">' + ic('map-pin', 14) + T('Check-in baru') + '</span>') + '<span class="t-small muted">' + P.ago(c.at) + '</span></div>' +
       '<div class="row" style="--gap:12px">' + P.avatar(m, 44, 'ring') + '<div class="stack grow" style="--gap:2px"><span class="t-h3">' + esc(m.name.split(' ')[0]) + ' · ' + P.tierOf(m).name + '</span><span class="t-small sec num">' + T('{n} poin', { n: P.num(m.points) }) + ' · ' + T('{n} voucher aktif', { n: vs }) + (c.isNew ? ' · ' + T('member baru') : '') + '</span></div></div>' +
       '<div class="row"><button type="button" class="btn btn-primary btn-sm grow" data-act="openCi" data-id="' + m.id + '">' + T('Buka member') + '</button><button type="button" class="btn btn-ghost btn-sm" data-act="closeCi">' + T('Nanti') + '</button></div>';
     el.appendChild(d); c.seen = true; P.save();
@@ -389,11 +440,11 @@
 
   P.onLang = render;
   P.onBrand = function () {
-    cart = []; posMember = null; posVoucher = null; posPoints = 0; posCat = P.BRAND.cats[0][0];
+    cart = []; posMember = null; posVoucher = null; posPoints = 0; posCat = P.BRAND.cats[0][0]; joinMd = null;
     document.querySelectorAll('.overlay').forEach(function (o) { o.remove(); });
     render();
   };
-  P.onSync = function () { if (document.querySelector('.overlay')) return; renderTablet(); checkUnseen(); };
+  P.onSync = function () { if (joinMd) { joinMd.refresh(); renderTablet(); return; } if (document.querySelector('.overlay')) return; renderTablet(); checkUnseen(); };
   render();
   setTimeout(function () {
     if (checkUnseen()) return;

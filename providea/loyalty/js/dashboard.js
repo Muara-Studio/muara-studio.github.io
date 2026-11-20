@@ -34,9 +34,9 @@
   var NAV = [
     { items: [['ringkasan', 'layout-dashboard', 'Ringkasan'], ['member', 'users', 'Member'], ['segmen', 'target', 'Segmen']] },
     { label: 'Program', items: [['tier', 'crown', 'Tier dan poin'], ['voucher', 'ticket', 'Voucher'], ['kampanye', 'speakerphone', 'Kampanye']] },
-    { label: 'Bisnis', items: [['outlet', 'building-store', 'Outlet dan staf']] }
+    { label: 'Bisnis', items: [['outlet', 'building-store', 'Outlet dan staf'], ['whatsapp', 'brand-whatsapp', 'WhatsApp']] }
   ];
-  var TITLES = { ringkasan: 'Ringkasan', member: 'Member', segmen: 'Segmen', tier: 'Tier dan poin', voucher: 'Voucher', kampanye: 'Kampanye', outlet: 'Outlet dan staf' };
+  var TITLES = { ringkasan: 'Ringkasan', member: 'Member', segmen: 'Segmen', tier: 'Tier dan poin', voucher: 'Voucher', kampanye: 'Kampanye', outlet: 'Outlet dan staf', whatsapp: 'WhatsApp' };
   function render() {
     var r = route(), page = PAGES[r.page] ? r.page : 'ringkasan';
     var sub = r.id && page === 'member' && P.member(r.id) ? esc(P.member(r.id).name) : r.id === 'baru' ? T('Kampanye baru') : '';
@@ -137,7 +137,7 @@
       '<div class="npanel"><div class="npanel-body pad-none"><div class="dtable-wrap"><table class="dtable"><thead><tr><th>' + T('Member') + '</th><th>' + T('Tier') + '</th><th class="al-right">' + T('Poin') + '</th><th class="al-right hide-m">' + T('Belanja 12 bulan') + '</th><th class="al-right hide-m">' + T('Kunjungan') + '</th><th class="hide-m">' + T('Terakhir datang') + '</th><th class="hide-m">' + T('Segmen') + '</th><th class="hide-m">' + T('Izin promo') + '</th></tr></thead><tbody>' +
       (list.length ? list.map(function (m) {
         var t = P.tierOf(m);
-        return '<tr class="is-clickable" data-act="openM" data-id="' + m.id + '"><td><span class="m-cell">' + P.avatar(m, 32) + '<span class="m-cell-text"><span class="t-strong">' + esc(m.name) + '</span><span class="t-small sec num">' + (P.maskPhone(m.phone) || esc(m.email)) + '</span></span></span></td><td>' + P.tierTag(t, true) + (m.override ? ' <span class="tag tag-outline tag-sm">' + T('manual') + '</span>' : '') + '</td><td class="al-right num">' + P.num(m.points) + '</td><td class="al-right num hide-m">' + P.rp(m.spend) + '</td><td class="al-right num hide-m">' + m.visits + '</td><td class="hide-m">' + P.ago(m.last) + '</td><td class="hide-m">' + P.segTag(P.segOf(m)) + (P.isTop(m) ? ' <span class="tag tag-brand tag-sm">Top 10%</span>' : '') + '</td><td class="hide-m"><span class="row" style="--gap:6px">' + (m.promoWa ? '<span class="ch ch-wa">' + ic('brand-whatsapp', 12) + 'WA</span>' : '') + (m.promoEmail ? '<span class="ch ch-email">' + ic('mail', 12) + T('Email') + '</span>' : '') + (!m.promoWa && !m.promoEmail ? '<span class="t-small muted">' + T('Tidak') + '</span>' : '') + '</span></td></tr>';
+        return '<tr class="is-clickable" data-act="openM" data-id="' + m.id + '"><td><span class="m-cell">' + P.avatar(m, 32) + '<span class="m-cell-text"><span class="t-strong">' + esc(m.name) + '</span><span class="t-small sec num">' + (P.maskPhone(m.phone) || esc(m.email)) + '</span></span></span></td><td>' + P.tierTag(t, true) + (m.override ? ' <span class="tag tag-outline tag-sm">' + T('manual') + '</span>' : '') + (m.pending ? ' <span class="tag tag-wa tag-sm">' + T('Diundang') + '</span>' : '') + '</td><td class="al-right num">' + P.num(m.points) + '</td><td class="al-right num hide-m">' + P.rp(m.spend) + '</td><td class="al-right num hide-m">' + m.visits + '</td><td class="hide-m">' + P.ago(m.last) + '</td><td class="hide-m">' + P.segTag(P.segOf(m)) + (P.isTop(m) ? ' <span class="tag tag-brand tag-sm">Top 10%</span>' : '') + '</td><td class="hide-m"><span class="row" style="--gap:6px">' + (m.promoWa ? '<span class="ch ch-wa">' + ic('brand-whatsapp', 12) + 'WA</span>' : '') + (m.promoEmail ? '<span class="ch ch-email">' + ic('mail', 12) + T('Email') + '</span>' : '') + (!m.promoWa && !m.promoEmail ? '<span class="t-small muted">' + T('Tidak') + '</span>' : '') + '</span></td></tr>';
       }).join('') : '<tr><td colspan="8" class="dtable-empty">' + T('Tidak ada member yang cocok dengan filter ini.') + '</td></tr>') + '</tbody></table></div></div></div>';
   };
   AFTER.member = function (r) {
@@ -318,7 +318,7 @@
     var c = comp, R = reach(c), ppn = R.waCost * PPN, prev = c.ch[c.prev] ? c.prev : (c.ch.wa ? 'wa' : c.ch.email ? 'email' : 'wallet');
     var rina = P.member('m-rina'), bn = esc(P.BRAND.name);
     var msg = esc(c.msg.replace(/\{(nama|name)\}/g, 'Rina').replace(/\{(poin|points)\}/g, rina ? P.num(rina.points) : '186').replace(/\{tier\}/g, rina ? P.tierOf(rina).name : ''));
-    var preview = prev === 'wa' ? '<div class="wa-preview"><div class="t-small center sec">' + T('Kamtono · akun bisnis') + '</div><div class="wa-bubble"><b>' + bn + '</b><span>' + msg + '</span>' + (c.voucher ? '<span class="t-small sec">' + T('Voucher: {v}', { v: T(c.voucher) }) + '</span><span class="wa-btn">' + T('Lihat voucher') + '</span>' : '') + '<span class="t-small muted" style="align-self:flex-end">09.00</span></div><div class="wa-bubble" style="opacity:.7"><span class="t-small">' + T('Balas BERHENTI untuk tidak menerima promo.') + '</span></div></div>'
+    var preview = prev === 'wa' ? '<div class="wa-preview"><div class="row" style="justify-content:center;--gap:6px"><span class="t-small sec">Providea Loyalty</span>' + window.PLWA.chip() + '</div><div class="wa-bubble"><b>' + bn + '</b><span>' + msg + '</span>' + (c.voucher ? '<span class="t-small sec">' + T('Voucher: {v}', { v: T(c.voucher) }) + '</span><span class="wa-btn">' + T('Lihat voucher') + '</span>' : '') + '<span class="t-small muted" style="align-self:flex-end">09.00</span></div><div class="wa-bubble" style="opacity:.7"><span class="t-small">' + T('Balas BERHENTI untuk tidak menerima promo.') + '</span></div></div>'
       : prev === 'email' ? '<div class="card pad-md stack" style="--gap:8px"><span class="t-small sec">' + T('Dari: Kamtono') + '</span><b>' + esc(c.name) + '</b><p class="sec" style="white-space:pre-wrap">' + msg + '</p>' + (c.voucher ? '<span class="btn btn-primary btn-sm" style="align-self:flex-start">' + T('Lihat voucher') + '</span>' : '') + '<span class="t-small muted">' + T('Berhenti berlangganan') + '</span></div>'
         : '<div class="wa-preview" style="background:linear-gradient(160deg,#2b2b29,#0f0f0e);justify-content:center"><div class="pnotif" style="position:static;animation:none"><span class="pnotif-app is-wallet">' + ic('wallet', 20) + '</span><span class="stack grow" style="--gap:2px"><b>' + bn + '</b><span class="t-small">' + msg.slice(0, 120) + (msg.length > 120 ? '…' : '') + '</span></span></div></div>';
     return pageHead(T('Kampanye baru'), T('Pilih segmen dan saluran. Biaya terlihat sebelum dikirim.'), '', ['#/kampanye', T('Kampanye')]) +
@@ -366,6 +366,49 @@
     };
   };
 
+  /* ── WhatsApp (Cloud API, Providea Loyalty's own number) ── */
+  var WA_USED = 318, WA_LIMIT = 2000;
+  PAGES.whatsapp = function () {
+    var W = window.PLWA, b = P.BRAND, pct = WA_USED / WA_LIMIT * 100;
+    function cost(label, hint, val, unit) { return '<div class="lv-row"><span class="lv-label">' + label + '<span class="lv-hint">' + hint + '</span></span><span class="lv-value num">' + val + (unit ? '<span class="unit-pill">' + unit + '</span>' : '') + '</span></div>'; }
+    var sender = '<div class="wa-sender">' + W.avatar(44, 'is-solid') + '<span class="stack" style="--gap:4px"><span class="t-strong">Providea Loyalty</span>' + W.chip() + '</span></div>' +
+      '<div class="lv-list mt-12"><div class="lv-row"><span class="lv-label">' + T('Nomor') + '</span><span class="lv-value">' + T('Nomor bersama Providea Loyalty') + '</span></div>' +
+      '<div class="lv-row"><span class="lv-label">' + T('Status') + '</span><span class="lv-value"><span class="tag tag-success tag-sm"><span class="tag-dot"></span>' + T('Aktif') + '</span></span></div>' +
+      '<div class="lv-row"><span class="lv-label">' + T('Kualitas pesan') + '</span><span class="lv-value"><span class="tag tag-success tag-sm">' + T('Tinggi') + '</span></span></div>' +
+      '<div class="lv-row"><span class="lv-label">' + T('Nama di isi pesan') + '</span><span class="lv-value">' + esc(b.name) + '</span></div></div>';
+    var limit = stat(P.num(WA_LIMIT), T('per 24 jam'), T('Batas kirim pesan template')) +
+      '<div class="pbar mt-16"><span style="width:' + pct.toFixed(1) + '%"></span></div>' +
+      '<div class="wa-limit-row mt-8"><span class="sec">' + T('Terpakai hari ini') + '</span><span class="num t-strong">' + P.num(WA_USED) + ' / ' + P.num(WA_LIMIT) + '</span></div>' +
+      '<div class="wa-limit-row mt-8"><span class="sec">' + T('Sisa') + '</span><span class="num">' + P.num(WA_LIMIT - WA_USED) + '</span></div>' +
+      '<p class="t-small muted mt-12">' + T('Dihitung dari jumlah penerima pesan template dalam 24 jam. Angka contoh.') + '</p>';
+    var costs = '<div class="lv-list wa-cost">' + cost('Utility', T('Undangan daftar, notifikasi poin'), 'Rp357', T('per pesan')) + cost('Authentication', T('Kode untuk masuk'), 'Rp357', T('per pesan')) + cost('Marketing', T('Promo kampanye'), 'Rp586', T('per pesan')) +
+      cost(T('Balasan untuk pesan member'), T('dalam 24 jam'), T('Gratis')) + '</div>' +
+      '<p class="t-small muted mt-12">' + T('Sebelum PPN 11%. Dibulatkan dari tarif WhatsApp untuk Indonesia: Rp356,65 dan Rp586,33 per pesan.') + '</p>';
+    var TPL = [
+      ['Undangan daftar', 'Utility', T('Lengkapi pendaftaran member Kamtono')],
+      ['Kode untuk masuk', 'Authentication', T('{c} adalah kode verifikasi kamu. Demi keamanan, jangan bagikan kode ini.', { c: W.code }) + ' ' + T('Berlaku 10 menit.')],
+      ['Notifikasi poin', 'Utility', T('Poin bertambah {n}. Saldo kamu {s} poin.', { n: 4, s: 190 })],
+      ['Promo kampanye', 'Marketing', T('Dibuat dari menu Kampanye, satu template per kampanye.'), 1]
+    ];
+    var tpl = '<div class="dtable-wrap"><table class="dtable wa-tpl"><thead><tr><th>' + T('Template') + '</th><th>' + T('Kategori') + '</th><th class="hide-m">' + T('Contoh isi') + '</th><th>' + T('Status') + '</th></tr></thead><tbody>' +
+      TPL.map(function (t) { var ex = esc(t[2]); return '<tr><td class="t-strong">' + T(t[0]) + '</td><td><span class="tag tag-outline tag-sm">' + t[1] + '</span></td><td class="hide-m"><span class="wa-ex" title="' + ex + '">' + ex + '</span></td><td>' + (t[3] ? '<span class="tag tag-info tag-sm">' + T('Per kampanye') + '</span>' : '<span class="tag tag-success tag-sm">' + T('Disetujui') + '</span>') + '</td></tr>'; }).join('') + '</tbody></table></div>';
+    var FLOWS = [
+      ['user-plus', 'Daftar via WhatsApp', T('Member mengirim {kw}. Tanpa OTP.', { kw: W.kwJoin() }), T('Gratis'), 'anggota.html#/wa'],
+      ['send', 'Undangan dari kasir', T('Kasir mengetik nomor, pelanggan setuju. Template utility.'), 'Rp357', 'kasir.html'],
+      ['login', 'Masuk lewat WhatsApp', T('Member mengirim kode {kw}.', { kw: W.kwLogin() }), T('Gratis'), 'anggota.html#/masuk'],
+      ['message-2', 'Kode OTP', T('Cara kedua untuk masuk. Template authentication.'), 'Rp357', 'anggota.html#/masuk']
+    ];
+    var flows = FLOWS.map(function (f) { return '<div class="wa-flow"><span class="int-ic">' + ic(f[0], 18) + '</span><span class="wa-flow-main"><a class="t-strong link-quiet" href="' + f[4] + '">' + T(f[1]) + '</a><span class="t-small sec">' + esc(f[2]) + '</span></span><span class="wa-flow-val">' + f[3] + '</span></div>'; }).join('') +
+      '<p class="t-small muted mt-8">' + T('Biaya per pesan, sebelum PPN 11%.') + '</p>';
+    tpl += '<p class="t-small muted mt-12">' + T('Isi pesan memakai nama merek dan data member. Contoh di atas memakai data contoh.') + '</p>';
+    return pageHead(T('WhatsApp'), T('Pesan ke member dikirim lewat WhatsApp Cloud API resmi, dari nomor Providea Loyalty.'), btn(T('Kirim pesan tes'), 'send', 'data-act="waTest"')) +
+      '<div class="dash-3 eq-row">' + npanel(T('Pengirim'), 'brand-whatsapp', sender) + npanel(T('Batas kirim harian'), 'gauge', limit) + npanel(T('Biaya per pesan'), 'cash', costs) + '</div>' +
+      '<div class="dash-2 eq-row mt-16">' + npanel(T('Template pesan'), 'template', tpl, '<span class="t-small sec">' + T('Disetujui WhatsApp sebelum dipakai') + '</span>', '', TPL.length) + npanel(T('Alur member lewat WhatsApp'), 'route', flows) + '</div>' +
+      '<div class="npanel mt-16"><div class="npanel-body pad-md"><div class="wa-next"><span class="int-ic">' + ic('building-store', 18) + '</span><span class="stack grow" style="--gap:4px"><span class="row wrap" style="--gap:8px"><span class="t-strong">' + T('Nomor WhatsApp milik merek sendiri: tahap berikutnya') + '</span><span class="tag tag-info tag-sm">' + T('Segera') + '</span></span>' +
+      '<span class="t-small sec">' + T('Sekarang semua merek mengirim dari nomor Providea Loyalty. Nama Kamtono tetap tampil di setiap pesan.') + '</span></span></div></div></div>';
+  };
+  ACT.waTest = function () { P.toast(T('Pesan tes terkirim ke WhatsApp pemilik (demo)'), 'brand-whatsapp'); };
+
   /* ── Outlets & staff ── */
   var POS_OPT = ['POS yang sudah dipakai', 'Aplikasi kasir Providea (browser)', 'Belum ada POS'];
   var PERMS = [['Lihat ringkasan dan laporan', 1, 1, 0], ['Cari member dan tambah penjualan', 1, 1, 1], ['Pakai voucher dan bayar pakai poin', 1, 1, 1], ['Batalkan penjualan', 1, 1, 1], ['Ubah tier atau poin manual', 1, 1, 0], ['Ubah aturan dan voucher', 1, 0, 0], ['Kirim kampanye', 1, 0, 0], ['Ekspor data member', 1, 0, 0], ['Kelola staf dan outlet', 1, 0, 0]];
@@ -398,7 +441,7 @@
       '<div class="dash-2e eq-row">' + (many ? [list[0]] : list).map(function (o) {
         return outletPanel(o);
       }).join('') + npanel(T('Integrasi'), 'plug-connected', '<div>' +
-        [posRow, ['brand-whatsapp', 'WhatsApp Business', T('Nomor bisnis terverifikasi'), 'success'], ['brand-apple', 'Apple Wallet', T('Aktif'), 'success'], ['wallet', 'Samsung Wallet', T('Aktif'), 'success'], ['mail', T('Email'), T('Aktif'), 'success']].map(function (x) { return '<div class="int-row"><span class="int-ic">' + ic(x[0], 18) + '</span><span class="grow t-strong">' + x[1] + '</span><span class="tag tag-' + x[3] + ' tag-sm">' + x[2] + '</span></div>'; }).join('') + '</div>') + '</div>' +
+        [posRow, ['brand-whatsapp', '<a class="link-quiet" href="#/whatsapp">WhatsApp</a>', T('Nomor Providea Loyalty · aktif'), 'success'], ['brand-apple', 'Apple Wallet', T('Aktif'), 'success'], ['wallet', 'Samsung Wallet', T('Aktif'), 'success'], ['mail', T('Email'), T('Aktif'), 'success']].map(function (x) { return '<div class="int-row"><span class="int-ic">' + ic(x[0], 18) + '</span><span class="grow t-strong">' + x[1] + '</span><span class="tag tag-' + x[3] + ' tag-sm">' + x[2] + '</span></div>'; }).join('') + '</div>') + '</div>' +
       (many ? outletTable(list) : '') +
       '<div class="npanel mt-16"><header class="npanel-head"><span class="npanel-title">' + ic('users', 16) + T('Staf') + '<span class="npanel-count num">' + P.S.staff.length + '</span></span></header><div class="npanel-body pad-none"><div class="dtable-wrap"><table class="dtable"><thead><tr><th>' + T('Nama') + '</th><th>' + T('Peran') + '</th><th class="hide-m">' + T('Outlet') + '</th><th class="hide-m">' + T('Target daftar bulan ini') + '</th><th class="hide-m">' + T('Terakhir masuk') + '</th></tr></thead><tbody>' +
         P.S.staff.map(function (s) { var r = ROLES[s.role]; return '<tr><td><span class="m-cell"><span class="avatar avatar-neutral" style="width:32px;height:32px;font-size:12px">' + P.initials(s.name) + '</span><span class="t-strong">' + esc(s.name) + '</span></span></td><td><span class="tag tag-' + r[1] + ' tag-sm">' + T(r[0]) + '</span></td><td class="hide-m">' + esc(T(s.outlet)) + '</td><td class="hide-m">' + (s.joins ? '<span class="row" style="--gap:8px;min-width:140px"><span class="pbar grow" style="height:6px"><span style="width:' + Math.min(100, s.joins[0] / s.joins[1] * 100) + '%"></span></span><span class="num t-small">' + s.joins[0] + '/' + s.joins[1] + '</span></span>' : '–') + '</td><td class="hide-m">' + (s.last ? P.ago(s.last) : T('Undangan terkirim')) + '</td></tr>'; }).join('') + '</tbody></table></div></div></div>' +

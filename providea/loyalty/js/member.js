@@ -9,17 +9,25 @@
   var draft = { name: 'Nadia Putri', phone: '081312345678', email: 'nadia.putri@example.com', bday: '', consent: true, promo: false, age: true };
   try { var jp = sessionStorage.getItem('pl-join-phone'); if (jp) { draft.phone = jp[0] === '0' ? jp : '0' + jp.replace(/^62/, ''); sessionStorage.removeItem('pl-join-phone'); } } catch (e) {}
   var joinTab = 'phone', otp = '', vTab = 'mine', walletTab = 'apple', checkDone = false, qrTimer = null, notifTimer = null;
+  /* WhatsApp scheme (js/wa.js): the member sends from their own WhatsApp to the Providea Loyalty number (Cloud API) */
+  var W = window.PLWA, joinOpen = false, waBack = '', waTimer = null, waS = {}, loginVia = 'wa', signInAs = 'm-rina', cs = null;
+  draft.lphone = '081288304471';
+  var WA_ROUTES = { wa: 'daftar', undangan: 'invite', 'masuk-wa': 'masuk', 'wa-kode': 'otp' };
 
   var STEPS = [
-    { g: 'Member baru', items: [['scan', 'Pindai QR di meja kasir'], ['join', 'Daftar pakai nomor HP atau email'], ['otp', 'Masukkan kode dari WhatsApp'], ['welcome', 'Kartu member baru']] },
+    { g: 'Member baru · lewat WhatsApp', items: [['scan', 'Pindai QR Daftar via WhatsApp'], ['wa', 'Kirim pesan, dapat tautan kartu'], ['welcome', 'Kartu member baru']] },
+    { g: 'Cara lain', items: [['join', 'Halaman daftar merek'], ['otp', 'Daftar pakai kode OTP'], ['undangan', 'Undangan WhatsApp dari kasir'], ['masuk', 'Masuk ke halaman member']] },
     { g: 'Member lama · Rina (Gold)', items: [['checkin', 'Check-in dari QR meja kasir'], ['home', 'Kartu, poin, stempel, tier'], ['voucher', 'Voucher, tukar poin, bayar pakai poin'], ['riwayat', 'Riwayat'], ['wallet', 'Kartu di Apple / Samsung Wallet'], ['promo', 'Kotak promo'], ['akun', 'Akun dan data pribadi']] }
   ];
   var NOTES = {
-    scan: ['Pindai, tanpa unduh aplikasi', 'Pelanggan memindai QR di standee meja kasir dengan kamera HP. Halaman member Kamtono terbuka di browser.', ['QR yang sama dipakai untuk daftar dan untuk check-in', 'Jalan di HP Android murah dan iPhone', 'Kasir juga bisa mendaftarkan member dari tablet']],
-    join: ['Daftar dalam 30 detik', 'Cukup nomor HP (WhatsApp) atau email. Nama dan tanggal lahir membantu hadiah ulang tahun.', ['Persetujuan syarat terpisah dari izin promo', 'Cek usia sebelum daftar', 'Data disimpan di Jakarta, sesuai UU PDP']],
-    otp: ['Kode lewat WhatsApp', 'Kode 6 angka dikirim lewat WhatsApp. Member yang daftar pakai email mendapat kode lewat email.', ['Pesan kode memakai tarif WhatsApp utility, sekitar Rp357 sebelum PPN', 'Ketuk notifikasi untuk mengisi kode']],
+    scan: ['QR Daftar via WhatsApp', 'Pelanggan memindai QR di standee meja kasir dengan kamera HP. WhatsApp terbuka dengan pesan pendaftaran yang sudah terisi.', ['Tanpa unduh aplikasi dan tanpa isi formulir', 'Pesan masuk ke nomor resmi Providea Loyalty lewat WhatsApp Cloud API', 'QR kecil di bawahnya untuk check-in member lama']],
+    wa: ['Kirim satu pesan', 'Pelanggan cukup menekan kirim. Nomornya langsung terverifikasi karena pesan datang dari nomor itu. Balasan berisi tautan kartu member.', ['Nomor terverifikasi otomatis, tanpa OTP', 'Balasan untuk pesan dari pelanggan tidak kena biaya WhatsApp', 'Member baru langsung muncul di tablet kasir']],
+    join: ['Halaman daftar merek', 'Untuk pelanggan yang datang dari Instagram atau tautan. Tombol utama membuka WhatsApp. Nomor HP atau email tetap bisa dipakai.', ['Persetujuan syarat terpisah dari izin promo', 'Cek usia sebelum daftar', 'Data disimpan di Jakarta, sesuai UU PDP']],
+    otp: ['Daftar pakai kode', 'Cara kedua: kode 6 angka dikirim lewat WhatsApp. Member yang daftar pakai email mendapat kode lewat email.', ['Pesan kode memakai tarif WhatsApp authentication, sekitar Rp357 sebelum PPN', 'Ketuk notifikasi untuk mengisi kode']],
+    undangan: ['Undangan dari kasir', 'Kasir mengetik nomor pelanggan dan mencentang persetujuan. Pelanggan menerima pesan WhatsApp untuk melengkapi pendaftaran.', ['Pesan template utility, sekitar Rp357 sebelum PPN', 'Poin bisa masuk sejak pembelian pertama', 'Pelanggan mengisi nama dan persetujuan sendiri']],
+    masuk: ['Masuk tanpa SMS', 'Member yang ganti HP atau keluar bisa masuk lagi. Cara utama: kirim kode lewat WhatsApp, halaman langsung masuk.', ['Pesan dari member tidak kena biaya', 'Cara kedua: kode OTP lewat WhatsApp, berlaku 10 menit', 'Cara ketiga: kode lewat email']],
     welcome: ['Langsung jadi member', 'Member baru mulai di Silver dan langsung dapat voucher sambutan. Kasir bisa menambah poin pada pembelian pertama.', ['Pesan sambutan terkirim lewat WhatsApp', 'Member baru muncul di dashboard pemilik']],
-    checkin: ['Check-in di kasir', 'Member lama memindai QR yang sama di meja kasir. Tablet kasir langsung menampilkan "Rina · Gold".', ['Kasir tidak perlu mengetik nomor HP', 'Voucher yang bisa dipakai ikut tampil di kasir']],
+    checkin: ['Check-in di kasir', 'Member lama memindai QR check-in di standee yang sama. Tablet kasir langsung menampilkan "Rina · Gold".', ['Kasir tidak perlu mengetik nomor HP', 'Voucher yang bisa dipakai ikut tampil di kasir']],
     home: ['Kartu member', 'Satu halaman berisi QR member, poin, stempel, tier, dan voucher.', ['@mult', 'Naik tier otomatis begitu belanja 12 bulan melewati batas', 'QR berganti tiap 30 detik, jadi tangkapan layar tidak bisa dipakai']],
     voucher: ['Voucher sekali pakai', 'Setiap voucher punya QR dan kode sendiri. Setelah dipakai di kasir, voucher tidak bisa dipakai lagi.', ['Tukar poin jadi voucher di katalog', 'Bayar pakai poin di kasir: 1 poin = Rp500', 'Voucher bisa dikunci untuk tier tertentu']],
     riwayat: ['Semua tercatat', 'Penjualan, poin, stempel, voucher, naik tier, dan pembatalan tercatat dengan waktu dan outlet.', ['Penjualan yang dibatalkan kasir mengurangi poin lagi']],
@@ -33,12 +41,12 @@
   function me() { return P.member(P.S.me) || P.member('m-rina'); }
   function first(n) { return n.split(' ')[0]; }
   function unread(m) { return P.S.inbox.filter(function (i) { return i.memberId === m.id && !i.read; }).length; }
-  function go(r) { route = r; if (location.hash !== '#/' + r) history.replaceState(null, '', '#/' + r); render(); }
+  function go(r) { clearTimeout(waTimer); route = r; if (location.hash !== '#/' + r) history.replaceState(null, '', '#/' + r); render(); }
 
   /* ── layout ── */
   function render() {
     clearTimeout(notifTimer);
-    if (['checkin', 'home', 'voucher', 'riwayat', 'wallet', 'promo', 'akun'].indexOf(route) >= 0 && P.S.me !== 'm-rina' && stepGroup(route) === 1 && !userPickedNew) { P.S.me = 'm-rina'; P.save(); }
+    if (['checkin', 'home', 'voucher', 'riwayat', 'wallet', 'promo', 'akun'].indexOf(route) >= 0 && P.S.me !== 'm-rina' && isOld(route) && !userPickedNew) { P.S.me = 'm-rina'; P.save(); }
     app.innerHTML = '<div class="mv">' +
       '<aside class="mv-steps"><div class="npanel"><div class="npanel-head"><span class="npanel-title">' + ic('route', 16) + T('Alur demo') + '</span></div><div class="npanel-body pad-sm"><div class="steps">' +
       STEPS.map(function (g) {
@@ -52,14 +60,17 @@
     renderPhone(); renderNotes();
   }
   var userPickedNew = false;
-  function stepGroup(r) { return STEPS[1].items.some(function (s) { return s[0] === r; }) ? 1 : 0; }
-  function stepNo(r) { var all = STEPS[0].items.concat(STEPS[1].items); for (var i = 0; i < all.length; i++) if (all[i][0] === r) return i + 1; return ''; }
-  function activeStep() { return route === 'home' && P.S.me !== 'm-rina' ? 'welcome' : route; }
+  /* the last group is the existing member (Rina); the others are ways in for a new member */
+  function isOld(r) { return STEPS[STEPS.length - 1].items.some(function (s) { return s[0] === r; }); }
+  function stepNo(r) { var all = [].concat.apply([], STEPS.map(function (g) { return g.items; })); for (var i = 0; i < all.length; i++) if (all[i][0] === r) return i + 1; return ''; }
+  var SUB = { 'masuk-wa': 'masuk', 'masuk-kode': 'masuk', 'wa-kode': 'masuk' };
+  function activeStep() { return route === 'home' && P.S.me !== 'm-rina' ? 'welcome' : (SUB[route] || route); }
 
   function renderNotes() {
     var k = activeStep(), n = NOTES[k] || NOTES.home;
     var links = '';
-    if (k === 'checkin' || k === 'voucher') links = '<a class="btn btn-secondary btn-sm" href="kasir.html">' + ic('device-tablet', 16) + '<span class="btn-label">' + T('Lihat di layar kasir') + '</span></a>';
+    if (k === 'checkin' || k === 'voucher' || k === 'wa' || k === 'undangan') links = '<a class="btn btn-secondary btn-sm" href="kasir.html">' + ic('device-tablet', 16) + '<span class="btn-label">' + T('Lihat di layar kasir') + '</span></a>' + (k === 'wa' || k === 'undangan' ? '<a class="btn btn-secondary btn-sm" href="dashboard.html#/whatsapp">' + ic('brand-whatsapp', 16) + '<span class="btn-label">' + T('Pengaturan WhatsApp') + '</span></a>' : '');
+    else if (k === 'masuk') links = '<a class="btn btn-secondary btn-sm" href="dashboard.html#/whatsapp">' + ic('brand-whatsapp', 16) + '<span class="btn-label">' + T('Pengaturan WhatsApp') + '</span></a>';
     else if (k === 'welcome' || k === 'home' || k === 'riwayat' || k === 'akun') links = '<a class="btn btn-secondary btn-sm" href="dashboard.html#/member/' + me().id + '">' + ic('layout-dashboard', 16) + '<span class="btn-label">' + T('Lihat di dashboard') + '</span></a>';
     else if (k === 'promo') links = '<a class="btn btn-secondary btn-sm" href="dashboard.html#/kampanye">' + ic('speakerphone', 16) + '<span class="btn-label">' + T('Kirim promo dari dashboard') + '</span></a>';
     document.getElementById('notes').innerHTML = '<div class="npanel"><div class="npanel-head"><span class="npanel-title">' + ic('info-circle', 16) + T('Yang terjadi') + '</span></div><div class="npanel-body pad-md"><div class="note-body">' +
@@ -73,11 +84,12 @@
     clearInterval(qrTimer);
     var ps = document.getElementById('ps'); if (!ps) return;
     var r = route === 'welcome' ? 'home' : route;
-    var dark = DARK[route] && !(route === 'checkin' && checkDone);
+    var dark = DARK[route] && !(route === 'checkin' && checkDone), isWa = !!WA_ROUTES[r];
     var body = (SCR[r] || SCR.home)();
     var tabs = ['home', 'voucher', 'riwayat', 'promo', 'akun', 'wallet'].indexOf(r) >= 0;
-    ps.style.setProperty('--st-bg', dark ? '#121211' : 'var(--bg-canvas)');
-    ps.innerHTML = '<div class="ps-status" style="background:var(--st-bg);' + (dark ? 'color:#fff' : '') + '"><span class="num">09.41</span><span class="ps-island"></span><span class="ps-sig">' + ic('wifi', 16) + '<svg width="24" height="12" viewBox="0 0 24 12" aria-hidden="true"><rect x="0.5" y="0.5" width="20" height="11" rx="3" fill="none" stroke="currentColor" opacity=".5"/><rect x="2" y="2" width="14" height="8" rx="1.5" fill="currentColor"/><rect x="21.5" y="4" width="1.5" height="4" rx=".75" fill="currentColor" opacity=".5"/></svg></span></div>' +
+    ps.style.setProperty('--st-bg', isWa ? 'var(--wa-head)' : dark ? '#121211' : 'var(--bg-canvas)');
+    ps.classList.toggle('is-wa', isWa);
+    ps.innerHTML = '<div class="ps-status" style="background:var(--st-bg);' + (dark || isWa ? 'color:#fff' : '') + '"><span class="num">09.41</span><span class="ps-island"></span><span class="ps-sig">' + ic('wifi', 16) + '<svg width="24" height="12" viewBox="0 0 24 12" aria-hidden="true"><rect x="0.5" y="0.5" width="20" height="11" rx="3" fill="none" stroke="currentColor" opacity=".5"/><rect x="2" y="2" width="14" height="8" rx="1.5" fill="currentColor"/><rect x="21.5" y="4" width="1.5" height="4" rx=".75" fill="currentColor" opacity=".5"/></svg></span></div>' +
       '<div class="ps-body" id="psb">' + body + '</div>' + (tabs ? tabbar(r) : '') + '<div class="ps-layer" id="psl"></div>';
     afterRender(r);
   }
@@ -96,13 +108,81 @@
 
   /* ── screens ── */
   var SCR = {};
-  function camera(pillAct, pillText) {
+  /* counter standee: the big QR opens WhatsApp with the sign-up message (new members); the small one is the check-in
+     QR for existing members. The yellow ring shows which code the camera has picked up. */
+  function camera(mode) {
+    var wa = mode === 'join';
     return '<div class="cam"><div class="cam-hint">' + T('Arahkan kamera ke QR di meja kasir') + '</div>' +
-      '<div class="cam-frame"><div class="standee">' + P.wordmark(44, 'light') + '<span class="t-small">' + T('Jadi member atau check-in') + '</span>' + P.qr('counter-' + P.brand()) + '<span class="t-caption">' + T('Outlet Cempaka') + '</span></div><span class="scanline"></span></div>' +
-      '<button type="button" class="cam-pill" data-act="' + pillAct + '">' + ic('world', 18) + '<span>' + esc(P.BRAND.domain) + '</span><span style="opacity:.7">' + pillText + '</span>' + ic('chevron-right', 16) + '</button>' +
-      '<div class="cam-hint">' + T('Ketuk tautan kuning untuk membuka halaman member') + '</div></div>';
+      '<div class="cam-frame"><div class="standee">' + P.wordmark(40, 'light') +
+      '<span class="std-chip">' + ic('brand-whatsapp', 15) + '<span>' + T('Daftar via WhatsApp') + '</span></span>' +
+      '<span class="std-qr' + (wa ? ' is-target' : '') + '">' + P.qr('wa-daftar-' + P.brand()) + '</span>' +
+      '<span class="t-small">' + T('Kirim satu pesan, kartu langsung aktif') + '</span>' +
+      '<span class="std-sub"><span class="std-qr-sm' + (!wa ? ' is-target' : '') + '">' + P.qr('counter-' + P.brand()) + '</span><span class="t-small">' + T('Sudah member? Pindai untuk check-in') + '</span></span>' +
+      '<span class="t-caption">' + T('Outlet Cempaka') + '</span></div><span class="scanline"></span></div>' +
+      (wa ? '<button type="button" class="cam-pill" data-act="openWaJoin">' + ic('brand-whatsapp', 18) + '<span>' + T('Daftar via WhatsApp') + '</span><span style="opacity:.7">' + T('Buka') + '</span>' + ic('chevron-right', 16) + '</button>'
+        : '<button type="button" class="cam-pill" data-act="doCheckin">' + ic('world', 18) + '<span>' + esc(P.BRAND.domain) + '</span><span style="opacity:.7">' + T('Check-in') + '</span>' + ic('chevron-right', 16) + '</button>') +
+      '<div class="cam-hint">' + (wa ? T('Ketuk tautan kuning untuk membuka WhatsApp') : T('Ketuk tautan kuning untuk membuka halaman member')) + '</div></div>';
   }
-  SCR.scan = function () { return camera('openJoin', T('Buka')); };
+  SCR.scan = function () { return camera('join'); };
+
+  /* ── WhatsApp screens (a simplified illustration, see js/wa.js) ── */
+  function wst(kind) { return waS[kind] || (waS[kind] = { sent: false, typing: false, replied: false }); }
+  function resetWa(kind) { waS[kind] = { sent: false, typing: false, replied: false }; }
+  function tick(read) { return '<span class="wa-meta">' + P.ftime(Date.now()) + (read == null ? '' : ic('checks', 15, read ? 'is-read' : '')) + '</span>'; }
+  function waOut(text, read) { return '<div class="wa-msg is-out"><span>' + text + '</span>' + tick(!!read) + '</div>'; }
+  function waIn(o) {
+    return '<div class="wa-msg is-in">' + (o.head ? '<span class="wa-h">' + o.head + '</span>' : '') + '<span class="wa-txt">' + o.body + '</span>' + (o.foot ? '<span class="wa-foot">' + o.foot + '</span>' : '') + tick() +
+      (o.btns ? '<span class="wa-tbtns">' + o.btns.map(function (b) { return '<button type="button" class="wa-tbtn" data-act="' + b[0] + '">' + ic(b[1], 16) + '<span>' + b[2] + '</span></button>'; }).join('') + '</span>' : '') + '</div>';
+  }
+  function waView(kind) {
+    var st = wst(kind), m = me(), thread = '', compose = '', safe = '';
+    var sendable = (kind === 'daftar' || kind === 'masuk') && !st.sent;
+    var text = kind === 'daftar' ? W.kwJoin() : kind === 'masuk' ? W.kwLogin() : '';
+    if (kind === 'daftar') {
+      if (st.sent) thread += waOut(esc(text), st.replied);
+      if (st.replied) thread += waIn({ body: T('Halo {n}, kamu sudah jadi member Kamtono. Nomor WhatsApp kamu sudah terverifikasi.', { n: esc(first(m.name)) }) + '\n\n' + T('Kartu member kamu:') + '\n<span class="wa-link">' + esc(W.link(m)) + '</span>\n\n' + T('Hadiah sambutan sudah ada di kartu.'),
+        foot: T('Dengan mendaftar, kamu setuju dengan Syarat dan Kebijakan Privasi Kamtono.'), btns: [['waOpenCard', 'external-link', T('Buka kartu member')]] });
+      safe = ic('shield-check', 14) + '<span>' + T('Nomor terverifikasi otomatis, tanpa OTP') + '</span>';
+    } else if (kind === 'masuk') {
+      if (st.sent) thread += waOut(esc(text), st.replied);
+      if (st.replied) thread += waIn({ body: T('Kamu sudah masuk ke halaman member Kamtono. Kembali ke browser untuk melihat kartu.'), btns: [['signIn', 'external-link', T('Kembali ke halaman member')]] });
+      safe = ic('lock-check', 14) + '<span>' + T('Gratis, tanpa SMS. Kode berlaku 10 menit.') + '</span>';
+    } else if (kind === 'invite') {
+      var inv = W.lastInvite(), im = inv ? P.member(inv.memberId) : null;
+      thread += waIn({ head: T('Lengkapi pendaftaran member Kamtono'), body: T('Halo {n}, nomor ini didaftarkan sebagai member Kamtono di Outlet Cempaka. Ketuk tombol di bawah untuk melengkapi pendaftaran dan melihat kartu member.', { n: esc(first(im ? im.name : 'Dimas')) }),
+        foot: T('Bukan kamu? Abaikan pesan ini.'), btns: [['waInviteOpen', 'external-link', T('Buka kartu member')]] });
+    } else if (kind === 'otp') {
+      thread += waIn({ body: T('{c} adalah kode verifikasi kamu. Demi keamanan, jangan bagikan kode ini.', { c: '<b class="num">' + W.code + '</b>' }), foot: T('Berlaku 10 menit.'), btns: [['copyCode', 'copy', T('Salin kode')]] });
+    }
+    if (st.typing && !st.replied) thread += '<div class="wa-typing" aria-label="' + T('Providea Loyalty sedang mengetik') + '"><i></i><i></i><i></i></div>';
+    compose = '<div class="wa-compose"><div class="wa-input' + (sendable ? '' : ' is-empty') + '">' + (sendable ? '<span class="wa-typed">' + esc(text) + '</span><span class="wa-caret"></span>' : '<span>' + T('Ketik pesan') + '</span>') + '</div>' +
+      '<button type="button" class="wa-send' + (sendable ? ' is-ready' : '') + '" data-act="waSend" data-k="' + kind + '" aria-label="' + T('Kirim') + '"' + (sendable ? '' : ' disabled') + '>' + ic('send', 20) + '</button></div>';
+    return '<div class="wa" data-kind="' + kind + '"><div class="wa-top"><button type="button" class="wa-back" data-act="waBack" aria-label="' + T('Kembali') + '">' + ic('arrow-left', 22) + '</button>' + W.avatar(38) +
+      '<span class="wa-who"><span class="wa-name">Providea Loyalty</span>' + W.chip() + '</span></div>' +
+      '<div class="wa-chat" id="wac"><div class="wa-note">' + ic('info-circle', 14) + '<span>' + T('Ilustrasi demo. Pesan lewat WhatsApp Cloud API resmi, dari nomor Providea Loyalty.') + '</span></div><div class="wa-day">' + T('Hari ini') + '</div>' + thread + '</div>' +
+      (safe ? '<div class="wa-safe">' + safe + '</div>' : '') + compose + '</div>';
+  }
+  SCR.wa = function () { return waView('daftar'); };
+  SCR.undangan = function () { var inv = W.lastInvite(); if (inv && !inv.seen) { inv.seen = true; inv.notified = true; P.save(); } return waView('invite'); };
+  SCR['masuk-wa'] = function () { return waView('masuk'); };
+  SCR['wa-kode'] = function () { return waView('otp'); };
+
+  /* ── sign in again (after "Keluar", or "Sudah member? Masuk") ── */
+  SCR.masuk = function () {
+    return '<div class="ps-head"><span class="ps-head-title"><span class="sj-lock">' + (P.BRAND.noHeadIcon ? '' : P.sjLogo(30)) + P.wordmark(30) + '</span></span></div>' +
+      '<div class="ps-pad" style="padding-top:8px"><div class="stack" style="--gap:4px"><h1 class="ps-title">' + T('Masuk ke kartu member') + '</h1><p class="ps-sub">' + T('Pakai nomor WhatsApp yang terdaftar di Kamtono.') + '</p></div>' +
+      '<section class="wa-login"><div class="wa-login-head"><span class="wa-login-title">' + ic('brand-whatsapp', 20) + '<span>' + T('Masuk lewat WhatsApp') + '</span></span><span class="tag tag-success tag-sm">' + T('gratis, tanpa SMS') + '</span></div>' +
+      '<p class="t-small sec">' + T('Kirim kode ini ke Providea Loyalty dari WhatsApp kamu. Halaman ini langsung masuk setelah pesan terkirim.') + '</p>' +
+      '<div class="wa-code num" aria-label="' + T('Kode masuk {c}', { c: W.code }) + '">' + W.fmtCode() + '</div>' +
+      '<button type="button" class="btn btn-wa btn-block" style="height:48px" data-act="loginWa">' + ic('brand-whatsapp', 18) + '<span class="btn-label">' + T('Buka WhatsApp') + '</span></button>' +
+      '<span class="t-small muted center">' + T('Kode berlaku 10 menit.') + '</span></section>' +
+      '<div class="or-line"><span>' + T('atau') + '</span></div>' +
+      field(T('Nomor WhatsApp'), '<div class="input input-lg"><span class="input-suffix" style="font-size:14px">+62</span><input data-bind="lphone" inputmode="tel" value="' + esc(P.fmtPhone(draft.lphone).replace(/^0/, '')) + '"></div>') +
+      '<button type="button" class="btn btn-secondary btn-block" style="height:48px" data-act="loginOtp">' + ic('message-2', 18) + '<span class="btn-label">' + T('Kirim kode OTP') + '</span></button>' +
+      '<p class="t-small sec center">' + T('Tidak pakai WhatsApp?') + ' <button type="button" class="link" data-act="loginMail">' + T('Kirim lewat email') + '</button></p>' +
+      '<div class="divider" style="margin:0"></div><p class="t-small sec center">' + T('Belum member?') + ' <button type="button" class="link" data-act="go" data-r="join">' + T('Daftar') + '</button></p></div>';
+  };
+  SCR['masuk-kode'] = function () { return otpScreen('login'); };
 
   SCR.join = function () {
     var ph = joinTab === 'phone';
@@ -113,7 +193,16 @@
       '<div class="perk">' + ic('coin', 18) + '<span>' + T('1 poin tiap belanja Rp10.000') + '</span></div>' +
       '<div class="perk">' + ic('rubber-stamp', 18) + '<span>' + T('Kumpulkan 10 stempel, dapat cup kecil gratis') + '</span></div>' +
       '<div class="perk">' + ic('gift', 18) + '<span>' + T('Gratis topping untuk member baru') + '</span></div></div>' +
-      '<div class="ps-pad"><div class="seg-switch" role="tablist"><button type="button" class="' + (ph ? 'is-active' : '') + '" data-act="joinTab" data-v="phone">' + ic('brand-whatsapp', 16) + T('Nomor HP') + '</button><button type="button" class="' + (!ph ? 'is-active' : '') + '" data-act="joinTab" data-v="email">' + ic('mail', 16) + T('Email') + '</button></div>' +
+      '<div class="ps-pad"><div class="stack" style="--gap:8px"><button type="button" class="btn btn-wa btn-block" style="height:52px" data-act="joinWa">' + ic('brand-whatsapp', 20) + '<span class="btn-label">' + T('Daftar via WhatsApp') + '</span></button>' +
+      '<p class="t-small sec center">' + T('Kirim satu pesan {kw}. Nomor terverifikasi otomatis, tanpa OTP.', { kw: '<b class="wa-kw">' + esc(W.kwJoin()) + '</b>' }) + '</p></div>' +
+      '<div class="or-line"><span>' + T('atau') + '</span></div>' +
+      (joinOpen ? joinForm(ph, ok) : '<button type="button" class="btn btn-secondary btn-block" style="height:48px" data-act="joinForm">' + ic('device-mobile', 18) + '<span class="btn-label">' + T('Daftar dengan nomor HP atau email') + '</span></button>') +
+      '<p class="t-small sec center">' + T('Sudah member?') + ' <button type="button" class="link" data-act="go" data-r="masuk">' + T('Masuk') + '</button></p>' +
+      '<p class="t-small muted center">' + T('Data kamu disimpan di Jakarta dan hanya dipakai oleh Kamtono. Layanan oleh Providea Loyalty.') + '</p></div>';
+  };
+  /* the earlier sign-up path, now the second option: phone or email, then a 6-digit code */
+  function joinForm(ph, ok) {
+    return '<div class="stack join-form" style="--gap:16px"><span class="t-strong">' + T('Daftar dengan nomor HP atau email') + '</span><div class="seg-switch" role="tablist"><button type="button" class="' + (ph ? 'is-active' : '') + '" data-act="joinTab" data-v="phone">' + ic('brand-whatsapp', 16) + T('Nomor HP') + '</button><button type="button" class="' + (!ph ? 'is-active' : '') + '" data-act="joinTab" data-v="email">' + ic('mail', 16) + T('Email') + '</button></div>' +
       field(T('Nama panggilan'), '<div class="input input-lg"><input data-bind="name" value="' + esc(draft.name) + '" autocomplete="name"></div>') +
       (ph ? field(T('Nomor WhatsApp'), '<div class="input input-lg"><span class="input-suffix" style="font-size:14px">+62</span><input data-bind="phone" inputmode="tel" value="' + esc(draft.phone.replace(/^0/, '')) + '"></div>', T('Kode daftar dikirim ke nomor ini lewat WhatsApp.'))
         : field(T('Email'), '<div class="input input-lg"><input data-bind="email" type="email" inputmode="email" value="' + esc(draft.email) + '"></div>', T('Kode daftar dikirim ke email ini.'))) +
@@ -121,22 +210,26 @@
       '<div class="stack" style="--gap:10px">' + check('consent', T('Saya setuju dengan Syarat dan Kebijakan Privasi Kamtono.'), draft.consent) +
       check('age', T('Umur saya 17 tahun ke atas, atau saya sudah dapat izin orang tua.'), draft.age) +
       check('promo', ph ? T('Kirim info promo ke WhatsApp saya. Bisa berhenti kapan saja.') : T('Kirim info promo ke email saya. Bisa berhenti kapan saja.'), draft.promo) + '</div>' +
-      '<button type="button" class="btn btn-primary btn-block" style="height:48px" data-act="sendCode"' + (ok ? '' : ' disabled') + '>' + ic(ph ? 'brand-whatsapp' : 'mail', 18) + '<span class="btn-label">' + (ph ? T('Kirim kode lewat WhatsApp') : T('Kirim kode lewat email')) + '</span></button>' +
-      '<p class="t-small muted center">' + T('Data kamu disimpan di Jakarta dan hanya dipakai oleh Kamtono. Layanan oleh Providea Loyalty.') + '</p></div>';
-  };
+      '<button type="button" class="btn btn-primary btn-block" style="height:48px" data-act="sendCode"' + (ok ? '' : ' disabled') + '>' + ic(ph ? 'brand-whatsapp' : 'mail', 18) + '<span class="btn-label">' + (ph ? T('Kirim kode lewat WhatsApp') : T('Kirim kode lewat email')) + '</span></button></div>';
+  }
   function field(label, control, hint) { return '<label class="field"><span class="field-label">' + label + '</span>' + control + (hint ? '<span class="field-hint">' + hint + '</span>' : '') + '</label>'; }
   function check(k, label, on) { return '<label class="check" style="align-items:flex-start"><input type="checkbox" data-bind="' + k + '"' + (on ? ' checked' : '') + '><span class="check-box" style="margin-top:1px">' + ic('check', 14) + '</span><span class="check-label t-small">' + label + '</span></label>'; }
 
-  SCR.otp = function () {
-    var ph = joinTab === 'phone', to = ph ? '+62 ' + P.fmtPhone(draft.phone.replace(/\D/g, '').replace(/^62/, '0')).replace(/^0/, '') : draft.email;
+  SCR.otp = function () { return otpScreen('join'); };
+  /* one code screen for the second sign-up path (join) and for signing in again (login) */
+  function otpScreen(mode) {
+    var login = mode === 'login', ph = login ? loginVia !== 'mail' : joinTab === 'phone';
+    var num = login ? draft.lphone : draft.phone, mail = login ? (P.member(signInAs) || me()).email || 'rina.maharani@example.com' : draft.email;
+    var to = ph ? '+62 ' + P.fmtPhone(num.replace(/\D/g, '').replace(/^62/, '0')).replace(/^0/, '') : mail;
     var cells = ''; for (var i = 0; i < 6; i++) cells += '<span class="' + (otp[i] ? 'is-filled' : (i === otp.length ? 'is-caret' : '')) + '">' + (otp[i] || '') + '</span>';
-    return '<div class="ps-head"><button type="button" class="ps-back" data-act="go" data-r="join">' + ic('chevron-left', 18) + T('Kembali') + '</button></div>' +
-      '<div class="ps-pad"><h1 class="ps-title">' + T('Masukkan kode') + '</h1><p class="ps-sub">' + (ph ? T('Kode 6 angka sudah dikirim ke WhatsApp {to}.', { to: esc(to) }) : T('Kode 6 angka sudah dikirim ke email {to}.', { to: esc(to) })) + '</p>' +
+    var sub = ph ? (login ? T('Kode 6 angka sudah dikirim ke WhatsApp {to}. Berlaku 10 menit.', { to: esc(to) }) : T('Kode 6 angka sudah dikirim ke WhatsApp {to}.', { to: esc(to) })) : T('Kode 6 angka sudah dikirim ke email {to}.', { to: esc(to) });
+    return '<div class="ps-head"><button type="button" class="ps-back" data-act="go" data-r="' + (login ? 'masuk' : 'join') + '">' + ic('chevron-left', 18) + T('Kembali') + '</button></div>' +
+      '<div class="ps-pad"><h1 class="ps-title">' + (login ? T('Masukkan kode masuk') : T('Masukkan kode')) + '</h1><p class="ps-sub">' + sub + '</p>' +
       '<div class="otp-wrap"><div class="otp">' + cells + '</div><input class="otp-input" data-bind="otp" inputmode="numeric" maxlength="6" autocomplete="one-time-code" aria-label="' + T('Kode 6 angka') + '" value="' + otp + '"></div>' +
-      '<button type="button" class="btn btn-primary btn-block" style="height:48px" data-act="verify"' + (otp.length === 6 ? '' : ' disabled') + '>' + T('Verifikasi') + '</button>' +
+      '<button type="button" class="btn btn-primary btn-block" style="height:48px" data-act="verify"' + (otp.length === 6 ? '' : ' disabled') + '>' + (login ? T('Masuk') : T('Verifikasi')) + '</button>' +
       '<p class="t-small sec center">' + T('Belum dapat kode?') + ' <button type="button" class="link" data-act="resend">' + T('Kirim ulang') + '</button></p>' +
       '<div class="info-note">' + ic('shield-lock', 16) + '<span>' + T('Jangan berikan kode ini ke siapa pun, termasuk kasir.') + '</span></div></div>';
-  };
+  }
 
   SCR.home = function () {
     var m = me(), t = P.tierOf(m), nt = P.nextTier(m), vs = P.memberVouchers(m.id), R = P.S.rules;
@@ -246,12 +339,13 @@
       '<div class="pcard"><span class="pcard-title">' + T('Izin promo') + '</span>' + tog('promoWa', T('Promo lewat WhatsApp')) + tog('promoEmail', T('Promo lewat email')) +
       '<span class="t-small muted">' + T('Pesan penting (kode, poin, tier) tetap dikirim.') + '</span></div>' +
       '<div class="pcard"><span class="pcard-title">' + T('Data saya') + '</span><button type="button" class="btn btn-secondary btn-block" data-act="exportMe">' + ic('download', 18) + '<span class="btn-label">' + T('Unduh data saya') + '</span></button><button type="button" class="btn btn-ghost btn-block c-danger" data-act="deleteMe">' + ic('trash', 18) + '<span class="btn-label">' + T('Hapus akun') + '</span></button></div>' +
+      '<button type="button" class="btn btn-secondary btn-block" data-act="logout">' + ic('logout', 18) + '<span class="btn-label">' + T('Keluar') + '</span></button>' +
       '<div class="pcard"><span class="pcard-title">' + T('Ganti akun demo') + '</span><div class="row wrap"><button type="button" class="chip' + (m.id === 'm-rina' ? ' is-selected' : '') + '" data-act="persona" data-id="m-rina">Rina · ' + esc(P.tierOf(P.member('m-rina')).name) + '</button>' + (P.member('m-new') ? '<button type="button" class="chip' + (m.id === 'm-new' ? ' is-selected' : '') + '" data-act="persona" data-id="m-new">' + esc(first(P.member('m-new').name)) + ' · ' + T('baru') + '</button>' : '') + '</div></div>' +
       '<p class="t-small muted center">' + T('Syarat · Kebijakan privasi · Layanan oleh Providea Loyalty') + '</p></div>';
   };
 
   SCR.checkin = function () {
-    if (!checkDone) return camera('doCheckin', T('Check-in'));
+    if (!checkDone) return camera('checkin');
     var m = P.member('m-rina'), vs = P.memberVouchers(m.id);
     return brandHead() + '<div class="ps-pad center" style="padding-top:24px"><span class="success-burst">' + ic('circle-check', 36) + '</span>' +
       '<h1 class="ps-title">' + T('Kamu sudah check-in') + '</h1><p class="ps-sub">' + T('Kamtono · Outlet Cempaka. Kasir sudah melihat namamu. Sebut pesananmu, poin masuk otomatis.') + '</p>' +
@@ -263,17 +357,34 @@
 
   /* ── after render ── */
   function afterRender(r) {
-    if (r === 'otp' && otp.length < 6) {
-      notifTimer = setTimeout(function () { showNotif(joinTab === 'phone' ? 'wa' : 'mail'); }, 900);
+    if ((r === 'otp' || r === 'masuk-kode') && otp.length < 6) {
+      var nk = r === 'otp' ? (joinTab === 'phone' ? 'wa' : 'mail') : (loginVia === 'mail' ? 'mail' : 'wa-auth');
+      notifTimer = setTimeout(function () { showNotif(nk); }, 900);
       var inp = document.querySelector('.otp-input'); if (inp && window.innerWidth > 767) inp.focus({ preventScroll: true });
     }
     if (route === 'welcome' && !welcomeShown) { welcomeShown = true; setTimeout(welcomeSheet, 250); }
+    var c = document.getElementById('wac'); if (c) c.scrollTop = c.scrollHeight;
+    if (!WA_ROUTES[r]) setTimeout(checkInvite, 600);
   }
   var welcomeShown = false;
+
+  /* a cashier invite sent from the tablet (shared demo state) arrives as a WhatsApp banner on the phone */
+  function checkInvite() {
+    var inv = W.lastInvite(); if (!inv || inv.notified || inv.seen || WA_ROUTES[route]) return;
+    if (document.querySelector('.psheet, .pnotif')) return;
+    inv.notified = true; P.save(); showNotif('invite');
+  }
 
   function showNotif(kind) {
     var l = document.getElementById('psl'); if (!l) return;
     var html;
+    if (kind === 'invite' || kind === 'wa-auth') {
+      var inv = kind === 'invite';
+      html = '<button type="button" class="pnotif" data-act="' + (inv ? 'openInvite' : 'openAuth') + '"><span class="pnotif-app">' + ic('brand-whatsapp', 20) + '</span><span class="stack grow" style="--gap:2px"><span class="row between"><b>Providea Loyalty</b><span class="t-small muted">' + T('sekarang') + '</span></span>' +
+        '<span class="t-small">' + (inv ? T('Lengkapi pendaftaran member Kamtono') : T('{c} adalah kode verifikasi kamu. Demi keamanan, jangan bagikan kode ini.', { c: W.code })) + '</span><span class="t-small c-brand">' + T('Ketuk untuk membuka WhatsApp') + '</span></span></button>';
+      l.innerHTML = html;
+      return;
+    }
     if (kind === 'wallet') {
       var m = me();
       html = '<button type="button" class="pnotif" data-act="dismissNotif"><span class="pnotif-app is-wallet">' + ic('wallet', 20) + '</span><span class="stack grow" style="--gap:2px"><span class="row between"><b>' + esc(P.BRAND.name) + '</b><span class="t-small muted">' + T('sekarang') + '</span></span><span class="t-small">' + T('Poin bertambah. Saldo kamu {n} poin, {t}.', { n: P.num(m.points), t: P.tierOf(m).name }) + '</span></span></button>';
@@ -292,26 +403,108 @@
 
   function welcomeSheet() {
     var m = me();
+    if (m.pending) { completeSheet(m); return; }
     sheet(T('Selamat datang'), '<span class="success-burst">' + ic('mood-smile', 36) + '</span><h3 class="t-h2 center">' + T('Halo {n}, kamu member Silver', { n: esc(first(m.name)) }) + '</h3><p class="sec center">' + T('Hadiah sambutan sudah ada di Voucher: gratis topping. Tunjukkan QR ke kasir setiap belanja.') + '</p>' +
       '<button type="button" class="btn btn-primary btn-block" data-act="closeSheet">' + T('Lihat kartu') + '</button><button type="button" class="btn btn-wallet btn-block" data-act="walletGo" data-v="apple">' + ic('brand-apple', 18) + '<span class="btn-label">' + T('Tambah ke Apple Wallet') + '</span></button>');
   }
+  /* invited by the cashier: the customer adds a name and gives consent on their own phone */
+  function completeSheet(m) {
+    cs = { id: m.id, name: m.name, bday: '', consent: false, age: false, promo: false };
+    function ck(k, label) { return '<label class="check" style="align-items:flex-start"><input type="checkbox" data-cs="' + k + '"><span class="check-box" style="margin-top:1px">' + ic('check', 14) + '</span><span class="check-label t-small">' + label + '</span></label>'; }
+    sheet(T('Lengkapi pendaftaran'), '<p class="sec">' + T('Kasir Kamtono sudah mendaftarkan nomor {p}. Lengkapi data ini untuk mengaktifkan kartu.', { p: '<span class="num">' + esc(P.fmtPhone(m.phone)) + '</span>' }) + '</p>' +
+      field(T('Nama panggilan'), '<div class="input input-lg"><input data-cs="name" value="' + esc(m.name) + '" autocomplete="name"></div>') +
+      field(T('Tanggal lahir (boleh dikosongkan)'), '<div class="input input-lg"><input data-cs="bday" type="date"></div>', T('Untuk hadiah ulang tahun.')) +
+      '<div class="stack" style="--gap:10px">' + ck('consent', T('Saya setuju dengan Syarat dan Kebijakan Privasi Kamtono.')) + ck('age', T('Umur saya 17 tahun ke atas, atau saya sudah dapat izin orang tua.')) + ck('promo', T('Kirim info promo ke WhatsApp saya. Bisa berhenti kapan saja.')) + '</div>' +
+      '<button type="button" class="btn btn-primary btn-block" style="height:48px" data-act="completeGo" disabled>' + T('Simpan dan buka kartu') + '</button>');
+  }
+  function csOk() { return cs && cs.consent && cs.age && String(cs.name || '').trim(); }
 
   /* ── actions ── */
   ACT.go = function (el) { closeSheet(); go(el.dataset.r); document.getElementById('psb') && (document.getElementById('psb').scrollTop = 0); };
   ACT.step = function (el) {
     var r = el.dataset.r; checkDone = false;
     if (r === 'welcome') { if (!P.member('m-new')) createNew(); P.S.me = 'm-new'; userPickedNew = true; P.save(); welcomeShown = false; }
-    else if (stepGroup(r) === 1) { P.S.me = 'm-rina'; userPickedNew = false; P.save(); }
-    if (r === 'otp') otp = '';
+    else if (isOld(r)) { P.S.me = 'm-rina'; userPickedNew = false; P.save(); }
+    if (r === 'otp') { otp = ''; joinOpen = true; }
+    if (r === 'wa') { resetWa('daftar'); waBack = 'scan'; }
+    if (r === 'undangan') { if (!W.lastInvite()) W.invite({ name: 'Dimas Aryo', phone: '081355508812' }); waBack = 'home'; }
+    if (r === 'masuk') otp = '';
     go(r);
   };
   ACT.openJoin = function () { otp = ''; go('join'); };
   ACT.joinTab = function (el) { joinTab = el.dataset.v; renderPhone(); };
+  /* open the second path and scroll the phone body (not the page) to it */
+  ACT.joinForm = function () {
+    joinOpen = true; renderPhone();
+    var f = document.querySelector('.join-form'), b = document.getElementById('psb'); if (!f || !b) return;
+    b.scrollTo({ top: f.getBoundingClientRect().top - b.getBoundingClientRect().top + b.scrollTop - 12, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  };
   ACT.sendCode = function () { otp = ''; go('otp'); };
   ACT.resend = function () { otp = ''; renderPhone(); P.toast(T('Kode baru dikirim')); };
-  ACT.fillOtp = function () { otp = '482913'; renderPhone(); setTimeout(ACT.verify, 500); };
+  ACT.fillOtp = function () { otp = W.code; renderPhone(); setTimeout(ACT.verify, 500); };
   ACT.dismissNotif = function () { var l = document.getElementById('psl'); if (l) l.innerHTML = ''; };
-  ACT.verify = function () { if (otp.length < 6 || route !== 'otp') return; createNew(); P.S.me = 'm-new'; userPickedNew = true; P.save(); welcomeShown = false; go('welcome'); };
+  ACT.verify = function () {
+    if (otp.length < 6) return;
+    if (route === 'masuk-kode') { signIn(); return; }
+    if (route !== 'otp') return;
+    createNew(); P.S.me = 'm-new'; userPickedNew = true; P.save(); welcomeShown = false; go('welcome');
+  };
+
+  /* WhatsApp: sign up by sending one message (main path) */
+  ACT.openWaJoin = function () { resetWa('daftar'); waBack = route; go('wa'); };
+  ACT.joinWa = ACT.openWaJoin;
+  ACT.waBack = function () { var k = WA_ROUTES[route], st = k && waS[k]; go(waBack && waBack !== route ? waBack : (k === 'masuk' ? 'masuk' : k === 'otp' ? 'masuk-kode' : st && st.replied ? 'welcome' : 'scan')); };
+  ACT.waSend = function (el) {
+    var kind = el.dataset.k, st = wst(kind); if (st.sent) return;
+    st.sent = true;
+    if (kind === 'daftar') { W.joinViaWa({ name: draft.name, phone: draft.phone }); P.S.me = 'm-new'; userPickedNew = true; P.save(); }
+    renderPhone();
+    clearTimeout(waTimer);
+    waTimer = setTimeout(function () {
+      if (WA_ROUTES[route] !== kind) return;
+      st.typing = true; renderPhone();
+      waTimer = setTimeout(function () {
+        if (WA_ROUTES[route] !== kind) return;
+        st.replied = true; renderPhone();
+        /* signing in: the browser page has been waiting for this message and signs in by itself */
+        if (kind === 'masuk') waTimer = setTimeout(function () { if (route === 'masuk-wa') signIn(); }, 2200);
+      }, 900);
+    }, 600);
+  };
+  ACT.waOpenCard = function () { welcomeShown = false; P.S.me = 'm-new'; userPickedNew = true; P.save(); go('welcome'); };
+
+  /* WhatsApp: invite sent by the cashier */
+  ACT.openInvite = function () { ACT.dismissNotif(); waBack = route; go('undangan'); };
+  ACT.waInviteOpen = function () {
+    var inv = W.lastInvite(); if (!inv) return;
+    inv.seen = true; P.S.me = inv.memberId; userPickedNew = true; welcomeShown = false; P.save(); go('welcome');
+  };
+  ACT.completeGo = function () {
+    var m = cs && P.member(cs.id); if (!m || !csOk()) return;
+    m.name = cs.name.trim(); m.promoWa = !!cs.promo; m.pending = false;
+    if (cs.bday) m.bday = P.fdate(new Date(cs.bday).getTime(), true);
+    P.S.inbox.forEach(function (i) { if (i.memberId === m.id && i.kind === 'invite') i.read = true; });
+    P.save(); cs = null; closeSheet(); renderPhone(); welcomeSheet();
+  };
+
+  /* sign in again */
+  ACT.logout = function () { signInAs = me().id; otp = ''; closeSheet(); go('masuk'); P.toast(T('Kamu sudah keluar'), 'logout'); };
+  ACT.loginWa = function () { resetWa('masuk'); waBack = 'masuk'; go('masuk-wa'); };
+  ACT.loginOtp = function () { loginVia = 'wa'; otp = ''; go('masuk-kode'); };
+  ACT.loginMail = function () { loginVia = 'mail'; otp = ''; go('masuk-kode'); };
+  ACT.openAuth = function () { ACT.dismissNotif(); waBack = 'masuk-kode'; go('wa-kode'); };
+  ACT.copyCode = function () {
+    try { if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(W.code).catch(function () {}); } catch (e) {}
+    P.toast(T('Kode disalin'), 'copy'); otp = W.code; go('masuk-kode'); clearTimeout(waTimer); waTimer = setTimeout(ACT.verify, 700);
+  };
+  ACT.signIn = function () { signIn(); };
+  function signIn() {
+    clearTimeout(waTimer);
+    var id = P.member(signInAs) ? signInAs : 'm-rina';
+    P.S.me = id; userPickedNew = id !== 'm-rina'; otp = ''; P.save(); closeSheet(); go('home');
+    var b = document.getElementById('psb'); if (b) b.scrollTop = 0;
+    P.toast(T('Kamu sudah masuk'), 'login');
+  }
   ACT.showQr = function () {
     var m = me(), left = 30, tick = 0;
     function body() { return '<div class="qr-box" style="width:240px;margin:0 auto">' + P.qr(m.no + ':' + tick) + '</div><div class="center stack" style="--gap:2px"><span class="t-h3">' + esc(m.name) + '</span><span class="t-small sec num">' + T('No. member') + ' ' + m.no + '</span></div>' +
@@ -362,7 +555,9 @@
   ACT.msg = function (el) {
     var i = P.S.inbox.filter(function (x) { return x.id === el.dataset.id; })[0]; if (!i) return;
     i.read = true; P.save(); renderPhone();
-    sheet(T(i.title, iv(i.v)), '<p class="sec">' + esc(T(i.body, iv(i.v))) + '</p><span class="t-small muted">' + P.fdate(i.at) + ' · ' + P.ftime(i.at) + '</span><button type="button" class="btn btn-primary btn-block" data-act="go" data-r="voucher">' + T('Lihat voucher') + '</button>');
+    var inv = i.kind === 'invite' && me().pending;
+    sheet(T(i.title, iv(i.v)), '<p class="sec">' + esc(T(i.body, iv(i.v))) + '</p><span class="t-small muted">' + P.fdate(i.at) + ' · ' + P.ftime(i.at) + '</span>' +
+      (inv ? '<button type="button" class="btn btn-primary btn-block" data-act="completeOpen">' + T('Lengkapi pendaftaran') + '</button>' : '<button type="button" class="btn btn-primary btn-block" data-act="go" data-r="voucher">' + T('Lihat voucher') + '</button>'));
   };
   ACT.pref = function (el) { var m = me(), k = el.dataset.k; m[k] = !m[k]; P.save(); renderPhone(); P.toast(m[k] ? T('Izin promo dinyalakan') : T('Izin promo dimatikan')); };
   ACT.exportMe = function () { P.toast(T('Data kamu dikirim ke email dalam bentuk file (demo)')); };
@@ -398,21 +593,29 @@
     P.S.checkins.unshift({ id: P.uid('c'), memberId: 'm-new', at: now, seen: false, isNew: true });
   }
 
+  ACT.completeOpen = function () { completeSheet(me()); };
+
   /* inputs */
   app.addEventListener('input', function (e) {
+    var c = e.target.getAttribute('data-cs');
+    if (c && cs) { cs[c] = e.target.type === 'checkbox' ? e.target.checked : e.target.value; var g = document.querySelector('[data-act="completeGo"]'); if (g) g.disabled = !csOk(); return; }
     var k = e.target.getAttribute('data-bind'); if (!k) return;
     if (k === 'otp') { otp = e.target.value.replace(/\D/g, '').slice(0, 6); var pos = otp.length; renderPhone(); var i = document.querySelector('.otp-input'); if (i) { i.focus(); i.setSelectionRange(pos, pos); } if (otp.length === 6) setTimeout(ACT.verify, 300); return; }
     if (e.target.type === 'checkbox') return;
-    draft[k] = k === 'phone' ? '0' + e.target.value.replace(/\D/g, '').replace(/^0/, '') : e.target.value;
+    draft[k] = k === 'phone' || k === 'lphone' ? '0' + e.target.value.replace(/\D/g, '').replace(/^0/, '') : e.target.value;
     var btn = document.querySelector('[data-act="sendCode"]');
     if (btn) { var ph = joinTab === 'phone'; btn.disabled = !(draft.consent && draft.age && draft.name.trim() && (ph ? draft.phone.replace(/\D/g, '').length >= 10 : /.+@.+\..+/.test(draft.email))); }
   });
-  app.addEventListener('change', function (e) { var k = e.target.getAttribute('data-bind'); if (k && e.target.type === 'checkbox') { draft[k] = e.target.checked; renderPhone(); } });
+  app.addEventListener('change', function (e) {
+    var c = e.target.getAttribute('data-cs');
+    if (c && cs) { cs[c] = e.target.type === 'checkbox' ? e.target.checked : e.target.value; var g = document.querySelector('[data-act="completeGo"]'); if (g) g.disabled = !csOk(); return; }
+    var k = e.target.getAttribute('data-bind'); if (k && e.target.type === 'checkbox') { draft[k] = e.target.checked; renderPhone(); }
+  });
 
   window.addEventListener('hashchange', function () { var r = location.hash.replace(/^#\/?/, '') || 'home'; if (r !== route) { route = r; render(); } });
   P.onLang = render;
   P.onBrand = function () { clearInterval(qrTimer); render(); };
-  P.onSync = function () { if (!document.querySelector('.psheet')) renderPhone(); };
+  P.onSync = function () { if (!document.querySelector('.psheet')) renderPhone(); checkInvite(); };
   if (route === 'welcome') { if (!P.member('m-new')) createNew(); P.S.me = 'm-new'; userPickedNew = true; P.save(); }
   else if (P.S.me === 'm-new' && P.member('m-new')) userPickedNew = true;
   render();

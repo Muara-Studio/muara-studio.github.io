@@ -142,9 +142,12 @@
   var VIEWS = {
     member: {
       role: 'pelanggan', name: 'Kartu member di HP', steps: [
-        { id: 'member-alur', sel: '.mv-steps .npanel', title: 'Alur demo', text: 'Klik langkah mana saja untuk melompat. Langkah 1 sampai 4 untuk member baru, 5 sampai 11 untuk member lama.' },
-        { id: 'member-pindai', sel: '.cam-pill', hover: 1, dot: 1, title: 'Pindai QR di meja kasir', text: 'Pelanggan memindai QR dengan kamera HP. Halaman member merek terbuka di browser, tanpa unduh aplikasi. Ketuk untuk lanjut daftar.' },
-        { id: 'member-daftar', sel: '.ps-body .tabs-segmented:has([data-act=joinTab])', dot: 1, title: 'Daftar pakai nomor HP atau email', text: 'Pelanggan memilih nomor WhatsApp atau email. Nama dan tanggal lahir membantu hadiah ulang tahun.' },
+        { id: 'member-alur', sel: '.mv-steps .npanel', title: 'Alur demo', text: 'Klik langkah mana saja untuk melompat. Langkah 1 sampai 3: daftar lewat WhatsApp. Langkah 4 sampai 7: cara lain. Langkah 8 sampai 14: member lama.' },
+        { id: 'member-pindai', sel: '.cam-pill', hover: 1, dot: 1, title: 'Pindai QR Daftar via WhatsApp', text: 'Pelanggan memindai QR di standee dengan kamera HP. WhatsApp terbuka dengan pesan pendaftaran yang sudah terisi, tanpa unduh aplikasi.' },
+        { id: 'member-wa-kirim', sel: '.wa-send.is-ready', hover: 1, dot: 1, title: 'Kirim satu pesan', text: 'Pelanggan cukup menekan kirim. Nomor WhatsApp-nya otomatis terverifikasi, tanpa kode OTP. Pesan masuk ke nomor resmi Providea Loyalty.' },
+        { id: 'member-wa-balas', sel: '.wa-tbtn[data-act=waOpenCard], .wa-tbtn[data-act=waInviteOpen]', hover: 1, title: 'Balasan berisi tautan kartu', text: 'Providea Loyalty membalas dengan tautan kartu member. Member baru langsung muncul di tablet kasir dan dashboard.' },
+        { id: 'member-daftar', sel: '.ps-body [data-act=joinWa]', hover: 1, dot: 1, title: 'Halaman daftar merek', text: 'Tombol utama membuka WhatsApp. Daftar dengan nomor HP atau email tetap ada sebagai cara kedua.' },
+        { id: 'member-masuk-wa', sel: '.ps-body [data-act=loginWa]', hover: 1, dot: 1, title: 'Masuk lewat WhatsApp', text: 'Member yang keluar atau ganti HP mengirim kode lewat WhatsApp, lalu halaman langsung masuk. Gratis, tanpa SMS. Kode OTP dan email tetap tersedia.' },
         { id: 'member-kirim-kode', sel: '[data-act=sendCode]', hover: 1, title: 'Kirim kode', text: 'Kode 6 angka dikirim lewat WhatsApp atau email. Dengan begitu nomor dan email member pasti benar.' },
         { id: 'member-kode', sel: '.pnotif', title: 'Kode masuk', text: 'Di demo ini, ketuk notifikasi untuk mengisi kode secara otomatis.' },
         { id: 'member-verifikasi', sel: '[data-act=verify]', hover: 1, title: 'Verifikasi', text: 'Setelah kode benar, pelanggan langsung jadi member Silver dan mendapat voucher sambutan.' },
@@ -153,8 +156,8 @@
         { id: 'member-tier', sel: '.ps-body .pcard:has(.pbar)', dot: 1, title: 'Tier member', text: 'Bilah ini menunjukkan sisa belanja sampai tier berikutnya. Gold mendapat poin 1,25×, Platinum 1,5×.' },
         { id: 'member-stempel', sel: '.ps-body .pcard:has(.stamps)', dot: 1, title: 'Kartu stempel', text: 'Setiap cup menambah satu stempel. Stempel ke-10 menjadi voucher cup kecil gratis.' },
         { id: 'member-voucher', sel: '.ps-body .pcard:has(.vchip)', dot: 1, title: 'Voucher', text: 'Voucher sekali pakai dengan kode sendiri. Ketuk voucher untuk melihat QR yang dipindai kasir.' },
-        { id: 'member-tukar-poin', sel: '.ps-body .tabs-segmented:has([data-act=vTab])', dot: 1, title: 'Voucher dan tukar poin', text: 'Lihat voucher yang dimiliki, atau tukar poin jadi voucher dari katalog merek.' },
-        { id: 'member-wallet', sel: '.ps-body [data-act=go][data-r=wallet].pcard, .ps-body [data-act=walletGo], .ps-body .tabs-segmented:has([data-act=wTab])', hover: '.ps-body [data-act=go][data-r=wallet].pcard, .ps-body [data-act=walletGo]', dot: 1, title: 'Kartu di Wallet', text: 'Kartu bisa masuk ke Apple Wallet atau Samsung Wallet. Poin di kartu ikut berubah setelah belanja.' },
+        { id: 'member-tukar-poin', sel: '.ps-body .seg-switch:has([data-act=vTab])', dot: 1, title: 'Voucher dan tukar poin', text: 'Lihat voucher yang dimiliki, atau tukar poin jadi voucher dari katalog merek.' },
+        { id: 'member-wallet', sel: '.ps-body [data-act=go][data-r=wallet].pcard, .ps-body [data-act=walletGo], .ps-body .seg-switch:has([data-act=wTab])', hover: '.ps-body [data-act=go][data-r=wallet].pcard, .ps-body [data-act=walletGo]', dot: 1, title: 'Kartu di Wallet', text: 'Kartu bisa masuk ke Apple Wallet atau Samsung Wallet. Poin di kartu ikut berubah setelah belanja.' },
         { id: 'member-catatan', sel: '.mv-notes .npanel', title: 'Yang terjadi', text: 'Panel ini menjelaskan apa yang terjadi di balik layar pada langkah yang sedang dibuka.' }
       ]
     },
@@ -169,6 +172,7 @@
         { id: 'kasir-alur', sel: '.kv-steps', title: 'Alur demo kasir', text: 'Setiap tombol memutar satu kejadian di kasir: check-in, penjualan, voucher, sampai alur di POS.' },
         { id: 'kasir-cari', sel: '.k-left-top .input', dot: 1, title: 'Cari member', text: 'Ketik nomor HP, email, atau nomor member. Hasilnya muncul saat mengetik.' },
         { id: 'kasir-pindai', sel: '.k-left-top [data-act=scan]', hover: '[data-act=scan]', title: 'Pindai QR member', text: 'Kamera tablet memindai QR di HP member. Nama, tier, dan voucher langsung tampil.' },
+        { id: 'kasir-wa', sel: '.k-left-top [data-act=join]', hover: '[data-act=join]', dot: 1, title: 'Member baru lewat WhatsApp', text: 'Tablet menampilkan QR Daftar via WhatsApp untuk dipindai pelanggan. Kasir juga bisa mengirim undangan WhatsApp ke nomor pelanggan, dengan persetujuannya.' },
         { id: 'kasir-member', sel: '.k-member', dot: 1, dotIn: 1, title: 'Panel member', text: 'Poin, stempel, belanja 12 bulan, dan voucher aktif terlihat sebelum transaksi.' },
         { id: 'kasir-penjualan', sel: '.k-act[data-act=sale]', hover: 1, dot: 1, title: 'Tambah penjualan', text: 'Masukkan total belanja. Poin dan stempel dihitung otomatis sesuai tier member.' },
         { id: 'kasir-voucher', sel: '.k-act[data-act=voucher]', hover: 1, title: 'Pakai voucher', text: 'Pindai QR voucher atau ketik kodenya. Voucher yang sudah dipakai tidak bisa dipakai lagi.' },
@@ -189,6 +193,7 @@
         { id: 'dash-voucher', side: 'right', sel: '.sidebar .sb-item[href="#/voucher"]', title: 'Voucher', text: 'Buat voucher dan pilih pemicunya: saat daftar, naik tier, ulang tahun, atau tukar poin.' },
         { id: 'dash-kampanye', side: 'right', sel: '.sidebar .sb-item[href="#/kampanye"]', title: 'Kampanye dengan biaya', text: 'Kirim promo ke satu segmen lewat WhatsApp, email, atau Wallet. Perkiraan biaya terlihat sebelum dikirim.' },
         { id: 'dash-outlet', side: 'right', sel: '.sidebar .sb-item[href="#/outlet"]', title: 'Outlet dan staf', text: 'Tambah outlet, undang staf, atur hak akses tiap peran, dan lihat log audit.' },
+        { id: 'dash-whatsapp', side: 'right', sel: '.sidebar .sb-item[href="#/whatsapp"]', title: 'WhatsApp', text: 'Nomor pengirim Providea Loyalty, template pesan, batas kirim harian, dan biaya per pesan.' },
         /* inner pages */
         { id: 'dash-cari-member', sel: '.page .input:has(#mq)', title: 'Cari dan saring member', text: 'Cari nama atau nomor, lalu saring per tier atau segmen. Hasilnya bisa diekspor ke CSV.' },
         { id: 'dash-detail-member', sel: 'tr[data-act=openM]', title: 'Detail member', text: 'Klik satu baris untuk melihat poin, voucher, dan riwayat member itu.' },
@@ -199,6 +204,8 @@
         { id: 'dash-saluran', sel: '.ch-cards', dot: 1, title: 'Saluran', text: 'Pilih WhatsApp, email, atau notifikasi Wallet. Tarif WhatsApp tampil per pesan, sebelum PPN.' },
         { id: 'dash-biaya', sel: '.npanel:has([data-act=csend])', dot: 1, dotIn: 1, title: 'Perkiraan biaya', text: 'Biaya dihitung dari jumlah member di segmen dan tarif tiap saluran, sebelum pesan dikirim.' },
         { id: 'dash-kirim', sel: '[data-act=csend]', hover: 1, title: 'Kirim kampanye', text: 'Di demo ini tidak ada pesan yang benar-benar terkirim.' },
+        { id: 'dash-wa-biaya', sel: '.npanel:has(.wa-cost)', dot: 1, dotIn: 1, title: 'Biaya per pesan', text: 'Utility dan authentication sekitar Rp357, marketing sekitar Rp586, sebelum PPN 11%. Balasan untuk pesan dari member gratis.' },
+        { id: 'dash-wa-tahap', sel: '.wa-next', title: 'Nomor milik merek sendiri', text: 'Sekarang pesan dikirim dari nomor Providea Loyalty. Nomor WhatsApp milik merek sendiri menyusul di tahap berikutnya.' },
         { id: 'dash-standee', sel: '[data-act=standee]', hover: 1, dot: 1, title: 'QR standee', text: 'Cetak QR untuk meja kasir. QR yang sama dipakai untuk daftar dan check-in.' },
         { id: 'dash-undang', sel: '[data-act=invite]', hover: 1, title: 'Undang staf', text: 'Undang kasir dan kepala outlet. Hak akses mengikuti peran.' }
       ]
@@ -493,7 +500,7 @@
     var slot = barSlot();
     fab.classList.toggle('is-top', !!slot);
     if (slot) { fab.style.setProperty('--pg-x', slot.x + 'px'); fab.style.setProperty('--pg-y', slot.y + 'px'); fab.classList.remove('is-compact'); return; }
-    var lift = innerWidth < 768 ? 16 : 24, tb = document.querySelector('.ps-tabbar');
+    var lift = innerWidth < 768 ? 16 : 24, tb = document.querySelector('.ps-tabbar, .wa-compose');  /* the member phone's tab bar, or the WhatsApp compose bar */
     if (tb && visible(tb)) { var r = tb.getBoundingClientRect(); if (r.bottom >= innerHeight - 4 && r.top < innerHeight) lift = Math.max(lift, innerHeight - r.top + 12); }
     fab.style.setProperty('--pg-lift', lift + 'px');
     if (innerWidth >= 768) {
