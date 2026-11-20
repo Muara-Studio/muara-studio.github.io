@@ -1328,3 +1328,27 @@
   }
 }
 @layer screens { .kh-panel.is-sale .hs-hp img { border-radius: 7% / 3.3%; } }
+@layer screens {
+  /* ── Device corners (20 Nov 2026, Thomas: "rounded corner … masih berantakan"). The phone and tablet images now have
+     transparent corners cut with the frame's own radius (_build/shots.py), so they need no box, no clip and no
+     rectangular shadow: drop-shadow follows the real outline. Devices are always shown whole, never cut flat. ── */
+
+  /* hero, last slide */
+  .kh-panel.is-sale .hs-tab, .kh-panel.is-sale .hs-hp { background: transparent; border: 0; border-radius: 0; overflow: visible; box-shadow: none; }
+  .kh-panel.is-sale .hs-tab img, .kh-panel.is-sale .hs-hp img { border-radius: 0; height: auto; filter: drop-shadow(0 24px 30px rgb(0 0 0 / 0.55)); }
+  .kh-panel.is-sale .hs-dash { border-radius: 14px; overflow: hidden; background: #fff; }
+
+  /* showcase: one fixed stage, the whole device centred in it */
+  .lp-screen { align-items: center; height: 600px; min-height: 0; padding: 40px; }
+  .lsc-shot { max-height: none; height: 100%; overflow: visible; align-items: center; }
+  .lsc-device, .lsc-device.is-member, .lsc-device.is-kasir { box-shadow: none; border-radius: 0; overflow: visible; filter: drop-shadow(0 28px 36px rgb(60 10 14 / 0.32)); }
+  .lsc-device.is-kasir { width: min(760px, 100%); }
+  .lsc-device.is-member { width: auto; height: 100%; }
+  .lsc-device.is-member .lsc-img { width: auto; height: 100%; }
+  .lsc-frame { width: min(780px, 100%); border-bottom: 1px solid var(--border-default); border-radius: 14px; overflow: hidden; }
+  @media (max-width: 767px) {
+    .lp-screen { height: 460px; padding: 24px 16px; }
+    .lsc-device.is-kasir { width: 100%; }
+    .lsc-frame { border-radius: 10px; }
+  }
+}
