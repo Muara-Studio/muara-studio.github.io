@@ -1,1 +1,0 @@
-import{u as e}from"./index-C_fBshm9.js";var t=t=>t.campaignId??e.specialist.shareToken(t.title),n=e=>`${window.location.origin}${window.location.pathname}#/b/${e}`;export{t as n,n as t};

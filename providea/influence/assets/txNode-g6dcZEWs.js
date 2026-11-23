@@ -1,0 +1,1 @@
+import{Ht as e,V as t,zt as n}from"./ui-eHctECDD.js";var r=e(n(),1),i=t();function a(e,t){return e.split(/(\{\w+\})/g).map((e,n)=>{let a=/^\{(\w+)\}$/.exec(e)?.[1];return(0,i.jsx)(r.Fragment,{children:a&&a in t?t[a]:e},n)})}export{a as t};
