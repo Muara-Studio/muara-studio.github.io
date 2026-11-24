@@ -1,3 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="currentColor"><defs><mask id="m"><rect width="48" height="48" fill="#fff"/><path d="M11 28q3-2.6 6 0t6 0t6 0t6 0t6 0" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"/></mask></defs>
-<g stroke="currentColor" stroke-width="2.6" stroke-linecap="round" fill="none"><path d="M31 5L19 20"/><path d="M37 7L24 21"/></g>
-<g mask="url(#m)"><path d="M7 23H41C41 32.5 33.4 40 24 40S7 32.5 7 23Z"/></g><rect x="17.5" y="40" width="13" height="3.6" rx="1.8"/></svg>
