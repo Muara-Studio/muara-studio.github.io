@@ -457,6 +457,7 @@ const tpl = document.querySelector('[data-join-card]');
 if (!wall || !form || !done || !tpl) return;
 const jt = window.jt || ((t) => t);
 const cols = Array.from(wall.querySelectorAll('[data-wall-col]'));
+const invite = wall.querySelector('[data-wall-invite]');
 const lead = document.querySelector('[data-join-lead]');
 const play = document.querySelector('[data-wall-play]');
 const thanks = done.querySelector('[data-join-thanks]');
@@ -466,6 +467,8 @@ const again = done.querySelector('[data-join-again]');
 const reduce = matchMedia('(prefers-reduced-motion: reduce)');
 const isStatic = document.documentElement.classList.contains('static');
 const KEY = 'jalana.daftar.v1';
+const MOVE_FROM = 4;
+const feedUrl = (wall.dataset.feed || '').trim();
 const endpoint = () => (form.dataset.endpoint || '').trim();
 const waNumber = () => (form.dataset.wa || '').replace(/\D/g, '');
 const gform = () => {
@@ -475,53 +478,65 @@ return g && /^https:\/\/docs\.google\.com\/forms\//.test(g.action || '') && g.na
 } catch (_) { return null; }
 };
 const mode = () => (endpoint() ? 'endpoint' : gform() ? 'gform' : waNumber() ? 'wa' : 'preview');
-const few = wall.hasAttribute('data-static');
-const invite = wall.querySelector('[data-wall-invite]');
 const fmt = new Intl.DateTimeFormat(document.documentElement.lang === 'en' ? 'en-GB' : 'id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
-wall.querySelectorAll('[data-date]').forEach((el) => { const t = new Date(`${el.dataset.date}T00:00:00`); el.textContent = Number.isNaN(t.getTime()) ? '' : fmt.format(t); });
-const copy = (li) => { const c = li.cloneNode(true); c.setAttribute('aria-hidden', 'true'); c.dataset.clone = ''; c.classList.remove('kcard--new'); return c; };
-if (!reduce.matches && !isStatic && !few) {
-cols.forEach((col) => Array.from(col.children).forEach((li) => col.appendChild(copy(li))));
-wall.setAttribute('data-run', '');
-if (play) {
-play.hidden = false;
-play.addEventListener('click', () => {
-const paused = wall.toggleAttribute('data-paused');
-play.querySelector('span').textContent = paused ? jt('Lanjutkan gerak') : jt('Jeda gerak');
-play.querySelector('use').setAttribute('href', paused ? '#i-player-play' : '#i-player-pause');
-});
-}
-if ('IntersectionObserver' in window) {
-new IntersectionObserver((entries) => entries.forEach((en) => wall.toggleAttribute('data-off', !en.isIntersecting)), { rootMargin: '200px 0px' }).observe(wall);
-}
-}
-const makeCard = (d) => {
+const dateText = (v) => { const t = typeof v === 'number' ? new Date(v) : new Date(`${v}T00:00:00`); return Number.isNaN(t.getTime()) ? '' : fmt.format(t); };
+const tidy = (s, max) => String(s || '').replace(/\s+/g, ' ').trim().slice(0, max);
+const fit = (r) => r.nama.length >= 2 && r.pesan.length >= 3 && !/(https?:|www\.|@|\d{8,})/i.test(`${r.nama} ${r.pesan}`);
+let members = Array.from(wall.querySelectorAll('.kcard--member')).map((li) => ({
+nama: tidy((li.querySelector('.kcard__name') || {}).textContent, 40),
+pesan: tidy((li.querySelector('.kcard__quote') || {}).textContent, 140),
+tanggal: ((li.querySelector('[data-date]') || {}).dataset || {}).date || '',
+})).filter(fit);
+let own = null;
+let paused = false;
+const card = (d, mine) => {
 const li = tpl.content.firstElementChild.cloneNode(true);
-const when = new Date(d.waktu);
+if (!mine) { li.classList.remove('kcard--you'); li.classList.add('kcard--member'); }
 li.querySelector('[data-card-pesan]').textContent = d.pesan;
 li.querySelector('[data-card-nama]').textContent = d.nama;
-li.querySelector('[data-card-tanggal]').textContent = Number.isNaN(when.getTime()) ? '' : fmt.format(when);
+const when = dateText(mine ? d.waktu : d.tanggal);
+const cap = li.querySelector('.kcard__cap');
+if (when) li.querySelector('[data-card-tanggal]').textContent = when;
+else if (cap) cap.remove();
 return li;
 };
-const dropCard = () => wall.querySelectorAll('.kcard--you').forEach((n) => n.remove());
-const addCard = (d, fresh) => {
-dropCard();
-if (invite) invite.hidden = true;
-const col = cols[0];
-if (!col) return;
-const firstCopy = col.querySelector('[data-clone]');
-const own = makeCard(d);
-if (fresh) own.classList.add('kcard--new');
-col.insertBefore(own, col.firstChild);
-if (firstCopy) col.insertBefore(copy(makeCard(d)), firstCopy);
-place(col);
+const copy = (li) => { const c = li.cloneNode(true); c.setAttribute('aria-hidden', 'true'); c.dataset.clone = ''; c.classList.remove('kcard--new'); return c; };
+const layout = (fresh) => {
+cols.forEach((col) => {
+Array.from(col.children).forEach((li) => { if (li !== invite) li.remove(); });
+col.style.animation = '';
+col.style.animationDelay = '';
+});
+const others = members.filter((m) => !(own && m.nama === own.nama && m.pesan === own.pesan));
+const items = (own ? [card(own, true)] : []).concat(others.map((m) => card(m, false)));
+if (own && fresh) items[0].classList.add('kcard--new');
+const still = items.length < MOVE_FROM;
+const moving = !still && !reduce.matches && !isStatic;
+wall.toggleAttribute('data-static', still);
+wall.toggleAttribute('data-run', moving);
+wall.toggleAttribute('data-paused', moving && paused);
+const lists = cols.map(() => []);
+items.forEach((li, i) => lists[i % cols.length].push(li));
+cols.forEach((col, c) => {
+const base = lists[c];
+base.forEach((li) => col.appendChild(li));
+if (!moving || !base.length) return;
+for (let i = 0; col.children.length - (col.contains(invite) ? 1 : 0) < 4; i++) col.appendChild(copy(base[i % base.length]));
+Array.from(col.children).filter((li) => li !== invite).forEach((li) => col.appendChild(copy(li)));
+});
+if (invite) {
+invite.hidden = !still || !!own;
+const shortest = cols.reduce((a, b) => (b.children.length - (b.contains(invite) ? 1 : 0) < a.children.length - (a.contains(invite) ? 1 : 0) ? b : a), cols[cols.length - 1]);
+shortest.appendChild(invite);
+}
+if (play) play.hidden = !moving;
+if (own && fresh) place(cols[0]);
 };
 const place = (col) => {
+if (!wall.hasAttribute('data-run')) { wall.scrollTo({ left: 0, top: 0 }); return; }
 col.style.animation = 'none';
 void col.offsetWidth;
 col.style.animation = '';
-col.style.animationDelay = '';
-if (!wall.hasAttribute('data-run')) { wall.scrollTo({ left: 0, top: 0 }); return; }
 const cs = getComputedStyle(col);
 const dur = parseFloat(cs.animationDuration) || 60;
 const gap = parseFloat(cs.columnGap) || 16;
@@ -531,6 +546,48 @@ const box = wall.getBoundingClientRect();
 const cardW = col.firstElementChild.getBoundingClientRect().width;
 const offset = vertical ? Math.round(box.height * 0.09) + 20 : Math.max(16, (box.width - cardW) / 2);
 col.style.animationDelay = `${-((1 - offset / loop) * dur).toFixed(2)}s`;
+};
+if (play) play.addEventListener('click', () => {
+paused = wall.toggleAttribute('data-paused');
+play.querySelector('span').textContent = paused ? jt('Lanjutkan gerak') : jt('Jeda gerak');
+play.querySelector('use').setAttribute('href', paused ? '#i-player-play' : '#i-player-pause');
+});
+if ('IntersectionObserver' in window) {
+new IntersectionObserver((entries) => entries.forEach((en) => wall.toggleAttribute('data-off', !en.isIntersecting)), { rootMargin: '200px 0px' }).observe(wall);
+}
+const parseCsv = (text) => {
+const rows = [];
+let row = [];
+let cell = '';
+let quoted = false;
+for (let i = 0; i < text.length; i++) {
+const c = text[i];
+if (quoted) {
+if (c !== '"') cell += c;
+else if (text[i + 1] === '"') { cell += '"'; i++; }
+else quoted = false;
+} else if (c === '"') quoted = true;
+else if (c === ',') { row.push(cell); cell = ''; }
+else if (c === '\n') { row.push(cell); rows.push(row); row = []; cell = ''; }
+else if (c !== '\r') cell += c;
+}
+if (cell !== '' || row.length) { row.push(cell); rows.push(row); }
+return rows;
+};
+let seen = JSON.stringify(members);
+const load = () => {
+if (!feedUrl || document.hidden) return;
+fetch(feedUrl, { cache: 'no-store' })
+.then((res) => (res.ok ? res.text() : Promise.reject(new Error('feed'))))
+.then((text) => {
+const rows = parseCsv(text).map((r) => ({ tanggal: /^\d{4}-\d{2}-\d{2}$/.test(r[0] || '') ? r[0] : '', nama: tidy(r[1], 40), pesan: tidy(r[2], 140) })).filter(fit).reverse().slice(0, 30);
+const sig = JSON.stringify(rows);
+if (sig === seen) return;
+seen = sig;
+members = rows;
+layout(false);
+})
+.catch(() => { /* keep the cards on show */ });
 };
 const f = form.elements;
 const err = form.querySelector('[data-join-error]');
@@ -575,14 +632,15 @@ target.scrollIntoView({ block: 'start', behavior: reduce.matches || isStatic ? '
 };
 const finish = (d, how, url) => {
 try { localStorage.setItem(KEY, JSON.stringify({ nama: d.nama, pesan: d.pesan, waktu: d.waktu })); } catch (_) { /* private mode: the card still shows now */ }
-addCard(d, true);
+own = { nama: d.nama, pesan: d.pesan, waktu: d.waktu };
+layout(true);
 showDone(d, how, url);
 };
 form.addEventListener('submit', (e) => {
 e.preventDefault();
 if (send.disabled) return;
 clear();
-const d = { nama: f.nama.value.trim().replace(/\s+/g, ' '), email: f.email.value.trim(), pesan: f.pesan.value.trim().replace(/\s+/g, ' '), waktu: Date.now() };
+const d = { nama: tidy(f.nama.value, 40), email: f.email.value.trim(), pesan: tidy(f.pesan.value, 140), waktu: Date.now() };
 if (d.nama.length < 2) return fail(f.nama, jt('Isi namamu dulu.'));
 if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(d.email)) return fail(f.email, jt('Email ini belum benar. Contoh: nama@email.com.'));
 if (d.pesan.length < 3) return fail(f.pesan, jt('Tulis satu pesan dulu.'));
@@ -604,8 +662,8 @@ sent.then(() => { busy(false); finish(d, how, url); }, () => { busy(false); fail
 });
 if (again) again.addEventListener('click', () => {
 try { localStorage.removeItem(KEY); } catch (_) { /* no storage: nothing was saved */ }
-dropCard();
-if (invite) invite.hidden = false;
+own = null;
+layout(false);
 form.reset();
 clear();
 busy(false);
@@ -618,11 +676,16 @@ f.nama.focus();
 try {
 const saved = JSON.parse(localStorage.getItem(KEY) || 'null');
 if (saved && typeof saved.nama === 'string' && typeof saved.pesan === 'string' && saved.nama && saved.pesan) {
-const d = { nama: saved.nama.slice(0, 40), pesan: saved.pesan.slice(0, 140), waktu: saved.waktu };
-addCard(d, false);
-showDone(d, 'saved');
+own = { nama: saved.nama.slice(0, 40), pesan: saved.pesan.slice(0, 140), waktu: saved.waktu };
+showDone(own, 'saved');
 }
 } catch (_) { /* no storage: start with the empty form */ }
+layout(false);
+load();
+if (feedUrl) {
+setInterval(load, 45000);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) load(); });
+}
 })();
 (() => {
 const dlg = document.querySelector('[data-stepbox]');
