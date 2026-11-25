@@ -475,8 +475,12 @@ return g && /^https:\/\/docs\.google\.com\/forms\//.test(g.action || '') && g.na
 } catch (_) { return null; }
 };
 const mode = () => (endpoint() ? 'endpoint' : gform() ? 'gform' : waNumber() ? 'wa' : 'preview');
+const few = wall.hasAttribute('data-static');
+const invite = wall.querySelector('[data-wall-invite]');
+const fmt = new Intl.DateTimeFormat(document.documentElement.lang === 'en' ? 'en-GB' : 'id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+wall.querySelectorAll('[data-date]').forEach((el) => { const t = new Date(`${el.dataset.date}T00:00:00`); el.textContent = Number.isNaN(t.getTime()) ? '' : fmt.format(t); });
 const copy = (li) => { const c = li.cloneNode(true); c.setAttribute('aria-hidden', 'true'); c.dataset.clone = ''; c.classList.remove('kcard--new'); return c; };
-if (!reduce.matches && !isStatic) {
+if (!reduce.matches && !isStatic && !few) {
 cols.forEach((col) => Array.from(col.children).forEach((li) => col.appendChild(copy(li))));
 wall.setAttribute('data-run', '');
 if (play) {
@@ -491,7 +495,6 @@ if ('IntersectionObserver' in window) {
 new IntersectionObserver((entries) => entries.forEach((en) => wall.toggleAttribute('data-off', !en.isIntersecting)), { rootMargin: '200px 0px' }).observe(wall);
 }
 }
-const fmt = new Intl.DateTimeFormat(document.documentElement.lang === 'en' ? 'en-GB' : 'id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
 const makeCard = (d) => {
 const li = tpl.content.firstElementChild.cloneNode(true);
 const when = new Date(d.waktu);
@@ -503,6 +506,7 @@ return li;
 const dropCard = () => wall.querySelectorAll('.kcard--you').forEach((n) => n.remove());
 const addCard = (d, fresh) => {
 dropCard();
+if (invite) invite.hidden = true;
 const col = cols[0];
 if (!col) return;
 const firstCopy = col.querySelector('[data-clone]');
@@ -601,6 +605,7 @@ sent.then(() => { busy(false); finish(d, how, url); }, () => { busy(false); fail
 if (again) again.addEventListener('click', () => {
 try { localStorage.removeItem(KEY); } catch (_) { /* no storage: nothing was saved */ }
 dropCard();
+if (invite) invite.hidden = false;
 form.reset();
 clear();
 busy(false);
