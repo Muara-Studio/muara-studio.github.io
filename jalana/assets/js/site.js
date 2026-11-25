@@ -482,11 +482,14 @@ const fmt = new Intl.DateTimeFormat(document.documentElement.lang === 'en' ? 'en
 const dateText = (v) => { const t = typeof v === 'number' ? new Date(v) : new Date(`${v}T00:00:00`); return Number.isNaN(t.getTime()) ? '' : fmt.format(t); };
 const tidy = (s, max) => String(s || '').replace(/\s+/g, ' ').trim().slice(0, max);
 const fit = (r) => r.nama.length >= 2 && r.pesan.length >= 3 && !/(https?:|www\.|@|\d{8,})/i.test(`${r.nama} ${r.pesan}`);
+const keyOf = (r) => `${r.nama}\n${r.pesan}`.toLowerCase();
+const once = (list) => { const seenKeys = new Set(); return list.filter((r) => { const k = keyOf(r); if (seenKeys.has(k)) return false; seenKeys.add(k); return true; }); };
 let members = Array.from(wall.querySelectorAll('.kcard--member')).map((li) => ({
 nama: tidy((li.querySelector('.kcard__name') || {}).textContent, 40),
 pesan: tidy((li.querySelector('.kcard__quote') || {}).textContent, 140),
 tanggal: ((li.querySelector('[data-date]') || {}).dataset || {}).date || '',
 })).filter(fit);
+members = once(members);
 let own = null;
 let paused = false;
 const card = (d, mine) => {
@@ -500,35 +503,40 @@ if (when) li.querySelector('[data-card-tanggal]').textContent = when;
 else if (cap) cap.remove();
 return li;
 };
-const copy = (li) => { const c = li.cloneNode(true); c.setAttribute('aria-hidden', 'true'); c.dataset.clone = ''; c.classList.remove('kcard--new'); return c; };
 const layout = (fresh) => {
 cols.forEach((col) => {
 Array.from(col.children).forEach((li) => { if (li !== invite) li.remove(); });
+col.removeAttribute('data-move');
+col.style.removeProperty('--kshift');
+col.style.removeProperty('--kdur');
 col.style.animation = '';
-col.style.animationDelay = '';
 });
-const others = members.filter((m) => !(own && m.nama === own.nama && m.pesan === own.pesan));
+const mine = own ? keyOf(own) : '';
+const others = members.filter((m) => keyOf(m) !== mine);
 const items = (own ? [card(own, true)] : []).concat(others.map((m) => card(m, false)));
 if (own && fresh) items[0].classList.add('kcard--new');
-const still = items.length < MOVE_FROM;
-const moving = !still && !reduce.matches && !isStatic;
-wall.toggleAttribute('data-static', still);
-wall.toggleAttribute('data-run', moving);
-wall.toggleAttribute('data-paused', moving && paused);
-const lists = cols.map(() => []);
-items.forEach((li, i) => lists[i % cols.length].push(li));
-cols.forEach((col, c) => {
-const base = lists[c];
-base.forEach((li) => col.appendChild(li));
-if (!moving || !base.length) return;
-for (let i = 0; col.children.length - (col.contains(invite) ? 1 : 0) < 4; i++) col.appendChild(copy(base[i % base.length]));
-Array.from(col.children).filter((li) => li !== invite).forEach((li) => col.appendChild(copy(li)));
-});
+items.forEach((li, i) => cols[i % cols.length].appendChild(li));
+const few = items.length < MOVE_FROM;
 if (invite) {
-invite.hidden = !still || !!own;
-const shortest = cols.reduce((a, b) => (b.children.length - (b.contains(invite) ? 1 : 0) < a.children.length - (a.contains(invite) ? 1 : 0) ? b : a), cols[cols.length - 1]);
-shortest.appendChild(invite);
+invite.hidden = !few || !!own;
+cols[cols.length - 1].appendChild(invite);
 }
+wall.toggleAttribute('data-static', few);
+wall.toggleAttribute('data-run', !few && !reduce.matches && !isStatic);
+let moving = false;
+if (wall.hasAttribute('data-run')) {
+const vertical = getComputedStyle(cols[0]).flexDirection === 'column';
+cols.forEach((col) => {
+const span = Math.round(vertical ? col.scrollHeight - wall.clientHeight : col.scrollWidth - wall.clientWidth);
+if (span < 24) return;
+col.style.setProperty('--kshift', `${-span}px`);
+col.style.setProperty('--kdur', `${Math.max(14, Math.round(span / 22))}s`);
+col.setAttribute('data-move', '');
+moving = true;
+});
+if (!moving) { wall.removeAttribute('data-run'); wall.setAttribute('data-static', ''); }
+}
+wall.toggleAttribute('data-paused', moving && paused);
 if (play) play.hidden = !moving;
 if (own && fresh) place(cols[0]);
 };
@@ -537,15 +545,6 @@ if (!wall.hasAttribute('data-run')) { wall.scrollTo({ left: 0, top: 0 }); return
 col.style.animation = 'none';
 void col.offsetWidth;
 col.style.animation = '';
-const cs = getComputedStyle(col);
-const dur = parseFloat(cs.animationDuration) || 60;
-const gap = parseFloat(cs.columnGap) || 16;
-const vertical = cs.flexDirection === 'column';
-const loop = ((vertical ? col.scrollHeight : col.scrollWidth) + gap) / 2;
-const box = wall.getBoundingClientRect();
-const cardW = col.firstElementChild.getBoundingClientRect().width;
-const offset = vertical ? Math.round(box.height * 0.09) + 20 : Math.max(16, (box.width - cardW) / 2);
-col.style.animationDelay = `${-((1 - offset / loop) * dur).toFixed(2)}s`;
 };
 if (play) play.addEventListener('click', () => {
 paused = wall.toggleAttribute('data-paused');
@@ -580,7 +579,7 @@ if (!feedUrl || document.hidden) return;
 fetch(feedUrl, { cache: 'no-store' })
 .then((res) => (res.ok ? res.text() : Promise.reject(new Error('feed'))))
 .then((text) => {
-const rows = parseCsv(text).map((r) => ({ tanggal: /^\d{4}-\d{2}-\d{2}$/.test(r[0] || '') ? r[0] : '', nama: tidy(r[1], 40), pesan: tidy(r[2], 140) })).filter(fit).reverse().slice(0, 30);
+const rows = once(parseCsv(text).map((r) => ({ tanggal: /^\d{4}-\d{2}-\d{2}$/.test(r[0] || '') ? r[0] : '', nama: tidy(r[1], 40), pesan: tidy(r[2], 140) })).filter(fit).reverse()).slice(0, 30);
 const sig = JSON.stringify(rows);
 if (sig === seen) return;
 seen = sig;
@@ -681,6 +680,10 @@ showDone(own, 'saved');
 }
 } catch (_) { /* no storage: start with the empty form */ }
 layout(false);
+let timer = 0;
+const again2 = () => { clearTimeout(timer); timer = setTimeout(() => layout(false), 200); };
+window.addEventListener('resize', again2);
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(again2);
 load();
 if (feedUrl) {
 setInterval(load, 45000);
