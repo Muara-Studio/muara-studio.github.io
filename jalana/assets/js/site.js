@@ -495,6 +495,7 @@ let paused = false;
 const card = (d, mine) => {
 const li = tpl.content.firstElementChild.cloneNode(true);
 if (!mine) { li.classList.remove('kcard--you'); li.classList.add('kcard--member'); }
+li.dataset.key = keyOf(d);
 li.querySelector('[data-card-pesan]').textContent = d.pesan;
 li.querySelector('[data-card-nama]').textContent = d.nama;
 const when = dateText(mine ? d.waktu : d.tanggal);
@@ -503,48 +504,88 @@ if (when) li.querySelector('[data-card-tanggal]').textContent = when;
 else if (cap) cap.remove();
 return li;
 };
-const layout = (fresh) => {
-cols.forEach((col) => {
-Array.from(col.children).forEach((li) => { if (li !== invite) li.remove(); });
-col.removeAttribute('data-move');
-col.style.removeProperty('--kshift');
-col.style.removeProperty('--kdur');
-col.style.animation = '';
-});
-const mine = own ? keyOf(own) : '';
-const others = members.filter((m) => keyOf(m) !== mine);
-const items = (own ? [card(own, true)] : []).concat(others.map((m) => card(m, false)));
-if (own && fresh) items[0].classList.add('kcard--new');
-items.forEach((li, i) => cols[i % cols.length].appendChild(li));
-const few = items.length < MOVE_FROM;
-if (invite) {
-invite.hidden = !few || !!own;
-cols[cols.length - 1].appendChild(invite);
+const count = (col) => col.children.length - (invite && col.contains(invite) ? 1 : 0);
+const SPEED = 64;
+const drift = cols.map((col, i) => ({ col, pos: 0, span: 0, dir: 1, hold: 0, to: null, fromEnd: i % 2 === 1 }));
+let vertical = true;
+let raf = 0;
+let last = 0;
+const paint = (d) => { d.col.style.transform = d.span > 0 ? (vertical ? `translate3d(0, ${-d.pos.toFixed(1)}px, 0)` : `translate3d(${-d.pos.toFixed(1)}px, 0, 0)`) : ''; };
+const tick = (now) => {
+raf = requestAnimationFrame(tick);
+const dt = Math.min(0.05, Math.max(0, (now - last) / 1000));
+last = now;
+if (!wall.hasAttribute('data-run')) return;
+const resting = paused || wall.hasAttribute('data-off') || wall.matches(':hover');
+drift.forEach((d) => {
+if (d.span <= 0) return;
+if (d.to !== null) {
+d.pos += (d.to - d.pos) * Math.min(1, dt * 6);
+if (Math.abs(d.to - d.pos) < 0.5) { d.pos = d.to; d.to = null; d.dir = 1; d.hold = now + 2600; }
+} else if (!resting && now >= d.hold) {
+d.pos += d.dir * SPEED * dt;
+if (d.pos >= d.span) { d.pos = d.span; d.dir = -1; d.hold = now + 900; }
+else if (d.pos <= 0) { d.pos = 0; d.dir = 1; d.hold = now + 900; }
 }
+paint(d);
+});
+};
+const settle = (reset) => {
+const few = cols.reduce((n, col) => n + count(col), 0) < MOVE_FROM;
+if (invite) { invite.hidden = !few || !!own; cols[cols.length - 1].appendChild(invite); }
 wall.toggleAttribute('data-static', few);
 wall.toggleAttribute('data-run', !few && !reduce.matches && !isStatic);
 let moving = false;
 if (wall.hasAttribute('data-run')) {
-const vertical = getComputedStyle(cols[0]).flexDirection === 'column';
-cols.forEach((col) => {
-const span = Math.round(vertical ? col.scrollHeight - wall.clientHeight : col.scrollWidth - wall.clientWidth);
-if (span < 24) return;
-col.style.setProperty('--kshift', `${-span}px`);
-col.style.setProperty('--kdur', `${Math.max(14, Math.round(span / 22))}s`);
-col.setAttribute('data-move', '');
-moving = true;
+vertical = getComputedStyle(cols[0]).flexDirection === 'column';
+drift.forEach((d) => {
+const span = Math.round(vertical ? d.col.scrollHeight - wall.clientHeight : d.col.scrollWidth - wall.clientWidth);
+d.span = span >= 24 ? span : 0;
+d.col.toggleAttribute('data-move', d.span > 0);
+if (reset) { d.pos = d.fromEnd ? d.span : 0; d.dir = d.fromEnd ? -1 : 1; d.hold = 0; d.to = null; }
+d.pos = Math.max(0, Math.min(d.span, d.pos));
+if (d.span > 0) moving = true;
+paint(d);
 });
 if (!moving) { wall.removeAttribute('data-run'); wall.setAttribute('data-static', ''); }
 }
+if (!wall.hasAttribute('data-run')) drift.forEach((d) => { d.span = 0; d.pos = 0; d.to = null; d.col.removeAttribute('data-move'); d.col.style.transform = ''; });
 wall.toggleAttribute('data-paused', moving && paused);
 if (play) play.hidden = !moving;
-if (own && fresh) place(cols[0]);
+if (moving && !raf) { last = performance.now(); raf = requestAnimationFrame(tick); }
+if (!moving && raf) { cancelAnimationFrame(raf); raf = 0; }
 };
-const place = (col) => {
+const toTop = (col) => {
+const d = drift.find((x) => x.col === col);
 if (!wall.hasAttribute('data-run')) { wall.scrollTo({ left: 0, top: 0 }); return; }
-col.style.animation = 'none';
-void col.offsetWidth;
-col.style.animation = '';
+if (d && d.span > 0) d.to = 0;
+};
+const layout = (fresh) => {
+cols.forEach((col) => Array.from(col.children).forEach((li) => { if (li !== invite) li.remove(); }));
+const mine = own ? keyOf(own) : '';
+const items = (own ? [card(own, true)] : []).concat(members.filter((m) => keyOf(m) !== mine).map((m) => card(m, false)));
+if (own && fresh) items[0].classList.add('kcard--new');
+items.forEach((li, i) => cols[i % cols.length].appendChild(li));
+settle(true);
+if (own && fresh) toTop(cols[0]);
+};
+const merge = () => {
+const mine = own ? keyOf(own) : '';
+const want = members.filter((m) => keyOf(m) !== mine);
+const keys = new Set(want.map(keyOf));
+Array.from(wall.querySelectorAll('.kcard--member')).forEach((li) => { if (!keys.has(li.dataset.key)) li.remove(); });
+const have = new Set(Array.from(wall.querySelectorAll('.kcard--member')).map((li) => li.dataset.key));
+const touched = new Set();
+want.filter((m) => !have.has(keyOf(m))).reverse().forEach((m) => {
+const col = cols.reduce((x, y) => (count(y) < count(x) ? y : x), cols[0]);
+const li = card(m, false);
+li.classList.add('kcard--new');
+const mineHere = col.querySelector('.kcard--you');
+col.insertBefore(li, mineHere ? mineHere.nextSibling : col.firstChild);
+touched.add(col);
+});
+settle(false);
+touched.forEach(toTop);
 };
 if (play) play.addEventListener('click', () => {
 paused = wall.toggleAttribute('data-paused');
@@ -574,6 +615,7 @@ if (cell !== '' || row.length) { row.push(cell); rows.push(row); }
 return rows;
 };
 let seen = JSON.stringify(members);
+let fed = false;
 const load = () => {
 if (!feedUrl || document.hidden) return;
 fetch(feedUrl, { cache: 'no-store' })
@@ -581,10 +623,12 @@ fetch(feedUrl, { cache: 'no-store' })
 .then((text) => {
 const rows = once(parseCsv(text).map((r) => ({ tanggal: /^\d{4}-\d{2}-\d{2}$/.test(r[0] || '') ? r[0] : '', nama: tidy(r[1], 40), pesan: tidy(r[2], 140) })).filter(fit).reverse()).slice(0, 30);
 const sig = JSON.stringify(rows);
+const firstTime = !fed;
+fed = true;
 if (sig === seen) return;
 seen = sig;
 members = rows;
-layout(false);
+if (firstTime) layout(false); else merge();
 })
 .catch(() => { /* keep the cards on show */ });
 };
@@ -634,6 +678,8 @@ try { localStorage.setItem(KEY, JSON.stringify({ nama: d.nama, pesan: d.pesan, w
 own = { nama: d.nama, pesan: d.pesan, waktu: d.waktu };
 layout(true);
 showDone(d, how, url);
+setTimeout(load, 4000);
+setTimeout(load, 12000);
 };
 form.addEventListener('submit', (e) => {
 e.preventDefault();
@@ -681,12 +727,12 @@ showDone(own, 'saved');
 } catch (_) { /* no storage: start with the empty form */ }
 layout(false);
 let timer = 0;
-const again2 = () => { clearTimeout(timer); timer = setTimeout(() => layout(false), 200); };
+const again2 = () => { clearTimeout(timer); timer = setTimeout(() => settle(false), 200); };
 window.addEventListener('resize', again2);
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(again2);
 load();
 if (feedUrl) {
-setInterval(load, 45000);
+setInterval(load, 15000);
 document.addEventListener('visibilitychange', () => { if (!document.hidden) load(); });
 }
 })();
