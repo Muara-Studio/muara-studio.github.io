@@ -1,10 +1,22 @@
 
+window.jt = (text, vars) => {
+const en = window.JALANA_EN;
+const out = en && Object.prototype.hasOwnProperty.call(en, text) && typeof en[text] === 'string' ? en[text] : text;
+return vars ? out.replace(/\{(\w+)\}/g, (m, k) => (Object.prototype.hasOwnProperty.call(vars, k) ? String(vars[k]) : m)) : out;
+};
 (() => {
 const reduce = matchMedia('(prefers-reduced-motion: reduce)');
 const fine = matchMedia('(hover: hover) and (pointer: fine)');
 const isStatic = document.documentElement.classList.contains('static');
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const jt = window.jt;
+const asset = (u) => (!u || /^(?:[a-z][a-z0-9+.-]*:|\/|\.|#)/i.test(u) ? u : (window.JALANA_BASE || '') + u);
+$$('.lang a').forEach((a) => {
+const keep = () => { a.href = a.getAttribute('href').split('#')[0] + location.hash; };
+a.addEventListener('pointerdown', keep);
+a.addEventListener('click', keep);
+});
 const bar = $('[data-bar]');
 if (bar) {
 let ticking = false;
@@ -26,7 +38,7 @@ const film = $('[data-video]');
 const vid = film && $('[data-video-el]', film);
 $$('[data-video-open]').forEach((b) => b.addEventListener('click', () => {
 if (!openDialog(film, b)) return;
-if (vid.dataset.poster && !vid.poster) vid.poster = vid.dataset.poster;
+if (vid.dataset.poster && !vid.poster) vid.poster = asset(vid.dataset.poster);
 vid.preload = 'auto';
 const p = vid.play();
 if (p && p.catch) p.catch(() => {});
@@ -45,7 +57,7 @@ const lbImg = lb && $('[data-lightbox-img]', lb);
 const lbCap = lb && $('[data-lightbox-cap]', lb);
 const openLightbox = (btn) => {
 if (!lb) return;
-lbImg.src = btn.dataset.lightboxSrc;
+lbImg.src = asset(btn.dataset.lightboxSrc);
 lbImg.width = Number(btn.dataset.lightboxW);
 lbImg.height = Number(btn.dataset.lightboxH);
 lbImg.alt = btn.dataset.lightboxAlt || '';
@@ -100,19 +112,24 @@ if (form) {
 const img = $('[data-badge-img]');
 const cap = $('[data-badge-cap]');
 const sel = $('[data-badge-museum]', form);
-const TIER = { perunggu: ['Perunggu', 'kunjungan ke-1'], perak: ['Perak', 'kunjungan ke-5'], emas: ['Emas', 'kunjungan ke-10'] };
+const TIER = {
+perunggu: () => [jt('Perunggu'), jt('kunjungan ke-1')],
+perak: () => [jt('Perak'), jt('kunjungan ke-5')],
+emas: () => [jt('Emas'), jt('kunjungan ke-10')],
+};
 let token = 0;
 const show = () => {
 const id = sel.value;
 const tier = ($('input[name="tier"]:checked', form) || {}).value || 'emas';
 const name = sel.options[sel.selectedIndex].text;
-const src = `assets/img/v2/lencana/${id}-${tier}-384.webp`;
+const src = (window.JALANA_BASE || '') + `assets/img/v2/lencana/${id}-${tier}-384.webp`;
+const [tierName, visit] = (TIER[tier] || TIER.emas)();
 const t = ++token;
 const swap = () => {
 if (t !== token) return;
 img.src = src;
-img.alt = `Lencana ${name}, tingkat ${TIER[tier][0].toLowerCase()}`;
-cap.textContent = `${name}. ${TIER[tier][0]}, ${TIER[tier][1]}.`;
+img.alt = jt('Lencana {name}, tingkat {tier}', { name, tier: tierName.toLowerCase() });
+cap.textContent = jt('{name}. {tier}, {visit}.', { name, tier: tierName, visit });
 requestAnimationFrame(() => img.classList.remove('is-swapping'));
 };
 const pre = new Image();
@@ -133,14 +150,14 @@ const MV = 'https://cdn.jsdelivr.net/npm/@google/model-viewer@4.3.1/dist/model-v
 const loadScript = (src) => new Promise((res, rej) => { const s = document.createElement('script'); s.src = src; s.async = true; s.onload = res; s.onerror = rej; document.head.appendChild(s); });
 const start = async () => {
 try {
-await loadScript('assets/3d/meshopt_decoder.js');
+await loadScript((window.JALANA_BASE || '') + 'assets/3d/meshopt_decoder.js');
 await import(MV);
 await customElements.whenDefined('model-viewer');
 customElements.get('model-viewer').meshoptDecoderLocation = 'data:text/javascript,';
 const small = matchMedia('(max-width: 47.99rem)').matches;
 const mv = document.createElement('model-viewer');
-mv.setAttribute('src', small ? model.dataset.srcSmall : model.dataset.src);
-mv.setAttribute('alt', 'Model 3D Arca Prajnaparamita. Seret untuk memutar.');
+mv.setAttribute('src', asset(small ? model.dataset.srcSmall : model.dataset.src));
+mv.setAttribute('alt', jt('Model 3D Arca Prajnaparamita. Seret untuk memutar.'));
 mv.setAttribute('camera-controls', '');
 mv.setAttribute('disable-zoom', '');
 mv.setAttribute('disable-pan', '');
@@ -206,7 +223,7 @@ s.style.zIndex = String(10 - a);
 s.style.pointerEvents = visible ? 'auto' : 'none';
 });
 cap.textContent = slides[active].dataset.caption || '';
-status.textContent = `Layar ${active + 1} dari ${n}`;
+status.textContent = jt('Layar {n} dari {total}', { n: active + 1, total: n });
 };
 const go = (i) => { started = true; active = (i + n) % n; layout(); };
 $('[data-flow-prev]', flow).addEventListener('click', () => { go(active - 1); hold(); });
@@ -239,7 +256,7 @@ const run = !userPaused && !hovered && !focused && seen && !document.hidden;
 if (run && !timer) timer = setInterval(tick, 6000);
 if (!run && timer) { clearInterval(timer); timer = 0; }
 playBtn.setAttribute('aria-pressed', String(!userPaused));
-$('span', playBtn).textContent = userPaused ? 'Putar otomatis' : 'Jeda putar otomatis';
+$('span', playBtn).textContent = userPaused ? jt('Putar otomatis') : jt('Jeda putar otomatis');
 $('use', playBtn).setAttribute('href', userPaused ? '#i-player-play' : '#i-player-pause');
 };
 const hold = () => { if (timer) { clearInterval(timer); timer = 0; sync(); } };
@@ -286,7 +303,7 @@ card.dataset.flipped = String(on);
 front.inert = on;
 back.inert = !on;
 flipBtn.setAttribute('aria-pressed', String(on));
-label.textContent = on ? 'Balik kartu: lihat depan' : 'Balik kartu: lihat kontak';
+label.textContent = on ? jt('Balik kartu: lihat depan') : jt('Balik kartu: lihat kontak');
 };
 flipBtn.addEventListener('click', flip);
 tilt.addEventListener('click', (e) => { if (!e.target.closest('a') && !window.getSelection().toString()) flip(); });
@@ -355,7 +372,7 @@ btn.addEventListener('click', () => {
 const back = btn.getAttribute('aria-pressed') !== 'true';
 btn.setAttribute('aria-pressed', String(back));
 card.classList.toggle('is-back', back);
-if (hint) hint.textContent = back ? 'Ketuk kartu untuk melihat sisi depan.' : 'Ketuk kartu untuk melihat sisi belakang.';
+if (hint) hint.textContent = back ? window.jt('Ketuk kartu untuk melihat sisi depan.') : window.jt('Ketuk kartu untuk melihat sisi belakang.');
 });
 if (!isStatic && 'IntersectionObserver' in window) {
 new IntersectionObserver((entries) => entries.forEach((e) => card.classList.toggle('is-live', e.isIntersecting && !reduce.matches)), { rootMargin: '0px' }).observe(card);
@@ -431,4 +448,213 @@ show.addEventListener('focusout', () => { hold = false; start(); });
 document.addEventListener('visibilitychange', start);
 reduce.addEventListener?.('change', start);
 new IntersectionObserver(([e]) => { visible = e.isIntersecting; start(); }, { threshold: 0.4 }).observe(show);
+})();
+(() => {
+const wall = document.querySelector('[data-wall]');
+const form = document.querySelector('[data-join]');
+const done = document.querySelector('[data-join-done]');
+const tpl = document.querySelector('[data-join-card]');
+if (!wall || !form || !done || !tpl) return;
+const jt = window.jt || ((t) => t);
+const cols = Array.from(wall.querySelectorAll('[data-wall-col]'));
+const lead = document.querySelector('[data-join-lead]');
+const play = document.querySelector('[data-wall-play]');
+const thanks = done.querySelector('[data-join-thanks]');
+const next = done.querySelector('[data-join-next]');
+const waLink = done.querySelector('[data-join-wa]');
+const again = done.querySelector('[data-join-again]');
+const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+const isStatic = document.documentElement.classList.contains('static');
+const KEY = 'jalana.daftar.v1';
+const endpoint = () => (form.dataset.endpoint || '').trim();
+const waNumber = () => (form.dataset.wa || '').replace(/\D/g, '');
+const mode = () => (endpoint() ? 'endpoint' : waNumber() ? 'wa' : 'preview');
+const copy = (li) => { const c = li.cloneNode(true); c.setAttribute('aria-hidden', 'true'); c.dataset.clone = ''; c.classList.remove('kcard--new'); return c; };
+if (!reduce.matches && !isStatic) {
+cols.forEach((col) => Array.from(col.children).forEach((li) => col.appendChild(copy(li))));
+wall.setAttribute('data-run', '');
+if (play) {
+play.hidden = false;
+play.addEventListener('click', () => {
+const paused = wall.toggleAttribute('data-paused');
+play.querySelector('span').textContent = paused ? jt('Lanjutkan gerak') : jt('Jeda gerak');
+play.querySelector('use').setAttribute('href', paused ? '#i-player-play' : '#i-player-pause');
+});
+}
+if ('IntersectionObserver' in window) {
+new IntersectionObserver((entries) => entries.forEach((en) => wall.toggleAttribute('data-off', !en.isIntersecting)), { rootMargin: '200px 0px' }).observe(wall);
+}
+}
+const fmt = new Intl.DateTimeFormat(document.documentElement.lang === 'en' ? 'en-GB' : 'id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+const makeCard = (d) => {
+const li = tpl.content.firstElementChild.cloneNode(true);
+const when = new Date(d.waktu);
+li.querySelector('[data-card-pesan]').textContent = d.pesan;
+li.querySelector('[data-card-nama]').textContent = d.nama;
+li.querySelector('[data-card-tanggal]').textContent = Number.isNaN(when.getTime()) ? '' : fmt.format(when);
+return li;
+};
+const dropCard = () => wall.querySelectorAll('.kcard--you').forEach((n) => n.remove());
+const addCard = (d, fresh) => {
+dropCard();
+const col = cols[0];
+if (!col) return;
+const firstCopy = col.querySelector('[data-clone]');
+const own = makeCard(d);
+if (fresh) own.classList.add('kcard--new');
+col.insertBefore(own, col.firstChild);
+if (firstCopy) col.insertBefore(copy(makeCard(d)), firstCopy);
+place(col);
+};
+const place = (col) => {
+col.style.animation = 'none';
+void col.offsetWidth;
+col.style.animation = '';
+col.style.animationDelay = '';
+if (!wall.hasAttribute('data-run')) { wall.scrollTo({ left: 0, top: 0 }); return; }
+const cs = getComputedStyle(col);
+const dur = parseFloat(cs.animationDuration) || 60;
+const gap = parseFloat(cs.columnGap) || 16;
+const vertical = cs.flexDirection === 'column';
+const loop = ((vertical ? col.scrollHeight : col.scrollWidth) + gap) / 2;
+const box = wall.getBoundingClientRect();
+const cardW = col.firstElementChild.getBoundingClientRect().width;
+const offset = vertical ? Math.round(box.height * 0.09) + 20 : Math.max(16, (box.width - cardW) / 2);
+col.style.animationDelay = `${-((1 - offset / loop) * dur).toFixed(2)}s`;
+};
+const f = form.elements;
+const err = form.querySelector('[data-join-error]');
+const send = form.querySelector('[data-join-send]');
+const sendLabel = form.querySelector('[data-join-send-label]');
+const note = form.querySelector('[data-join-note]');
+const sendText = sendLabel ? sendLabel.textContent : '';
+if (note && mode() === 'wa') note.textContent = jt('Tombol ini membuka WhatsApp dengan pesan siap kirim. Kami memakai datamu hanya untuk kabar Jalana.');
+const clear = () => { err.hidden = true; err.textContent = ''; [f.nama, f.email, f.pesan].forEach((el) => el.removeAttribute('aria-invalid')); };
+const fail = (el, msg) => { err.textContent = msg; err.hidden = false; if (el) { el.setAttribute('aria-invalid', 'true'); el.focus(); } };
+const busy = (on) => { send.disabled = on; if (sendLabel) sendLabel.textContent = on ? jt('Mengirim') : sendText; };
+const waUrl = (d) => {
+const text = [
+jt('Halo Muara, saya ingin gabung waitlist Jalana.'),
+'',
+`${jt('Nama')}: ${d.nama}`,
+`${jt('Email')}: ${d.email}`,
+`${jt('Pesan')}: ${d.pesan}`,
+].join('\n');
+return `https://wa.me/${waNumber()}?text=${encodeURIComponent(text)}`;
+};
+const showDone = (d, how, url) => {
+const fresh = how !== 'saved';
+form.hidden = true;
+if (lead) lead.hidden = true;
+done.hidden = false;
+thanks.textContent = fresh ? jt('Terima kasih, {nama}. Kartumu sudah masuk.', { nama: d.nama }) : jt('Kartumu tersimpan di perangkat ini.');
+const line = how === 'wa' ? jt('Satu langkah lagi: tekan kirim di WhatsApp supaya namamu tercatat.')
+: how === 'preview' ? jt('Mode pratinjau: formulir ini belum aktif. Kami belum mengirim datamu.')
+: '';
+if (next) { next.textContent = line; next.hidden = !line; }
+if (waLink) {
+if (how === 'wa' && url) { waLink.href = url; waLink.hidden = false; }
+else { waLink.hidden = true; waLink.setAttribute('href', '#daftar'); }
+}
+if (fresh) {
+done.focus({ preventScroll: true });
+const target = matchMedia('(min-width: 64rem)').matches ? form.closest('.join__side') || done : done;
+target.scrollIntoView({ block: 'start', behavior: reduce.matches || isStatic ? 'auto' : 'smooth' });
+}
+};
+const finish = (d, how, url) => {
+try { localStorage.setItem(KEY, JSON.stringify({ nama: d.nama, pesan: d.pesan, waktu: d.waktu })); } catch (_) { /* private mode: the card still shows now */ }
+addCard(d, true);
+showDone(d, how, url);
+};
+form.addEventListener('submit', (e) => {
+e.preventDefault();
+if (send.disabled) return;
+clear();
+const d = { nama: f.nama.value.trim().replace(/\s+/g, ' '), email: f.email.value.trim(), pesan: f.pesan.value.trim().replace(/\s+/g, ' '), waktu: Date.now() };
+if (d.nama.length < 2) return fail(f.nama, jt('Isi namamu dulu.'));
+if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(d.email)) return fail(f.email, jt('Email ini belum benar. Contoh: nama@email.com.'));
+if (d.pesan.length < 3) return fail(f.pesan, jt('Tulis satu pesan dulu.'));
+const how = mode();
+const url = how === 'wa' ? waUrl(d) : '';
+const bot = !!(f.situs && f.situs.value);
+if (how === 'wa' && !bot) {
+window.open(url, '_blank', 'noopener');
+}
+if (how !== 'endpoint' || bot) return finish(d, how, url);
+busy(true);
+fetch(endpoint(), { method: 'POST', body: new URLSearchParams({ nama: d.nama, email: d.email, pesan: d.pesan }) })
+.then((res) => res.json())
+.then((out) => { if (!out || out.ok !== true) throw new Error('ditolak'); })
+.then(() => { busy(false); finish(d, how, url); }, () => { busy(false); fail(null, jt('Belum terkirim. Periksa koneksimu, lalu coba lagi.')); });
+});
+if (again) again.addEventListener('click', () => {
+try { localStorage.removeItem(KEY); } catch (_) { /* no storage: nothing was saved */ }
+dropCard();
+form.reset();
+clear();
+busy(false);
+if (waLink) { waLink.hidden = true; waLink.setAttribute('href', '#daftar'); }
+done.hidden = true;
+if (lead) lead.hidden = false;
+form.hidden = false;
+f.nama.focus();
+});
+try {
+const saved = JSON.parse(localStorage.getItem(KEY) || 'null');
+if (saved && typeof saved.nama === 'string' && typeof saved.pesan === 'string' && saved.nama && saved.pesan) {
+const d = { nama: saved.nama.slice(0, 40), pesan: saved.pesan.slice(0, 140), waktu: saved.waktu };
+addCard(d, false);
+showDone(d, 'saved');
+}
+} catch (_) { /* no storage: start with the empty form */ }
+})();
+(() => {
+const dlg = document.querySelector('[data-stepbox]');
+const tiles = Array.from(document.querySelectorAll('button.step[data-step]'));
+if (!dlg || !tiles.length || typeof dlg.showModal !== 'function') return;
+const jt = window.jt || ((t) => t);
+const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+const isStatic = document.documentElement.classList.contains('static');
+const img = dlg.querySelector('[data-stepbox-img]');
+const count = dlg.querySelector('[data-stepbox-count]');
+const title = dlg.querySelector('[data-stepbox-title]');
+const desc = dlg.querySelector('[data-stepbox-desc]');
+const closeBtn = dlg.querySelector('[data-stepbox-close]');
+const prev = dlg.querySelector('[data-stepbox-prev]');
+const next = dlg.querySelector('[data-stepbox-next]');
+const total = tiles.length;
+const asset = (u) => (!u || /^(?:[a-z][a-z0-9+.-]*:|\/|\.|#)/i.test(u) ? u : (window.JALANA_BASE || '') + u);
+const srcOf = (i) => asset(tiles[i].dataset.src || '');
+const warm = [];
+let at = 0;
+[count, title, desc].forEach((el) => { if (el) el.setAttribute('aria-live', 'polite'); });
+const show = (i, fade) => {
+at = ((i % total) + total) % total;
+const t = tiles[at];
+if (img) { img.src = srcOf(at); img.alt = t.dataset.alt || ''; }
+if (count) count.textContent = jt('Langkah {n} dari {total}', { n: at + 1, total });
+if (title) title.textContent = t.dataset.title || '';
+if (desc) desc.textContent = t.dataset.desc || '';
+dlg.dataset.at = String(at + 1);
+if (fade && !reduce.matches && !isStatic) {
+[img, title, desc].forEach((el) => { if (el && el.animate) el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 220, easing: 'ease-out' }); });
+}
+const n = (at + 1) % total;
+if (!warm[n]) { warm[n] = new Image(); warm[n].decoding = 'async'; warm[n].src = srcOf(n); }
+};
+tiles.forEach((t, i) => t.addEventListener('click', () => {
+show(i, false);
+dlg._opener = t;
+if (!dlg.open) dlg.showModal();
+if (!dlg.contains(document.activeElement) && closeBtn) closeBtn.focus({ preventScroll: true });
+}));
+if (closeBtn) closeBtn.addEventListener('click', () => dlg.close());
+if (prev) prev.addEventListener('click', () => show(at - 1, true));
+if (next) next.addEventListener('click', () => show(at + 1, true));
+dlg.addEventListener('keydown', (e) => {
+if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+if (e.key === 'ArrowLeft') { e.preventDefault(); show(at - 1, true); }
+if (e.key === 'ArrowRight') { e.preventDefault(); show(at + 1, true); }
+});
 })();
