@@ -468,7 +468,13 @@ const isStatic = document.documentElement.classList.contains('static');
 const KEY = 'jalana.daftar.v1';
 const endpoint = () => (form.dataset.endpoint || '').trim();
 const waNumber = () => (form.dataset.wa || '').replace(/\D/g, '');
-const mode = () => (endpoint() ? 'endpoint' : waNumber() ? 'wa' : 'preview');
+const gform = () => {
+try {
+const g = JSON.parse(form.dataset.gform || 'null');
+return g && /^https:\/\/docs\.google\.com\/forms\//.test(g.action || '') && g.nama && g.email && g.pesan ? g : null;
+} catch (_) { return null; }
+};
+const mode = () => (endpoint() ? 'endpoint' : gform() ? 'gform' : waNumber() ? 'wa' : 'preview');
 const copy = (li) => { const c = li.cloneNode(true); c.setAttribute('aria-hidden', 'true'); c.dataset.clone = ''; c.classList.remove('kcard--new'); return c; };
 if (!reduce.matches && !isStatic) {
 cols.forEach((col) => Array.from(col.children).forEach((li) => col.appendChild(copy(li))));
@@ -550,6 +556,7 @@ done.hidden = false;
 thanks.textContent = fresh ? jt('Terima kasih, {nama}. Kartumu sudah masuk.', { nama: d.nama }) : jt('Kartumu tersimpan di perangkat ini.');
 const line = how === 'wa' ? jt('Satu langkah lagi: tekan kirim di WhatsApp supaya namamu tercatat.')
 : how === 'preview' ? jt('Mode pratinjau: formulir ini belum aktif. Kami belum mengirim datamu.')
+: how === 'endpoint' || how === 'gform' ? jt('Kami kabari lewat email saat Jalana bisa dicoba.')
 : '';
 if (next) { next.textContent = line; next.hidden = !line; }
 if (waLink) {
@@ -581,12 +588,15 @@ const bot = !!(f.situs && f.situs.value);
 if (how === 'wa' && !bot) {
 window.open(url, '_blank', 'noopener');
 }
-if (how !== 'endpoint' || bot) return finish(d, how, url);
+if ((how !== 'endpoint' && how !== 'gform') || bot) return finish(d, how, url);
 busy(true);
-fetch(endpoint(), { method: 'POST', body: new URLSearchParams({ nama: d.nama, email: d.email, pesan: d.pesan }) })
+const g = how === 'gform' ? gform() : null;
+const sent = g
+? fetch(g.action, { method: 'POST', mode: 'no-cors', body: new URLSearchParams({ [g.nama]: d.nama, [g.email]: d.email, [g.pesan]: d.pesan }) })
+: fetch(endpoint(), { method: 'POST', body: new URLSearchParams({ nama: d.nama, email: d.email, pesan: d.pesan }) })
 .then((res) => res.json())
-.then((out) => { if (!out || out.ok !== true) throw new Error('ditolak'); })
-.then(() => { busy(false); finish(d, how, url); }, () => { busy(false); fail(null, jt('Belum terkirim. Periksa koneksimu, lalu coba lagi.')); });
+.then((out) => { if (!out || out.ok !== true) throw new Error('ditolak'); });
+sent.then(() => { busy(false); finish(d, how, url); }, () => { busy(false); fail(null, jt('Belum terkirim. Periksa koneksimu, lalu coba lagi.')); });
 });
 if (again) again.addEventListener('click', () => {
 try { localStorage.removeItem(KEY); } catch (_) { /* no storage: nothing was saved */ }
